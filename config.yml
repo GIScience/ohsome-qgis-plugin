@@ -1,0 +1,5 @@
+providers:
+  base_url: https://api.ohsome.org/v1/
+  api_version: 1
+  key:
+  name: ohsome
