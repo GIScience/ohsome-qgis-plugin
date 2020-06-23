@@ -1,1 +1,0 @@
-# ohsome-qgis-plugin
