@@ -50,15 +50,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QDialogButtonBox" name="global_buttons_3">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
+     <widget class="QDialogButtonBox" name="button_box">
       <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-      </property>
-      <property name="centerButtons">
-       <bool>false</bool>
+       <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
       </property>
      </widget>
     </item>
@@ -251,7 +245,7 @@
       <x>30</x>
       <y>235</y>
       <width>110</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
    </widget>
@@ -261,7 +255,7 @@
       <x>240</x>
       <y>235</y>
       <width>110</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
    </widget>
