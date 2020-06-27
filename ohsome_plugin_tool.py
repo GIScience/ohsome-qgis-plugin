@@ -21,9 +21,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction, QDialogButtonBox, QDialog
 
 # Initialize Qt resources from file resources.py
 from qgis.core import QgsProject, QgsVectorLayer, QgsMapLayer, QgsMapLayerType, QgsWkbTypes
@@ -207,13 +207,17 @@ class OhsomePlugin:
             if layer.type() == QgsMapLayerType.VectorLayer and layer.wkbType() == QgsWkbTypes.Polygon:
                 valid_layers.append(layer)
         self.dlg.comboBox.addItems([layer.name() for layer in valid_layers])
+        self.dlg.button_box: QDialogButtonBox
+        self.dlg.button_box.button(QDialogButtonBox.Ok).clicked.connect(self.accept)
 
-        # show the dialog
-        self.dlg.show()
         # Run the dialog event loop
-        result = self.dlg.exec_()
+        result = self.dlg.open()
         # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
+        # if result:
+        #     # Do something useful here - delete the line containing pass and
+        #     # substitute with your code.
+        #     print("YEAH")
+        #     pass
+
+    def accept(self):
+        print("OK")

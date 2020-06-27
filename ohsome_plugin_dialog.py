@@ -24,6 +24,14 @@
 
 import os
 
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import (QAction,
+                             QDialog,
+                             QApplication,
+                             QMenu,
+                             QMessageBox,
+                             QDialogButtonBox,
+                             QVBoxLayout)
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 
@@ -32,13 +40,14 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ohsome_plugin_dialog_base.ui'))
 
 
-class OhsomePluginDialog(QtWidgets.QDialog, FORM_CLASS):
+class OhsomePluginDialog(QDialog, FORM_CLASS):
     def __init__(self, parent=None):
         """Constructor."""
-        super(OhsomePluginDialog, self).__init__(parent)
+        super(OhsomePluginDialog, self).__init__()
         # Set up the user interface from Designer through FORM_CLASS.
         # After self.setupUi() you can access any designer object by doing
         # self.<objectname>, and you can use autoconnect slots - see
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        self.button_box.button(QDialogButtonBox.Close).clicked.connect(self.reject)
