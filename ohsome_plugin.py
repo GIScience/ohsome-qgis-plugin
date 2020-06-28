@@ -167,7 +167,7 @@ class OhsomePlugin:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/ohsome_plugin/icon.png'
+        icon_path = ':/plugins/OhsomePlugin/img/icon.png'
         self.add_action(
             icon_path,
             text=self.tr(u'Ohsome Plugin'),
@@ -198,7 +198,7 @@ class OhsomePlugin:
         # Fetch the currently loaded layers
         layers: list = QgsProject.instance().mapLayers()
         # Clear the contents of the comboBox from previous runs
-        self.dlg.comboBox.clear()
+        self.dlg.layer_input.clear()
         # Populate the comboBox with names of all the loaded layers
         layer: QgsVectorLayer
         valid_layers: list = list()
@@ -206,7 +206,8 @@ class OhsomePlugin:
             name = layer.name()
             if layer.type() == QgsMapLayerType.VectorLayer and layer.wkbType() == QgsWkbTypes.Polygon:
                 valid_layers.append(layer)
-        self.dlg.comboBox.addItems([layer.name() for layer in valid_layers])
+        self.dlg.layer_input.addItem("")  # Empty first line
+        self.dlg.layer_input.addItems([layer.name() for layer in valid_layers])
         self.dlg.button_box: QDialogButtonBox
         self.dlg.button_box.button(QDialogButtonBox.Ok).clicked.connect(self.accept)
 
