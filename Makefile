@@ -40,7 +40,7 @@ SOURCES = \
 	__init__.py \
 	ohsome_plugin.py ohsome_plugin_dialog.py
 
-PLUGINNAME = ohsome_plugin
+PLUGINNAME = OhsomePlugin
 
 PY_FILES = \
 	__init__.py \
@@ -48,7 +48,7 @@ PY_FILES = \
 
 UI_FILES = ohsome_plugin_dialog_base.ui
 
-EXTRAS = metadata.txt icon.png
+EXTRAS = metadata.txt img/icon.png
 
 EXTRA_DIRS =
 
@@ -128,7 +128,7 @@ deploy: compile doc transcompile
 	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
 	# Copy extra directories if any
-	(foreach EXTRA_DIR,(EXTRA_DIRS), cp -R (EXTRA_DIR) (HOME)/(QGISDIR)/python/plugins/(PLUGINNAME)/;)
+# 	(foreach EXTRA_DIR,(EXTRA_DIRS), cp -R (EXTRA_DIR) (HOME)/(QGISDIR)/python/plugins/(PLUGINNAME)/;)
 
 
 # The dclean target removes compiled python files from plugin directory
