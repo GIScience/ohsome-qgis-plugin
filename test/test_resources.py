@@ -31,7 +31,7 @@ class OhsomePluginDialogTest(unittest.TestCase):
 
     def test_icon_png(self):
         """Test we can click OK."""
-        path = ':/plugins/OhsomePlugin/icon.png'
+        path = ':/plugins/OhsomePlugin/img/icon.png'
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
