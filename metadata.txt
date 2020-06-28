@@ -27,7 +27,7 @@ tags=python
 
 homepage=https://github.com/MichaelsJP/ohsome-qgis-plugin
 category=Vector
-icon=icon.png
+icon=img/icon.png
 # experimental flag
 experimental=True
 
