@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """ ohsome exception class """
+"""
+Original source: https://github.com/GIScience/ohsome-py
+
+"""
 
 import json
 
@@ -10,6 +14,7 @@ class OhsomeException(Exception):
     """
     Exception that is called whenever ohsome API returns an error code
     """
+
     def __init__(self, message=None, params=None, url=None, error_code=None, error=None, response=None):
 
         Exception.__init__(self, message)

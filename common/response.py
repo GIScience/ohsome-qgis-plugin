@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """ ohsome response class"""
+"""
+Original source: https://github.com/GIScience/ohsome-py
+
+"""
 
 from json import JSONDecodeError
 import geopandas as gpd
