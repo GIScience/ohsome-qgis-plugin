@@ -2,21 +2,23 @@
 # -*- coding: utf-8 -*-
 
 """ ohsome client class """
+"""
+Original source: https://github.com/GIScience/ohsome-py
+
+"""
 
 import requests
 import geopandas as gpd
-from common.exceptions import OhsomeException
-from common import OhsomeResponse
-from common.utils import format_geodataframe
-from PyQt5.QtCore import QObject
-from __init__ import __version__
+from .exceptions import OhsomeException
+from .response import OhsomeResponse
+from .utils import format_geodataframe
 
 OHSOME_API_VERSION = '1'
 OHSOME_BASE_API_URL = 'https://api.ohsome.org/v1/'
-_USER_AGENT = "OHSOMEQGISClient@v{}".format(__version__)
+_USER_AGENT = "OHSOMEQGISClient@v{}".format("0.1")
 
 
-class Client(QObject):
+class OhsomeClient(object):
     """
     Client for sending ohsome requests
 
@@ -52,7 +54,7 @@ class Client(QObject):
         :return:
         """
         # Enables method chaining
-        return Client(self._cache + [name])
+        return OhsomeClient(self._cache + [name])
 
     def post(self, **params):
         """
