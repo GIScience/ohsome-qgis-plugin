@@ -29,21 +29,24 @@ from datetime import date, datetime
 
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QDialog
-from qgis._core import QgsProject, QgsVectorLayer, QgsMapLayerType, QgsWkbTypes
-from qgis.core import Qgis, QgsTask, QgsUnitTypes
+from qgis._core import QgsProject, QgsVectorLayer
+from qgis.core import Qgis, QgsUnitTypes
 from qgis.utils import iface
 
 from .exceptions import OhsomeException
 from .response import OhsomeResponse
-from .utils import load_layers_to_canvas, sort_and_combine_vector_layer, postprocess_vlayer, convert_mixed_collection
+from .utils import (
+    load_layers_to_canvas,
+    sort_and_combine_vector_layer,
+    postprocess_vlayer,
+    convert_mixed_collection,
+)
 
-PROFILES = [
-    'data_extraction'
-]
+PROFILES = ["data_extraction"]
 
-DIMENSIONS = ['bbox', 'centroid', 'geometry']
+DIMENSIONS = ["bbox", "centroid", "geometry"]
 
-PREFERENCES = ['fastest', 'shortest']
+PREFERENCES = ["fastest", "shortest"]
 
 
 class QGISHelper(object):
@@ -62,7 +65,11 @@ class QGISHelper(object):
         original_entry = self._proj.readEntry("OhsomePlugin", key)
         if append and original_entry[1]:
             if value not in original_entry[0]:
-                self._proj.writeEntry("OhsomePlugin", key, f"{original_entry[0].strip(',').strip()}, {value}")
+                self._proj.writeEntry(
+                    "OhsomePlugin",
+                    key,
+                    f"{original_entry[0].strip(',').strip()}, {value}",
+                )
         else:
             self._proj.writeEntry("OhsomePlugin", str(key), value)
 
@@ -76,7 +83,11 @@ class QGISHelper(object):
         original_entry = self._proj.readEntry("OhsomePlugin", key)
         if original_entry[1]:
             if value in original_entry[0]:
-                self._proj.writeEntry("OhsomePlugin", key, f"{original_entry[0].replace(value, '').strip(',').strip()}")
+                self._proj.writeEntry(
+                    "OhsomePlugin",
+                    key,
+                    f"{original_entry[0].replace(value, '').strip(',').strip()}",
+                )
 
     def _create_controls(self):
         pass
@@ -97,11 +108,15 @@ class ProcessManager(object):
         try:
             # Customize default values
             today = date.today()
-            self._dlg.date_start.setMaximumDate(QDate(today.year, today.month, today.day))
+            self._dlg.date_start.setMaximumDate(
+                QDate(today.year, today.month, today.day)
+            )
             self._dlg.date_end.setMaximumDate(QDate(today.year, today.month, today.day))
             # Set initial values
             self._current_widget = self._dlg.requestWidget.currentIndex()
-            self._check_activate_temporal = self._dlg.check_activate_temporal.isChecked()
+            self._check_activate_temporal = (
+                self._dlg.check_activate_temporal.isChecked()
+            )
             self._osm_type_node = self._dlg.osm_type_node.isChecked()
             self._osm_type_way = self._dlg.osm_type_way.isChecked()
             self._osm_type_relation = self._dlg.osm_type_relation.isChecked()
@@ -113,7 +128,9 @@ class ProcessManager(object):
             self._date_end: QDate = self._dlg.date_end.date()
             # Set trigger
             self._dlg.requestWidget.currentChanged.connect(self._set_current_widget)
-            self._dlg.check_activate_temporal.clicked.connect(self._set_check_activate_temporal)
+            self._dlg.check_activate_temporal.clicked.connect(
+                self._set_check_activate_temporal
+            )
             self._dlg.osm_type_node.clicked.connect(self._set_osm_type_node)
             self._dlg.osm_type_way.clicked.connect(self._set_osm_type_way)
             self._dlg.osm_type_relation.clicked.connect(self._set_osm_type_relation)
@@ -125,7 +142,9 @@ class ProcessManager(object):
             self._dlg.date_end.dateTimeChanged.connect(self._set_date_end)
             self._fully_initialized = True
         except Exception as err:
-            iface.messageBar().pushMessage("[Process Manager] Error", f"{err}", level=Qgis.Critical)
+            iface.messageBar().pushMessage(
+                "[Process Manager] Error", f"{err}", level=Qgis.Critical
+            )
             self._fully_initialized = False
 
     @property
@@ -168,7 +187,7 @@ class ProcessManager(object):
             intervals = "{}{}M".format(intervals, self._interval_months)
         if self._interval_days and self._interval_days > 0:
             intervals = "{}{}D".format(intervals, self._interval_days)
-        intervals = re.sub(' +', ' ', intervals)
+        intervals = re.sub(" +", " ", intervals)
         if date_start == "2007-10-08":
             date_start = "2007-10-08T00:00:01"
         if date_end == "2007-10-08":
@@ -221,13 +240,17 @@ class ProcessManager(object):
             if not self._osm_type_node:
                 types_string = "type:way"
             else:
-                types_string = "{} {} type:way".format(types_string, self._osm_types_combination)
+                types_string = "{} {} type:way".format(
+                    types_string, self._osm_types_combination
+                )
         if self._osm_type_relation:
             if not self._osm_type_node and not self._osm_type_way:
                 types_string = "type:relation"
             else:
-                types_string = "{} {} type:relation".format(types_string, self._osm_types_combination_2)
-        return re.sub(' +', ' ', types_string)
+                types_string = "{} {} type:relation".format(
+                    types_string, self._osm_types_combination_2
+                )
+        return re.sub(" +", " ", types_string)
 
     def _set_intervals_days(self):
         self._interval_days = self._dlg.interval_days.value()
@@ -266,21 +289,30 @@ class ProcessManager(object):
             converted_results = convert_mixed_collection(result.data)
             for feature_type in converted_results:
                 try:
-                    vlayer: QgsVectorLayer = QgsVectorLayer(json.dumps(converted_results[feature_type]),
-                                                            f"{feature_type}_OhsomeResult_{datetime.now()}",
-                                                            "ogr")
+                    vlayer: QgsVectorLayer = QgsVectorLayer(
+                        json.dumps(converted_results[feature_type]),
+                        f"{feature_type}_OhsomeResult_{datetime.now()}",
+                        "ogr",
+                    )
                     if not vlayer.isValid():
-                        iface.messageBar().pushMessage("[Utils] Error", "Response could'nt be parsed.",
-                                                       level=Qgis.Warning)
+                        iface.messageBar().pushMessage(
+                            "[Utils] Error",
+                            "Response could'nt be parsed.",
+                            level=Qgis.Warning,
+                        )
                         raise
-                    sorted_qgs_vector_layer: list = sort_and_combine_vector_layer(vlayer,
-                                                                                  activate_temporal=self._check_activate_temporal)
+                    sorted_qgs_vector_layer: list = sort_and_combine_vector_layer(
+                        vlayer, activate_temporal=self._check_activate_temporal
+                    )
                     # vlayer = postprocess_vlayer(vlayer ,self._check_activate_temporal)
                     load_layers_to_canvas(sorted_qgs_vector_layer)
                 except Exception as err:
-                    raise OhsomeException(message="[ProcessManager] Error while parsing the results.",
-                                          params=result.params,
-                                          url=result.url, error=err)
+                    raise OhsomeException(
+                        message="[ProcessManager] Error while parsing the results.",
+                        params=result.params,
+                        url=result.url,
+                        error=err,
+                    )
         pass
 
     def accept(self):

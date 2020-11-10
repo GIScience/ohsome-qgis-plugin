@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import json
 
 """ ohsome exception class """
 """
@@ -7,15 +8,21 @@ Original source: https://github.com/GIScience/ohsome-py
 
 """
 
-import json
-
 
 class OhsomeException(Exception):
     """
     Exception that is called whenever ohsome API returns an error code
     """
 
-    def __init__(self, message=None, params=None, url=None, error_code=None, error=None, response=None):
+    def __init__(
+        self,
+        message=None,
+        params=None,
+        url=None,
+        error_code=None,
+        error=None,
+        response=None,
+    ):
 
         Exception.__init__(self, message)
         self.message = message
@@ -43,4 +50,8 @@ class OhsomeException(Exception):
                     self.error = ""
 
     def __str__(self):
-        return "OhsomeException - %s (%s): %s" % (self.error, self.error_code, self.message)
+        return "OhsomeException - %s (%s): %s" % (
+            self.error,
+            self.error_code,
+            self.message,
+        )

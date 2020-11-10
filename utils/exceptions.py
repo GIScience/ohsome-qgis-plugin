@@ -45,6 +45,7 @@ class ApiError(Exception):
 
 class Timeout(Exception):
     """The request timed out."""
+
     pass
 
 
