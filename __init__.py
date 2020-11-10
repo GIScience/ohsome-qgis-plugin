@@ -36,25 +36,26 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     from .ohsome_plugin import OhsomePlugin
+
     return OhsomePlugin(iface)
 
 
 # Define plugin wide constants
-PLUGIN_NAME = 'Ohsome API Plugin'
-DEFAULT_COLOR = '#a8b1f5'
+PLUGIN_NAME = "Ohsome API Plugin"
+DEFAULT_COLOR = "#a8b1f5"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RESOURCE_PREFIX = ":plugins/OhsomeTools/img/"
-CONFIG_PATH = os.path.join(BASE_DIR, 'config.yml')
+CONFIG_PATH = os.path.join(BASE_DIR, "config.yml")
 
 # Read metadata.txt
 METADATA = configparser.ConfigParser()
-METADATA.read(os.path.join(BASE_DIR, 'metadata.txt'), encoding='utf-8')
+METADATA.read(os.path.join(BASE_DIR, "metadata.txt"), encoding="utf-8")
 today = datetime.today()
 
-__version__ = METADATA['general']['version']
-__author__ = METADATA['general']['author']
-__email__ = METADATA['general']['email']
-__web__ = METADATA['general']['homepage']
-__date__ = today.strftime('%Y-%m-%d')
-__copyright__ = '(C) {} by {}'.format(today.year, __author__)
+__version__ = METADATA["general"]["version"]
+__author__ = METADATA["general"]["author"]
+__email__ = METADATA["general"]["email"]
+__web__ = METADATA["general"]["homepage"]
+__date__ = today.strftime("%Y-%m-%d")
+__copyright__ = "(C) {} by {}".format(today.year, __author__)

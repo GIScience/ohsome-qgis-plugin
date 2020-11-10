@@ -1,17 +1,18 @@
+# -*- coding: utf-8 -*-
 import json
-from datetime import date
-from typing import Optional, Any
 
-from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QDialog, QListWidget, QListWidgetItem
 from osgeo import ogr
-from osgeo.ogr import Geometry
-from qgis.core import QgsProject, QgsVectorLayer, QgsMapLayerType, QgsWkbTypes, QgsFeature, QgsGeometry, \
-    QgsFeatureIterator, QgsMapLayer, QgsTask
+from qgis.core import QgsVectorLayer, QgsMapLayer
 
 from . import ProcessManager, QGISHelper
 from .client import OhsomeClient
-from .utils import check_list_duplicates, combine_layer_geometries, get_layers, get_layer_by_name
+from .utils import (
+    check_list_duplicates,
+    combine_layer_geometries,
+    get_layers,
+    get_layer_by_name,
+)
 
 
 class DataExtractionQGISHelper(QGISHelper):
@@ -21,16 +22,19 @@ class DataExtractionQGISHelper(QGISHelper):
         self._fetch_layer_input()
 
     def get_layer_geometries(self) -> {}:
-        feature_collection = {"type": "FeatureCollection",
-                              "features": []
-                              }
+        feature_collection = {"type": "FeatureCollection", "features": []}
         layers_iterator: iter = iter(self.get_active_layers())
         while layers_iterator.__length_hint__() > 0:
             qgs_layer: QgsMapLayer = next(layers_iterator)
             wkt_geometries = combine_layer_geometries(qgs_layer)
             for wkt_geometry in wkt_geometries:
-                feature = {"type": "Feature", "properties": {"id": f"{qgs_layer.name()}"},
-                           "geometry": json.loads(ogr.CreateGeometryFromWkt(wkt_geometry).ExportToJson())}
+                feature = {
+                    "type": "Feature",
+                    "properties": {"id": f"{qgs_layer.name()}"},
+                    "geometry": json.loads(
+                        ogr.CreateGeometryFromWkt(wkt_geometry).ExportToJson()
+                    ),
+                }
                 feature_collection["features"].append(feature)
 
         return feature_collection
@@ -69,7 +73,7 @@ class DataExtractionQGISHelper(QGISHelper):
         element: QListWidgetItem
         for element in selected_layers:
             self._dlg.layer_list.takeItem(self._dlg.layer_list.row(element))
-            self.remove_value_from_settings('layer_list', element.text())
+            self.remove_value_from_settings("layer_list", element.text())
 
     def _get_active_layer_names(self) -> list:
         items = list()
@@ -88,15 +92,14 @@ class DataExtractionQGISHelper(QGISHelper):
         return valid_layer_geometries
 
     def _restore_layer_list(self):
-        layer_settings = self.get_settings('layer_list')
+        layer_settings = self.get_settings("layer_list")
         if layer_settings[1]:
-            layer_settings_restored = ""
             for layer_name in layer_settings[0].split(","):
                 layer_name = layer_name.strip(",").strip()
                 restored: bool = self._add_layer(layer_name)
                 if not restored:
                     # Remove old layers
-                    self.remove_value_from_settings('layer_list', layer_name)
+                    self.remove_value_from_settings("layer_list", layer_name)
 
     def _fetch_layer_input(self):
         # Clear the contents of the comboBox from previous runs
@@ -124,9 +127,15 @@ class DataExtractionProcessManager(ProcessManager):
             filter2 = "amenity=place_of_worship or highway=pedestrian and type:way or type: node"
             filter3 = "amenity=place_of_worship and building=church and type:node"
             filter4 = "building=yes and type:way"
-            time2 = '2016-07-08/2019-10-08/P1M'
+            time2 = "2016-07-08/2019-10-08/P1M"
             client = OhsomeClient()
-            response = client.elements.geometry.post(bpolys=json.dumps(bpolys), time=time, filter=filter_input, showMetadata=False, properties="tags, metadata")
+            response = client.elements.geometry.post(
+                bpolys=json.dumps(bpolys),
+                time=time,
+                filter=filter_input,
+                showMetadata=False,
+                properties="tags, metadata",
+            )
             # del self.client
             self._process_results(response)
 

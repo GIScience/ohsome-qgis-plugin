@@ -22,13 +22,34 @@
 """
 from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, QDate
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QDialogButtonBox, QDialog, QPushButton, QComboBox, QListWidget, QListWidgetItem, \
-    QCheckBox, QDateEdit, QTabWidget, QWidget
+from PyQt5.QtWidgets import (
+    QAction,
+    QDialogButtonBox,
+    QDialog,
+    QPushButton,
+    QComboBox,
+    QListWidget,
+    QListWidgetItem,
+    QCheckBox,
+    QDateEdit,
+    QTabWidget,
+    QWidget,
+)
 
 # Initialize Qt resources from file resources.py
-from qgis.core import QgsProject, QgsVectorLayer, QgsMapLayer, QgsMapLayerType, QgsWkbTypes, QgsSettings
+from qgis.core import (
+    QgsProject,
+    QgsVectorLayer,
+    QgsMapLayer,
+    QgsMapLayerType,
+    QgsWkbTypes,
+    QgsSettings,
+)
 
-from .common.data_extraction import DataExtractionProcessManager, DataExtractionQGISHelper
+from .common.data_extraction import (
+    DataExtractionProcessManager,
+    DataExtractionQGISHelper,
+)
 from .resources import *
 from .ohsome_plugin_dialog import OhsomePluginDialog
 import os.path
@@ -37,7 +58,8 @@ import os.path
 import sys
 
 sys.path.append(
-    '/home/jules/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/debug-eggs/pydevd-pycharm.egg')
+    "/home/jules/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/debug-eggs/pydevd-pycharm.egg"
+)
 
 
 class OhsomePlugin:
@@ -56,11 +78,10 @@ class OhsomePlugin:
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
-        locale = QSettings().value('locale/userLocale')[0:2]
+        locale = QSettings().value("locale/userLocale")[0:2]
         locale_path = os.path.join(
-            self.plugin_dir,
-            'i18n',
-            'OhsomePlugin_{}.qm'.format(locale))
+            self.plugin_dir, "i18n", "OhsomePlugin_{}.qm".format(locale)
+        )
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
@@ -69,7 +90,7 @@ class OhsomePlugin:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&Ohsome Plugin')
+        self.menu = self.tr(u"&Ohsome Plugin")
 
         # Check if plugin was started the first time in current QGIS session
         # Must be set in initGui() to survive plugin reloads
@@ -88,19 +109,20 @@ class OhsomePlugin:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('OhsomePlugin', message)
+        return QCoreApplication.translate("OhsomePlugin", message)
 
     def add_action(
-            self,
-            icon_path,
-            text,
-            callback,
-            enabled_flag=True,
-            add_to_menu=True,
-            add_to_toolbar=True,
-            status_tip=None,
-            whats_this=None,
-            parent=None):
+        self,
+        icon_path,
+        text,
+        callback,
+        enabled_flag=True,
+        add_to_menu=True,
+        add_to_toolbar=True,
+        status_tip=None,
+        whats_this=None,
+        parent=None,
+    ):
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -156,9 +178,7 @@ class OhsomePlugin:
             self.iface.addToolBarIcon(action)
 
         if add_to_menu:
-            self.iface.addPluginToVectorMenu(
-                self.menu,
-                action)
+            self.iface.addPluginToVectorMenu(self.menu, action)
 
         self.actions.append(action)
 
@@ -167,12 +187,13 @@ class OhsomePlugin:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/OhsomePlugin/img/icon.png'
+        icon_path = ":/plugins/OhsomePlugin/img/icon.png"
         self.add_action(
             icon_path,
-            text=self.tr(u'Ohsome Plugin'),
+            text=self.tr(u"Ohsome Plugin"),
             callback=self.run,
-            parent=self.iface.mainWindow())
+            parent=self.iface.mainWindow(),
+        )
 
         # will be set False in run()
         self.first_start = True
@@ -183,14 +204,13 @@ class OhsomePlugin:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
-            self.iface.removePluginVectorMenu(
-                self.tr(u'&Ohsome Plugin'),
-                action)
+            self.iface.removePluginVectorMenu(self.tr(u"&Ohsome Plugin"), action)
             self.iface.removeToolBarIcon(action)
 
     def run(self):
         """Run method that performs all the real work"""
         import pydevd
+
         # pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
 
         # Create the dialog with elements (after translation) and keep reference
@@ -198,11 +218,17 @@ class OhsomePlugin:
         if self.first_start == True:
             self.first_start = False
             self.dlg = OhsomePluginDialog(self.iface)
-            self.process_manager: DataExtractionProcessManager = DataExtractionProcessManager(self.dlg)
+            self.process_manager: DataExtractionProcessManager = (
+                DataExtractionProcessManager(self.dlg)
+            )
 
             # Initialize global buttons
-            self.dlg.button_box.button(QDialogButtonBox.Ok).clicked.connect(self.process_manager.accept)
-            self.dlg.button_box.button(QDialogButtonBox.Close).clicked.connect(self.dlg.reject)
+            self.dlg.button_box.button(QDialogButtonBox.Ok).clicked.connect(
+                self.process_manager.accept
+            )
+            self.dlg.button_box.button(QDialogButtonBox.Close).clicked.connect(
+                self.dlg.reject
+            )
 
         # Add controls for the input boxes
         # Fetch la0yers to the layer selection

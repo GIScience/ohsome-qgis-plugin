@@ -24,26 +24,28 @@
 
 import os
 
-from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import (QAction,
-                             QDialog,
-                             QApplication,
-                             QMenu,
-                             QMessageBox,
-                             QDialogButtonBox,
-                             QVBoxLayout)
+from PyQt5.QtWidgets import (
+    QAction,
+    QDialog,
+    QApplication,
+    QMenu,
+    QMessageBox,
+    QDialogButtonBox,
+    QVBoxLayout,
+)
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 
-# This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
+# This loads your .ui file so that
+# PyQt can populate your plugin with the elements from Qt Designer
 from qgis._core import QgsProject
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'ohsome_plugin_dialog_base.ui'))
+FORM_CLASS, _ = uic.loadUiType(
+    os.path.join(os.path.dirname(__file__), "ohsome_plugin_dialog_base.ui")
+)
 
 
 class OhsomePluginDialog(QDialog, FORM_CLASS):
-
     def __init__(self, iface, parent=None):
         """Constructor."""
         super(OhsomePluginDialog, self).__init__()
@@ -57,7 +59,7 @@ class OhsomePluginDialog(QDialog, FORM_CLASS):
         self._iface = iface
 
         # Rename buttons
-        self.button_box.button(QDialogButtonBox.Ok).setText('Apply')
+        self.button_box.button(QDialogButtonBox.Ok).setText("Apply")
 
         self.map_crs = self._iface.mapCanvas().mapSettings().destinationCrs()
         self.project = QgsProject.instance  # invoke a QgsProject instance
