@@ -191,7 +191,7 @@ class OhsomePlugin:
     def run(self):
         """Run method that performs all the real work"""
         import pydevd
-        pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
+        # pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
 
         # Create the dialog with elements (after translation) and keep reference
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
