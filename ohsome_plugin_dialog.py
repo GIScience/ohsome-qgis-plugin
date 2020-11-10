@@ -36,12 +36,15 @@ from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
+from qgis._core import QgsProject
+
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ohsome_plugin_dialog_base.ui'))
 
 
 class OhsomePluginDialog(QDialog, FORM_CLASS):
-    def __init__(self, parent=None):
+
+    def __init__(self, iface, parent=None):
         """Constructor."""
         super(OhsomePluginDialog, self).__init__()
         # Set up the user interface from Designer through FORM_CLASS.
@@ -50,4 +53,11 @@ class OhsomePluginDialog(QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
-        self.button_box.button(QDialogButtonBox.Close).clicked.connect(self.reject)
+
+        self._iface = iface
+
+        # Rename buttons
+        self.button_box.button(QDialogButtonBox.Ok).setText('Apply')
+
+        self.map_crs = self._iface.mapCanvas().mapSettings().destinationCrs()
+        self.project = QgsProject.instance  # invoke a QgsProject instance
