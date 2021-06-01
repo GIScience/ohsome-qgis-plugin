@@ -26,13 +26,15 @@ def main(parameters, arguments):
     :param parameters: Command line parameters.
     :param arguments: Command line arguments.
     """
-    address = "{protocol}://{username}:{password}@{server}:{port}{endpoint}".format(
-        protocol=PROTOCOL,
-        username=parameters.username,
-        password=parameters.password,
-        server=parameters.server,
-        port=parameters.port,
-        endpoint=ENDPOINT,
+    address = (
+        "{protocol}://{username}:{password}@{server}:{port}{endpoint}".format(
+            protocol=PROTOCOL,
+            username=parameters.username,
+            password=parameters.password,
+            server=parameters.server,
+            port=parameters.port,
+            endpoint=ENDPOINT,
+        )
     )
     print("Connecting to: %s" % hide_password(address))
 
@@ -92,7 +94,11 @@ if __name__ == "__main__":
         metavar="user",
     )
     parser.add_option(
-        "-p", "--port", dest="port", help="Server port to connect to", metavar="80"
+        "-p",
+        "--port",
+        dest="port",
+        help="Server port to connect to",
+        metavar="80",
     )
     parser.add_option(
         "-s",

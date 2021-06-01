@@ -204,7 +204,9 @@ class OhsomePlugin:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
-            self.iface.removePluginVectorMenu(self.tr(u"&Ohsome Plugin"), action)
+            self.iface.removePluginVectorMenu(
+                self.tr(u"&Ohsome Plugin"), action
+            )
             self.iface.removeToolBarIcon(action)
 
     def run(self):
