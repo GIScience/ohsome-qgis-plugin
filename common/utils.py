@@ -123,9 +123,15 @@ def create_time_aware_qgsfeature(
 def load_layers_to_canvas(layer_list: list):
     vlayer: QgsVectorLayer
     for vlayer in layer_list:
-        if not vlayer or not isinstance(vlayer, QgsVectorLayer) or not vlayer.isValid():
+        if (
+            not vlayer
+            or not isinstance(vlayer, QgsVectorLayer)
+            or not vlayer.isValid()
+        ):
             iface.messageBar().pushMessage(
-                "[Utils] Error", "A layer couldn't be added.", level=Qgis.Warning
+                "[Utils] Error",
+                "A layer couldn't be added.",
+                level=Qgis.Warning,
             )
         else:
             QgsProject.instance().addMapLayer(vlayer)
@@ -173,21 +179,31 @@ def process_features(features: QgsFeatureIterator):
         if new_fields.field("startDate") and new_fields.field("endDate"):
             unprocessed_feature.setFields(new_fields, initAttributes=True)
             unprocessed_feature.setAttributes(new_attributes)
-            unprocessed_feature.setAttribute("endDate", QDateTime.currentDateTime())
+            unprocessed_feature.setAttribute(
+                "endDate", QDateTime.currentDateTime()
+            )
             if processed_features[feature_type].keys().__contains__(feature_id):
-                processed_features[feature_type][feature_id].append(unprocessed_feature)
+                processed_features[feature_type][feature_id].append(
+                    unprocessed_feature
+                )
                 processed_features[feature_type][feature_id].sort(
                     key=lambda x: x.attribute("startDate")
                 )
                 last: QgsFeature = processed_features[feature_type][
                     feature_id
-                ].__getitem__(len(processed_features[feature_type][feature_id]) - 1)
+                ].__getitem__(
+                    len(processed_features[feature_type][feature_id]) - 1
+                )
                 processed_features[feature_type][feature_id].__getitem__(
                     len(processed_features[feature_type][feature_id]) - 2
-                ).setAttribute("endDate", last.attribute("startDate").addSecs(-3600))
+                ).setAttribute(
+                    "endDate", last.attribute("startDate").addSecs(-3600)
+                )
             else:
                 processed_features[feature_type][feature_id] = list()
-                processed_features[feature_type][feature_id].append(unprocessed_feature)
+                processed_features[feature_type][feature_id].append(
+                    unprocessed_feature
+                )
     return processed_features
 
 
@@ -196,7 +212,9 @@ def postprocess_vlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
 
     # changes are only possible when editing the layer
     vlayer.startEditing()
-    pr.addAttributes([QgsField("durationField", QVariant.Int)])  # Add durationsField
+    pr.addAttributes(
+        [QgsField("durationField", QVariant.Int)]
+    )  # Add durationsField
     vlayer.temporalProperties().setMode(1)  # Set the correct temporal mode
     vlayer.temporalProperties().setStartField("@snapshotTimestamp")
     vlayer.temporalProperties().setIsActive(activate_temporal)
@@ -211,7 +229,9 @@ def postprocess_vlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
 
 
 def combine_features_to_layer(
-    processed_features: dict, old_vlayer: QgsVectorLayer, activate_temporal: bool = True
+    processed_features: dict,
+    old_vlayer: QgsVectorLayer,
+    activate_temporal: bool = True,
 ):
     processed_layers = list()
     data_provider = old_vlayer.dataProvider()
@@ -303,7 +323,9 @@ def process_vector_layer(
         return list()
 
     return combine_features_to_layer(
-        processed_features, vlayer.dataProvider(), activate_temporal=activate_temporal
+        processed_features,
+        vlayer.dataProvider(),
+        activate_temporal=activate_temporal,
     )
 
 
@@ -326,11 +348,15 @@ def get_layers():
 def get_layer_by_name(name: str):
     if name:
         try:
-            layer_filter: filter = filter(lambda x: x.name() == name, get_layers())
+            layer_filter: filter = filter(
+                lambda x: x.name() == name, get_layers()
+            )
             return next(layer_filter)
         except Exception as err:
             iface.messageBar().pushMessage(
-                f"[Utils] Couldn't find layer {name}", f"{err}", level=Qgis.Warning
+                f"[Utils] Couldn't find layer {name}",
+                f"{err}",
+                level=Qgis.Warning,
             )
     return None
 

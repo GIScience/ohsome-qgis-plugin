@@ -125,7 +125,9 @@ class DataExtractionProcessManager(ProcessManager):
                 filter_input = f"{self._filter_input}"
             time = self.time
             filter2 = "amenity=place_of_worship or highway=pedestrian and type:way or type: node"
-            filter3 = "amenity=place_of_worship and building=church and type:node"
+            filter3 = (
+                "amenity=place_of_worship and building=church and type:node"
+            )
             filter4 = "building=yes and type:way"
             time2 = "2016-07-08/2019-10-08/P1M"
             client = OhsomeClient()

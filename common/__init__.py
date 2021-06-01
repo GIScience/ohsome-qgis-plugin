@@ -111,7 +111,9 @@ class ProcessManager(object):
             self._dlg.date_start.setMaximumDate(
                 QDate(today.year, today.month, today.day)
             )
-            self._dlg.date_end.setMaximumDate(QDate(today.year, today.month, today.day))
+            self._dlg.date_end.setMaximumDate(
+                QDate(today.year, today.month, today.day)
+            )
             # Set initial values
             self._current_widget = self._dlg.requestWidget.currentIndex()
             self._check_activate_temporal = (
@@ -127,17 +129,27 @@ class ProcessManager(object):
             self._date_start: QDate = self._dlg.date_start.date()
             self._date_end: QDate = self._dlg.date_end.date()
             # Set trigger
-            self._dlg.requestWidget.currentChanged.connect(self._set_current_widget)
+            self._dlg.requestWidget.currentChanged.connect(
+                self._set_current_widget
+            )
             self._dlg.check_activate_temporal.clicked.connect(
                 self._set_check_activate_temporal
             )
             self._dlg.osm_type_node.clicked.connect(self._set_osm_type_node)
             self._dlg.osm_type_way.clicked.connect(self._set_osm_type_way)
-            self._dlg.osm_type_relation.clicked.connect(self._set_osm_type_relation)
+            self._dlg.osm_type_relation.clicked.connect(
+                self._set_osm_type_relation
+            )
             self._dlg.filter_input.textChanged.connect(self._set_filter_input)
-            self._dlg.interval_days.valueChanged.connect(self._set_intervals_days)
-            self._dlg.interval_months.valueChanged.connect(self._set_intervals_months)
-            self._dlg.interval_years.valueChanged.connect(self._set_intervals_years)
+            self._dlg.interval_days.valueChanged.connect(
+                self._set_intervals_days
+            )
+            self._dlg.interval_months.valueChanged.connect(
+                self._set_intervals_months
+            )
+            self._dlg.interval_years.valueChanged.connect(
+                self._set_intervals_years
+            )
             self._dlg.date_start.dateTimeChanged.connect(self._set_date_start)
             self._dlg.date_end.dateTimeChanged.connect(self._set_date_end)
             self._fully_initialized = True
@@ -160,9 +172,13 @@ class ProcessManager(object):
             date_start = "{}-".format(self._date_start.year())
         if self._date_start.month():
             if self._date_start.month() > 9:
-                date_start = "{}{}-".format(date_start, self._date_start.month())
+                date_start = "{}{}-".format(
+                    date_start, self._date_start.month()
+                )
             else:
-                date_start = "{}0{}-".format(date_start, self._date_start.month())
+                date_start = "{}0{}-".format(
+                    date_start, self._date_start.month()
+                )
         if self._date_start.day():
             if self._date_start.day() > 9:
                 date_start = "{}{}".format(date_start, self._date_start.day())
@@ -204,7 +220,9 @@ class ProcessManager(object):
         self._current_widget = self._dlg.requestWidget.currentIndex()
 
     def _set_check_activate_temporal(self):
-        self._check_activate_temporal = self._dlg.check_activate_temporal.isChecked()
+        self._check_activate_temporal = (
+            self._dlg.check_activate_temporal.isChecked()
+        )
 
     def _set_osm_type_node(self):
         self._osm_type_node = self._dlg.osm_type_node.isChecked()
@@ -301,8 +319,11 @@ class ProcessManager(object):
                             level=Qgis.Warning,
                         )
                         raise
-                    sorted_qgs_vector_layer: list = sort_and_combine_vector_layer(
-                        vlayer, activate_temporal=self._check_activate_temporal
+                    sorted_qgs_vector_layer: list = (
+                        sort_and_combine_vector_layer(
+                            vlayer,
+                            activate_temporal=self._check_activate_temporal,
+                        )
                     )
                     # vlayer = postprocess_vlayer(vlayer ,self._check_activate_temporal)
                     load_layers_to_canvas(sorted_qgs_vector_layer)

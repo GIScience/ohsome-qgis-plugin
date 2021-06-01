@@ -72,7 +72,9 @@ class OhsomeResponse:
             if len(groupby_names) == 1:
                 for record in self.data["groupByResult"]:
                     record_dict = {groupby_names[0]: record["groupByObject"]}
-                    record_result = [{**record_dict, **x} for x in record["result"]]
+                    record_result = [
+                        {**record_dict, **x} for x in record["result"]
+                    ]
                     record_dfs.extend(record_result)
             elif len(groupby_names) == 2:
                 for record in self.data["groupByResult"]:
@@ -80,7 +82,9 @@ class OhsomeResponse:
                         groupby_names[0]: record["groupByObject"][0],
                         groupby_names[1]: record["groupByObject"][1],
                     }
-                    record_result = [{**record_dict, **x} for x in record["result"]]
+                    record_result = [
+                        {**record_dict, **x} for x in record["result"]
+                    ]
                     record_dfs.extend(record_result)
             df_all = pd.DataFrame().from_records(record_dfs)
 
@@ -94,13 +98,16 @@ class OhsomeResponse:
                         df_all["timestamp"], format="%Y-%m-%dT%H:%M:%SZ"
                     )
                     df_all.set_index(
-                        [groupby_names[0], groupby_names[1], "timestamp"], inplace=True
+                        [groupby_names[0], groupby_names[1], "timestamp"],
+                        inplace=True,
                     )
                 else:
                     df_all["timestamp"] = pd.to_datetime(
                         df_all["timestamp"], format="%Y-%m-%dT%H:%M:%SZ"
                     )
-                    df_all.set_index([groupby_names[0], "timestamp"], inplace=True)
+                    df_all.set_index(
+                        [groupby_names[0], "timestamp"], inplace=True
+                    )
             else:
                 df_all["fromTimestamp"] = pd.to_datetime(
                     df_all["fromTimestamp"], format="%Y-%m-%dT%H:%M:%SZ"
@@ -120,7 +127,8 @@ class OhsomeResponse:
                     )
                 else:
                     df_all.set_index(
-                        [groupby_names[0], "fromTimestamp", "toTimestamp"], inplace=True
+                        [groupby_names[0], "fromTimestamp", "toTimestamp"],
+                        inplace=True,
                     )
 
             return df_all
@@ -184,7 +192,10 @@ class OhsomeResponse:
             features = features.set_index(["@osmId", "@snapshotTimestamp"])
             return features
 
-        if "timestamp" in features.columns and "groupByBoundaryId" in features.columns:
+        if (
+            "timestamp" in features.columns
+            and "groupByBoundaryId" in features.columns
+        ):
             features["timestamp"] = pd.to_datetime(
                 features["timestamp"], format="%Y-%m-%dT%H:%M:%SZ"
             )
