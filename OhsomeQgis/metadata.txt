@@ -28,7 +28,7 @@ help=https://github.com/GIScience/orstools-qgis-plugin/wiki/
 
 homepage=https://github.com/GIScience/orstools-qgis-plugin/wiki/
 category=Web
-icon=gui/img/icon_orstools.png
+icon=gui/img/icon_ohsome.png
 experimental=False
 hasProcessingProvider=yes
 

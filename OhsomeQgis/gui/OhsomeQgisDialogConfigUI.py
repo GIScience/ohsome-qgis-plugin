@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'OhsomeQgis/gui/ORStoolsDialogConfigUI.ui'
+# Form implementation generated from reading ui file 'OhsomeQgis/gui/OhsomeQgisDialogConfigUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -9,23 +9,23 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_ORStoolsDialogConfigBase(object):
-    def setupUi(self, ORStoolsDialogConfigBase):
-        ORStoolsDialogConfigBase.setObjectName("ORStoolsDialogConfigBase")
-        ORStoolsDialogConfigBase.resize(414, 67)
+class Ui_OhsomeQgisDialogConfigBase(object):
+    def setupUi(self, OhsomeQgisDialogConfigBase):
+        OhsomeQgisDialogConfigBase.setObjectName("OhsomeQgisDialogConfigBase")
+        OhsomeQgisDialogConfigBase.resize(414, 67)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            ORStoolsDialogConfigBase.sizePolicy().hasHeightForWidth()
+            OhsomeQgisDialogConfigBase.sizePolicy().hasHeightForWidth()
         )
-        ORStoolsDialogConfigBase.setSizePolicy(sizePolicy)
-        self.gridLayout = QtWidgets.QGridLayout(ORStoolsDialogConfigBase)
+        OhsomeQgisDialogConfigBase.setSizePolicy(sizePolicy)
+        self.gridLayout = QtWidgets.QGridLayout(OhsomeQgisDialogConfigBase)
         self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SetMinAndMaxSize)
         self.gridLayout.setObjectName("gridLayout")
-        self.providers = QtWidgets.QWidget(ORStoolsDialogConfigBase)
+        self.providers = QtWidgets.QWidget(OhsomeQgisDialogConfigBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -42,28 +42,28 @@ class Ui_ORStoolsDialogConfigBase(object):
         )
         self.verticalLayout.setObjectName("verticalLayout")
         self.gridLayout.addWidget(self.providers, 0, 0, 1, 3)
-        self.buttonBox = QtWidgets.QDialogButtonBox(ORStoolsDialogConfigBase)
+        self.buttonBox = QtWidgets.QDialogButtonBox(OhsomeQgisDialogConfigBase)
         self.buttonBox.setStandardButtons(
             QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
         )
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 1, 2, 1, 1)
-        self.provider_add = QtWidgets.QPushButton(ORStoolsDialogConfigBase)
+        self.provider_add = QtWidgets.QPushButton(OhsomeQgisDialogConfigBase)
         self.provider_add.setObjectName("provider_add")
         self.gridLayout.addWidget(self.provider_add, 1, 0, 1, 1)
-        self.provider_remove = QtWidgets.QPushButton(ORStoolsDialogConfigBase)
+        self.provider_remove = QtWidgets.QPushButton(OhsomeQgisDialogConfigBase)
         self.provider_remove.setObjectName("provider_remove")
         self.gridLayout.addWidget(self.provider_remove, 1, 1, 1, 1)
 
-        self.retranslateUi(ORStoolsDialogConfigBase)
-        QtCore.QMetaObject.connectSlotsByName(ORStoolsDialogConfigBase)
+        self.retranslateUi(OhsomeQgisDialogConfigBase)
+        QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogConfigBase)
 
-    def retranslateUi(self, ORStoolsDialogConfigBase):
+    def retranslateUi(self, OhsomeQgisDialogConfigBase):
         _translate = QtCore.QCoreApplication.translate
-        ORStoolsDialogConfigBase.setWindowTitle(
-            _translate("ORStoolsDialogConfigBase", "Provider Settings")
+        OhsomeQgisDialogConfigBase.setWindowTitle(
+            _translate("OhsomeQgisDialogConfigBase", "Provider Settings")
         )
-        self.provider_add.setText(_translate("ORStoolsDialogConfigBase", "Add"))
+        self.provider_add.setText(_translate("OhsomeQgisDialogConfigBase", "Add"))
         self.provider_remove.setText(
-            _translate("ORStoolsDialogConfigBase", "Remove")
+            _translate("OhsomeQgisDialogConfigBase", "Remove")
         )

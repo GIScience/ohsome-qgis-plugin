@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'OhsomeQgis/gui/ORStoolsDialogUI.ui'
+# Form implementation generated from reading ui file 'OhsomeQgis/gui/OhsomeQgisDialogUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -9,26 +9,26 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_ORStoolsDialogBase(object):
-    def setupUi(self, ORStoolsDialogBase):
-        ORStoolsDialogBase.setObjectName("ORStoolsDialogBase")
-        ORStoolsDialogBase.resize(412, 868)
+class Ui_OhsomeQgisDialogBase(object):
+    def setupUi(self, OhsomeQgisDialogBase):
+        OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
+        OhsomeQgisDialogBase.resize(412, 868)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            ORStoolsDialogBase.sizePolicy().hasHeightForWidth()
+            OhsomeQgisDialogBase.sizePolicy().hasHeightForWidth()
         )
-        ORStoolsDialogBase.setSizePolicy(sizePolicy)
-        ORStoolsDialogBase.setSizeGripEnabled(True)
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(ORStoolsDialogBase)
+        OhsomeQgisDialogBase.setSizePolicy(sizePolicy)
+        OhsomeQgisDialogBase.setSizeGripEnabled(True)
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(OhsomeQgisDialogBase)
         self.verticalLayout_5.setSizeConstraint(
             QtWidgets.QLayout.SetMinAndMaxSize
         )
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.resources_group = QtWidgets.QGroupBox(ORStoolsDialogBase)
+        self.resources_group = QtWidgets.QGroupBox(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -76,7 +76,7 @@ class Ui_ORStoolsDialogBase(object):
         self.label.setObjectName("label")
         self.horizontalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_5.addWidget(self.resources_group)
-        self.widget_4 = QtWidgets.QWidget(ORStoolsDialogBase)
+        self.widget_4 = QtWidgets.QWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -146,7 +146,7 @@ class Ui_ORStoolsDialogBase(object):
         self.provider_config.setObjectName("provider_config")
         self.horizontalLayout_7.addWidget(self.provider_config)
         self.verticalLayout_5.addWidget(self.widget_4)
-        self.tabWidget = QtWidgets.QTabWidget(ORStoolsDialogBase)
+        self.tabWidget = QtWidgets.QTabWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -330,7 +330,7 @@ class Ui_ORStoolsDialogBase(object):
         self.gridLayout_2.addWidget(self.label_4, 0, 0, 1, 4)
         self.optimize_start = QtWidgets.QRadioButton(self.optimization_group)
         self.optimize_start.setObjectName("optimize_start")
-        self.optimize_button_group = QtWidgets.QButtonGroup(ORStoolsDialogBase)
+        self.optimize_button_group = QtWidgets.QButtonGroup(OhsomeQgisDialogBase)
         self.optimize_button_group.setObjectName("optimize_button_group")
         self.optimize_button_group.addButton(self.optimize_start)
         self.gridLayout_2.addWidget(self.optimize_start, 2, 1, 1, 1)
@@ -530,7 +530,7 @@ class Ui_ORStoolsDialogBase(object):
         self.verticalLayout.addItem(spacerItem)
         self.tabWidget.addTab(self.batch_tab, "")
         self.verticalLayout_5.addWidget(self.tabWidget)
-        self.ors_log_group = QgsCollapsibleGroupBox(ORStoolsDialogBase)
+        self.ors_log_group = QgsCollapsibleGroupBox(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -569,7 +569,7 @@ class Ui_ORStoolsDialogBase(object):
         self.debug_text.setObjectName("debug_text")
         self.verticalLayout_2.addWidget(self.debug_text)
         self.verticalLayout_5.addWidget(self.ors_log_group)
-        self.widget_2 = QtWidgets.QWidget(ORStoolsDialogBase)
+        self.widget_2 = QtWidgets.QWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -625,90 +625,90 @@ class Ui_ORStoolsDialogBase(object):
         self.ors_log_group.raise_()
         self.tabWidget.raise_()
 
-        self.retranslateUi(ORStoolsDialogBase)
+        self.retranslateUi(OhsomeQgisDialogBase)
         self.tabWidget.setCurrentIndex(0)
-        self.global_buttons.accepted.connect(ORStoolsDialogBase.accept)
-        self.global_buttons.rejected.connect(ORStoolsDialogBase.reject)
-        QtCore.QMetaObject.connectSlotsByName(ORStoolsDialogBase)
+        self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
+        self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
+        QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
 
-    def retranslateUi(self, ORStoolsDialogBase):
+    def retranslateUi(self, OhsomeQgisDialogBase):
         _translate = QtCore.QCoreApplication.translate
-        ORStoolsDialogBase.setWindowTitle(
-            _translate("ORStoolsDialogBase", "ORS Tools")
+        OhsomeQgisDialogBase.setWindowTitle(
+            _translate("OhsomeQgisDialogBase", "ORS Tools")
         )
         self.resources_group.setTitle(
-            _translate("ORStoolsDialogBase", "Resources")
+            _translate("OhsomeQgisDialogBase", "Resources")
         )
         self.label_3.setText(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p><a href="https://openrouteservice.org/dev/#/signup"><span style="font-weight: bold; text-decoration: underline; color:#a8b1f5;">Sign Up</span></a></p></body></html>',
             )
         )
         self.label_2.setText(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p><a href="https://openrouteservice.org/dev/#/home"><span style="font-weight: bold; text-decoration: underline; color:#a8b1f5;">Dashboard</span></a></p></body></html>',
             )
         )
         self.label.setText(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p><a href="https://ask.openrouteservice.org/c/sdks/qgis"><span style="font-weight: bold; text-decoration: underline; color:#a8b1f5;">Forum</span></a></p></body></html>',
             )
         )
-        self.label_15.setText(_translate("ORStoolsDialogBase", "Provider"))
+        self.label_15.setText(_translate("OhsomeQgisDialogBase", "Provider"))
         self.provider_refresh.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "Refresh the provider list. Needed after a provider was added or deleted.",
             )
         )
         self.provider_config.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "Shortcut to Web ► ORS Tools ► Provider Settings",
             )
         )
         self.routing_travel_label.setText(
-            _translate("ORStoolsDialogBase", "Go with")
+            _translate("OhsomeQgisDialogBase", "Go with")
         )
         self.routing_travel_combo.setToolTip(
-            _translate("ORStoolsDialogBase", "Mode of travel")
+            _translate("OhsomeQgisDialogBase", "Mode of travel")
         )
         self.routing_preference_combo.setToolTip(
-            _translate("ORStoolsDialogBase", "Preference")
+            _translate("OhsomeQgisDialogBase", "Preference")
         )
         self.routing_fromline_map.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Add wayoints interactively from the map canvas.</p><p>Double-click will terminate waypoint selection.</p></body></html>",
             )
         )
         self.routing_fromline_clear.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>If waypoints are selected in the list, only these will be deleted. Else all waypoints will be deleted.</p></body></html>",
             )
         )
         self.routing_fromline_list.setToolTip(
-            _translate("ORStoolsDialogBase", "Select waypoints from the map!")
+            _translate("OhsomeQgisDialogBase", "Select waypoints from the map!")
         )
         self.advances_group.setTitle(
-            _translate("ORStoolsDialogBase", "Advanced Configuration")
+            _translate("OhsomeQgisDialogBase", "Advanced Configuration")
         )
         self.optimization_group.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p>Enabling Traveling Salesman will erase all other advanced configuration and assume the preference to be <span style=" font-weight:600;">fastest</span>.</p></body></html>',
             )
         )
         self.optimization_group.setTitle(
-            _translate("ORStoolsDialogBase", "Traveling Salesman")
+            _translate("OhsomeQgisDialogBase", "Traveling Salesman")
         )
         self.label_4.setText(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
                 '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
                 "p, li { white-space: pre-wrap; }\n"
@@ -718,121 +718,121 @@ class Ui_ORStoolsDialogBase(object):
         )
         self.optimize_start.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>First waypoint will be optimized.</p></body></html>",
             )
         )
         self.optimize_start.setText(
-            _translate("ORStoolsDialogBase", "Optimize Start")
+            _translate("OhsomeQgisDialogBase", "Optimize Start")
         )
         self.optimize_none.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>First and last waypoints are not optimized.</p></body></html>",
             )
         )
-        self.optimize_none.setText(_translate("ORStoolsDialogBase", "None"))
+        self.optimize_none.setText(_translate("OhsomeQgisDialogBase", "None"))
         self.optimize_end.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Last waypoint will be optimized.</p></body></html>",
             )
         )
         self.optimize_end.setText(
-            _translate("ORStoolsDialogBase", "Optimize End")
+            _translate("OhsomeQgisDialogBase", "Optimize End")
         )
         self.label_5.setText(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p><span style=" font-weight:600;">Other Options</span></p></body></html>',
             )
         )
         self.routing_avoid_tags_group.setToolTip(
-            _translate("ORStoolsDialogBase", "Avoid certain road attributes.")
+            _translate("OhsomeQgisDialogBase", "Avoid certain road attributes.")
         )
         self.routing_avoid_tags_group.setTitle(
-            _translate("ORStoolsDialogBase", "Avoid tags")
+            _translate("OhsomeQgisDialogBase", "Avoid tags")
         )
         self.routing_avoid_highways_3.setText(
-            _translate("ORStoolsDialogBase", "highways")
+            _translate("OhsomeQgisDialogBase", "highways")
         )
         self.routing_avoid_toll_3.setText(
-            _translate("ORStoolsDialogBase", "tollways")
+            _translate("OhsomeQgisDialogBase", "tollways")
         )
         self.routing_avoid_ferries_3.setText(
-            _translate("ORStoolsDialogBase", "ferries")
+            _translate("OhsomeQgisDialogBase", "ferries")
         )
         self.routing_avoid_fords_3.setText(
-            _translate("ORStoolsDialogBase", "fords")
+            _translate("OhsomeQgisDialogBase", "fords")
         )
         self.routing_avoid_tracks_3.setText(
-            _translate("ORStoolsDialogBase", "steps")
+            _translate("OhsomeQgisDialogBase", "steps")
         )
         self.routing_avoid_countries_group.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Avoid countries based on alphnumeric ISO 3166 Alpha-2 or Alpha-3 codes.</p><p>Find a list of codes at https://github.com/GIScience/openrouteservice-docs#country-list.</p></body></html>",
             )
         )
         self.routing_avoid_countries_group.setTitle(
-            _translate("ORStoolsDialogBase", "Avoid countries")
+            _translate("OhsomeQgisDialogBase", "Avoid countries")
         )
         self.countries_text.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Avoid countries based on ISO 3166 Alpha-2 or Alpha-3 codes.</p></body></html>",
             )
         )
         self.avoidpolygon_group.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p>Avoid areas by specifying a (Multi-)Polygon layer. </p><p><br/></p><p><span style=" font-weight:600;">Note</span>, only the first feature of the layer will be respected.</p></body></html>',
             )
         )
         self.avoidpolygon_group.setTitle(
-            _translate("ORStoolsDialogBase", "Avoid polygon(s)")
+            _translate("OhsomeQgisDialogBase", "Avoid polygon(s)")
         )
         self.avoidpolygon_dropdown.setToolTip(
             _translate(
-                "ORStoolsDialogBase",
+                "OhsomeQgisDialogBase",
                 '<html><head/><body><p>Avoid areas by specifying a (Multi-)Polygon layer. </p><p><br/></p><p><span style=" font-weight:600;">Note</span>, only the first feature of the layer will be respected.</p></body></html>',
             )
         )
         self.tabWidget.setTabText(
             self.tabWidget.indexOf(self.qwidget),
-            _translate("ORStoolsDialogBase", "Advanced Directions"),
+            _translate("OhsomeQgisDialogBase", "Advanced Directions"),
         )
-        self.groupBox.setTitle(_translate("ORStoolsDialogBase", "Directions"))
+        self.groupBox.setTitle(_translate("OhsomeQgisDialogBase", "Directions"))
         self.batch_routing_line.setText(
-            _translate("ORStoolsDialogBase", "Polylines Layer")
+            _translate("OhsomeQgisDialogBase", "Polylines Layer")
         )
         self.batch_routing_point.setText(
-            _translate("ORStoolsDialogBase", "Points (1 Layer)")
+            _translate("OhsomeQgisDialogBase", "Points (1 Layer)")
         )
         self.batch_routing_points.setText(
-            _translate("ORStoolsDialogBase", "Points (2 Layer)")
+            _translate("OhsomeQgisDialogBase", "Points (2 Layer)")
         )
-        self.groupBox_2.setTitle(_translate("ORStoolsDialogBase", "Isochrones"))
+        self.groupBox_2.setTitle(_translate("OhsomeQgisDialogBase", "Isochrones"))
         self.batch_iso_point.setText(
-            _translate("ORStoolsDialogBase", "Isochrones from Point")
+            _translate("OhsomeQgisDialogBase", "Isochrones from Point")
         )
         self.batch_iso_layer.setText(
-            _translate("ORStoolsDialogBase", "Isochrones from Layer")
+            _translate("OhsomeQgisDialogBase", "Isochrones from Layer")
         )
-        self.groupBox_3.setTitle(_translate("ORStoolsDialogBase", "Matrix"))
-        self.batch_matrix.setText(_translate("ORStoolsDialogBase", "Matrix"))
+        self.groupBox_3.setTitle(_translate("OhsomeQgisDialogBase", "Matrix"))
+        self.batch_matrix.setText(_translate("OhsomeQgisDialogBase", "Matrix"))
         self.tabWidget.setTabText(
             self.tabWidget.indexOf(self.batch_tab),
-            _translate("ORStoolsDialogBase", "Batch Jobs"),
+            _translate("OhsomeQgisDialogBase", "Batch Jobs"),
         )
-        self.ors_log_group.setTitle(_translate("ORStoolsDialogBase", "Log"))
+        self.ors_log_group.setTitle(_translate("OhsomeQgisDialogBase", "Log"))
         self.debug_text.setPlaceholderText(
             _translate(
-                "ORStoolsDialogBase", "Queries and errors will be printed here."
+                "OhsomeQgisDialogBase", "Queries and errors will be printed here."
             )
         )
-        self.help_button.setText(_translate("ORStoolsDialogBase", "  Help"))
-        self.about_button.setText(_translate("ORStoolsDialogBase", "About"))
+        self.help_button.setText(_translate("OhsomeQgisDialogBase", "  Help"))
+        self.about_button.setText(_translate("OhsomeQgisDialogBase", "About"))
 
 
 from qgscollapsiblegroupbox import QgsCollapsibleGroupBox

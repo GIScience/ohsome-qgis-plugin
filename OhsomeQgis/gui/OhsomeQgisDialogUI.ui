@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ORStoolsDialogBase</class>
- <widget class="QDialog" name="ORStoolsDialogBase">
+ <class>OhsomeQgisDialogBase</class>
+ <widget class="QDialog" name="OhsomeQgisDialogBase">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -911,7 +911,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>global_buttons</sender>
    <signal>accepted()</signal>
-   <receiver>ORStoolsDialogBase</receiver>
+   <receiver>OhsomeQgisDialogBase</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -927,7 +927,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>global_buttons</sender>
    <signal>rejected()</signal>
-   <receiver>ORStoolsDialogBase</receiver>
+   <receiver>OhsomeQgisDialogBase</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

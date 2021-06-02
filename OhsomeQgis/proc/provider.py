@@ -39,7 +39,7 @@ from .directions_points_layer_proc import ORSdirectionsPointsLayerAlgo
 from .directions_lines_proc import ORSdirectionsLinesAlgo
 
 
-class ORStoolsProvider(QgsProcessingProvider):
+class OhsomeQgisProvider(QgsProcessingProvider):
     def __init__(self):
         QgsProcessingProvider.__init__(self)
 
@@ -63,7 +63,7 @@ class ORStoolsProvider(QgsProcessingProvider):
         self.addAlgorithm(ORSmatrixAlgo())
 
     def icon(self):
-        return QIcon(RESOURCE_PREFIX + "icon_orstools.png")
+        return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")
 
     def id(self):
         """

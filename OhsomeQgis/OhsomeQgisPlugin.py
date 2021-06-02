@@ -29,11 +29,11 @@
 
 from qgis.core import QgsApplication
 
-from .gui import ORStoolsDialog
+from .gui import OhsomeQgisDialog
 from .proc import provider
 
 
-class ORStools:
+class OhsomeQgis:
     """QGIS Plugin Implementation."""
 
     # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
@@ -46,8 +46,8 @@ class ORStools:
             application at run time.
         :type iface: QgsInterface
         """
-        self.dialog = ORStoolsDialog.ORStoolsDialogMain(iface)
-        self.provider = provider.ORStoolsProvider()
+        self.dialog = OhsomeQgisDialog.OhsomeQgisDialogMain(iface)
+        self.provider = provider.OhsomeQgisProvider()
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
