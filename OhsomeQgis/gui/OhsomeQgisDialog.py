@@ -200,21 +200,6 @@ class OhsomeQgisDialogMain:
         QApplication.restoreOverrideCursor()
         del self.dlg
 
-    # @staticmethod
-    # def get_quota(provider):
-    #     """
-    #     Update remaining quota from env variables.
-    #
-    #     :returns: remaining quota text to be displayed in GUI.
-    #     :rtype: str
-    #     """
-    #
-    #     # Dirty hack out of laziness.. Prone to errors
-    #     text = []
-    #     for var in sorted(provider['ENV_VARS'].keys(), reverse=True):
-    #         text.append(os.environ[var])
-    #     return '/'.join(text)
-
     def _init_gui_control(self):
         """Slot for main plugin button. Initializes the GUI and shows it."""
 
@@ -340,9 +325,6 @@ Please add polygons to the layer or uncheck avoid polygons.
             layer_out.updateExtents()
             self.project.addMapLayer(layer_out)
 
-            # Update quota; handled in client module after successful request
-            # if provider.get('ENV_VARS'):
-            #     self.dlg.quota_text.setText(self.get_quota(provider) + ' calls')
         except exceptions.Timeout:
             msg = "The connection has timed out!"
             logger.log(msg, 2)
@@ -404,10 +386,6 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.line_tool = None
         self.last_maptool = self._iface.mapCanvas().mapTool()
         self.annotations = []
-
-        # Set up env variables for remaining quota
-        # os.environ["OHSOME_QUOTA"] = "None"
-        # os.environ["OHSOME_REMAINING"] = "None"
 
         # Populate combo boxes
         self.routing_travel_combo.addItems(API_ENDPOINTS)
