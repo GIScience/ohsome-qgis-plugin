@@ -20,7 +20,7 @@ with:
  <resources/>
 
 USAGE:
-    ./init-bbb.sh -p /path/to/development/folder
+    ./resource_cleaner.sh -p /path/to/development/folder
 
 OPTIONS (Clean *.ui files from wrong Resource tag):
 
