@@ -3,20 +3,17 @@
 /***************************************************************************
  OhsomeQgis
                                  A QGIS plugin
- QGIS client to query openrouteservice
+ QGIS client to query the ohsome api
                               -------------------
-        begin                : 2017-02-01
+        begin                : 2021-05-01
         git sha              : $Format:%H$
-        copyright            : (C) 2017 by Nils Nolde
-        email                : nils.nolde@gmail.com
+        copyright            : (C) 2021 by Julian Psotta
+        email                : julianpsotta@gmail.com
  ***************************************************************************/
 
- This plugin provides access to the various APIs from OpenRouteService
- (https://openrouteservice.org), developed and
- maintained by GIScience team at University of Heidelberg, Germany. By using
- this plugin you agree to the ORS terms of service
- (https://openrouteservice.org/terms-of-service/).
-
+ This plugin provides access to the API from Ohsome
+ (https://ohsome.org), developed and
+ maintained by GIScience team at University of Heidelberg, Germany.
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -276,20 +273,11 @@ class OhsomeQgisDialogMain:
             return
 
         # if no API key is present, when ORS is selected, throw an error message
-        if not provider["key"] and provider["base_url"].startswith(
-            "https://api.openrouteservice.org"
-        ):
-            QMessageBox.critical(
+        if provider["base_url"].startswith("https://api.ohsome.org/"):
+            QMessageBox.information(
                 self.dlg,
-                "Missing API key",
-                """
-                Did you forget to set an <b>API key</b> for openrouteservice?<br><br>
-
-                If you don't have an API key, please visit https://openrouteservice.org/sign-up to get one. <br><br>
-                Then enter the API key for openrouteservice provider in Web ► ORS Tools ► Provider Settings or the settings symbol in the main ORS Tools GUI, next to the provider dropdown.
-                """,
+                "Using the public API. Rate limits may apply.",
             )
-            return
 
         clnt = client.Client(provider)
         clnt_msg = ""
@@ -411,8 +399,8 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.annotations = []
 
         # Set up env variables for remaining quota
-        os.environ["ORS_QUOTA"] = "None"
-        os.environ["ORS_REMAINING"] = "None"
+        # os.environ["OHSOME_QUOTA"] = "None"
+        # os.environ["OHSOME_REMAINING"] = "None"
 
         # Populate combo boxes
         self.routing_travel_combo.addItems(PROFILES)
