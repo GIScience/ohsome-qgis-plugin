@@ -40,9 +40,9 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
 
-    from .OhsomeQgisPlugin import ORStools
+    from .OhsomeQgisPlugin import OhsomeQgis
 
-    return ORStools(iface)
+    return OhsomeQgis(iface)
 
 
 # Define plugin wide constants

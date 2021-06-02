@@ -40,7 +40,7 @@ from OhsomeQgis import __version__
 from OhsomeQgis.common import networkaccessmanager
 from OhsomeQgis.utils import exceptions, configmanager, logger
 
-_USER_AGENT = "ORSQGISClient@v{}".format(__version__)
+_USER_AGENT = "OHSOMEQGISClient@v{}".format(__version__)
 
 
 class Client(QObject):

@@ -33,11 +33,11 @@ from PyQt5.QtWidgets import QDialog, QInputDialog
 
 from qgis.gui import QgsCollapsibleGroupBox
 
-from .ORStoolsDialogConfigUI import Ui_ORStoolsDialogConfigBase
+from .OhsomeQgisDialogConfigUI import Ui_OhsomeQgisDialogConfigBase
 from OhsomeQgis.utils import configmanager
 
 
-class ORStoolsDialogConfigMain(QDialog, Ui_ORStoolsDialogConfigBase):
+class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
     """Builds provider config dialog."""
 
     def __init__(self, parent=None):

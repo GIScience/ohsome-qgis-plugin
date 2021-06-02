@@ -78,8 +78,8 @@ from OhsomeQgis.common import (
 )
 from OhsomeQgis.gui import directions_gui
 
-from .ORStoolsDialogUI import Ui_ORStoolsDialogBase
-from .ORStoolsDialogConfig import ORStoolsDialogConfigMain
+from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
+from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
 
 
 def on_config_click(parent):
@@ -88,7 +88,7 @@ def on_config_click(parent):
     :param parent: Sets parent window for modality.
     :type parent: QDialog
     """
-    config_dlg = ORStoolsDialogConfigMain(parent=parent)
+    config_dlg = OhsomeQgisDialogConfigMain(parent=parent)
     config_dlg.exec_()
 
 
@@ -115,7 +115,7 @@ def on_about_click(parent):
     QMessageBox.information(parent, "About {}".format(PLUGIN_NAME), info)
 
 
-class ORStoolsDialogMain:
+class OhsomeQgisDialogMain:
     """Defines all mandatory QGIS things about dialog."""
 
     def __init__(self, iface):
@@ -148,7 +148,7 @@ class ORStoolsDialogMain:
             """
             return QIcon(RESOURCE_PREFIX + f)
 
-        icon_plugin = create_icon("icon_orstools.png")
+        icon_plugin = create_icon("icon_ohsome.png")
 
         self.actions = [
             QAction(
@@ -223,7 +223,7 @@ class ORStoolsDialogMain:
         # If not checked, GUI would be rebuilt every time!
         if self.first_start:
             self.first_start = False
-            self.dlg = ORStoolsDialog(
+            self.dlg = OhsomeQgisDialog(
                 self.iface, self.iface.mainWindow()
             )  # setting parent enables modal view
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
@@ -387,7 +387,7 @@ Please add polygons to the layer or uncheck avoid polygons.
             self.dlg.debug_text.setHtml(clnt_msg)
 
 
-class ORStoolsDialog(QDialog, Ui_ORStoolsDialogBase):
+class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
     """Define the custom behaviour of Dialog"""
 
     def __init__(self, iface, parent=None):
