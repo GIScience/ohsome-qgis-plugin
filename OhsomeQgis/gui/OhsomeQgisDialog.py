@@ -397,6 +397,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
         #### Set up signals/slots ####
 
+        # Update preferences on api selection
         self.routing_travel_combo.currentIndexChanged.connect(
             self._set_preferences
         )
