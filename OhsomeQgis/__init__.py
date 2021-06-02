@@ -40,7 +40,7 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
 
-    from .ORStoolsPlugin import ORStools
+    from .OhsomeQgisPlugin import ORStools
 
     return ORStools(iface)
 
