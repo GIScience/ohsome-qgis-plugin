@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 
+import osgeo as osgeo
 from PyQt5.QtWidgets import QDialog, QListWidget, QListWidgetItem
-from osgeo import ogr
+
 from qgis.core import QgsVectorLayer, QgsMapLayer
 
 from . import ProcessManager, QGISHelper
-from .client import OhsomeClient
 from .utils import (
     check_list_duplicates,
     combine_layer_geometries,
@@ -32,7 +32,9 @@ class DataExtractionQGISHelper(QGISHelper):
                     "type": "Feature",
                     "properties": {"id": f"{qgs_layer.name()}"},
                     "geometry": json.loads(
-                        ogr.CreateGeometryFromWkt(wkt_geometry).ExportToJson()
+                        osgeo.ogr.CreateGeometryFromWkt(
+                            wkt_geometry
+                        ).ExportToJson()
                     ),
                 }
                 feature_collection["features"].append(feature)
@@ -130,7 +132,9 @@ class DataExtractionProcessManager(ProcessManager):
             )
             filter4 = "building=yes and type:way"
             time2 = "2016-07-08/2019-10-08/P1M"
-            client = OhsomeClient()
+            from ohsome import OhsomeClient
+
+            client = OhsomeClient(base_api_url="127.0.0.1:8080")
             response = client.elements.geometry.post(
                 bpolys=json.dumps(bpolys),
                 time=time,

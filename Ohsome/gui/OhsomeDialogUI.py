@@ -34,13 +34,6 @@ from qgis.core import Qgis, QgsUnitTypes
 from qgis.utils import iface
 
 from .exceptions import OhsomeException
-from .response import OhsomeResponse
-from .utils import (
-    load_layers_to_canvas,
-    sort_and_combine_vector_layer,
-    postprocess_vlayer,
-    convert_mixed_collection,
-)
 
 PROFILES = ["data_extraction"]
 
@@ -302,8 +295,13 @@ class ProcessManager(object):
             return 1
         pass
 
-    def _process_results(self, result: OhsomeResponse):
+    def _process_results(self, result):
+        from ohsome import OhsomeResponse
+
+        result: OhsomeResponse
         if result.status_code == 200:
+            from common.utils import convert_mixed_collection
+
             converted_results = convert_mixed_collection(result.data)
             for feature_type in converted_results:
                 try:
@@ -319,6 +317,8 @@ class ProcessManager(object):
                             level=Qgis.Warning,
                         )
                         raise
+                    from common.utils import sort_and_combine_vector_layer
+
                     sorted_qgs_vector_layer: list = (
                         sort_and_combine_vector_layer(
                             vlayer,
@@ -326,6 +326,8 @@ class ProcessManager(object):
                         )
                     )
                     # vlayer = postprocess_vlayer(vlayer ,self._check_activate_temporal)
+                    from common.utils import load_layers_to_canvas
+
                     load_layers_to_canvas(sorted_qgs_vector_layer)
                 except Exception as err:
                     raise OhsomeException(

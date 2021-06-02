@@ -25,41 +25,23 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QAction,
     QDialogButtonBox,
-    QDialog,
-    QPushButton,
-    QComboBox,
-    QListWidget,
-    QListWidgetItem,
-    QCheckBox,
-    QDateEdit,
-    QTabWidget,
     QWidget,
 )
 
 # Initialize Qt resources from file resources.py
-from qgis.core import (
-    QgsProject,
-    QgsVectorLayer,
-    QgsMapLayer,
-    QgsMapLayerType,
-    QgsWkbTypes,
-    QgsSettings,
-)
+from qgis._core import QgsApplication
 
-from .common.data_extraction import (
-    DataExtractionProcessManager,
-    DataExtractionQGISHelper,
-)
-from .resources import *
-from .ohsome_plugin_dialog import OhsomePluginDialog
+from .common.data_extraction import DataExtractionProcessManager
+from .gui import OhsomePluginDialog
+from .proc import provider
 import os.path
 
 # Debugging
-import sys
-
-sys.path.append(
-    "/home/jules/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/201.7846.77/debug-eggs/pydevd-pycharm.egg"
-)
+# import sys
+#
+# sys.path.append(
+#     "/home/jules/.local/share/JetBrains/Toolbox/apps/PyCharm-P/ch-0/211.7142.13/debug-eggs/pydevd-pycharm.egg"
+# )
 
 
 class OhsomePlugin:
@@ -73,6 +55,10 @@ class OhsomePlugin:
             application at run time.
         :type iface: QgsInterface
         """
+
+        self.dialog = OhsomePluginDialog.OhsomePluginDialogMain(iface)
+        self.provider = provider.OhsomeProvider()
+
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
@@ -187,6 +173,9 @@ class OhsomePlugin:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
+        QgsApplication.processingRegistry().addProvider(self.provider)
+        self.dialog.initGui()
+
         icon_path = ":/plugins/OhsomePlugin/img/icon.png"
         self.add_action(
             icon_path,
@@ -211,10 +200,11 @@ class OhsomePlugin:
 
     def run(self):
         """Run method that performs all the real work"""
-        import pydevd
+        import pydevd_pycharm
 
-        # pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
-
+        pydevd_pycharm.settrace(
+            "localhost", port=53100, stdoutToServer=True, stderrToServer=True
+        )
         # Create the dialog with elements (after translation) and keep reference
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if self.first_start == True:
