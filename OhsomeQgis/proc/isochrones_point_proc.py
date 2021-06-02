@@ -42,7 +42,7 @@ from qgis.core import (
 )
 from . import HELP_DIR
 from OhsomeQgis import RESOURCE_PREFIX, __help__
-from OhsomeQgis.common import client, isochrones_core, PROFILES, DIMENSIONS
+from OhsomeQgis.common import client, isochrones_core, API_ENDPOINTS, DIMENSIONS
 from OhsomeQgis.utils import (
     convert,
     transform,
@@ -102,8 +102,8 @@ class ORSisochronesPointAlgo(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.IN_PROFILE,
                 "Travel mode",
-                PROFILES,
-                defaultValue=PROFILES[0],
+                API_ENDPOINTS,
+                defaultValue=API_ENDPOINTS[0],
             )
         )
 
@@ -178,7 +178,7 @@ class ORSisochronesPointAlgo(QgsProcessingAlgorithm):
         params = dict()
         params["attributes"] = ["total_pop"]
 
-        profile = PROFILES[
+        profile = API_ENDPOINTS[
             self.parameterAsEnum(parameters, self.IN_PROFILE, context)
         ]
         params["range_type"] = dimension = DIMENSIONS[

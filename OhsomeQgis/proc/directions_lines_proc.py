@@ -42,7 +42,12 @@ from qgis.core import (
 )
 from . import HELP_DIR
 from OhsomeQgis import RESOURCE_PREFIX, __help__
-from OhsomeQgis.common import client, directions_core, PROFILES, PREFERENCES
+from OhsomeQgis.common import (
+    client,
+    directions_core,
+    API_ENDPOINTS,
+    PREFERENCES,
+)
 from OhsomeQgis.utils import (
     configmanager,
     transform,
@@ -104,8 +109,8 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.IN_PROFILE,
                 "Travel mode",
-                PROFILES,
-                defaultValue=PROFILES[0],
+                API_ENDPOINTS,
+                defaultValue=API_ENDPOINTS[0],
             )
         )
 
@@ -176,7 +181,7 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
             lambda: feedback.reportError("OverQueryLimit: Retrying...")
         )
 
-        profile = PROFILES[
+        profile = API_ENDPOINTS[
             self.parameterAsEnum(parameters, self.IN_PROFILE, context)
         ]
 

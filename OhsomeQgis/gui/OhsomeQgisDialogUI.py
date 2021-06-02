@@ -330,7 +330,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_2.addWidget(self.label_4, 0, 0, 1, 4)
         self.optimize_start = QtWidgets.QRadioButton(self.optimization_group)
         self.optimize_start.setObjectName("optimize_start")
-        self.optimize_button_group = QtWidgets.QButtonGroup(OhsomeQgisDialogBase)
+        self.optimize_button_group = QtWidgets.QButtonGroup(
+            OhsomeQgisDialogBase
+        )
         self.optimize_button_group.setObjectName("optimize_button_group")
         self.optimize_button_group.addButton(self.optimize_start)
         self.gridLayout_2.addWidget(self.optimize_start, 2, 1, 1, 1)
@@ -671,13 +673,13 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.routing_travel_label.setText(
-            _translate("OhsomeQgisDialogBase", "Go with")
+            _translate("OhsomeQgisDialogBase", "Select a spec")
         )
         self.routing_travel_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Mode of travel")
+            _translate("OhsomeQgisDialogBase", "Ohsome Endpoint")
         )
         self.routing_preference_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Preference")
+            _translate("OhsomeQgisDialogBase", "Request preference")
         )
         self.routing_fromline_map.setToolTip(
             _translate(
@@ -812,7 +814,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.batch_routing_points.setText(
             _translate("OhsomeQgisDialogBase", "Points (2 Layer)")
         )
-        self.groupBox_2.setTitle(_translate("OhsomeQgisDialogBase", "Isochrones"))
+        self.groupBox_2.setTitle(
+            _translate("OhsomeQgisDialogBase", "Isochrones")
+        )
         self.batch_iso_point.setText(
             _translate("OhsomeQgisDialogBase", "Isochrones from Point")
         )
@@ -828,7 +832,8 @@ class Ui_OhsomeQgisDialogBase(object):
         self.ors_log_group.setTitle(_translate("OhsomeQgisDialogBase", "Log"))
         self.debug_text.setPlaceholderText(
             _translate(
-                "OhsomeQgisDialogBase", "Queries and errors will be printed here."
+                "OhsomeQgisDialogBase",
+                "Queries and errors will be printed here.",
             )
         )
         self.help_button.setText(_translate("OhsomeQgisDialogBase", "  Help"))
