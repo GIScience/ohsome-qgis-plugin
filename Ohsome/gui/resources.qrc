@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/OhsomePlugin" >
-        <file>img/icon.png</file>
-        <file>img/icon_add.png</file>
-        <file>img/icon_clear.png</file>
-        <file>img/icon_refresh.png</file>
-        <file>img/icon_settings.png</file>
-    </qresource>
-</RCC>
