@@ -370,11 +370,11 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         :param parent: parent window for modality.
         :type parent: QDialog/QApplication
         """
-        import pydevd_pycharm
-
-        pydevd_pycharm.settrace(
-            "127.0.0.1", port=53100, stdoutToServer=True, stderrToServer=True
-        )
+        # import pydevd_pycharm
+        #
+        # pydevd_pycharm.settrace(
+        #     "127.0.0.1", port=53100, stdoutToServer=True, stderrToServer=True
+        # )
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
