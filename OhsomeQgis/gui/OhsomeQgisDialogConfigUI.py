@@ -63,7 +63,9 @@ class Ui_OhsomeQgisDialogConfigBase(object):
         OhsomeQgisDialogConfigBase.setWindowTitle(
             _translate("OhsomeQgisDialogConfigBase", "Provider Settings")
         )
-        self.provider_add.setText(_translate("OhsomeQgisDialogConfigBase", "Add"))
+        self.provider_add.setText(
+            _translate("OhsomeQgisDialogConfigBase", "Add")
+        )
         self.provider_remove.setText(
             _translate("OhsomeQgisDialogConfigBase", "Remove")
         )
