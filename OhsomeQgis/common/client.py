@@ -3,20 +3,17 @@
 /***************************************************************************
  OhsomeQgis
                                  A QGIS plugin
- QGIS client to query openrouteservice
+ QGIS client to query the ohsome api
                               -------------------
-        begin                : 2017-02-01
+        begin                : 2021-05-01
         git sha              : $Format:%H$
-        copyright            : (C) 2017 by Nils Nolde
-        email                : nils.nolde@gmail.com
+        copyright            : (C) 2021 by Julian Psotta
+        email                : julianpsotta@gmail.com
  ***************************************************************************/
 
- This plugin provides access to the various APIs from OpenRouteService
- (https://openrouteservice.org), developed and
- maintained by GIScience team at University of Heidelberg, Germany. By using
- this plugin you agree to the ORS terms of service
- (https://openrouteservice.org/terms-of-service/).
-
+ This plugin provides access to the API from Ohsome
+ (https://ohsome.org), developed and
+ maintained by GIScience team at University of Heidelberg, Germany.
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,7 +54,6 @@ class Client(QObject):
         """
         QObject.__init__(self)
 
-        self.key = provider["key"]
         self.base_url = provider["base_url"]
         self.ENV_VARS = provider.get("ENV_VARS")
 
@@ -68,7 +64,6 @@ class Client(QObject):
         self.headers = {
             "User-Agent": _USER_AGENT,
             "Content-type": "application/json",
-            "Authorization": provider["key"],
         }
 
         # Save some references to retrieve in client instances

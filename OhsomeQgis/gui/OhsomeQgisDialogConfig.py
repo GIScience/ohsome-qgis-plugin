@@ -3,20 +3,17 @@
 /***************************************************************************
  OhsomeQgis
                                  A QGIS plugin
- QGIS client to query openrouteservice
+ QGIS client to query the ohsome api
                               -------------------
-        begin                : 2017-02-01
+        begin                : 2021-05-01
         git sha              : $Format:%H$
-        copyright            : (C) 2017 by Nils Nolde
-        email                : nils.nolde@gmail.com
+        copyright            : (C) 2021 by Julian Psotta
+        email                : julianpsotta@gmail.com
  ***************************************************************************/
 
- This plugin provides access to the various APIs from OpenRouteService
- (https://openrouteservice.org), developed and
- maintained by GIScience team at University of Heidelberg, Germany. By using
- this plugin you agree to the ORS terms of service
- (https://openrouteservice.org/terms-of-service/).
-
+ This plugin provides access to the API from Ohsome
+ (https://ohsome.org), developed and
+ maintained by GIScience team at University of Heidelberg, Germany.
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -64,9 +61,6 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
         collapsible_boxes = self.providers.findChildren(QgsCollapsibleGroupBox)
         for idx, box in enumerate(collapsible_boxes):
             current_provider = self.temp_config["providers"][idx]
-            current_provider["key"] = box.findChild(
-                QtWidgets.QLineEdit, box.title() + "_key_text"
-            ).text()
             current_provider["base_url"] = box.findChild(
                 QtWidgets.QLineEdit, box.title() + "_base_url_text"
             ).text()
@@ -81,7 +75,6 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
             self._add_box(
                 provider_entry["name"],
                 provider_entry["base_url"],
-                provider_entry["key"],
                 new=False,
             )
 
@@ -136,7 +129,7 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
         for box in collapsible_boxes:
             box.setCollapsed(True)
 
-    def _add_box(self, name, url, key, new=False):
+    def _add_box(self, name, url, new=False):
         """
         Adds a provider box to the QWidget layout and self.temp_config.
 
@@ -146,38 +139,21 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
         :param url: provider's base url
         :type url: str
 
-        :param key: user's API key
-        :type key: str
-
         :param new: Specifies whether user wants to insert provider or the GUI is being built.
         :type new: boolean
         """
         if new:
-            self.temp_config["providers"].append(
-                dict(
-                    name=name,
-                    base_url=url,
-                    key=key,
-                )
-            )
+            self.temp_config["providers"].append(dict(name=name, base_url=url))
 
         provider = QgsCollapsibleGroupBox(self.providers)
         provider.setObjectName(name)
         provider.setTitle(name)
         gridLayout_3 = QtWidgets.QGridLayout(provider)
         gridLayout_3.setObjectName(name + "_grid")
-        key_label = QtWidgets.QLabel(provider)
-        key_label.setObjectName(name + "_key_label")
-        key_label.setText("API Key")
-        gridLayout_3.addWidget(key_label, 0, 0, 1, 1)
         base_url_text = QtWidgets.QLineEdit(provider)
         base_url_text.setObjectName(name + "_base_url_text")
         base_url_text.setText(url)
         gridLayout_3.addWidget(base_url_text, 3, 0, 1, 4)
-        key_text = QtWidgets.QLineEdit(provider)
-        key_text.setObjectName(name + "_key_text")
-        key_text.setText(key)
-        gridLayout_3.addWidget(key_text, 1, 0, 1, 4)
         base_url_label = QtWidgets.QLabel(provider)
         base_url_label.setObjectName("base_url_label")
         base_url_label.setText("Base URL")
