@@ -44,7 +44,7 @@ from qgis.core import (
 )
 from . import HELP_DIR
 from OhsomeQgis import RESOURCE_PREFIX, __help__
-from OhsomeQgis.common import client, PROFILES
+from OhsomeQgis.common import client, API_ENDPOINTS
 from OhsomeQgis.utils import transform, exceptions, logger, configmanager
 
 
@@ -115,8 +115,8 @@ class ORSmatrixAlgo(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.IN_PROFILE,
                 "Travel mode",
-                PROFILES,
-                defaultValue=PROFILES[0],
+                API_ENDPOINTS,
+                defaultValue=API_ENDPOINTS[0],
             )
         )
 
@@ -173,7 +173,7 @@ class ORSmatrixAlgo(QgsProcessingAlgorithm):
         params = dict()
 
         # Get profile value
-        profile = PROFILES[
+        profile = API_ENDPOINTS[
             self.parameterAsEnum(parameters, self.IN_PROFILE, context)
         ]
 

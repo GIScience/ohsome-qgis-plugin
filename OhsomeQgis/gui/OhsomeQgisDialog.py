@@ -70,8 +70,10 @@ from OhsomeQgis.utils import (
 from OhsomeQgis.common import (
     client,
     directions_core,
-    PROFILES,
+    API_ENDPOINTS,
     PREFERENCES,
+    EXTRACTION_PREFERENCES,
+    AGGREGATION_PREFERENCES,
 )
 from OhsomeQgis.gui import directions_gui
 
@@ -386,6 +388,11 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         :param parent: parent window for modality.
         :type parent: QDialog/QApplication
         """
+        import pydevd_pycharm
+
+        pydevd_pycharm.settrace(
+            "127.0.0.1", port=53100, stdoutToServer=True, stderrToServer=True
+        )
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
@@ -403,14 +410,18 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         # os.environ["OHSOME_REMAINING"] = "None"
 
         # Populate combo boxes
-        self.routing_travel_combo.addItems(PROFILES)
-        self.routing_preference_combo.addItems(PREFERENCES)
+        self.routing_travel_combo.addItems(API_ENDPOINTS)
+        self._set_preferences()
 
         # Change OK and Cancel button names
         self.global_buttons.button(QDialogButtonBox.Ok).setText("Apply")
         self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
 
         #### Set up signals/slots ####
+
+        self.routing_travel_combo.currentIndexChanged.connect(
+            self._set_preferences
+        )
 
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
@@ -457,6 +468,15 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
                 "{}:matrix_from_layers".format(PLUGIN_NAME)
             )
         )
+
+    # On Spec selection
+    def _set_preferences(self):
+        if self.routing_travel_combo.currentText() == API_ENDPOINTS[0]:
+            self.routing_preference_combo.clear()
+            self.routing_preference_combo.addItems(EXTRACTION_PREFERENCES)
+        else:
+            self.routing_preference_combo.clear()
+            self.routing_preference_combo.addItems(AGGREGATION_PREFERENCES)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""

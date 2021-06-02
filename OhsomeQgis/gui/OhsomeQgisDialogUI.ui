@@ -219,21 +219,21 @@
           <item>
            <widget class="QLabel" name="routing_travel_label">
             <property name="text">
-             <string>Go with</string>
+             <string>Select a spec</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QComboBox" name="routing_travel_combo">
             <property name="toolTip">
-             <string>Mode of travel</string>
+             <string>Ohsome Endpoint</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QComboBox" name="routing_preference_combo">
             <property name="toolTip">
-             <string>Preference</string>
+             <string>Request preference</string>
             </property>
            </widget>
           </item>
