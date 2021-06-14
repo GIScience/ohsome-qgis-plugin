@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
+    <width>423</width>
     <height>868</height>
    </rect>
   </property>
@@ -59,7 +59,10 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://openrouteservice.org/dev/#/signup&quot;&gt;&lt;span style=&quot;font-weight: bold; text-decoration: underline; color:#a8b1f5;&quot;&gt;Sign Up&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://api.ohsome.org/v1/swagger-ui.html&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;&quot;&gt;API&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>
@@ -75,7 +78,10 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://openrouteservice.org/dev/#/home&quot;&gt;&lt;span style=&quot;font-weight: bold; text-decoration: underline; color:#a8b1f5;&quot;&gt;Dashboard&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://heigit.org/big-spatial-data-analytics-en/ohsome/&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline; color:#2eb8e6;&quot;&gt;OHSOME&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>
@@ -91,7 +97,10 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://ask.openrouteservice.org/c/sdks&quot;&gt;&lt;span style=&quot;font-weight: bold; text-decoration: underline; color:#a8b1f5;&quot;&gt;Forum&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://ohsome.org/apps/osm-history-explorer/&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;&quot;&gt;HEX&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>
@@ -177,6 +186,39 @@
     </widget>
    </item>
    <item>
+    <widget class="QWidget" name="widget_3" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_10">
+      <item>
+       <widget class="QLabel" name="routing_travel_label">
+        <property name="text">
+         <string>Select a spec</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="routing_travel_combo">
+        <property name="toolTip">
+         <string>Ohsome Endpoint</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="routing_preference_combo">
+        <property name="toolTip">
+         <string>Request preference</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -212,31 +254,10 @@
        </property>
        <item>
         <widget class="QWidget" name="routing_travel_group" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3,2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
-          <item>
-           <widget class="QLabel" name="routing_travel_label">
-            <property name="text">
-             <string>Select a spec</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="routing_travel_combo">
-            <property name="toolTip">
-             <string>Ohsome Endpoint</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="routing_preference_combo">
-            <property name="toolTip">
-             <string>Request preference</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -280,7 +301,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/plugins/OhsomeQgis/gui/img/icon_add.png</normaloff>:/plugins/OhsomeQgis/img/icon_add.png</iconset>
+              <normaloff>:/plugins/OhsomeQgis/img/icon_add.png</normaloff>:/plugins/OhsomeQgis/img/icon_add.png</iconset>
             </property>
            </widget>
           </item>
@@ -352,7 +373,7 @@
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>23</height>
+           <height>28</height>
           </size>
          </property>
          <property name="title">
@@ -391,7 +412,7 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>23</height>
+              <height>28</height>
              </size>
             </property>
             <property name="toolTip">
@@ -561,7 +582,7 @@ p, li { white-space: pre-wrap; }
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>23</height>
+              <height>28</height>
              </size>
             </property>
             <property name="toolTip">
@@ -607,7 +628,7 @@ p, li { white-space: pre-wrap; }
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>23</height>
+              <height>28</height>
              </size>
             </property>
             <property name="toolTip">
@@ -773,7 +794,7 @@ p, li { white-space: pre-wrap; }
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>23</height>
+       <height>28</height>
       </size>
      </property>
      <property name="title">
@@ -885,6 +906,7 @@ p, li { white-space: pre-wrap; }
   <zorder>widget_2</zorder>
   <zorder>ors_log_group</zorder>
   <zorder>tabWidget</zorder>
+  <zorder>widget_3</zorder>
  </widget>
  <customwidgets>
   <customwidget>
