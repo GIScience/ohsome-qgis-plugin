@@ -35,6 +35,8 @@ from PyQt5.QtWidgets import (
     QMenu,
     QMessageBox,
     QDialogButtonBox,
+    QListWidget,
+    QListWidgetItem,
 )
 from PyQt5.QtGui import QIcon, QTextDocument
 from PyQt5.QtCore import QSizeF, QPointF
@@ -75,10 +77,11 @@ from OhsomeQgis.common import (
     EXTRACTION_PREFERENCES,
     AGGREGATION_PREFERENCES,
 )
-from OhsomeQgis.gui import directions_gui
+from OhsomeQgis.gui import ohsome_gui
 
 from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
+from ..utils.datamanager import check_list_duplicates
 
 
 def on_config_click(parent):
@@ -213,9 +216,7 @@ class OhsomeQgisDialogMain:
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
-            self.dlg.avoidpolygon_dropdown.setFilters(
-                QgsMapLayerProxyModel.PolygonLayer
-            )
+            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
@@ -229,7 +230,7 @@ class OhsomeQgisDialogMain:
         """Slot function for OK button of main dialog."""
 
         layer_out = QgsVectorLayer(
-            "LineString?crs=EPSG:4326", "Route_ORS", "memory"
+            "LineString?crs=EPSG:4326", "Time_OHSOME    ", "memory"
         )
         layer_out.dataProvider().addAttributes(directions_core.get_fields())
         layer_out.updateFields()
@@ -246,20 +247,36 @@ class OhsomeQgisDialogMain:
         provider_id = self.dlg.provider_combo.currentIndex()
         provider = configmanager.read_config()["providers"][provider_id]
 
-        # if there are no coordinates, throw an error message
-        if not self.dlg.routing_fromline_list.count():
+        # if there are no centroids or layers, throw an error message
+        tab_index = self.dlg.request_types_widget.currentIndex()
+        if (
+            tab_index == 0
+            and not self.dlg.ohsome_centroid_location_list.count()
+        ):
             QMessageBox.critical(
                 self.dlg,
-                "Missing Waypoints",
+                "Missing Centroid locations",
                 """
-                Did you forget to set routing waypoints?<br><br>
+                Did you forget to set centroids?<br><br>
 
-                Use the 'Add Waypoint' button to add up to 50 waypoints.
+                Use the 'Add Centroid' button to add centroids.
                 """,
             )
             return
+        elif tab_index == 1 and not self.dlg.layer_list.count():
+            QMessageBox.critical(
+                self.dlg,
+                "Missing layers",
+                """
+                Did you forget to set one?<br><br>
 
-        # if no API key is present, when ORS is selected, throw an error message
+                Use the 'Add Layers' button to add multiple layers.
+                """,
+            )
+            return
+        elif tab_index != 0 and tab_index != 1:
+            return
+            # if no API key is present, when ORS is selected, throw an error message
         if provider["base_url"].startswith("https://api.ohsome.org/"):
             QMessageBox.information(
                 self.dlg,
@@ -269,10 +286,10 @@ class OhsomeQgisDialogMain:
         clnt = client.Client(provider)
         clnt_msg = ""
 
-        directions = directions_gui.Directions(self.dlg)
+        specification = ohsome_gui.Spec(self.dlg)
         params = None
         try:
-            params = directions.get_parameters()
+            params = specification.get_parameters()
             if self.dlg.optimization_group.isChecked():
                 if (
                     len(params["jobs"]) <= 1
@@ -291,8 +308,8 @@ Remember, the first and last location are not part of the optimization.
                     response, params["vehicles"][0]["profile"]
                 )
             else:
-                params["coordinates"] = directions.get_request_line_feature()
-                profile = self.dlg.routing_travel_combo.currentText()
+                params["coordinates"] = specification.get_request_line_feature()
+                profile = self.dlg.ohsome_spec_selection_combo.currentText()
                 # abort on empty avoid polygons layer
                 if (
                     "options" in params
@@ -317,7 +334,10 @@ Please add polygons to the layer or uncheck avoid polygons.
                     post_json=params,
                 )
                 feat = directions_core.get_output_feature_directions(
-                    response, profile, params["preference"], directions.options
+                    response,
+                    profile,
+                    params["preference"],
+                    specification.options,
                 )
 
             layer_out.dataProvider().addFeature(feat)
@@ -370,11 +390,17 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         :param parent: parent window for modality.
         :type parent: QDialog/QApplication
         """
-        # import pydevd_pycharm
-        #
-        # pydevd_pycharm.settrace(
-        #     "127.0.0.1", port=53100, stdoutToServer=True, stderrToServer=True
-        # )
+
+        runtime_config = configmanager.read_config()["runtime"]
+        if runtime_config["debug"]:
+            import pydevd_pycharm
+
+            pydevd_pycharm.settrace(
+                "127.0.0.1",
+                port=53101,
+                stdoutToServer=True,
+                stderrToServer=True,
+            )
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
@@ -383,12 +409,13 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.map_crs = self._iface.mapCanvas().mapSettings().destinationCrs()
 
         # Set things around the custom map tool
-        self.line_tool = None
+        self.point_tool = None
         self.last_maptool = self._iface.mapCanvas().mapTool()
         self.annotations = []
 
         # Populate combo boxes
-        self.routing_travel_combo.addItems(API_ENDPOINTS)
+        self.ohsome_spec_selection_combo.clear()
+        self.ohsome_spec_selection_combo.addItems(API_ENDPOINTS)
         self._set_preferences()
 
         # Change OK and Cancel button names
@@ -398,7 +425,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         #### Set up signals/slots ####
 
         # Update preferences on api selection
-        self.routing_travel_combo.currentIndexChanged.connect(
+        self.ohsome_spec_selection_combo.currentIndexChanged.connect(
             self._set_preferences
         )
 
@@ -410,9 +437,12 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         )
         self.provider_refresh.clicked.connect(self._on_prov_refresh_click)
 
+        # Layer tab
+        self.layer_list_add.clicked.connect(self._add_layer)
+        self.layer_list_remove.clicked.connect(self._remove_layer)
         # Routing tab
-        self.routing_fromline_map.clicked.connect(self._on_linetool_init)
-        self.routing_fromline_clear.clicked.connect(
+        self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
+        self.centroid_list_point_clear.clicked.connect(
             self._on_clear_listwidget_click
         )
 
@@ -450,12 +480,12 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
     # On Spec selection
     def _set_preferences(self):
-        if self.routing_travel_combo.currentText() == API_ENDPOINTS[0]:
-            self.routing_preference_combo.clear()
-            self.routing_preference_combo.addItems(EXTRACTION_PREFERENCES)
+        if self.ohsome_spec_selection_combo.currentText() == API_ENDPOINTS[0]:
+            self.ohsome_spec_preference_combo.clear()
+            self.ohsome_spec_preference_combo.addItems(EXTRACTION_PREFERENCES)
         else:
-            self.routing_preference_combo.clear()
-            self.routing_preference_combo.addItems(AGGREGATION_PREFERENCES)
+            self.ohsome_spec_preference_combo.clear()
+            self.ohsome_spec_preference_combo.addItems(AGGREGATION_PREFERENCES)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
@@ -467,19 +497,19 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
     def _on_clear_listwidget_click(self):
         """Clears the contents of the QgsListWidget and the annotations."""
-        items = self.routing_fromline_list.selectedItems()
+        items = self.ohsome_centroid_location_list.selectedItems()
         if items:
             # if items are selected, only clear those
             for item in items:
-                row = self.routing_fromline_list.row(item)
-                self.routing_fromline_list.takeItem(row)
+                row = self.ohsome_centroid_location_list.row(item)
+                self.ohsome_centroid_location_list.takeItem(row)
                 if self.annotations:
                     self.project.annotationManager().removeAnnotation(
                         self.annotations.pop(row)
                     )
         else:
             # else clear all items and annotations
-            self.routing_fromline_list.clear()
+            self.ohsome_centroid_location_list.clear()
             self._clear_annotations()
 
     def _linetool_annotate_point(self, point, idx):
@@ -508,35 +538,34 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.annotations = []
 
     def _on_linetool_init(self):
-        """Hides GUI dialog, inits line maptool and add items to line list box."""
-        self.hide()
-        self.routing_fromline_list.clear()
+        """Inits line maptool and add items to point list box."""
+        self.ohsome_centroid_location_list.clear()
         # Remove all annotations which were added (if any)
         self._clear_annotations()
 
-        self.line_tool = maptools.LineTool(self._iface.mapCanvas())
-        self._iface.mapCanvas().setMapTool(self.line_tool)
-        self.line_tool.pointDrawn.connect(
-            lambda point, idx: self._on_linetool_map_click(point, idx)
+        self.point_tool = maptools.PointTool(self._iface.mapCanvas())
+        self._iface.mapCanvas().setMapTool(self.point_tool)
+        self.point_tool.pointDrawn.connect(
+            lambda point, idx: self._on_linetool_map_click(
+                point, idx, self.centroid_radius_input.value()
+            )
         )
-        self.line_tool.doubleClicked.connect(self._on_linetool_map_doubleclick)
+        self.point_tool.doubleClicked.connect(self._on_linetool_map_deactivate)
 
-    def _on_linetool_map_click(self, point, idx):
+    def _on_linetool_map_click(self, point, idx, radius):
         """Adds an item to QgsListWidget and annotates the point in the map canvas"""
 
         transformer = transform.transformToWGS(self.map_crs)
         point_wgs = transformer.transform(point)
-        self.routing_fromline_list.addItem(
-            "Point {0}: {1:.6f}, {2:.6f}".format(
-                idx, point_wgs.x(), point_wgs.y()
-            )
+        self.ohsome_centroid_location_list.addItem(
+            f"Point {idx}: {point_wgs.x():.6f}, {point_wgs.y():.6f} | Radius: {radius}"
         )
 
         annotation = self._linetool_annotate_point(point, idx)
         self.annotations.append(annotation)
         self.project.annotationManager().addAnnotation(annotation)
 
-    def _on_linetool_map_doubleclick(self):
+    def _on_linetool_map_deactivate(self):
         """
         Populate line list widget with coordinates, end line drawing and show dialog again.
 
@@ -544,8 +573,28 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         :type points_num: int
         """
 
-        self.line_tool.pointDrawn.disconnect()
-        self.line_tool.doubleClicked.disconnect()
+        self.point_tool.pointDrawn.disconnect()
+        self.point_tool.doubleClicked.disconnect()
         QApplication.restoreOverrideCursor()
         self._iface.mapCanvas().setMapTool(self.last_maptool)
         self.show()
+
+    def _add_layer(self) -> bool:
+        layer = self.layer_input.currentLayer()
+        if layer and not check_list_duplicates(self.layer_list, layer.name()):
+            self.layer_list.addItem(layer.name())
+            self.layer_input.setCurrentIndex(0)
+            # self.add_to_settings("layer_list", layer.name(), append=True)
+        else:
+            return False
+        return True
+
+    def _remove_layer(self):
+        layers: QListWidget = self.layer_list
+        selected_layers: [QListWidgetItem] = layers.selectedItems()
+        if not selected_layers:
+            return
+        element: QListWidgetItem
+        for element in selected_layers:
+            self.layer_list.takeItem(self.layer_list.row(element))
+            # self.remove_value_from_settings("layer_list", element.text())

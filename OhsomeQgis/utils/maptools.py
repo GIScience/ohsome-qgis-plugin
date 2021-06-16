@@ -25,15 +25,15 @@
 """
 
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QCursor, QPixmap
+from PyQt5.QtWidgets import QApplication
 
-from qgis.core import QgsWkbTypes
-from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
+from qgis.gui import QgsMapToolEmitPoint
 
-from OhsomeQgis import DEFAULT_COLOR
+from OhsomeQgis import RESOURCE_PREFIX
 
 
-class LineTool(QgsMapToolEmitPoint):
+class PointTool(QgsMapToolEmitPoint):
     """Line Map tool to capture mapped lines."""
 
     def __init__(self, canvas):
@@ -44,20 +44,19 @@ class LineTool(QgsMapToolEmitPoint):
         self.canvas = canvas
         QgsMapToolEmitPoint.__init__(self, self.canvas)
 
-        self.rubberBand = QgsRubberBand(self.canvas, False)
-        self.rubberBand.setStrokeColor(QColor(DEFAULT_COLOR))
-        self.rubberBand.setWidth(3)
-
         self.crsSrc = self.canvas.mapSettings().destinationCrs()
-        self.previous_point = None
         self.points = []
+        self.cursor = QCursor(
+            QPixmap(RESOURCE_PREFIX + "icon_locate.png").scaledToWidth(48),
+            24,
+            24,
+        )
         self.reset()
 
     def reset(self):
-        """reset rubberband and captured points."""
+        """reset captured points."""
 
         self.points = []
-        self.rubberBand.reset(QgsWkbTypes.LineGeometry)
 
     pointDrawn = pyqtSignal(["QgsPointXY", "int"])
 
@@ -67,27 +66,16 @@ class LineTool(QgsMapToolEmitPoint):
         self.points.append(new_point)
 
         self.pointDrawn.emit(new_point, self.points.index(new_point))
-        self.showLine()
-
-    def showLine(self):
-        """Builds rubberband from all points and adds it to the map canvas."""
-        self.rubberBand.reset(QgsWkbTypes.LineGeometry)
-        for point in self.points:
-            if point == self.points[-1]:
-                self.rubberBand.addPoint(point, True)
-            self.rubberBand.addPoint(point, False)
-        self.rubberBand.show()
 
     doubleClicked = pyqtSignal()
 
     def canvasDoubleClickEvent(self, e):
-        """Ends line drawing and deletes rubberband and markers from map canvas."""
+        """Deletes markers from map canvas."""
         self.doubleClicked.emit()
-        self.canvas.scene().removeItem(self.rubberBand)
+        QApplication.restoreOverrideCursor()
 
-    def deactivate(self):
-        super(LineTool, self).deactivate()
-        self.deactivated.emit()
+    def activate(self):
+        QApplication.setOverrideCursor(self.cursor)
 
 
 # class PointTool(QgsMapToolEmitPoint):

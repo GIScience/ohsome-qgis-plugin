@@ -1,7 +1,9 @@
+runtime:
+  debug: true
 providers:
 - ENV_VARS:
     OHSOME_QUOTA: X-Ratelimit-Limit
     OHSOME_REMAINING: X-Ratelimit-Remaining
-  base_url: https://api.ohsome.org
-  key:
+  base_url: 'https://api.ohsome.org '
+  key: null
   name: Ohsome Public API

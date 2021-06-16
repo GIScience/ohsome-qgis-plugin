@@ -78,7 +78,7 @@ def _get_avoid_options(avoid_boxes):
     return avoid_features
 
 
-class Directions:
+class Spec:
     """Extended functionality for directions endpoint for GUI."""
 
     def __init__(self, dlg):
@@ -89,6 +89,11 @@ class Directions:
         self.dlg = dlg
 
         self.options = dict()
+        self.spec = self.dlg.ohsome_spec_selection_combo.currentText()
+        self.spec_preference = (
+            self.dlg.ohsome_spec_preference_combo.currentText()
+        )
+        print()
 
     def get_request_line_feature(self):
         """
@@ -98,7 +103,7 @@ class Directions:
         :rtype: list
         """
         coordinates = []
-        layers_list = self.dlg.routing_fromline_list
+        layers_list = self.dlg.ohsome_centroid_location_list
         for idx in range(layers_list.count()):
             item = layers_list.item(idx).text()
             param, coords = item.split(":")
@@ -119,8 +124,8 @@ class Directions:
             return self._get_optimize_parameters()
 
         # API parameters
-        route_mode = self.dlg.routing_travel_combo.currentText()
-        route_pref = self.dlg.routing_preference_combo.currentText()
+        route_mode = self.dlg.ohsome_spec_selection_combo.currentText()
+        route_pref = self.dlg.ohsome_spec_selection_combo.currentText()
 
         params = {
             "preference": route_pref,
@@ -166,7 +171,7 @@ class Directions:
             "vehicles": [
                 {
                     "id": 0,
-                    "profile": self.dlg.routing_travel_combo.currentText(),
+                    "profile": self.dlg.ohsome_spec_selection_combo.currentText(),
                 }
             ],
             "options": {"g": True},
