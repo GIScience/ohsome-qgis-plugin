@@ -30,8 +30,8 @@ import re
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QCheckBox, QMessageBox, QDialog
 
-from OhsomeQgis.gui import OhsomeQgisDialog
-from OhsomeQgis.utils import transform, logger
+from OhsomeQgis.common import GLOBAL_TIMEOUT
+from OhsomeQgis.utils import transform
 
 
 def _get_avoid_polygons(layer):
@@ -109,25 +109,32 @@ class Spec:
         return False
 
     @property
-    def _clip_geometry(self) -> bool:
+    def _request_timeout(self) -> int:
+        if self.dlg.timeout_input.value():
+            return int(self.dlg.timeout_input.value())
+        return GLOBAL_TIMEOUT
+
+    @property
+    def _data_extraction_clip_geometry(self) -> bool:
         if self.dlg.check_clip_geometry.isChecked():
             return True
         return False
 
     @property
-    def _property_groups_tags(self) -> bool:
+    def _property_groups(self) -> str:
+        properties = ""
         if self.dlg.property_groups_check_tags.isChecked():
-            return True
-        return False
-
-    @property
-    def _property_groups_metadata(self) -> bool:
+            properties = "tags"
         if self.dlg.property_groups_check_metadata.isChecked():
-            return True
-        return False
+            properties = f"{properties},metadata"
+        return properties
 
     @property
-    def _request_coordinates(self) -> str:
+    def _data_aggregation_format(self) -> str:
+        return self.dlg.data_aggregation_format.currentText()
+
+    @property
+    def _request_bcircles_coordinates(self) -> str:
         coordinate_string = ""
         layers_list = self.dlg.ohsome_centroid_location_list
         for idx in range(layers_list.count()):
@@ -136,11 +143,11 @@ class Spec:
             _, coordinates = param_cords.split(": ")
 
             if len(coordinate_string) <= 0:
-                coordinate_string = [f"id{idx}:{coordinates},{radius}"]
+                coordinate_string = f"id{idx}:{coordinates},{radius}"
             else:
-                coordinate_string = [
+                coordinate_string = (
                     f"{coordinate_string}|id{idx}:{coordinates},{radius}"
-                ]
+                )
         return coordinate_string
 
     @property
@@ -174,7 +181,9 @@ class Spec:
 
     @property
     def is_valid(self) -> bool:
-        if len(self._request_coordinates) <= 0:
+        if (
+            len(self._request_bcircles_coordinates) <= 0
+        ):  # TODO Add another check for the layer coordinates!
             return False
         if len(self._request_filter) <= 0:
             return False
@@ -215,29 +224,44 @@ class Spec:
         if date_end == "2007-10-08":
             date_end = "2007-10-08T00:00:01"
 
-        # Check if intervals only contains P or less.
-        if len(intervals) <= 2:
-            intervals = "/"
-        if date_start.__eq__(date_end):
-            QMessageBox.critical(
-                self.dlg, "Date error", "Start and end date must be different."
-            )
-            return ""
-
-        dates = f"{date_start}/{date_end}{intervals}"
+        # Check if intervals is misconstructed.
+        if self._api_spec.lower() == "data-aggregation" and len(intervals) >= 3:
+            dates = f"{date_start}/{date_end}{intervals}"
+        else:
+            dates = f"{date_start},{date_end}"
         return dates
 
-    def __prepare_request_preferences(self):
+    def __prepare_request_properties(self):
         """
-        Builds parameters across directions functionalities.
+        Builds parameters across different api specification combinations. Not all api endpoints support the same set of parameters.
 
-        @return: All parameter mappings except for coordinates or layers.
-        @rtype: dict0
+        @return: All parameter mappings according the endpoint restrictions.
+        @rtype: dict
         """
+        properties = {}
+        if self._api_spec.lower() == "data-extraction":
+            properties[
+                "clipGeometry"
+            ] = self._data_extraction_clip_geometry.__str__().lower()
+            if len(self._property_groups) > 0:
+                properties["properties"] = self._property_groups
+        elif self._api_spec.lower() == "data-aggregation":
+            properties["format"] = self._data_aggregation_format
+        properties["showMetadata"] = self._show_metadata.__str__().lower()
+        properties["filter"] = self._request_filter
+        properties["time"] = self._request_date_string
+        properties["timeout"] = self._request_timeout
+
+        return properties
 
     def get_bcircles_request_preferences(self):
-
-        return ""
+        endpoint_specific_request_properties = (
+            self.__prepare_request_properties()
+        )
+        endpoint_specific_request_properties[
+            "bcircles"
+        ] = self._request_bcircles_coordinates
+        return endpoint_specific_request_properties
 
     def get_request_url(self) -> str:
         return self._request_url
