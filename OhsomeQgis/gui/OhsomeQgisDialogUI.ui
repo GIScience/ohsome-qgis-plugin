@@ -757,19 +757,19 @@
             <item>
              <widget class="QSpinBox" name="timeout_input">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request. If the value 0 is set, the server side timeout is used, which can be up to 600 seconds.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum manual timeout value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="accessibleDescription">
                <string/>
               </property>
               <property name="minimum">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="maximum">
                <number>9999999</number>
               </property>
               <property name="value">
-               <number>10</number>
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -897,10 +897,10 @@
          <string>Intervals</string>
         </property>
         <property name="flat">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="collapsed">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="saveCollapsedState">
          <bool>false</bool>
