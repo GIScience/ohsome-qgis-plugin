@@ -463,12 +463,21 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
     # On Spec selection
     def _set_preferences(self):
         self.ohsome_spec_preference_combo.clear()
-        if self.ohsome_spec_selection_combo.currentText() == API_ENDPOINTS[0]:
+        if (
+            self.ohsome_spec_selection_combo.currentText().lower()
+            == "data-extraction"
+        ):
             self.ohsome_spec_preference_combo.addItems(EXTRACTION_SPECS)
             self.ohsome_spec_preference_combo.setCurrentIndex(0)
+            self.interval_years.setEnabled(False)
+            self.interval_months.setEnabled(False)
+            self.interval_days.setEnabled(False)
         else:
             self.ohsome_spec_preference_combo.addItems(AGGREGATION_SPECS)
             self.ohsome_spec_preference_combo.setCurrentIndex(0)
+            self.interval_years.setEnabled(True)
+            self.interval_months.setEnabled(True)
+            self.interval_days.setEnabled(True)
         self._set_preferences_endpoint()
 
     def _set_preferences_endpoint(self):
@@ -477,7 +486,10 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         # Catch when preference combo is just cleaned and empty.
         if not current_text or len(current_text) <= 0:
             return
-        if self.ohsome_spec_selection_combo.currentText() == API_ENDPOINTS[0]:
+        if (
+            self.ohsome_spec_selection_combo.currentText().lower()
+            == "data-extraction"
+        ):
             extraction_set = EXTRACTION_SPECS.get(
                 self.ohsome_spec_preference_combo.currentText()
             )

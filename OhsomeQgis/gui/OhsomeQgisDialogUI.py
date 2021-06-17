@@ -543,12 +543,29 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_show_metadata.setObjectName("check_show_metadata")
         self.horizontalLayout_12.addWidget(self.check_show_metadata)
         self.verticalLayout_3.addWidget(self.frame_6)
+        self.frame_5 = QtWidgets.QFrame(self.general_options_group)
+        self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.timeout_label = QtWidgets.QLabel(self.frame_5)
+        self.timeout_label.setObjectName("timeout_label")
+        self.horizontalLayout_10.addWidget(self.timeout_label)
+        self.timeout_input = QtWidgets.QSpinBox(self.frame_5)
+        self.timeout_input.setAccessibleDescription("")
+        self.timeout_input.setMinimum(1)
+        self.timeout_input.setMaximum(999999999)
+        self.timeout_input.setProperty("value", 120)
+        self.timeout_input.setObjectName("timeout_input")
+        self.horizontalLayout_10.addWidget(self.timeout_input)
+        self.verticalLayout_3.addWidget(self.frame_5)
         self.verticalLayout_4.addWidget(self.general_options_group)
         self.property_groups_box = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.property_groups_box.setFlat(False)
-        self.property_groups_box.setCollapsed(False)
+        self.property_groups_box.setFlat(True)
+        self.property_groups_box.setCollapsed(True)
         self.property_groups_box.setObjectName("property_groups_box")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
@@ -590,6 +607,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.data_aggregation_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
+        self.data_aggregation_group.setCollapsed(True)
         self.data_aggregation_group.setObjectName("data_aggregation_group")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(
             self.data_aggregation_group
@@ -612,8 +630,8 @@ class Ui_OhsomeQgisDialogBase(object):
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.intervals_group.setFlat(True)
-        self.intervals_group.setCollapsed(True)
+        self.intervals_group.setFlat(False)
+        self.intervals_group.setCollapsed(False)
         self.intervals_group.setSaveCollapsedState(False)
         self.intervals_group.setObjectName("intervals_group")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.intervals_group)
@@ -635,9 +653,11 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_months.setObjectName("interval_months")
         self.gridLayout_10.addWidget(self.interval_months, 3, 2, 1, 1)
         self.label_months = QtWidgets.QLabel(self.intervals_group)
+        self.label_months.setToolTip("")
         self.label_months.setObjectName("label_months")
         self.gridLayout_10.addWidget(self.label_months, 2, 2, 1, 1)
         self.label_years = QtWidgets.QLabel(self.intervals_group)
+        self.label_years.setToolTip("")
         self.label_years.setObjectName("label_years")
         self.gridLayout_10.addWidget(self.label_years, 2, 1, 1, 1)
         self.interval_days = QtWidgets.QSpinBox(self.intervals_group)
@@ -652,6 +672,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.date_start_label.setObjectName("date_start_label")
         self.gridLayout_10.addWidget(self.date_start_label, 4, 1, 1, 1)
         self.label_days = QtWidgets.QLabel(self.intervals_group)
+        self.label_days.setToolTip("")
         self.label_days.setObjectName("label_days")
         self.gridLayout_10.addWidget(self.label_days, 2, 4, 1, 1)
         self.date_end = QtWidgets.QDateEdit(self.intervals_group)
@@ -977,6 +998,21 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_show_metadata.setText(
             _translate("OhsomeQgisDialogBase", "Show metadata")
         )
+        self.timeout_label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p></body></html>',
+            )
+        )
+        self.timeout_label.setText(
+            _translate("OhsomeQgisDialogBase", "Timeout")
+        )
+        self.timeout_input.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p></body></html>',
+            )
+        )
         self.property_groups_box.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -1023,27 +1059,15 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_months.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Run the query every x months. Adjust the time frame accordingly,",
-            )
-        )
-        self.label_months.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "Run the query every x months. Adjust the time frame accordingly,",
+                "<html><head/><body><p>Run the query every x months. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
             )
         )
         self.label_months.setText(_translate("OhsomeQgisDialogBase", "Months"))
-        self.label_years.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "Run the query every x years. Adjust the time frame accordingly,",
-            )
-        )
         self.label_years.setText(_translate("OhsomeQgisDialogBase", "Years"))
         self.interval_days.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Run the query every x days. Adjust the time frame accordingly,",
+                "<html><head/><body><p>Run the query every x days. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
             )
         )
         self.date_end_label.setText(
@@ -1051,12 +1075,6 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.date_start_label.setText(
             _translate("OhsomeQgisDialogBase", "Date Start")
-        )
-        self.label_days.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "Run the query every x days. Adjust the time frame accordingly,",
-            )
         )
         self.label_days.setText(_translate("OhsomeQgisDialogBase", "Days"))
         self.date_end.setToolTip(
@@ -1071,7 +1089,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_years.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p></body></html>',
+                '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p><p>Only available for the data aggregation endpoints.</p></body></html>',
             )
         )
         self.filter_label.setText(
