@@ -174,11 +174,15 @@ class Ui_OhsomeQgisDialogBase(object):
             "ohsome_spec_preference_combo"
         )
         self.horizontalLayout_7.addWidget(self.ohsome_spec_preference_combo)
-        self.ohsome_spec_preference_endpoint = QtWidgets.QComboBox(self.frame_3)
-        self.ohsome_spec_preference_endpoint.setObjectName(
-            "ohsome_spec_preference_endpoint"
+        self.ohsome_spec_preference_specification = QtWidgets.QComboBox(
+            self.frame_3
         )
-        self.horizontalLayout_7.addWidget(self.ohsome_spec_preference_endpoint)
+        self.ohsome_spec_preference_specification.setObjectName(
+            "ohsome_spec_preference_specification"
+        )
+        self.horizontalLayout_7.addWidget(
+            self.ohsome_spec_preference_specification
+        )
         self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
         self.verticalLayout_5.addWidget(self.groupBox_4)
         self.widget_3 = QtWidgets.QWidget(OhsomeQgisDialogBase)
@@ -798,7 +802,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.ohsome_spec_preference_combo.setPlaceholderText(
             _translate("OhsomeQgisDialogBase", "Spec")
         )
-        self.ohsome_spec_preference_endpoint.setToolTip(
+        self.ohsome_spec_preference_specification.setToolTip(
             _translate("OhsomeQgisDialogBase", "Request preference")
         )
         self.centroid_list_point_add.setToolTip(
