@@ -90,7 +90,6 @@ class Spec:
         :type dlg: QDialog
         """
         self.dlg: QDialog = dlg
-        self._endpoint_version = "v1"
 
     @property
     def _api_spec(self):
@@ -157,7 +156,7 @@ class Spec:
     def _request_url(self):
         # Construct request url
         request_url = (
-            f"{self._endpoint_version}/{self.dlg.ohsome_spec_preference_combo.currentText()}/"
+            f"/{self.dlg.ohsome_spec_preference_combo.currentText()}/"
             f"{self.dlg.ohsome_spec_preference_specification.currentText()}"
         )
         return request_url
