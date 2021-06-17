@@ -527,106 +527,72 @@ class Ui_OhsomeQgisDialogBase(object):
             self.general_options_group
         )
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_5 = QtWidgets.QFrame(self.general_options_group)
-        self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_5.setObjectName("frame_5")
-        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_5)
-        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
-        self.check_activate_temporal = QtWidgets.QCheckBox(self.frame_5)
-        self.check_activate_temporal.setChecked(True)
-        self.check_activate_temporal.setObjectName("check_activate_temporal")
-        self.horizontalLayout_11.addWidget(self.check_activate_temporal)
-        self.verticalLayout_3.addWidget(self.frame_5)
         self.frame_6 = QtWidgets.QFrame(self.general_options_group)
         self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.frame_6)
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.check_activate_temporal = QtWidgets.QCheckBox(self.frame_6)
+        self.check_activate_temporal.setChecked(True)
+        self.check_activate_temporal.setObjectName("check_activate_temporal")
+        self.horizontalLayout_12.addWidget(self.check_activate_temporal)
         self.check_show_metadata = QtWidgets.QCheckBox(self.frame_6)
         self.check_show_metadata.setEnabled(True)
         self.check_show_metadata.setChecked(False)
         self.check_show_metadata.setObjectName("check_show_metadata")
         self.horizontalLayout_12.addWidget(self.check_show_metadata)
-        self.check_clip_geometry = QtWidgets.QCheckBox(self.frame_6)
-        self.check_clip_geometry.setEnabled(True)
-        self.check_clip_geometry.setChecked(True)
-        self.check_clip_geometry.setObjectName("check_clip_geometry")
-        self.horizontalLayout_12.addWidget(self.check_clip_geometry)
         self.verticalLayout_3.addWidget(self.frame_6)
         self.verticalLayout_4.addWidget(self.general_options_group)
         self.property_groups_box = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
+        self.property_groups_box.setFlat(False)
         self.property_groups_box.setCollapsed(False)
         self.property_groups_box.setObjectName("property_groups_box")
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.check_clip_geometry = QtWidgets.QCheckBox(self.property_groups_box)
+        self.check_clip_geometry.setEnabled(True)
+        self.check_clip_geometry.setChecked(True)
+        self.check_clip_geometry.setObjectName("check_clip_geometry")
+        self.verticalLayout_6.addWidget(self.check_clip_geometry)
+        self.property_groups_groupbox = QtWidgets.QGroupBox(
             self.property_groups_box
         )
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.property_groups_check_tags = QtWidgets.QCheckBox(
-            self.property_groups_box
+        self.property_groups_groupbox.setFlat(False)
+        self.property_groups_groupbox.setCheckable(False)
+        self.property_groups_groupbox.setObjectName("property_groups_groupbox")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(
+            self.property_groups_groupbox
         )
-        self.property_groups_check_tags.setObjectName(
-            "property_groups_check_tags"
-        )
-        self.horizontalLayout_10.addWidget(self.property_groups_check_tags)
-        self.property_groups_check_metadata = QtWidgets.QCheckBox(
-            self.property_groups_box
-        )
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.frame_4 = QtWidgets.QFrame(self.property_groups_groupbox)
+        self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_4.setObjectName("frame_4")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_4)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.property_groups_check_metadata = QtWidgets.QCheckBox(self.frame_4)
         self.property_groups_check_metadata.setObjectName(
             "property_groups_check_metadata"
         )
-        self.horizontalLayout_10.addWidget(self.property_groups_check_metadata)
+        self.horizontalLayout_2.addWidget(self.property_groups_check_metadata)
+        self.property_groups_check_tags = QtWidgets.QCheckBox(self.frame_4)
+        self.property_groups_check_tags.setObjectName(
+            "property_groups_check_tags"
+        )
+        self.horizontalLayout_2.addWidget(self.property_groups_check_tags)
+        self.verticalLayout_7.addWidget(self.frame_4)
+        self.verticalLayout_6.addWidget(self.property_groups_groupbox)
         self.verticalLayout_4.addWidget(self.property_groups_box)
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.intervals_group.setCollapsed(False)
+        self.intervals_group.setCollapsed(True)
         self.intervals_group.setObjectName("intervals_group")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.intervals_group)
         self.gridLayout_10.setObjectName("gridLayout_10")
-        self.label_years = QtWidgets.QLabel(self.intervals_group)
-        self.label_years.setObjectName("label_years")
-        self.gridLayout_10.addWidget(self.label_years, 2, 1, 1, 1)
-        self.interval_days = QtWidgets.QSpinBox(self.intervals_group)
-        self.interval_days.setMaximum(31)
-        self.interval_days.setProperty("value", 1)
-        self.interval_days.setObjectName("interval_days")
-        self.gridLayout_10.addWidget(self.interval_days, 3, 4, 1, 1)
-        self.label_months = QtWidgets.QLabel(self.intervals_group)
-        self.label_months.setObjectName("label_months")
-        self.gridLayout_10.addWidget(self.label_months, 2, 2, 1, 1)
-        self.interval_years = QtWidgets.QSpinBox(self.intervals_group)
-        self.interval_years.setAccessibleDescription("")
-        self.interval_years.setMaximum(99)
-        self.interval_years.setProperty("value", 0)
-        self.interval_years.setObjectName("interval_years")
-        self.gridLayout_10.addWidget(self.interval_years, 3, 1, 1, 1)
-        self.date_end_label = QtWidgets.QLabel(self.intervals_group)
-        self.date_end_label.setObjectName("date_end_label")
-        self.gridLayout_10.addWidget(self.date_end_label, 4, 4, 1, 1)
-        self.date_start_label = QtWidgets.QLabel(self.intervals_group)
-        self.date_start_label.setObjectName("date_start_label")
-        self.gridLayout_10.addWidget(self.date_start_label, 4, 1, 1, 1)
-        self.interval_months = QtWidgets.QSpinBox(self.intervals_group)
-        self.interval_months.setMaximum(12)
-        self.interval_months.setObjectName("interval_months")
-        self.gridLayout_10.addWidget(self.interval_months, 3, 2, 1, 1)
-        self.date_end = QtWidgets.QDateEdit(self.intervals_group)
-        self.date_end.setDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
-        )
-        self.date_end.setMinimumDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
-        )
-        self.date_end.setMinimumDate(QtCore.QDate(2007, 10, 9))
-        self.date_end.setObjectName("date_end")
-        self.gridLayout_10.addWidget(self.date_end, 5, 4, 1, 1)
-        self.label_days = QtWidgets.QLabel(self.intervals_group)
-        self.label_days.setObjectName("label_days")
-        self.gridLayout_10.addWidget(self.label_days, 2, 4, 1, 1)
         self.date_start = QtWidgets.QDateEdit(self.intervals_group)
         self.date_start.setDateTime(
             QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
@@ -639,6 +605,46 @@ class Ui_OhsomeQgisDialogBase(object):
         self.date_start.setTimeSpec(QtCore.Qt.LocalTime)
         self.date_start.setObjectName("date_start")
         self.gridLayout_10.addWidget(self.date_start, 5, 1, 1, 1)
+        self.interval_months = QtWidgets.QSpinBox(self.intervals_group)
+        self.interval_months.setMaximum(12)
+        self.interval_months.setObjectName("interval_months")
+        self.gridLayout_10.addWidget(self.interval_months, 3, 2, 1, 1)
+        self.label_months = QtWidgets.QLabel(self.intervals_group)
+        self.label_months.setObjectName("label_months")
+        self.gridLayout_10.addWidget(self.label_months, 2, 2, 1, 1)
+        self.label_years = QtWidgets.QLabel(self.intervals_group)
+        self.label_years.setObjectName("label_years")
+        self.gridLayout_10.addWidget(self.label_years, 2, 1, 1, 1)
+        self.interval_days = QtWidgets.QSpinBox(self.intervals_group)
+        self.interval_days.setMaximum(31)
+        self.interval_days.setProperty("value", 1)
+        self.interval_days.setObjectName("interval_days")
+        self.gridLayout_10.addWidget(self.interval_days, 3, 4, 1, 1)
+        self.date_end_label = QtWidgets.QLabel(self.intervals_group)
+        self.date_end_label.setObjectName("date_end_label")
+        self.gridLayout_10.addWidget(self.date_end_label, 4, 4, 1, 1)
+        self.date_start_label = QtWidgets.QLabel(self.intervals_group)
+        self.date_start_label.setObjectName("date_start_label")
+        self.gridLayout_10.addWidget(self.date_start_label, 4, 1, 1, 1)
+        self.label_days = QtWidgets.QLabel(self.intervals_group)
+        self.label_days.setObjectName("label_days")
+        self.gridLayout_10.addWidget(self.label_days, 2, 4, 1, 1)
+        self.date_end = QtWidgets.QDateEdit(self.intervals_group)
+        self.date_end.setDateTime(
+            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
+        )
+        self.date_end.setMinimumDateTime(
+            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
+        )
+        self.date_end.setMinimumDate(QtCore.QDate(2007, 10, 9))
+        self.date_end.setObjectName("date_end")
+        self.gridLayout_10.addWidget(self.date_end, 5, 4, 1, 1)
+        self.interval_years = QtWidgets.QSpinBox(self.intervals_group)
+        self.interval_years.setAccessibleDescription("")
+        self.interval_years.setMaximum(99)
+        self.interval_years.setProperty("value", 0)
+        self.interval_years.setObjectName("interval_years")
+        self.gridLayout_10.addWidget(self.interval_years, 3, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.intervals_group)
         self.filter_frame = QtWidgets.QFrame(self.configuration_group_box)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -926,7 +932,7 @@ class Ui_OhsomeQgisDialogBase(object):
             _translate("OhsomeQgisDialogBase", "Configuration")
         )
         self.general_options_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "General options")
+            _translate("OhsomeQgisDialogBase", "General")
         )
         self.check_activate_temporal.setToolTip(
             _translate(
@@ -935,9 +941,7 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.check_activate_temporal.setText(
-            _translate(
-                "OhsomeQgisDialogBase", "Auto enable Qgis temporal feature"
-            )
+            _translate("OhsomeQgisDialogBase", "Qgis temporal feature")
         )
         self.check_show_metadata.setToolTip(
             _translate(
@@ -948,6 +952,15 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_show_metadata.setText(
             _translate("OhsomeQgisDialogBase", "Show metadata")
         )
+        self.property_groups_box.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
+            )
+        )
+        self.property_groups_box.setTitle(
+            _translate("OhsomeQgisDialogBase", "Data extraction")
+        )
         self.check_clip_geometry.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -957,24 +970,40 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_clip_geometry.setText(
             _translate("OhsomeQgisDialogBase", "Clip Geometry")
         )
-        self.property_groups_box.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
-            )
-        )
-        self.property_groups_box.setTitle(
+        self.property_groups_groupbox.setTitle(
             _translate("OhsomeQgisDialogBase", "Property Groups")
-        )
-        self.property_groups_check_tags.setText(
-            _translate("OhsomeQgisDialogBase", "Tags")
         )
         self.property_groups_check_metadata.setText(
             _translate("OhsomeQgisDialogBase", "Metadata")
         )
+        self.property_groups_check_tags.setText(
+            _translate("OhsomeQgisDialogBase", "Tags")
+        )
         self.intervals_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Intervals")
         )
+        self.date_start.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">8th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
+            )
+        )
+        self.date_start.setDisplayFormat(
+            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
+        )
+        self.interval_months.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "Run the query every x months. Adjust the time frame accordingly,",
+            )
+        )
+        self.label_months.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "Run the query every x months. Adjust the time frame accordingly,",
+            )
+        )
+        self.label_months.setText(_translate("OhsomeQgisDialogBase", "Months"))
         self.label_years.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -988,31 +1017,19 @@ class Ui_OhsomeQgisDialogBase(object):
                 "Run the query every x days. Adjust the time frame accordingly,",
             )
         )
-        self.label_months.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "Run the query every x months. Adjust the time frame accordingly,",
-            )
-        )
-        self.label_months.setText(_translate("OhsomeQgisDialogBase", "Months"))
-        self.interval_years.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p></body></html>',
-            )
-        )
         self.date_end_label.setText(
             _translate("OhsomeQgisDialogBase", "Date End")
         )
         self.date_start_label.setText(
             _translate("OhsomeQgisDialogBase", "Date Start")
         )
-        self.interval_months.setToolTip(
+        self.label_days.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Run the query every x months. Adjust the time frame accordingly,",
+                "Run the query every x days. Adjust the time frame accordingly,",
             )
         )
+        self.label_days.setText(_translate("OhsomeQgisDialogBase", "Days"))
         self.date_end.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -1022,21 +1039,11 @@ class Ui_OhsomeQgisDialogBase(object):
         self.date_end.setDisplayFormat(
             _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
         )
-        self.label_days.setToolTip(
+        self.interval_years.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Run the query every x days. Adjust the time frame accordingly,",
+                '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p></body></html>',
             )
-        )
-        self.label_days.setText(_translate("OhsomeQgisDialogBase", "Days"))
-        self.date_start.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">8th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
-            )
-        )
-        self.date_start.setDisplayFormat(
-            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
         )
         self.filter_label.setText(
             _translate("OhsomeQgisDialogBase", "Filter  ")
