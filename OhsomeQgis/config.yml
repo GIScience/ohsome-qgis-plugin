@@ -4,6 +4,6 @@ providers:
 - ENV_VARS:
     OHSOME_QUOTA: X-Ratelimit-Limit
     OHSOME_REMAINING: X-Ratelimit-Remaining
-  base_url: 'https://api.ohsome.org '
+  base_url: 'https://api.ohsome.org/v1'
   key: null
   name: Ohsome Public API
