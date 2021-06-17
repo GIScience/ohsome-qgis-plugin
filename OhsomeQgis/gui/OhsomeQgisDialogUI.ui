@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
+    <width>462</width>
     <height>928</height>
    </rect>
   </property>
@@ -245,17 +245,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="widget_3" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
     </widget>
    </item>
    <item>
@@ -697,32 +686,113 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QCheckBox" name="check_activate_temporal">
-        <property name="toolTip">
-         <string>Automatically enable the temporal feature for new layers.</string>
+       <widget class="QgsCollapsibleGroupBox" name="general_options_group">
+        <property name="title">
+         <string>General options</string>
         </property>
-        <property name="text">
-         <string>Auto enable Qgis temporal feature</string>
-        </property>
-        <property name="checked">
+        <property name="collapsed">
          <bool>true</bool>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QFrame" name="frame_5">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QCheckBox" name="check_activate_temporal">
+              <property name="toolTip">
+               <string>Automatically enable the temporal feature for new layers.</string>
+              </property>
+              <property name="text">
+               <string>Auto enable Qgis temporal feature</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_6">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QCheckBox" name="check_show_metadata">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Show metadata</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="check_clip_geometry">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Ony available for the data extraction endpoints&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Clip Geometry</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="check_show_metadata">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QgsCollapsibleGroupBox" name="property_groups_box">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;List of possible property-groups added to each OSM-element.&lt;/p&gt;&lt;p&gt;Only available for data extraction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-        <property name="text">
-         <string>Show metadata</string>
+        <property name="title">
+         <string>Property Groups</string>
         </property>
-        <property name="checked">
+        <property name="collapsed">
          <bool>false</bool>
         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QCheckBox" name="property_groups_check_tags">
+           <property name="text">
+            <string>Tags</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="property_groups_check_metadata">
+           <property name="text">
+            <string>Metadata</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -1094,7 +1164,6 @@
   <zorder>control_widget</zorder>
   <zorder>ohsome_log_group</zorder>
   <zorder>request_types_widget</zorder>
-  <zorder>widget_3</zorder>
   <zorder>configuration_group_box</zorder>
   <zorder>groupBox_4</zorder>
  </widget>

@@ -306,22 +306,22 @@ class OhsomeQgisDialogMain:
                 bcircles_preferences = (
                     preferences.get_bcircles_request_preferences()
                 )
-                response = clnt.request(
-                    f"/{preferences.get_request_url()}",
-                    {},
-                    post_json=bcircles_preferences,
-                )
-                feat = directions_core.get_output_feature_directions(
-                    response,
-                    profile,
-                    preferences["preference"],
-                    preferences.options,
-                )
-
-                layer_out.dataProvider().addFeature(feat)
-
-                layer_out.updateExtents()
-                self.project.addMapLayer(layer_out)
+                # response = clnt.request(
+                #     f"/{preferences.get_request_url()}",
+                #     {},
+                #     post_json=bcircles_preferences,
+                # )
+                # feat = directions_core.get_output_feature_directions(
+                #     response,
+                #     profile,
+                #     preferences["preference"],
+                #     preferences.options,
+                # )
+                #
+                # layer_out.dataProvider().addFeature(feat)
+                #
+                # layer_out.updateExtents()
+                # self.project.addMapLayer(layer_out)
 
         except exceptions.Timeout:
             msg = "The connection has timed out!"

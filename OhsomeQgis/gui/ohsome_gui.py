@@ -110,6 +110,24 @@ class Spec:
         return False
 
     @property
+    def _clip_geometry(self) -> bool:
+        if self.dlg.check_clip_geometry.isChecked():
+            return True
+        return False
+
+    @property
+    def _property_groups_tags(self) -> bool:
+        if self.dlg.property_groups_check_tags.isChecked():
+            return True
+        return False
+
+    @property
+    def _property_groups_metadata(self) -> bool:
+        if self.dlg.property_groups_check_metadata.isChecked():
+            return True
+        return False
+
+    @property
     def _request_coordinates(self) -> str:
         coordinate_string = ""
         layers_list = self.dlg.ohsome_centroid_location_list
@@ -219,6 +237,10 @@ class Spec:
                 self.dlg, "Filter error", "Set a filter query."
             )
             return
+
+    def get_bcircles_request_preferences(self):
+
+        return ""
 
     def get_request_url(self) -> str:
         return self._request_url
