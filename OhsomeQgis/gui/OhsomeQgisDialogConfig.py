@@ -94,7 +94,7 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
             self, "New ORS provider", "Enter a name for the provider"
         )
         if ok:
-            self._add_box(provider_name, "https://", "", new=True)
+            self._add_box(provider_name, "https://", new=True)
 
     def _remove_provider(self):
         """Remove list of providers from list."""
