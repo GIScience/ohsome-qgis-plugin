@@ -747,7 +747,7 @@
             <item>
              <widget class="QLabel" name="timeout_label">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Timeout</string>
@@ -757,7 +757,7 @@
             <item>
              <widget class="QSpinBox" name="timeout_input">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="accessibleDescription">
                <string/>
@@ -766,10 +766,10 @@
                <number>1</number>
               </property>
               <property name="maximum">
-               <number>999999999</number>
+               <number>9999999</number>
               </property>
               <property name="value">
-               <number>120</number>
+               <number>10</number>
               </property>
              </widget>
             </item>

@@ -32,7 +32,7 @@ API_ENDPOINTS = [
 DIMENSIONS = ["time", "distance"]
 
 PREFERENCES = ["fastest", "shortest", "recommended"]
-GLOBAL_TIMEOUT = 120
+GLOBAL_TIMEOUT = 10
 EXTRACTION_SPECS = {
     "contributions": [
         "bbox",

@@ -555,8 +555,8 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_input = QtWidgets.QSpinBox(self.frame_5)
         self.timeout_input.setAccessibleDescription("")
         self.timeout_input.setMinimum(1)
-        self.timeout_input.setMaximum(999999999)
-        self.timeout_input.setProperty("value", 120)
+        self.timeout_input.setMaximum(9999999)
+        self.timeout_input.setProperty("value", 10)
         self.timeout_input.setObjectName("timeout_input")
         self.horizontalLayout_10.addWidget(self.timeout_input)
         self.verticalLayout_3.addWidget(self.frame_5)
@@ -638,7 +638,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_10.setObjectName("gridLayout_10")
         self.date_start = QtWidgets.QDateEdit(self.intervals_group)
         self.date_start.setDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
+            QtCore.QDateTime(QtCore.QDate(2016, 1, 1), QtCore.QTime(0, 0, 0))
         )
         self.date_start.setMinimumDateTime(
             QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
@@ -677,7 +677,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_10.addWidget(self.label_days, 2, 4, 1, 1)
         self.date_end = QtWidgets.QDateEdit(self.intervals_group)
         self.date_end.setDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
+            QtCore.QDateTime(QtCore.QDate(2017, 1, 1), QtCore.QTime(0, 0, 0))
         )
         self.date_end.setMinimumDateTime(
             QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
@@ -1001,7 +1001,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_label.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.timeout_label.setText(
@@ -1010,7 +1010,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_input.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.property_groups_box.setToolTip(
