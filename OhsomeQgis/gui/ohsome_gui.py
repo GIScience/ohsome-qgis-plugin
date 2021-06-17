@@ -80,7 +80,7 @@ def _get_avoid_options(avoid_boxes):
     return avoid_features
 
 
-class Spec:
+class OhsomeSpec:
     """Extended functionality for all endpoints for the GUI."""
 
     def __init__(self, dlg: QDialog):

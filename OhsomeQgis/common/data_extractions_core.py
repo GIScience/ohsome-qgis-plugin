@@ -36,6 +36,7 @@ from qgis.core import (
     QgsField,
 )
 
+from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
 from OhsomeQgis.utils import convert
 
 

@@ -295,7 +295,7 @@ class OhsomeQgisDialogMain:
         clnt_msg = ""
 
         try:
-            preferences = ohsome_gui.Spec(self.dlg)
+            preferences = ohsome_gui.OhsomeSpec(self.dlg)
             if not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
