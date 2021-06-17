@@ -579,6 +579,7 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.horizontalLayout_2.addWidget(self.property_groups_check_metadata)
         self.property_groups_check_tags = QtWidgets.QCheckBox(self.frame_4)
+        self.property_groups_check_tags.setChecked(True)
         self.property_groups_check_tags.setObjectName(
             "property_groups_check_tags"
         )
@@ -586,10 +587,34 @@ class Ui_OhsomeQgisDialogBase(object):
         self.verticalLayout_7.addWidget(self.frame_4)
         self.verticalLayout_6.addWidget(self.property_groups_groupbox)
         self.verticalLayout_4.addWidget(self.property_groups_box)
+        self.data_aggregation_group = gui.QgsCollapsibleGroupBox(
+            self.configuration_group_box
+        )
+        self.data_aggregation_group.setObjectName("data_aggregation_group")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(
+            self.data_aggregation_group
+        )
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.frame = QtWidgets.QFrame(self.data_aggregation_group)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setObjectName("label")
+        self.horizontalLayout_9.addWidget(self.label)
+        self.data_aggregation_format = QtWidgets.QComboBox(self.frame)
+        self.data_aggregation_format.setObjectName("data_aggregation_format")
+        self.horizontalLayout_9.addWidget(self.data_aggregation_format)
+        self.verticalLayout_9.addWidget(self.frame)
+        self.verticalLayout_4.addWidget(self.data_aggregation_group)
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
+        self.intervals_group.setFlat(True)
         self.intervals_group.setCollapsed(True)
+        self.intervals_group.setSaveCollapsedState(False)
         self.intervals_group.setObjectName("intervals_group")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.intervals_group)
         self.gridLayout_10.setObjectName("gridLayout_10")
@@ -979,6 +1004,10 @@ class Ui_OhsomeQgisDialogBase(object):
         self.property_groups_check_tags.setText(
             _translate("OhsomeQgisDialogBase", "Tags")
         )
+        self.data_aggregation_group.setTitle(
+            _translate("OhsomeQgisDialogBase", "Data aggregation")
+        )
+        self.label.setText(_translate("OhsomeQgisDialogBase", "Format"))
         self.intervals_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Intervals")
         )
