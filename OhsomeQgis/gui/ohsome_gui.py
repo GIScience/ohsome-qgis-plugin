@@ -163,7 +163,7 @@ class Spec:
     def _request_url(self):
         # Construct request url
         request_url = (
-            f"/{self.dlg.ohsome_spec_preference_combo.currentText()}/"
+            f"{self.dlg.ohsome_spec_preference_combo.currentText()}/"
             f"{self.dlg.ohsome_spec_preference_specification.currentText()}"
         )
         return request_url
@@ -250,7 +250,7 @@ class Spec:
         properties["showMetadata"] = self._show_metadata.__str__().lower()
         properties["filter"] = self._request_filter
         properties["time"] = self._request_date_string
-        properties["timeout"] = self._request_timeout
+        properties["timeout"] = self._request_timeout.__str__()
 
         return properties
 
