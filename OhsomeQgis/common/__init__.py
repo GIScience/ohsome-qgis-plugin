@@ -113,3 +113,14 @@ AGGREGATION_SPECS = {
         "groupBy/type",
     ],
 }
+DATA_AGGREGATION_FORMAT = {
+    "groupBy/boundary": [
+        "geojson",
+        "json",
+        "csv",
+    ],
+    "default": [
+        "json",
+        "csv",
+    ],
+}

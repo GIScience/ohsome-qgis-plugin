@@ -802,10 +802,44 @@
                  <property name="text">
                   <string>Tags</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
               </layout>
              </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QgsCollapsibleGroupBox" name="data_aggregation_group">
+        <property name="title">
+         <string>Data aggregation</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <item>
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Format</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="data_aggregation_format"/>
             </item>
            </layout>
           </widget>
