@@ -235,7 +235,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="ohsome_spec_preference_endpoint">
+          <widget class="QComboBox" name="ohsome_spec_preference_specification">
            <property name="toolTip">
             <string>Request preference</string>
            </property>

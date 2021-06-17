@@ -295,8 +295,8 @@ class OhsomeQgisDialogMain:
         clnt_msg = ""
 
         try:
-            specification = ohsome_gui.Spec(self.dlg)
-            if not specification.preferences_valid:
+            preferences = ohsome_gui.Spec(self.dlg)
+            if not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
                 self.dlg.debug_text.setText(msg)
@@ -304,12 +304,10 @@ class OhsomeQgisDialogMain:
 
             if tab_index == 0:
                 bcircles_preferences = (
-                    specification.get_bcircles_request_preferences()
+                    preferences.get_bcircles_request_preferences()
                 )
-
-                profile = self.dlg.ohsome_spec_selection_combo.currentText()
                 response = clnt.request(
-                    "/v1/directions/" + profile + "/geojson",
+                    f"/{preferences.get_request_url()}",
                     {},
                     post_json=bcircles_preferences,
                 )
@@ -317,7 +315,7 @@ class OhsomeQgisDialogMain:
                     response,
                     profile,
                     preferences["preference"],
-                    specification.options,
+                    preferences.options,
                 )
 
                 layer_out.dataProvider().addFeature(feat)
@@ -474,7 +472,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self._set_preferences_endpoint()
 
     def _set_preferences_endpoint(self):
-        self.ohsome_spec_preference_endpoint.clear()
+        self.ohsome_spec_preference_specification.clear()
         current_text = self.ohsome_spec_preference_combo.currentText()
         # Catch when preference combo is just cleaned and empty.
         if not current_text or len(current_text) <= 0:
@@ -483,14 +481,14 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             extraction_set = EXTRACTION_SPECS.get(
                 self.ohsome_spec_preference_combo.currentText()
             )
-            self.ohsome_spec_preference_endpoint.addItems(extraction_set)
-            self.ohsome_spec_preference_endpoint.setCurrentIndex(0)
+            self.ohsome_spec_preference_specification.addItems(extraction_set)
+            self.ohsome_spec_preference_specification.setCurrentIndex(0)
         else:
             aggregation_set = AGGREGATION_SPECS.get(
                 self.ohsome_spec_preference_combo.currentText()
             )
-            self.ohsome_spec_preference_endpoint.addItems(aggregation_set)
-            self.ohsome_spec_preference_endpoint.setCurrentIndex(0)
+            self.ohsome_spec_preference_specification.addItems(aggregation_set)
+            self.ohsome_spec_preference_specification.setCurrentIndex(0)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
