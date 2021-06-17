@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeQgisDialogBase(object):
     def setupUi(self, OhsomeQgisDialogBase):
         OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(463, 928)
+        OhsomeQgisDialogBase.resize(462, 928)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -185,20 +185,6 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
         self.verticalLayout_5.addWidget(self.groupBox_4)
-        self.widget_3 = QtWidgets.QWidget(OhsomeQgisDialogBase)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_3.sizePolicy().hasHeightForWidth()
-        )
-        self.widget_3.setSizePolicy(sizePolicy)
-        self.widget_3.setObjectName("widget_3")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.widget_3)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.verticalLayout_5.addWidget(self.widget_3)
         self.request_types_widget = QtWidgets.QTabWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -532,19 +518,68 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box
         )
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.check_activate_temporal = QtWidgets.QCheckBox(
+        self.general_options_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
+        self.general_options_group.setCollapsed(True)
+        self.general_options_group.setObjectName("general_options_group")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(
+            self.general_options_group
+        )
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.frame_5 = QtWidgets.QFrame(self.general_options_group)
+        self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.check_activate_temporal = QtWidgets.QCheckBox(self.frame_5)
         self.check_activate_temporal.setChecked(True)
         self.check_activate_temporal.setObjectName("check_activate_temporal")
-        self.verticalLayout_4.addWidget(self.check_activate_temporal)
-        self.check_show_metadata = QtWidgets.QCheckBox(
-            self.configuration_group_box
-        )
+        self.horizontalLayout_11.addWidget(self.check_activate_temporal)
+        self.verticalLayout_3.addWidget(self.frame_5)
+        self.frame_6 = QtWidgets.QFrame(self.general_options_group)
+        self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.frame_6)
+        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.check_show_metadata = QtWidgets.QCheckBox(self.frame_6)
         self.check_show_metadata.setEnabled(True)
         self.check_show_metadata.setChecked(False)
         self.check_show_metadata.setObjectName("check_show_metadata")
-        self.verticalLayout_4.addWidget(self.check_show_metadata)
+        self.horizontalLayout_12.addWidget(self.check_show_metadata)
+        self.check_clip_geometry = QtWidgets.QCheckBox(self.frame_6)
+        self.check_clip_geometry.setEnabled(True)
+        self.check_clip_geometry.setChecked(True)
+        self.check_clip_geometry.setObjectName("check_clip_geometry")
+        self.horizontalLayout_12.addWidget(self.check_clip_geometry)
+        self.verticalLayout_3.addWidget(self.frame_6)
+        self.verticalLayout_4.addWidget(self.general_options_group)
+        self.property_groups_box = gui.QgsCollapsibleGroupBox(
+            self.configuration_group_box
+        )
+        self.property_groups_box.setCollapsed(False)
+        self.property_groups_box.setObjectName("property_groups_box")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(
+            self.property_groups_box
+        )
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.property_groups_check_tags = QtWidgets.QCheckBox(
+            self.property_groups_box
+        )
+        self.property_groups_check_tags.setObjectName(
+            "property_groups_check_tags"
+        )
+        self.horizontalLayout_10.addWidget(self.property_groups_check_tags)
+        self.property_groups_check_metadata = QtWidgets.QCheckBox(
+            self.property_groups_box
+        )
+        self.property_groups_check_metadata.setObjectName(
+            "property_groups_check_metadata"
+        )
+        self.horizontalLayout_10.addWidget(self.property_groups_check_metadata)
+        self.verticalLayout_4.addWidget(self.property_groups_box)
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
@@ -741,7 +776,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.control_widget.raise_()
         self.ohsome_log_group.raise_()
         self.request_types_widget.raise_()
-        self.widget_3.raise_()
         self.configuration_group_box.raise_()
         self.groupBox_4.raise_()
 
@@ -891,6 +925,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.configuration_group_box.setTitle(
             _translate("OhsomeQgisDialogBase", "Configuration")
         )
+        self.general_options_group.setTitle(
+            _translate("OhsomeQgisDialogBase", "General options")
+        )
         self.check_activate_temporal.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -910,6 +947,30 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.check_show_metadata.setText(
             _translate("OhsomeQgisDialogBase", "Show metadata")
+        )
+        self.check_clip_geometry.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.</p><p><span style=" text-decoration: underline;">Ony available for the data extraction endpoints</span>.</p></body></html>',
+            )
+        )
+        self.check_clip_geometry.setText(
+            _translate("OhsomeQgisDialogBase", "Clip Geometry")
+        )
+        self.property_groups_box.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
+            )
+        )
+        self.property_groups_box.setTitle(
+            _translate("OhsomeQgisDialogBase", "Property Groups")
+        )
+        self.property_groups_check_tags.setText(
+            _translate("OhsomeQgisDialogBase", "Tags")
+        )
+        self.property_groups_check_metadata.setText(
+            _translate("OhsomeQgisDialogBase", "Metadata")
         )
         self.intervals_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Intervals")
