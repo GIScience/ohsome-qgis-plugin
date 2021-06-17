@@ -146,6 +146,11 @@ class Spec:
 
     @property
     def _request_filter(self) -> str:
+        if len(self.dlg.filter_input.toPlainText()) <= 0:
+            QMessageBox.critical(
+                self.dlg, "Filter error", "Set a filter query."
+            )
+            return ""
         return self.dlg.filter_input.toPlainText()
 
     @property
@@ -230,13 +235,6 @@ class Spec:
         @return: All parameter mappings except for coordinates or layers.
         @rtype: dict0
         """
-
-        # Check if a filter is set
-        if len(self.dlg.filter_input.toPlainText()) <= 0:
-            QMessageBox.critical(
-                self.dlg, "Filter error", "Set a filter query."
-            )
-            return
 
     def get_bcircles_request_preferences(self):
 
