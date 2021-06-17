@@ -49,7 +49,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RESOURCE_PREFIX = ":plugins/OhsomeQgis/img/"
 CONFIG_PATH = os.path.join(BASE_DIR, "config.yml")
-ENV_VARS = {}
 
 # Read metadata.txt
 METADATA = configparser.ConfigParser()
