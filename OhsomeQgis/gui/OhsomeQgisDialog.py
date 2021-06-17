@@ -221,10 +221,10 @@ class OhsomeQgisDialogMain:
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
                 self.dlg.ohsome_centroid_location_list.addItem(
-                    f"Point 0: 8.691173, 49.409476 | Radius: 50"
+                    f"Point 0: 8.67, 49.39 | Radius: 500"
                 )
                 self.dlg.ohsome_centroid_location_list.addItem(
-                    f"Point 1: 8.691193, 49.409476 | Radius: 100"
+                    f"Point 1: 8.71, 49.42 | Radius: 1000"
                 )
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
