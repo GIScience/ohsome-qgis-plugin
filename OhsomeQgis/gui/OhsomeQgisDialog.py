@@ -73,9 +73,9 @@ from OhsomeQgis.common import (
     client,
     directions_core,
     API_ENDPOINTS,
-    PREFERENCES,
     EXTRACTION_SPECS,
     AGGREGATION_SPECS,
+    DATA_AGGREGATION_FORMAT,
 )
 from OhsomeQgis.gui import ohsome_gui
 
@@ -406,9 +406,11 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.ohsome_spec_selection_combo.currentIndexChanged.connect(
             self._set_preferences
         )
-
         self.ohsome_spec_preference_combo.currentIndexChanged.connect(
             self._set_preferences_endpoint
+        )
+        self.ohsome_spec_preference_specification.currentIndexChanged.connect(
+            self._set_data_aggregation_format
         )
 
         # Config/Help dialogs
@@ -501,6 +503,19 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             )
             self.ohsome_spec_preference_specification.addItems(aggregation_set)
             self.ohsome_spec_preference_specification.setCurrentIndex(0)
+        self._set_data_aggregation_format()
+
+    def _set_data_aggregation_format(self):
+        self.data_aggregation_format.clear()
+        current_text = self.ohsome_spec_preference_specification.currentText()
+        if "groupBy/boundary" in current_text:
+            self.data_aggregation_format.addItems(
+                DATA_AGGREGATION_FORMAT.get("groupBy/boundary")
+            )
+        else:
+            self.data_aggregation_format.addItems(
+                DATA_AGGREGATION_FORMAT.get("default")
+            )
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
