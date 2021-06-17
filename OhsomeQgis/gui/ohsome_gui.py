@@ -25,10 +25,13 @@
 """
 
 import json
+import re
 
-from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QCheckBox, QMessageBox, QDialog
 
-from OhsomeQgis.utils import transform
+from OhsomeQgis.gui import OhsomeQgisDialog
+from OhsomeQgis.utils import transform, logger
 
 
 def _get_avoid_polygons(layer):
@@ -79,119 +82,133 @@ def _get_avoid_options(avoid_boxes):
 
 
 class Spec:
-    """Extended functionality for directions endpoint for GUI."""
+    """Extended functionality for all endpoints for the GUI."""
 
-    def __init__(self, dlg):
+    def __init__(self, dlg: QDialog):
         """
         :param dlg: Main GUI dialog.
         :type dlg: QDialog
         """
-        self.dlg = dlg
+        self.preferences_valid = False
 
-        self.options = dict()
-        self.spec = self.dlg.ohsome_spec_selection_combo.currentText()
-        self.spec_preference = (
-            self.dlg.ohsome_spec_preference_combo.currentText()
-        )
-        print()
+        self.dlg: QDialog = dlg
 
-    def get_request_line_feature(self):
+        self._request_preferences = self._prepare_request_preferences()
+        self._centroid_features = self.__prepare_centroid_features()
+        if (
+            len(self._request_preferences) > 0
+            and len(self._centroid_features) > 0
+        ):
+            self.preferences_valid = True
+
+    def __prepare_ohsome_time_parameter(
+        self,
+        start_date: QDate,
+        end_date: QDate,
+        years: int,
+        months: int,
+        days: int,
+    ) -> str:
         """
-        Extracts all coordinates for the list in GUI.
+        Prepare a valid ohsome time string to include into the API query.
 
-        :returns: coordinate list of line
-        :rtype: list
+        @return Returns a valid date parameter or raises a QGIS Warning and returns an empty string.
+        @rtype: str
         """
-        coordinates = []
-        layers_list = self.dlg.ohsome_centroid_location_list
-        for idx in range(layers_list.count()):
-            item = layers_list.item(idx).text()
-            param, coords = item.split(":")
+        date_start = start_date.toString("yyyy-MM-dd")
+        date_end = end_date.toString("yyyy-MM-dd")
+        intervals = "P"
 
-            coordinates.append([float(coord) for coord in coords.split(", ")])
+        if years and years > 0:
+            intervals = f"{intervals}{years}Y"
+        if months and months > 0:
+            intervals = f"{intervals}{months}M"
+        if days and days > 0:
+            intervals = f"{intervals}{days}D"
 
-        return [[round(x, 6), round(y, 6)] for x, y in coordinates]
+        # If it's the default date the API will reject all requests that are not equal or greater than the first second.
+        if date_start == "2007-10-08":
+            date_start = "2007-10-08T00:00:01"
+        if date_end == "2007-10-08":
+            date_end = "2007-10-08T00:00:01"
 
-    def get_parameters(self):
+        # Check if intervals only contains P or less. Than it is invalid.
+        if len(intervals) <= 1:
+            QMessageBox.critical(
+                self.dlg,
+                "Interval error",
+                "Set at least years, months or days for a valid interval.",
+            )
+            return ""
+        elif date_start.__eq__(date_end):
+            QMessageBox.critical(
+                self.dlg, "Date error", "Start and end date must be different."
+            )
+            return ""
+
+        dates = f"{date_start}/{date_end}/{intervals}"
+        return dates
+
+    def _prepare_request_preferences(self) -> dict:
         """
         Builds parameters across directions functionalities.
 
-        :returns: All parameter mappings except for coordinates.
-        :rtype: dict
+        @return: All parameter mappings except for coordinates or layers.
+        @rtype: dict
         """
-
-        if self.dlg.optimization_group.isChecked():
-            return self._get_optimize_parameters()
-
-        # API parameters
-        route_mode = self.dlg.ohsome_spec_selection_combo.currentText()
-        route_pref = self.dlg.ohsome_spec_selection_combo.currentText()
-
-        params = {
-            "preference": route_pref,
-            "geometry": "true",
-            "instructions": "false",
-            "elevation": True,
-            "id": 1,
+        preferences = {
+            "activate_temporal_feature": False,
+            "api_spec": self.dlg.ohsome_spec_selection_combo.currentText(),
+            "api_preference": self.dlg.ohsome_spec_preference_combo.currentText(),
         }
 
-        # Get Advanced parameters
-        if self.dlg.routing_avoid_tags_group.isChecked():
-            avoid_boxes = self.dlg.routing_avoid_tags_group.findChildren(
-                QCheckBox
+        if self.dlg.check_activate_temporal.isChecked():
+            preferences["activate_temporal_feature"] = True
+
+        parameters = {"showMetadata": "false"}
+
+        # Get options
+        if self.dlg.check_show_metadata.isChecked():
+            parameters["showMetadata"] = "true"
+
+        # Check if a filter is set
+        if len(self.dlg.filter_input.toPlainText()) <= 0:
+            QMessageBox.critical(
+                self.dlg, "Filter error", "Set a filter query."
             )
-            if any(box.isChecked() for box in avoid_boxes):
-                self.options["avoid_features"] = _get_avoid_options(avoid_boxes)
+            return {}
+        else:
+            parameters["filter"] = self.dlg.filter_input.toPlainText()
 
-        if self.dlg.routing_avoid_countries_group.isChecked():
-            countries_text = self.dlg.countries_text.value()
-            if countries_text:
-                countries = countries_text.split(",")
-                if all(map(lambda x: x.isdigit(), countries)):
-                    countries = [int(x) for x in countries]
-                self.options["avoid_countries"] = countries
+        parameters["date_string"] = self.__prepare_ohsome_time_parameter(
+            self.dlg.date_start.date(),
+            self.dlg.date_end.date(),
+            self.dlg.interval_years.value(),
+            self.dlg.interval_months.value(),
+            self.dlg.interval_days.value(),
+        )
+        # Check if the date string is valid. Else return an empty array.
+        if len(parameters["date_string"]) <= 0:
+            return {}
+        preferences["parameters"] = parameters
+        return preferences
 
-        if self.dlg.avoidpolygon_group.isChecked():
-            layer = self.dlg.avoidpolygon_dropdown.currentLayer()
-            if layer:
-                polygons = _get_avoid_polygons(layer)
-                self.options["avoid_polygons"] = polygons
+    def __prepare_centroid_features(self) -> list:
+        coordinate_string = ""
+        layers_list = self.dlg.ohsome_centroid_location_list
+        for idx in range(layers_list.count()):
+            item: str = layers_list.item(idx).text()
+            param_cords, radius = item.rsplit(" | Radius: ")
+            _, coordinates = param_cords.split(": ")
 
-        if self.options:
-            params["options"] = self.options
+            if len(coordinate_string) <= 0:
+                coordinate_string = [f"id{idx}:{coordinates},{radius}"]
+            else:
+                coordinate_string = [
+                    f"{coordinate_string}|id{idx}:{coordinates},{radius}"
+                ]
 
-        return params
+        return coordinate_string
 
-    def _get_optimize_parameters(self):
-        """Return parameters for optimization waypoint"""
-        coordinates = self.get_request_line_feature()
-
-        params = {
-            "jobs": list(),
-            "vehicles": [
-                {
-                    "id": 0,
-                    "profile": self.dlg.ohsome_spec_selection_combo.currentText(),
-                }
-            ],
-            "options": {"g": True},
-        }
-
-        if self.dlg.optimize_end.isChecked():
-            end = coordinates.pop(-1)
-            params["vehicles"][0]["end"] = end
-        elif self.dlg.optimize_start.isChecked():
-            start = coordinates.pop(0)
-            params["vehicles"][0]["start"] = start
-        elif self.dlg.optimize_none.isChecked():
-            start = coordinates.pop(0)
-            end = coordinates.pop(-1)
-            params["vehicles"][0]["start"] = start
-            params["vehicles"][0]["end"] = end
-
-        for coord in coordinates:
-            params["jobs"].append(
-                {"location": coord, "id": coordinates.index(coord)}
-            )
-
-        return params
+    def get_bcircles_request_preferences(self):
+        return self._centroid_features

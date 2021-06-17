@@ -74,8 +74,8 @@ from OhsomeQgis.common import (
     directions_core,
     API_ENDPOINTS,
     PREFERENCES,
-    EXTRACTION_PREFERENCES,
-    AGGREGATION_PREFERENCES,
+    EXTRACTION_SPECS,
+    AGGREGATION_SPECS,
 )
 from OhsomeQgis.gui import ohsome_gui
 
@@ -217,6 +217,15 @@ class OhsomeQgisDialogMain:
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
             self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+            # TODO RAD
+            runtime_config = configmanager.read_config()["runtime"]
+            if runtime_config["debug"]:
+                self.dlg.ohsome_centroid_location_list.addItem(
+                    f"Point 0: 8.691173, 49.409476 | Radius: 50"
+                )
+                self.dlg.ohsome_centroid_location_list.addItem(
+                    f"Point 1: 8.691193, 49.409476 | Radius: 100"
+                )
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
@@ -277,73 +286,44 @@ class OhsomeQgisDialogMain:
         elif tab_index != 0 and tab_index != 1:
             return
             # if no API key is present, when ORS is selected, throw an error message
-        if provider["base_url"].startswith("https://api.ohsome.org/"):
-            QMessageBox.information(
-                self.dlg,
-                "Using the public API. Rate limits may apply.",
-            )
+        if provider["base_url"].startswith("https://api.ohsome.org"):
+            msg = "Using the public API. Rate limits may apply."
+            logger.log(msg, 0)
+            self.dlg.debug_text.setText(msg)
 
         clnt = client.Client(provider)
         clnt_msg = ""
 
-        specification = ohsome_gui.Spec(self.dlg)
-        params = None
         try:
-            params = specification.get_parameters()
-            if self.dlg.optimization_group.isChecked():
-                if (
-                    len(params["jobs"]) <= 1
-                ):  # Start/end locations don't count as job
-                    QMessageBox.critical(
-                        self.dlg,
-                        "Wrong number of waypoints",
-                        """At least 3 or 4 waypoints are needed to perform routing optimization.
+            specification = ohsome_gui.Spec(self.dlg)
+            if not specification.preferences_valid:
+                msg = "The request has been aborted!"
+                logger.log(msg, 0)
+                self.dlg.debug_text.setText(msg)
+                return
 
-Remember, the first and last location are not part of the optimization.
-                        """,
-                    )
-                    return
-                response = clnt.request("/optimization", {}, post_json=params)
-                feat = directions_core.get_output_features_optimization(
-                    response, params["vehicles"][0]["profile"]
+            if tab_index == 0:
+                bcircles_preferences = (
+                    specification.get_bcircles_request_preferences()
                 )
-            else:
-                params["coordinates"] = specification.get_request_line_feature()
+
                 profile = self.dlg.ohsome_spec_selection_combo.currentText()
-                # abort on empty avoid polygons layer
-                if (
-                    "options" in params
-                    and "avoid_polygons" in params["options"]
-                    and params["options"]["avoid_polygons"] == {}
-                ):
-                    QMessageBox.warning(
-                        self.dlg,
-                        "Empty layer",
-                        """
-The specified avoid polygon(s) layer does not contain any features.
-Please add polygons to the layer or uncheck avoid polygons.
-                        """,
-                    )
-                    msg = "The request has been aborted!"
-                    logger.log(msg, 0)
-                    self.dlg.debug_text.setText(msg)
-                    return
                 response = clnt.request(
-                    "/v2/directions/" + profile + "/geojson",
+                    "/v1/directions/" + profile + "/geojson",
                     {},
-                    post_json=params,
+                    post_json=bcircles_preferences,
                 )
                 feat = directions_core.get_output_feature_directions(
                     response,
                     profile,
-                    params["preference"],
+                    preferences["preference"],
                     specification.options,
                 )
 
-            layer_out.dataProvider().addFeature(feat)
+                layer_out.dataProvider().addFeature(feat)
 
-            layer_out.updateExtents()
-            self.project.addMapLayer(layer_out)
+                layer_out.updateExtents()
+                self.project.addMapLayer(layer_out)
 
         except exceptions.Timeout:
             msg = "The connection has timed out!"
@@ -370,10 +350,10 @@ Please add polygons to the layer or uncheck avoid polygons.
 
         finally:
             # Set URL in debug window
-            if params:
+            if preferences:
                 clnt_msg += (
                     '<a href="{0}">{0}</a><br>Parameters:<br>{1}'.format(
-                        clnt.url, json.dumps(params, indent=2)
+                        clnt.url, json.dumps(preferences, indent=2)
                     )
                 )
             self.dlg.debug_text.setHtml(clnt_msg)
@@ -429,6 +409,10 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self._set_preferences
         )
 
+        self.ohsome_spec_preference_combo.currentIndexChanged.connect(
+            self._set_preferences_endpoint
+        )
+
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
         self.help_button.clicked.connect(on_help_click)
@@ -480,12 +464,33 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
     # On Spec selection
     def _set_preferences(self):
+        self.ohsome_spec_preference_combo.clear()
         if self.ohsome_spec_selection_combo.currentText() == API_ENDPOINTS[0]:
-            self.ohsome_spec_preference_combo.clear()
-            self.ohsome_spec_preference_combo.addItems(EXTRACTION_PREFERENCES)
+            self.ohsome_spec_preference_combo.addItems(EXTRACTION_SPECS)
+            self.ohsome_spec_preference_combo.setCurrentIndex(0)
         else:
-            self.ohsome_spec_preference_combo.clear()
-            self.ohsome_spec_preference_combo.addItems(AGGREGATION_PREFERENCES)
+            self.ohsome_spec_preference_combo.addItems(AGGREGATION_SPECS)
+            self.ohsome_spec_preference_combo.setCurrentIndex(0)
+        self._set_preferences_endpoint()
+
+    def _set_preferences_endpoint(self):
+        self.ohsome_spec_preference_endpoint.clear()
+        current_text = self.ohsome_spec_preference_combo.currentText()
+        # Catch when preference combo is just cleaned and empty.
+        if not current_text or len(current_text) <= 0:
+            return
+        if self.ohsome_spec_selection_combo.currentText() == API_ENDPOINTS[0]:
+            extraction_set = EXTRACTION_SPECS.get(
+                self.ohsome_spec_preference_combo.currentText()
+            )
+            self.ohsome_spec_preference_endpoint.addItems(extraction_set)
+            self.ohsome_spec_preference_endpoint.setCurrentIndex(0)
+        else:
+            aggregation_set = AGGREGATION_SPECS.get(
+                self.ohsome_spec_preference_combo.currentText()
+            )
+            self.ohsome_spec_preference_endpoint.addItems(aggregation_set)
+            self.ohsome_spec_preference_endpoint.setCurrentIndex(0)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""

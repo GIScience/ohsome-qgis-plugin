@@ -14,9 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeQgisDialogBase(object):
     def setupUi(self, OhsomeQgisDialogBase):
         OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(464, 912)
+        OhsomeQgisDialogBase.resize(463, 928)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -57,9 +57,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.api_label.setAlignment(QtCore.Qt.AlignCenter)
         self.api_label.setOpenExternalLinks(True)
         self.api_label.setObjectName("api_label")
-        self.horizontalLayout_3.addWidget(
-            self.api_label, 0, QtCore.Qt.AlignHCenter
-        )
+        self.horizontalLayout_3.addWidget(self.api_label)
         self.ohsome_label = QtWidgets.QLabel(self.resources_group)
         font = QtGui.QFont()
         font.setBold(False)
@@ -68,9 +66,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.ohsome_label.setAlignment(QtCore.Qt.AlignCenter)
         self.ohsome_label.setOpenExternalLinks(True)
         self.ohsome_label.setObjectName("ohsome_label")
-        self.horizontalLayout_3.addWidget(
-            self.ohsome_label, 0, QtCore.Qt.AlignHCenter
-        )
+        self.horizontalLayout_3.addWidget(self.ohsome_label)
         self.hex_label = QtWidgets.QLabel(self.resources_group)
         font = QtGui.QFont()
         font.setBold(False)
@@ -79,27 +75,33 @@ class Ui_OhsomeQgisDialogBase(object):
         self.hex_label.setAlignment(QtCore.Qt.AlignCenter)
         self.hex_label.setOpenExternalLinks(True)
         self.hex_label.setObjectName("hex_label")
-        self.horizontalLayout_3.addWidget(
-            self.hex_label, 0, QtCore.Qt.AlignHCenter
-        )
+        self.horizontalLayout_3.addWidget(self.hex_label)
         self.verticalLayout_5.addWidget(self.resources_group)
-        self.widget_4 = QtWidgets.QWidget(OhsomeQgisDialogBase)
+        self.groupBox_4 = QtWidgets.QGroupBox(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.widget_4.sizePolicy().hasHeightForWidth()
+            self.groupBox_4.sizePolicy().hasHeightForWidth()
         )
-        self.widget_4.setSizePolicy(sizePolicy)
-        self.widget_4.setObjectName("widget_4")
-        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.widget_4)
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.label_15 = QtWidgets.QLabel(self.widget_4)
-        self.label_15.setObjectName("label_15")
-        self.horizontalLayout_7.addWidget(self.label_15)
-        self.provider_combo = QtWidgets.QComboBox(self.widget_4)
+        self.groupBox_4.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.groupBox_4.setFont(font)
+        self.groupBox_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.groupBox_4.setFlat(True)
+        self.groupBox_4.setObjectName("groupBox_4")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox_4)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.frame_2 = QtWidgets.QFrame(self.groupBox_4)
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.frame_2)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.provider_combo = QtWidgets.QComboBox(self.frame_2)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
         )
@@ -111,8 +113,11 @@ class Ui_OhsomeQgisDialogBase(object):
         self.provider_combo.setSizePolicy(sizePolicy)
         self.provider_combo.setMinimumSize(QtCore.QSize(150, 25))
         self.provider_combo.setObjectName("provider_combo")
-        self.horizontalLayout_7.addWidget(self.provider_combo)
-        self.provider_refresh = QtWidgets.QPushButton(self.widget_4)
+        self.gridLayout_4.addWidget(self.provider_combo, 0, 1, 1, 1)
+        self.label_15 = QtWidgets.QLabel(self.frame_2)
+        self.label_15.setObjectName("label_15")
+        self.gridLayout_4.addWidget(self.label_15, 0, 0, 1, 1)
+        self.provider_refresh = QtWidgets.QPushButton(self.frame_2)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
         )
@@ -131,8 +136,8 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.provider_refresh.setIcon(icon)
         self.provider_refresh.setObjectName("provider_refresh")
-        self.horizontalLayout_7.addWidget(self.provider_refresh)
-        self.provider_config = QtWidgets.QPushButton(self.widget_4)
+        self.gridLayout_4.addWidget(self.provider_refresh, 0, 2, 1, 1)
+        self.provider_config = QtWidgets.QPushButton(self.frame_2)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
         )
@@ -151,8 +156,31 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.provider_config.setIcon(icon1)
         self.provider_config.setObjectName("provider_config")
-        self.horizontalLayout_7.addWidget(self.provider_config)
-        self.verticalLayout_5.addWidget(self.widget_4)
+        self.gridLayout_4.addWidget(self.provider_config, 0, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.frame_2, 0, 0, 1, 1)
+        self.frame_3 = QtWidgets.QFrame(self.groupBox_4)
+        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.ohsome_spec_selection_combo = QtWidgets.QComboBox(self.frame_3)
+        self.ohsome_spec_selection_combo.setObjectName(
+            "ohsome_spec_selection_combo"
+        )
+        self.horizontalLayout_7.addWidget(self.ohsome_spec_selection_combo)
+        self.ohsome_spec_preference_combo = QtWidgets.QComboBox(self.frame_3)
+        self.ohsome_spec_preference_combo.setObjectName(
+            "ohsome_spec_preference_combo"
+        )
+        self.horizontalLayout_7.addWidget(self.ohsome_spec_preference_combo)
+        self.ohsome_spec_preference_endpoint = QtWidgets.QComboBox(self.frame_3)
+        self.ohsome_spec_preference_endpoint.setObjectName(
+            "ohsome_spec_preference_endpoint"
+        )
+        self.horizontalLayout_7.addWidget(self.ohsome_spec_preference_endpoint)
+        self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
+        self.verticalLayout_5.addWidget(self.groupBox_4)
         self.widget_3 = QtWidgets.QWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -164,25 +192,8 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.widget_3.setSizePolicy(sizePolicy)
         self.widget_3.setObjectName("widget_3")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.widget_3)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.ohsome_spec_preference_combo = QtWidgets.QComboBox(self.widget_3)
-        self.ohsome_spec_preference_combo.setObjectName(
-            "ohsome_spec_preference_combo"
-        )
-        self.gridLayout_2.addWidget(
-            self.ohsome_spec_preference_combo, 0, 2, 1, 1
-        )
-        self.ohsome_spec_label = QtWidgets.QLabel(self.widget_3)
-        self.ohsome_spec_label.setObjectName("ohsome_spec_label")
-        self.gridLayout_2.addWidget(self.ohsome_spec_label, 0, 0, 1, 1)
-        self.ohsome_spec_selection_combo = QtWidgets.QComboBox(self.widget_3)
-        self.ohsome_spec_selection_combo.setObjectName(
-            "ohsome_spec_selection_combo"
-        )
-        self.gridLayout_2.addWidget(
-            self.ohsome_spec_selection_combo, 0, 1, 1, 1
-        )
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.widget_3)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_5.addWidget(self.widget_3)
         self.request_types_widget = QtWidgets.QTabWidget(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -289,6 +300,18 @@ class Ui_OhsomeQgisDialogBase(object):
         self.centroid_radius_input.setProperty("value", 10)
         self.centroid_radius_input.setObjectName("centroid_radius_input")
         self.gridLayout.addWidget(self.centroid_radius_input, 0, 1, 1, 1)
+        self.centroid_radius_label = QtWidgets.QLabel(self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.centroid_radius_label.sizePolicy().hasHeightForWidth()
+        )
+        self.centroid_radius_label.setSizePolicy(sizePolicy)
+        self.centroid_radius_label.setObjectName("centroid_radius_label")
+        self.gridLayout.addWidget(self.centroid_radius_label, 0, 0, 1, 1)
         self.ohsome_centroid_location_list = QtWidgets.QListWidget(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -318,18 +341,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout.addWidget(
             self.ohsome_centroid_location_list, 1, 1, 1, 1
         )
-        self.centroid_radius_label = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.centroid_radius_label.sizePolicy().hasHeightForWidth()
-        )
-        self.centroid_radius_label.setSizePolicy(sizePolicy)
-        self.centroid_radius_label.setObjectName("centroid_radius_label")
-        self.gridLayout.addWidget(self.centroid_radius_label, 0, 0, 1, 1)
         self.gridLayout_8.addWidget(self.widget, 0, 0, 1, 1)
         self.request_types_widget.addTab(self.centroid_tab, "")
         self.layer_tab = QtWidgets.QWidget()
@@ -542,6 +553,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_10.addWidget(self.label_years, 2, 1, 1, 1)
         self.interval_days = QtWidgets.QSpinBox(self.intervals_group)
         self.interval_days.setMaximum(31)
+        self.interval_days.setProperty("value", 1)
         self.interval_days.setObjectName("interval_days")
         self.gridLayout_10.addWidget(self.interval_days, 3, 4, 1, 1)
         self.label_months = QtWidgets.QLabel(self.intervals_group)
@@ -550,6 +562,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_years = QtWidgets.QSpinBox(self.intervals_group)
         self.interval_years.setAccessibleDescription("")
         self.interval_years.setMaximum(99)
+        self.interval_years.setProperty("value", 0)
         self.interval_years.setObjectName("interval_years")
         self.gridLayout_10.addWidget(self.interval_years, 3, 1, 1, 1)
         self.date_end_label = QtWidgets.QLabel(self.intervals_group)
@@ -563,18 +576,28 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_months.setObjectName("interval_months")
         self.gridLayout_10.addWidget(self.interval_months, 3, 2, 1, 1)
         self.date_end = QtWidgets.QDateEdit(self.intervals_group)
-        self.date_end.setMinimumDate(QtCore.QDate(2007, 10, 8))
+        self.date_end.setDateTime(
+            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
+        )
+        self.date_end.setMinimumDateTime(
+            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
+        )
+        self.date_end.setMinimumDate(QtCore.QDate(2007, 10, 9))
         self.date_end.setObjectName("date_end")
         self.gridLayout_10.addWidget(self.date_end, 5, 4, 1, 1)
         self.label_days = QtWidgets.QLabel(self.intervals_group)
         self.label_days.setObjectName("label_days")
         self.gridLayout_10.addWidget(self.label_days, 2, 4, 1, 1)
         self.date_start = QtWidgets.QDateEdit(self.intervals_group)
+        self.date_start.setDateTime(
+            QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
+        )
         self.date_start.setMinimumDateTime(
             QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
         )
         self.date_start.setMaximumDate(QtCore.QDate(2050, 12, 31))
         self.date_start.setMinimumDate(QtCore.QDate(2007, 10, 8))
+        self.date_start.setTimeSpec(QtCore.Qt.LocalTime)
         self.date_start.setObjectName("date_start")
         self.gridLayout_10.addWidget(self.date_start, 5, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.intervals_group)
@@ -710,16 +733,16 @@ class Ui_OhsomeQgisDialogBase(object):
         self.global_buttons.setObjectName("global_buttons")
         self.horizontalLayout_8.addWidget(self.global_buttons)
         self.verticalLayout_5.addWidget(self.control_widget)
-        self.widget_4.raise_()
         self.resources_group.raise_()
         self.control_widget.raise_()
         self.ohsome_log_group.raise_()
         self.request_types_widget.raise_()
         self.widget_3.raise_()
         self.configuration_group_box.raise_()
+        self.groupBox_4.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(1)
+        self.request_types_widget.setCurrentIndex(0)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -735,7 +758,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.api_label.setText(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p><a href="https://api.ohsome.org/v1/swagger-ui.html"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">API</span></a></p></body></html>',
+                '<html><head/><body><p><a href="https://docs.ohsome.org/ohsome-api/stable/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">API DOCS</span></a></p></body></html>',
             )
         )
         self.ohsome_label.setText(
@@ -750,6 +773,9 @@ class Ui_OhsomeQgisDialogBase(object):
                 '<html><head/><body><p><a href="https://ohsome.org/apps/osm-history-explorer/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">HEX</span></a></p></body></html>',
             )
         )
+        self.groupBox_4.setTitle(
+            _translate("OhsomeQgisDialogBase", "Endpoint Selections")
+        )
         self.label_15.setText(_translate("OhsomeQgisDialogBase", "Provider"))
         self.provider_refresh.setToolTip(
             _translate(
@@ -763,14 +789,17 @@ class Ui_OhsomeQgisDialogBase(object):
                 "Shortcut to Web ► ORS Tools ► Provider Settings",
             )
         )
+        self.ohsome_spec_selection_combo.setToolTip(
+            _translate("OhsomeQgisDialogBase", "Ohsome Endpoint")
+        )
         self.ohsome_spec_preference_combo.setToolTip(
             _translate("OhsomeQgisDialogBase", "Request preference")
         )
-        self.ohsome_spec_label.setText(
-            _translate("OhsomeQgisDialogBase", "Select a spec")
+        self.ohsome_spec_preference_combo.setPlaceholderText(
+            _translate("OhsomeQgisDialogBase", "Spec")
         )
-        self.ohsome_spec_selection_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Ohsome Endpoint")
+        self.ohsome_spec_preference_endpoint.setToolTip(
+            _translate("OhsomeQgisDialogBase", "Request preference")
         )
         self.centroid_list_point_add.setToolTip(
             _translate(
@@ -790,14 +819,14 @@ class Ui_OhsomeQgisDialogBase(object):
                 '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
             )
         )
+        self.centroid_radius_label.setText(
+            _translate("OhsomeQgisDialogBase", "Radius")
+        )
         self.ohsome_centroid_location_list.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
                 "Select centroids from the map with the given radius!",
             )
-        )
-        self.centroid_radius_label.setText(
-            _translate("OhsomeQgisDialogBase", "Radius")
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.centroid_tab),
@@ -919,8 +948,14 @@ class Ui_OhsomeQgisDialogBase(object):
                 "Run the query every x months. Adjust the time frame accordingly,",
             )
         )
+        self.date_end.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Enter your end date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">9th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
+            )
+        )
         self.date_end.setDisplayFormat(
-            _translate("OhsomeQgisDialogBase", "dd.MM.yyyy")
+            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
         )
         self.label_days.setToolTip(
             _translate(
@@ -929,8 +964,14 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.label_days.setText(_translate("OhsomeQgisDialogBase", "Days"))
+        self.date_start.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">8th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
+            )
+        )
         self.date_start.setDisplayFormat(
-            _translate("OhsomeQgisDialogBase", "dd.MM.yyyy")
+            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
         )
         self.filter_label.setText(
             _translate("OhsomeQgisDialogBase", "Filter  ")
@@ -940,6 +981,9 @@ class Ui_OhsomeQgisDialogBase(object):
                 "OhsomeQgisDialogBase",
                 '<html><head/><body><p>Enter your desired filter query by using common OpenStreetMap tags. For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
             )
+        )
+        self.filter_input.setPlainText(
+            _translate("OhsomeQgisDialogBase", "building=yes and type:way")
         )
         self.filter_input.setPlaceholderText(
             _translate("OhsomeQgisDialogBase", "landuse=forest or natural=wood")
