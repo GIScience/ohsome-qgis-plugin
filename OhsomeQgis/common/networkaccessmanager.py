@@ -216,6 +216,11 @@ class NetworkAccessManager(object):
                 del headers["Accept-Encoding"]
             except KeyError:
                 pass
+            content_type = ""
+            try:
+                content_type = headers["Content-Type"]
+            except KeyError:
+                pass
             for k, v in list(headers.items()):
                 self.msg_log("Setting header %s to %s" % (k, v))
                 if k and v:
@@ -244,7 +249,12 @@ class NetworkAccessManager(object):
             if isinstance(body, str):
                 body = body.encode()
             if isinstance(body, dict):
-                body = str(json.dumps(body)).encode(encoding="utf-8")
+                if content_type.__contains__(
+                    "application/x-www-form-urlencoded"
+                ):
+                    body = urllib.parse.urlencode(body).encode()
+                else:
+                    body = str(json.dumps(body)).encode(encoding="utf-8")
             self.reply = func(req, body)
         else:
             self.reply = func(req)

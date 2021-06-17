@@ -62,7 +62,8 @@ class Client(QObject):
         self.retry_timeout = timedelta(seconds=retry_timeout)
         self.headers = {
             "User-Agent": _USER_AGENT,
-            "Content-type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "accept": "application/json",
         }
 
         # Save some references to retrieve in client instances
