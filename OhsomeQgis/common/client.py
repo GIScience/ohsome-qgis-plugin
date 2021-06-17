@@ -55,7 +55,6 @@ class Client(QObject):
         QObject.__init__(self)
 
         self.base_url = provider["base_url"]
-        self.ENV_VARS = provider.get("ENV_VARS")
 
         # self.session = requests.Session()
         self.nam = networkaccessmanager.NetworkAccessManager(debug=False)
@@ -193,14 +192,6 @@ class Client(QObject):
                 raise
 
             raise
-
-        # Write env variables if successful
-        if self.ENV_VARS:
-            for env_var in self.ENV_VARS:
-                configmanager.write_env_var(
-                    env_var,
-                    response.headers.get(self.ENV_VARS[env_var], "None"),
-                )
 
         return json.loads(content.decode("utf-8"))
 
