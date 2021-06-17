@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
-    <height>912</height>
+    <width>463</width>
+    <height>928</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -50,7 +50,7 @@
       <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item alignment="Qt::AlignHCenter">
+      <item>
        <widget class="QLabel" name="api_label">
         <property name="font">
          <font>
@@ -59,7 +59,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://api.ohsome.org/v1/swagger-ui.html&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;&quot;&gt;API&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://docs.ohsome.org/ohsome-api/stable/&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;&quot;&gt;API DOCS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -69,7 +69,7 @@
         </property>
        </widget>
       </item>
-      <item alignment="Qt::AlignHCenter">
+      <item>
        <widget class="QLabel" name="ohsome_label">
         <property name="font">
          <font>
@@ -88,7 +88,7 @@
         </property>
        </widget>
       </item>
-      <item alignment="Qt::AlignHCenter">
+      <item>
        <widget class="QLabel" name="hex_label">
         <property name="font">
          <font>
@@ -111,75 +111,137 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_4" native="true">
+    <widget class="QGroupBox" name="groupBox_4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0">
-      <item>
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>Provider</string>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Endpoint Selections</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="1">
+          <widget class="QComboBox" name="provider_combo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Provider</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="provider_refresh">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Refresh the provider list. Needed after a provider was added or deleted.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/plugins/OhsomeQgis/img/icon_refresh.png</normaloff>:/plugins/OhsomeQgis/img/icon_refresh.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="provider_config">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Shortcut to Web ► ORS Tools ► Provider Settings</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/plugins/OhsomeQgis/img/icon_settings.png</normaloff>:/plugins/OhsomeQgis/img/icon_settings.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item>
-       <widget class="QComboBox" name="provider_combo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item row="2" column="0">
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>25</height>
-         </size>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="provider_refresh">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Refresh the provider list. Needed after a provider was added or deleted.</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/plugins/OhsomeQgis/img/icon_refresh.png</normaloff>:/plugins/OhsomeQgis/img/icon_refresh.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="provider_config">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Shortcut to Web ► ORS Tools ► Provider Settings</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/plugins/OhsomeQgis/img/icon_settings.png</normaloff>:/plugins/OhsomeQgis/img/icon_settings.png</iconset>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QComboBox" name="ohsome_spec_selection_combo">
+           <property name="toolTip">
+            <string>Ohsome Endpoint</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="ohsome_spec_preference_combo">
+           <property name="toolTip">
+            <string>Request preference</string>
+           </property>
+           <property name="placeholderText">
+            <string>Spec</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="ohsome_spec_preference_endpoint">
+           <property name="toolTip">
+            <string>Request preference</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -193,29 +255,7 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="2">
-       <widget class="QComboBox" name="ohsome_spec_preference_combo">
-        <property name="toolTip">
-         <string>Request preference</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="ohsome_spec_label">
-        <property name="text">
-         <string>Select a spec</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="ohsome_spec_selection_combo">
-        <property name="toolTip">
-         <string>Ohsome Endpoint</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
     </widget>
    </item>
    <item>
@@ -233,7 +273,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -338,6 +378,19 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="centroid_radius_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Radius</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QListWidget" name="ohsome_centroid_location_list">
             <property name="sizePolicy">
@@ -369,19 +422,6 @@
             </property>
             <property name="resizeMode">
              <enum>QListView::Fixed</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="centroid_radius_label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Radius</string>
             </property>
            </widget>
           </item>
@@ -712,6 +752,9 @@
            <property name="maximum">
             <number>31</number>
            </property>
+           <property name="value">
+            <number>1</number>
+           </property>
           </widget>
          </item>
          <item row="2" column="2">
@@ -734,6 +777,9 @@
            </property>
            <property name="maximum">
             <number>99</number>
+           </property>
+           <property name="value">
+            <number>0</number>
            </property>
           </widget>
          </item>
@@ -766,15 +812,38 @@
          </item>
          <item row="5" column="4">
           <widget class="QDateEdit" name="date_end">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="dateTime">
+            <datetime>
+             <hour>0</hour>
+             <minute>0</minute>
+             <second>0</second>
+             <year>2007</year>
+             <month>10</month>
+             <day>9</day>
+            </datetime>
+           </property>
+           <property name="minimumDateTime">
+            <datetime>
+             <hour>0</hour>
+             <minute>0</minute>
+             <second>0</second>
+             <year>2007</year>
+             <month>10</month>
+             <day>9</day>
+            </datetime>
+           </property>
            <property name="minimumDate">
             <date>
              <year>2007</year>
              <month>10</month>
-             <day>8</day>
+             <day>9</day>
             </date>
            </property>
            <property name="displayFormat">
-            <string>dd.MM.yyyy</string>
+            <string>dd-MM-yyyy</string>
            </property>
           </widget>
          </item>
@@ -790,6 +859,19 @@
          </item>
          <item row="5" column="1">
           <widget class="QDateEdit" name="date_start">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="dateTime">
+            <datetime>
+             <hour>0</hour>
+             <minute>0</minute>
+             <second>0</second>
+             <year>2007</year>
+             <month>10</month>
+             <day>8</day>
+            </datetime>
+           </property>
            <property name="minimumDateTime">
             <datetime>
              <hour>0</hour>
@@ -815,7 +897,10 @@
             </date>
            </property>
            <property name="displayFormat">
-            <string>dd.MM.yyyy</string>
+            <string>dd-MM-yyyy</string>
+           </property>
+           <property name="timeSpec">
+            <enum>Qt::LocalTime</enum>
            </property>
           </widget>
          </item>
@@ -866,6 +951,9 @@
            </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your desired filter query by using common OpenStreetMap tags. For more information see: &lt;a href=&quot;https://docs.ohsome.org/ohsome-api/v1/filter.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2eb8e6;&quot;&gt;https://docs.ohsome.org/ohsome-api/v1/filter.html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="plainText">
+            <string>building=yes and type:way</string>
            </property>
            <property name="placeholderText">
             <string>landuse=forest or natural=wood</string>
@@ -1002,13 +1090,13 @@
     </widget>
    </item>
   </layout>
-  <zorder>widget_4</zorder>
   <zorder>resources_group</zorder>
   <zorder>control_widget</zorder>
   <zorder>ohsome_log_group</zorder>
   <zorder>request_types_widget</zorder>
   <zorder>widget_3</zorder>
   <zorder>configuration_group_box</zorder>
+  <zorder>groupBox_4</zorder>
  </widget>
  <customwidgets>
   <customwidget>
