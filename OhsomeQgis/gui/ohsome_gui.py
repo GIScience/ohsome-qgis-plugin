@@ -30,7 +30,6 @@ import re
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QCheckBox, QMessageBox, QDialog
 
-from OhsomeQgis.common import GLOBAL_TIMEOUT
 from OhsomeQgis.utils import transform
 
 
@@ -110,9 +109,10 @@ class Spec:
 
     @property
     def _request_timeout(self) -> int:
+        value = 0
         if self.dlg.timeout_input.value():
-            return int(self.dlg.timeout_input.value())
-        return GLOBAL_TIMEOUT
+            value: int = int(self.dlg.timeout_input.value())
+        return value
 
     @property
     def _data_extraction_clip_geometry(self) -> bool:
@@ -250,7 +250,9 @@ class Spec:
         properties["showMetadata"] = self._show_metadata.__str__().lower()
         properties["filter"] = self._request_filter
         properties["time"] = self._request_date_string
-        properties["timeout"] = self._request_timeout.__str__()
+        if self._request_timeout > 0:
+            # Use API specific timout of less or equal to 0
+            properties["timeout"] = self._request_timeout.__str__()
 
         return properties
 

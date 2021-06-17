@@ -554,9 +554,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.horizontalLayout_10.addWidget(self.timeout_label)
         self.timeout_input = QtWidgets.QSpinBox(self.frame_5)
         self.timeout_input.setAccessibleDescription("")
-        self.timeout_input.setMinimum(1)
+        self.timeout_input.setMinimum(0)
         self.timeout_input.setMaximum(9999999)
-        self.timeout_input.setProperty("value", 10)
+        self.timeout_input.setProperty("value", 0)
         self.timeout_input.setObjectName("timeout_input")
         self.horizontalLayout_10.addWidget(self.timeout_input)
         self.verticalLayout_3.addWidget(self.frame_5)
@@ -630,8 +630,8 @@ class Ui_OhsomeQgisDialogBase(object):
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.intervals_group.setFlat(False)
-        self.intervals_group.setCollapsed(False)
+        self.intervals_group.setFlat(True)
+        self.intervals_group.setCollapsed(True)
         self.intervals_group.setSaveCollapsedState(False)
         self.intervals_group.setObjectName("intervals_group")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.intervals_group)
@@ -1010,7 +1010,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_input.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request. If the value 0 is set, the server side timeout is used, which can be up to 600 seconds.</p><p>For the public API of Ohsome the maximum manual timeout value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.property_groups_box.setToolTip(
