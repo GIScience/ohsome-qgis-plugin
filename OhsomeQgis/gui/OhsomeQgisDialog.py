@@ -334,13 +334,14 @@ class OhsomeQgisDialogMain:
                     file = QgsProcessingUtils.generateTempFilename(
                         f"{preferences.get_request_url()}.csv"
                     )
-                    result_groups = response["result"]
+                    results = response["result"]
                     with open(file, "w", newline="") as f:
                         wr = csv.DictWriter(
-                            f, fieldnames=result_groups[0].first.keys()
+                            f,
+                            fieldnames=results[0].keys(),
                         )
                         wr.writeheader()
-                        for row_result in result_groups:
+                        for row_result in results:
                             wr.writerow(row_result)
                     vlayer = data_extractions_core.write_ohsome_vector_layer(
                         self.iface, file, request_time
@@ -350,15 +351,15 @@ class OhsomeQgisDialogMain:
                     and len(response.get("groupByResult")) > 0
                 ):
                     # Process non-flat tables
-                    result_groups = response["groupByResult"]
-                    for result_group in result_groups:
+                    results = response["groupByResult"]
+                    for result_group in results:
                         file = QgsProcessingUtils.generateTempFilename(
                             f'{result_group["groupByObject"]}_{preferences.get_request_url()}.csv'
                         )
                         with open(file, "w", newline="") as f:
                             wr = csv.DictWriter(
                                 f,
-                                fieldnames=result_groups[0]["result"][0].keys(),
+                                fieldnames=results[0]["result"][0].keys(),
                             )
                             wr.writeheader()
                             for row_result in result_group["result"]:
