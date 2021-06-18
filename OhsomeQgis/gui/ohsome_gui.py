@@ -95,7 +95,7 @@ class OhsomeSpec:
         return self.dlg.ohsome_spec_selection_combo.currentText()
 
     @property
-    def _activate_temporal_feature(self):
+    def activate_temporal_feature(self):
         if self.dlg.check_activate_temporal.isChecked():
             return True
         return False
@@ -267,3 +267,19 @@ class OhsomeSpec:
 
     def get_request_url(self) -> str:
         return self._request_url
+
+    def __dict__(self) -> dict:
+        return {
+            "api_spec": self._api_spec,
+            "activate_temporal_feature": self.activate_temporal_feature,
+            "show_metadata": self._show_metadata,
+            "request_timeout": self._request_timeout,
+            "data_extraction_clip_geometry": self._data_extraction_clip_geometry,
+            "property_groups": self._property_groups,
+            "data_aggregation_format": self._data_aggregation_format,
+            "request_bcircles_coordinates": self._request_bcircles_coordinates,
+            "request_filter": self._request_filter,
+            "request_url": self._request_url,
+            "request_date_string": self._request_date_string,
+            "et_request_url": self.get_request_url,
+        }

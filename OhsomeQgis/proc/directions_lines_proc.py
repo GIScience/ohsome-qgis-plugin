@@ -44,7 +44,7 @@ from . import HELP_DIR
 from OhsomeQgis import RESOURCE_PREFIX, __help__
 from OhsomeQgis.common import (
     client,
-    directions_core,
+    data_extractions_core,
     API_ENDPOINTS,
     PREFERENCES,
 )
@@ -206,7 +206,7 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
             parameters,
             self.OUT,
             context,
-            directions_core.get_fields(
+            data_extractions_core.get_fields(
                 from_type=source.fields().field(source_field_name).type(),
                 from_name=source_field_name,
                 line=True,
@@ -231,7 +231,7 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
                     )
 
                     sink.addFeature(
-                        directions_core.get_output_features_optimization(
+                        data_extractions_core.get_output_features_optimization(
                             response, profile, from_value=field_value
                         )
                     )
@@ -246,7 +246,7 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
                     )
 
                     sink.addFeature(
-                        directions_core.get_output_feature_directions(
+                        data_extractions_core.get_output_feature_extraction(
                             response,
                             profile,
                             preference,
@@ -255,7 +255,6 @@ class ORSdirectionsLinesAlgo(QgsProcessingAlgorithm):
                     )
             except (
                 exceptions.ApiError,
-                exceptions.InvalidKey,
                 exceptions.GenericServerError,
             ) as e:
                 msg = "Feature ID {} caused a {}:\n{}".format(

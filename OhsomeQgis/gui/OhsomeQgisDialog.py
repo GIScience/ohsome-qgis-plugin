@@ -23,10 +23,11 @@
  *                                                                         *
  ***************************************************************************/
 """
-
+import csv
 import os
 import json
 import webbrowser
+from datetime import datetime
 
 from PyQt5.QtWidgets import (
     QAction,
@@ -40,6 +41,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QIcon, QTextDocument
 from PyQt5.QtCore import QSizeF, QPointF
+from qgis._core import QgsProcessingUtils, Qgis
 
 from qgis.core import (
     QgsProject,
@@ -71,7 +73,7 @@ from OhsomeQgis.utils import (
 )
 from OhsomeQgis.common import (
     client,
-    directions_core,
+    data_extractions_core,
     API_ENDPOINTS,
     EXTRACTION_SPECS,
     AGGREGATION_SPECS,
@@ -221,10 +223,7 @@ class OhsomeQgisDialogMain:
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
                 self.dlg.ohsome_centroid_location_list.addItem(
-                    f"Point 0: 8.67, 49.39 | Radius: 500"
-                )
-                self.dlg.ohsome_centroid_location_list.addItem(
-                    f"Point 1: 8.71, 49.42 | Radius: 1000"
+                    f"Point 0: 8.67, 49.39 | Radius: 1000"
                 )
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
@@ -241,7 +240,9 @@ class OhsomeQgisDialogMain:
         layer_out = QgsVectorLayer(
             "LineString?crs=EPSG:4326", "Time_OHSOME    ", "memory"
         )
-        layer_out.dataProvider().addAttributes(directions_core.get_fields())
+        layer_out.dataProvider().addAttributes(
+            data_extractions_core.get_fields()
+        )
         layer_out.updateFields()
 
         # Associate annotations with map layer, so they get deleted when layer is deleted
@@ -293,9 +294,9 @@ class OhsomeQgisDialogMain:
 
         clnt = client.Client(provider)
         clnt_msg = ""
-
+        preferences = ohsome_gui.OhsomeSpec(self.dlg)
+        vlayer = None
         try:
-            preferences = ohsome_gui.OhsomeSpec(self.dlg)
             if not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
@@ -306,23 +307,79 @@ class OhsomeQgisDialogMain:
                 bcircles_preferences = (
                     preferences.get_bcircles_request_preferences()
                 )
-                # response = clnt.request(
-                #     f"/{preferences.get_request_url()}",
-                #     {},
-                #     post_json=bcircles_preferences,
-                # )
-                # feat = directions_core.get_output_feature_directions(
-                #     response,
-                #     profile,
-                #     preferences["preference"],
-                #     preferences.options,
-                # )
-                #
-                # layer_out.dataProvider().addFeature(feat)
-                #
-                # layer_out.updateExtents()
-                # self.project.addMapLayer(layer_out)
-
+                request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+                response = clnt.request(
+                    f"/{preferences.get_request_url()}",
+                    {},
+                    post_json=bcircles_preferences,
+                )
+                if (
+                    all(i in response.keys() for i in ["type", "features"])
+                    and response.get("type").lower() == "featurecollection"
+                ):
+                    # Process GeoJSON
+                    geojsons: [] = (
+                        data_extractions_core.split_geojson_by_geometry(
+                            response
+                        )
+                    )
+                    for i in range(len(geojsons)):
+                        file = QgsProcessingUtils.generateTempFilename(
+                            f"{preferences.get_request_url()}.geojson"
+                        )
+                        with open(file, "w") as f:
+                            f.write(json.dumps(geojsons[i], indent=4))
+                        vlayer = (
+                            data_extractions_core.write_ohsome_vector_layer(
+                                self.iface, file, request_time
+                            )
+                        )
+                        data_extractions_core.postprocess_qgsvectorlayer(
+                            vlayer,
+                            activate_temporal=preferences.activate_temporal_feature,
+                        )
+                elif (
+                    "result" in response.keys()
+                    and len(response.get("result")) > 0
+                ):
+                    # Process flat tables
+                    file = QgsProcessingUtils.generateTempFilename(
+                        f"{preferences.get_request_url()}.csv"
+                    )
+                    result_groups = response["result"]
+                    with open(file, "w", newline="") as f:
+                        wr = csv.DictWriter(
+                            f, fieldnames=result_groups[0].first.keys()
+                        )
+                        wr.writeheader()
+                        for row_result in result_groups:
+                            wr.writerow(row_result)
+                    vlayer = data_extractions_core.write_ohsome_vector_layer(
+                        self.iface, file, request_time
+                    )
+                elif (
+                    "groupByResult" in response.keys()
+                    and len(response.get("groupByResult")) > 0
+                ):
+                    # Process non-flat tables
+                    result_groups = response["groupByResult"]
+                    for result_group in result_groups:
+                        file = QgsProcessingUtils.generateTempFilename(
+                            f'{result_group["groupByObject"]}_{preferences.get_request_url()}.csv'
+                        )
+                        with open(file, "w", newline="") as f:
+                            wr = csv.DictWriter(
+                                f,
+                                fieldnames=result_groups[0]["result"][0].keys(),
+                            )
+                            wr.writeheader()
+                            for row_result in result_group["result"]:
+                                wr.writerow(row_result)
+                        vlayer = (
+                            data_extractions_core.write_ohsome_vector_layer(
+                                self.iface, file, request_time
+                            )
+                        )
         except exceptions.Timeout:
             msg = "The connection has timed out!"
             logger.log(msg, 2)
@@ -331,30 +388,33 @@ class OhsomeQgisDialogMain:
 
         except (
             exceptions.ApiError,
-            exceptions.InvalidKey,
             exceptions.GenericServerError,
         ) as e:
             msg = (e.__class__.__name__, str(e))
 
             logger.log("{}: {}".format(*msg), 2)
             clnt_msg += "<b>{}</b>: ({})<br>".format(*msg)
-            raise
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The API returned a query error.",
+                level=Qgis.Warning,
+                duration=7,
+            )
 
         except Exception as e:
             msg = [e.__class__.__name__, str(e)]
             logger.log("{}: {}".format(*msg), 2)
-            clnt_msg += "<b>{}</b>: {}<br>".format(*msg)
-            raise
+            clnt_msg += "{}: {}".format(*msg)
 
         finally:
-            # Set URL in debug window
-            if preferences:
-                clnt_msg += (
-                    '<a href="{0}">{0}</a><br>Parameters:<br>{1}'.format(
-                        clnt.url, json.dumps(preferences, indent=2)
-                    )
+            if len(vlayer) <= 0:
+                self.iface.messageBar().pushMessage(
+                    "Information",
+                    "The response is empty. Refine your filter query and check the plugin console for errors.",
+                    level=Qgis.Info,
+                    duration=5,
                 )
-            self.dlg.debug_text.setHtml(clnt_msg)
+            self.dlg.debug_text.setText(clnt_msg)
 
 
 class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):

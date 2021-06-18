@@ -225,7 +225,6 @@ class ORSisochronesPointAlgo(QgsProcessingAlgorithm):
 
         except (
             exceptions.ApiError,
-            exceptions.InvalidKey,
             exceptions.GenericServerError,
         ) as e:
             msg = "Feature ID {} caused a {}:\n{}".format(

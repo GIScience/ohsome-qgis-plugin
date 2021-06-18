@@ -286,8 +286,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout.addWidget(self.widget_7, 1, 0, 1, 1)
         self.centroid_radius_input = QtWidgets.QSpinBox(self.widget)
         self.centroid_radius_input.setAccessibleDescription("")
-        self.centroid_radius_input.setMaximum(99)
-        self.centroid_radius_input.setProperty("value", 10)
+        self.centroid_radius_input.setMinimum(1)
+        self.centroid_radius_input.setMaximum(999999999)
+        self.centroid_radius_input.setProperty("value", 1000)
         self.centroid_radius_input.setObjectName("centroid_radius_input")
         self.gridLayout.addWidget(self.centroid_radius_input, 0, 1, 1, 1)
         self.centroid_radius_label = QtWidgets.QLabel(self.widget)
@@ -1102,7 +1103,10 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.filter_input.setPlainText(
-            _translate("OhsomeQgisDialogBase", "building=yes and type:way")
+            _translate(
+                "OhsomeQgisDialogBase",
+                "building=* or (type:way and highway=residential)",
+            )
         )
         self.filter_input.setPlaceholderText(
             _translate("OhsomeQgisDialogBase", "landuse=forest or natural=wood")

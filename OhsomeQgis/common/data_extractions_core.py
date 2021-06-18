@@ -25,7 +25,20 @@
 """
 
 from itertools import product
-from PyQt5.QtCore import QVariant
+from PyQt5.QtCore import QVariant, Qt
+from PyQt5.QtWidgets import QTableView, QMessageBox
+from qgis._core import (
+    QgsVectorLayer,
+    QgsFeatureIterator,
+    QgsAttributeTableConfig,
+    QgsVectorLayerCache,
+    QgsVectorDataProvider,
+)
+from qgis._gui import (
+    QgsAttributeTableFilterModel,
+    QgsAttributeTableModel,
+    QgsAttributeTableView,
+)
 
 from qgis.core import (
     QgsPoint,
@@ -129,31 +142,113 @@ def get_fields(
     return fields
 
 
-def get_output_feature_directions(
-    response, profile, preference, options=None, from_value=None, to_value=None
-):
+def write_ohsome_vector_layer(
+    iface, file: str, request_time: str
+) -> QgsVectorLayer:
+    return iface.addVectorLayer(
+        file,
+        f"ohsome_" f"{request_time}",
+        "ogr",
+    )
+
+
+def split_geojson_by_geometry(geojson: dict) -> [dict]:
+    geojson_per_geometry = []
+    features_per_geometry = {}
+    features = geojson.pop("features")
+    for feature in features:
+        try:
+            geometry_type = feature["geometry"]["type"]
+            if geometry_type not in features_per_geometry:
+                features_per_geometry[geometry_type] = []
+            features_per_geometry[geometry_type].append(feature)
+        except Exception as err:
+            print("")
+    for _, feature_set in features_per_geometry.items():
+        temp_geojson = geojson.copy()
+        temp_geojson["features"] = feature_set
+        geojson_per_geometry.append(temp_geojson)
+        del temp_geojson
+    return geojson_per_geometry
+
+
+def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
+    if len(vlayer) <= 0:
+        return
+    if vlayer.fields().names().__contains__("@validFrom"):
+        date_start = "@validFrom"
+        date_end = "@validTo"
+    elif vlayer.fields().names().__contains__("@snapshotTimestamp"):
+        date_start = "@snapshotTimestamp"
+        date_end = "endDate"
+    elif vlayer.fields().names().__contains__("@timestamp"):
+        date_start = "@timestamp"
+        date_end = "endDate"
+    else:
+        return
+
+    pr: QgsVectorDataProvider = vlayer.dataProvider()
+    # changes are only possible when editing the layer
+    vlayer.startEditing()
+    if not vlayer.fields().names().__contains__(date_end):
+        pr.addAttributes(
+            [QgsField(date_end, QVariant.DateTime)]
+        )  # Add durationsField
+    vlayer.temporalProperties().setMode(2)  # Set the correct temporal mode
+    vlayer.temporalProperties().setStartField(date_start)
+    vlayer.temporalProperties().setEndField(date_end)
+    vlayer.temporalProperties().setIsActive(activate_temporal)
+    vlayer.commitChanges()
+    vlayer.updateExtents()
+
+    if date_end == "@validTo":
+        features = sorted(
+            vlayer.getFeatures(),
+            key=lambda sort_timestamp: sort_timestamp[date_end],
+        )
+    else:
+        features = sorted(
+            vlayer.getFeatures(),
+            key=lambda sort_timestamp: sort_timestamp[date_start],
+        )
+    youngest_timestamp = (
+        features[-1].attribute(date_start) if len(features) > 0 else None
+    )
+    youngest_timestamp = youngest_timestamp.addDays(1)
+    features = sorted(features, key=lambda sort_id: sort_id["@osmId"])
+    vlayer.dataProvider().deleteFeatures([feature.id() for feature in features])
+    for i in range(len(features)):
+        feature: QgsFeature = features[i]
+        if (
+            i < len(features) - 1
+            and features[i + 1]["@osmId"] == feature["@osmId"]
+            and feature[date_end] is None
+        ):
+            feature.setAttribute(
+                date_end, features[i + 1].attribute(date_start)
+            )
+        elif i < len(features) - 1 and feature[date_end] is not None:
+            pass
+        else:
+            feature.setAttribute(date_end, youngest_timestamp)
+
+    vlayer.dataProvider().addFeatures(features)
+
+    vlayer.commitChanges()
+    vlayer.updateExtents()
+
+
+def get_output_feature_extraction(response: dict, preference: OhsomeSpec):
     """
-    Build output feature based on response attributes for directions endpoint.
+    Build output feature based on response attributes for the data extraction endpoint.
 
     :param response: API response object
     :type response: dict
 
-    :param profile: Transportation mode being used
-    :type profile: str
+    :param preference: API request preferences being used.
+    :type preference: dict
 
-    :param preference: Cost being used, shortest, fastest or recommended.
-    :type preference: str
-
-    :param options: Avoidables being used.
-    :type options: str
-
-    :param from_value: value of 'FROM_ID' field
-    :type from_value: any
-
-    :param to_value: value of 'TO_ID' field
-    :type to_value: any
-
-    :returns: Ouput feature with attributes and geometry set.
+    :returns: Output feature with attributes and geometry set.
     :rtype: QgsFeature
     """
     response_mini = response["features"][0]
