@@ -395,7 +395,7 @@ class OhsomeQgisDialogMain:
             clnt_msg += "{}: {}".format(*msg)
 
         finally:
-            if len(vlayer) <= 0:
+            if not vlayer or len(vlayer) <= 0:
                 self.iface.messageBar().pushMessage(
                     "Information",
                     "The response is empty. Refine your filter query and check the plugin console for errors.",
