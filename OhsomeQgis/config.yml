@@ -3,7 +3,7 @@ runtime:
 providers:
 - base_url: 'http://localhost:8080'
   key: null
-  name: Local Ohsome API
+  name: Local Ohsome API example
 - base_url: 'https://api.ohsome.org/v1'
   key: null
   name: Ohsome Public API
