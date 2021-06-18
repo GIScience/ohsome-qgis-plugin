@@ -1,5 +1,5 @@
 runtime:
-  debug: true
+  debug: false
 providers:
 - base_url: 'http://localhost:8080'
   key: null
