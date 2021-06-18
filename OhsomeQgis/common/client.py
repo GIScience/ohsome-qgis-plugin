@@ -185,13 +185,11 @@ class Client(QObject):
 
             except exceptions.ApiError as e:
                 logger.log(
-                    "Feature ID {} caused a {}: {}".format(
-                        post_json["id"], e.__class__.__name__, str(e)
-                    ),
+                    f"The filter caused the error class {e.__class__.__name__} and "
+                    f"the following API error: {str(e)}",
                     2,
                 )
-                raise
-
+                raise e
             raise
 
         return json.loads(content.decode("utf-8"))
@@ -215,13 +213,6 @@ class Client(QObject):
             if self.nam.http_call_result.text != ""
             else self.nam.http_call_result.reason
         )
-
-        if status_code == 403:
-            raise exceptions.InvalidKey(
-                str(status_code),
-                # error,
-                message,
-            )
 
         if status_code == 429:
             raise exceptions.OverQueryLimit(

@@ -359,11 +359,14 @@
             <property name="accessibleDescription">
              <string/>
             </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
             <property name="maximum">
-             <number>99</number>
+             <number>999999999</number>
             </property>
             <property name="value">
-             <number>10</number>
+             <number>1000</number>
             </property>
            </widget>
           </item>
@@ -1125,7 +1128,7 @@
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your desired filter query by using common OpenStreetMap tags. For more information see: &lt;a href=&quot;https://docs.ohsome.org/ohsome-api/v1/filter.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2eb8e6;&quot;&gt;https://docs.ohsome.org/ohsome-api/v1/filter.html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="plainText">
-            <string>building=yes and type:way</string>
+            <string>building=* or (type:way and highway=residential)</string>
            </property>
            <property name="placeholderText">
             <string>landuse=forest or natural=wood</string>

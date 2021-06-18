@@ -46,7 +46,7 @@ EXTRACTION_SPECS = {
     "elementsFullHistory": ["bbox", "centroid", "geometry"],
 }
 AGGREGATION_SPECS = {
-    "contributions/count": ["count/density"],
+    "contributions/count": ["density"],
     "elements/area": [
         "density",
         "density/groupBy/boundary",

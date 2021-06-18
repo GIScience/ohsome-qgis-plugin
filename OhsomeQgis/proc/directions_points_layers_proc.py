@@ -42,7 +42,7 @@ from . import HELP_DIR
 from OhsomeQgis import RESOURCE_PREFIX, __help__
 from OhsomeQgis.common import (
     client,
-    directions_core,
+    data_extractions_core,
     API_ENDPOINTS,
     PREFERENCES,
 )
@@ -249,7 +249,7 @@ class ORSdirectionsPointsLayersAlgo(QgsProcessingAlgorithm):
             parameters,
             self.OUT,
             context,
-            directions_core.get_fields(
+            data_extractions_core.get_fields(
                 source_field.type(), destination_field.type()
             ),
             QgsWkbTypes.LineString,
@@ -257,9 +257,10 @@ class ORSdirectionsPointsLayersAlgo(QgsProcessingAlgorithm):
         )
 
         counter = 0
-        for coordinates, values in directions_core.get_request_point_features(
-            route_dict, mode
-        ):
+        for (
+            coordinates,
+            values,
+        ) in data_extractions_core.get_request_point_features(route_dict, mode):
             # Stop the algorithm if cancel button has been clicked
             if feedback.isCanceled():
                 break
@@ -274,7 +275,6 @@ class ORSdirectionsPointsLayersAlgo(QgsProcessingAlgorithm):
                 )
             except (
                 exceptions.ApiError,
-                exceptions.InvalidKey,
                 exceptions.GenericServerError,
             ) as e:
                 msg = "Route from {} to {} caused a {}:\n{}".format(
@@ -285,7 +285,7 @@ class ORSdirectionsPointsLayersAlgo(QgsProcessingAlgorithm):
                 continue
 
             sink.addFeature(
-                directions_core.get_output_feature_directions(
+                data_extractions_core.get_output_feature_extraction(
                     response,
                     profile,
                     preference,
