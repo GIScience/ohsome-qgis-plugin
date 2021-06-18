@@ -29,32 +29,76 @@ Defines exceptions that are thrown by the ORS client.
 """
 
 
-class ApiError(Exception):
+class OhsomeBaseException(Exception):
+    def __init__(self, status, message=None):
+        self.status = status
+        self.message = message
+
+    def __str__(self):
+        if self.message is None:
+            return self.status
+        else:
+            return "{} ({})".format(self.status, self.message)
+
+
+class GenericClientError(OhsomeBaseException):
     """Represents an exception returned by the remote API."""
 
-    def __init__(self, status, message=None):
-        self.status = status
-        self.message = message
-
-    def __str__(self):
-        if self.message is None:
-            return self.status
-        else:
-            return "{} ({})".format(self.status, self.message)
+    pass
 
 
-class OverQueryLimit(Exception):
+class GenericServerError(OhsomeBaseException):
+    """Represents an exception returned by the remote API."""
+
+    pass
+
+
+class Unauthorized(OhsomeBaseException):
     """Signifies that the request failed because the client exceeded its query rate limit."""
 
-    def __init__(self, status, message=None):
-        self.status = status
-        self.message = message
+    pass
 
-    def __str__(self):
-        if self.message is None:
-            return self.status
-        else:
-            return "{} ({})".format(self.status, self.message)
+
+class BadRequest(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class NotFound(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class MethodNotAllowed(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class PayloadTooLarge(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class InternalServerError(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class NotImplemented(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
+
+
+class ServiceUnavailable(OhsomeBaseException):
+    """Signifies that the request failed because the client exceeded its query rate limit."""
+
+    pass
 
 
 class Timeout(Exception):
@@ -63,15 +107,7 @@ class Timeout(Exception):
     pass
 
 
-class GenericServerError(Exception):
+class GenericServerError(OhsomeBaseException):
     """Anything else"""
 
-    def __init__(self, status, message=None):
-        self.status = status
-        self.message = message
-
-    def __str__(self):
-        if self.message is None:
-            return self.status
-        else:
-            return "{} ({})".format(self.status, self.message)
+    pass

@@ -24,18 +24,18 @@
  ***************************************************************************/
 """
 
-from datetime import datetime, timedelta
-import requests
-import time
-from urllib.parse import urlencode
-import random
 import json
+import random
+import time
+from datetime import datetime, timedelta
+from urllib.parse import urlencode
 
+import requests
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from OhsomeQgis import __version__
 from OhsomeQgis.common import networkaccessmanager
-from OhsomeQgis.utils import exceptions, configmanager, logger
+from OhsomeQgis.utils import exceptions, logger
 
 _USER_AGENT = "OHSOMEQGISClient@v{}".format(__version__)
 
@@ -169,7 +169,7 @@ class Client(QObject):
                 # result = self._get_body(response)
                 self._check_status()
 
-            except exceptions.OverQueryLimit as e:
+            except exceptions.Unauthorized as e:
 
                 # Let the instances know smth happened
                 self.overQueryLimit.emit()
@@ -183,7 +183,7 @@ class Client(QObject):
                     post_json,
                 )
 
-            except exceptions.ApiError as e:
+            except exceptions.GenericClientError as e:
                 logger.log(
                     f"The filter caused the error class {e.__class__.__name__} and "
                     f"the following API error: {str(e)}",
@@ -197,11 +197,17 @@ class Client(QObject):
     def _check_status(self):
         """
         Casts JSON response to dict
-
-        :raises OhsomeQgis.utils.exceptions.OverQueryLimitError: when rate limit is exhausted, HTTP 429
-        :raises OhsomeQgis.utils.exceptions.ApiError: when the backend API throws an error, HTTP 400
-        :raises OhsomeQgis.utils.exceptions.InvalidKey: when API key is invalid (or quota is exceeded), HTTP 403
-        :raises OhsomeQgis.utils.exceptions.GenericServerError: all other HTTP errors
+        :raises OhsomeQgis.utils.exceptions.BadRequest
+        :raises OhsomeQgis.utils.exceptions.Unauthorized
+        :raises OhsomeQgis.utils.exceptions.NotFound
+        :raises OhsomeQgis.utils.exceptions.MethodNotAllowed
+        :raises OhsomeQgis.utils.exceptions.PayloadTooLarge
+        :raises OhsomeQgis.utils.exceptions.GenericClientError
+        :raises OhsomeQgis.utils.exceptions.InternalServerError
+        :raises OhsomeQgis.utils.exceptions.NotImplemented
+        :raises OhsomeQgis.utils.exceptions.ServiceUnavailable
+        :raises OhsomeQgis.utils.exceptions.GenericServerError
+        :raises OhsomeQgis.utils.exceptions.GenericServerError
 
         :returns: response body
         :rtype: dict
@@ -213,16 +219,64 @@ class Client(QObject):
             if self.nam.http_call_result.text != ""
             else self.nam.http_call_result.reason
         )
-
-        if status_code == 429:
-            raise exceptions.OverQueryLimit(
+        if status_code == 400:
+            raise exceptions.BadRequest(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 401:
+            raise exceptions.Unauthorized(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 404:
+            raise exceptions.NotFound(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 405:
+            raise exceptions.MethodNotAllowed(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 413:
+            raise exceptions.PayloadTooLarge(
                 str(status_code),
                 # error,
                 message,
             )
         # Internal error message for Bad Request
         if 400 <= status_code < 500:
-            raise exceptions.ApiError(
+            raise exceptions.GenericClientError(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 500:
+            raise exceptions.InternalServerError(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 501:
+            raise exceptions.NotImplemented(
+                str(status_code),
+                # error,
+                message,
+            )
+        if status_code == 503:
+            raise exceptions.ServiceUnavailable(
+                str(status_code),
+                # error,
+                message,
+            )
+        # Internal error message for Bad Request
+        if 500 <= status_code < 600:
+            raise exceptions.GenericServerError(
                 str(status_code),
                 # error,
                 message,
@@ -234,6 +288,9 @@ class Client(QObject):
                 # error,
                 message,
             )
+
+    def check_api_version_support(self) -> bool:
+        pass
 
     def _generate_auth_url(self, path, params):
         """Returns the path and query string portion of the request URL, first
