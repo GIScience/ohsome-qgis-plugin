@@ -17,9 +17,9 @@
 ***************************************************************************
 """
 
-from builtins import str
-from builtins import object
 import json
+from builtins import object
+from builtins import str
 
 __author__ = "Alessandro Pasotti"
 __date__ = "August 2016"

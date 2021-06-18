@@ -24,60 +24,8 @@
  ***************************************************************************/
 """
 
-import json
-import re
-
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QCheckBox, QMessageBox, QDialog
-
-from OhsomeQgis.utils import transform
-
-
-def _get_avoid_polygons(layer):
-    """
-    Extract polygon geometries from the selected polygon layer.
-
-    :param layer: The polygon layer
-    :type layer: QgsMapLayer
-    :returns: GeoJSON object
-    :rtype: dict
-    """
-    polygons = None
-    transformer = transform.transformToWGS(layer.sourceCrs())
-    features = layer.getFeatures()
-
-    # iterate over all other features
-    for feature in features:
-        if feature.hasGeometry():
-            geom = feature.geometry()
-            geom.transform(transformer)
-            if polygons is None:
-                polygons = geom
-            else:
-                polygons = polygons.combine(geom)
-
-    if not polygons:
-        return json.loads("{}")
-    else:
-        return json.loads(polygons.asJson())
-
-
-def _get_avoid_options(avoid_boxes):
-    """
-    Extracts checked boxes in Advanced avoid parameters.
-
-    :param avoid_boxes: all checkboxes in advanced paramter dialog.
-    :type avoid_boxes: list of QCheckBox
-
-    :returns: avoid_features parameter
-    :rtype: JSON dump, i.e. str
-    """
-    avoid_features = []
-    for box in avoid_boxes:
-        if box.isChecked():
-            avoid_features.append((box.text()))
-
-    return avoid_features
+from PyQt5.QtWidgets import QMessageBox, QDialog
 
 
 class OhsomeSpec:

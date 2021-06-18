@@ -23,10 +23,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-import yaml
 import os
 
-from PyQt5.QtWidgets import QMessageBox
+import yaml
 
 from OhsomeQgis import CONFIG_PATH
 

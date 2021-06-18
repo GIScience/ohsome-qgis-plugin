@@ -186,6 +186,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
         self.verticalLayout_5.addWidget(self.groupBox_4)
         self.request_types_widget = QtWidgets.QTabWidget(OhsomeQgisDialogBase)
+        self.request_types_widget.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -418,78 +419,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_3.addWidget(self.layer_list, 0, 1, 1, 1)
         self.gridLayout_6.addWidget(self.widget_5, 1, 0, 1, 1)
         self.request_types_widget.addTab(self.layer_tab, "")
-        self.batch_tab = QtWidgets.QWidget()
-        self.batch_tab.setObjectName("batch_tab")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.batch_tab)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.groupBox = QtWidgets.QGroupBox(self.batch_tab)
-        self.groupBox.setObjectName("groupBox")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.groupBox)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.batch_routing_line = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.batch_routing_line.sizePolicy().hasHeightForWidth()
-        )
-        self.batch_routing_line.setSizePolicy(sizePolicy)
-        self.batch_routing_line.setObjectName("batch_routing_line")
-        self.horizontalLayout.addWidget(self.batch_routing_line)
-        self.batch_routing_point = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.batch_routing_point.sizePolicy().hasHeightForWidth()
-        )
-        self.batch_routing_point.setSizePolicy(sizePolicy)
-        self.batch_routing_point.setObjectName("batch_routing_point")
-        self.horizontalLayout.addWidget(self.batch_routing_point)
-        self.batch_routing_points = QtWidgets.QPushButton(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.batch_routing_points.sizePolicy().hasHeightForWidth()
-        )
-        self.batch_routing_points.setSizePolicy(sizePolicy)
-        self.batch_routing_points.setObjectName("batch_routing_points")
-        self.horizontalLayout.addWidget(self.batch_routing_points)
-        self.verticalLayout.addWidget(self.groupBox)
-        self.groupBox_2 = QtWidgets.QGroupBox(self.batch_tab)
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.groupBox_2)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.batch_iso_point = QtWidgets.QPushButton(self.groupBox_2)
-        self.batch_iso_point.setObjectName("batch_iso_point")
-        self.horizontalLayout_4.addWidget(self.batch_iso_point)
-        self.batch_iso_layer = QtWidgets.QPushButton(self.groupBox_2)
-        self.batch_iso_layer.setObjectName("batch_iso_layer")
-        self.horizontalLayout_4.addWidget(self.batch_iso_layer)
-        self.verticalLayout.addWidget(self.groupBox_2)
-        self.groupBox_3 = QtWidgets.QGroupBox(self.batch_tab)
-        self.groupBox_3.setObjectName("groupBox_3")
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.groupBox_3)
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.batch_matrix = QtWidgets.QPushButton(self.groupBox_3)
-        self.batch_matrix.setObjectName("batch_matrix")
-        self.horizontalLayout_5.addWidget(self.batch_matrix)
-        self.verticalLayout.addWidget(self.groupBox_3)
-        spacerItem = QtWidgets.QSpacerItem(
-            20,
-            40,
-            QtWidgets.QSizePolicy.Minimum,
-            QtWidgets.QSizePolicy.Expanding,
-        )
-        self.verticalLayout.addItem(spacerItem)
-        self.request_types_widget.addTab(self.batch_tab, "")
         self.verticalLayout_5.addWidget(self.request_types_widget)
         self.configuration_group_box = gui.QgsCollapsibleGroupBox(
             OhsomeQgisDialogBase
@@ -833,7 +762,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.groupBox_4.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(0)
+        self.request_types_widget.setCurrentIndex(1)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -949,31 +878,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.layer_tab),
             _translate("OhsomeQgisDialogBase", "Layer Selection"),
-        )
-        self.groupBox.setTitle(_translate("OhsomeQgisDialogBase", "Directions"))
-        self.batch_routing_line.setText(
-            _translate("OhsomeQgisDialogBase", "Polylines Layer")
-        )
-        self.batch_routing_point.setText(
-            _translate("OhsomeQgisDialogBase", "Points (1 Layer)")
-        )
-        self.batch_routing_points.setText(
-            _translate("OhsomeQgisDialogBase", "Points (2 Layer)")
-        )
-        self.groupBox_2.setTitle(
-            _translate("OhsomeQgisDialogBase", "Isochrones")
-        )
-        self.batch_iso_point.setText(
-            _translate("OhsomeQgisDialogBase", "Isochrones from Point")
-        )
-        self.batch_iso_layer.setText(
-            _translate("OhsomeQgisDialogBase", "Isochrones from Layer")
-        )
-        self.groupBox_3.setTitle(_translate("OhsomeQgisDialogBase", "Matrix"))
-        self.batch_matrix.setText(_translate("OhsomeQgisDialogBase", "Matrix"))
-        self.request_types_widget.setTabText(
-            self.request_types_widget.indexOf(self.batch_tab),
-            _translate("OhsomeQgisDialogBase", "Batch Jobs"),
         )
         self.configuration_group_box.setTitle(
             _translate("OhsomeQgisDialogBase", "Configuration")
@@ -1125,4 +1029,3 @@ class Ui_OhsomeQgisDialogBase(object):
 
 
 from qgis import gui
-from . import resources_rc

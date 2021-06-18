@@ -24,6 +24,7 @@
  ***************************************************************************/
 """
 import os.path
+
 from OhsomeQgis import BASE_DIR
 
 HELP_DIR = os.path.join(BASE_DIR, "help")
