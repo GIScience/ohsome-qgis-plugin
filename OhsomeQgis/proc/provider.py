@@ -28,12 +28,6 @@ from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 
 from OhsomeQgis import RESOURCE_PREFIX, PLUGIN_NAME, __version__
-from .isochrones_layer_proc import ORSisochronesLayerAlgo
-from .isochrones_point_proc import ORSisochronesPointAlgo
-from .matrix_proc import ORSmatrixAlgo
-from .directions_points_layers_proc import ORSdirectionsPointsLayersAlgo
-from .directions_points_layer_proc import ORSdirectionsPointsLayerAlgo
-from .directions_lines_proc import ORSdirectionsLinesAlgo
 
 
 class OhsomeQgisProvider(QgsProcessingProvider):
@@ -52,12 +46,7 @@ class OhsomeQgisProvider(QgsProcessingProvider):
         Loads all algorithms belonging to this provider.
         """
         #
-        self.addAlgorithm(ORSdirectionsPointsLayersAlgo())
-        self.addAlgorithm(ORSdirectionsPointsLayerAlgo())
-        self.addAlgorithm(ORSdirectionsLinesAlgo())
-        self.addAlgorithm(ORSisochronesLayerAlgo())
-        self.addAlgorithm(ORSisochronesPointAlgo())
-        self.addAlgorithm(ORSmatrixAlgo())
+        pass
 
     def icon(self):
         return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")

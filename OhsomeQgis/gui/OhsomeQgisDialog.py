@@ -24,11 +24,12 @@
  ***************************************************************************/
 """
 import csv
-import os
 import json
 import webbrowser
 from datetime import datetime
 
+from PyQt5.QtCore import QSizeF, QPointF
+from PyQt5.QtGui import QIcon, QTextDocument
 from PyQt5.QtWidgets import (
     QAction,
     QDialog,
@@ -39,13 +40,9 @@ from PyQt5.QtWidgets import (
     QListWidget,
     QListWidgetItem,
 )
-from PyQt5.QtGui import QIcon, QTextDocument
-from PyQt5.QtCore import QSizeF, QPointF
 from qgis._core import QgsProcessingUtils, Qgis
-
 from qgis.core import (
     QgsProject,
-    QgsVectorLayer,
     QgsTextAnnotation,
     QgsMapLayerProxyModel,
 )
@@ -68,7 +65,6 @@ from OhsomeQgis.utils import (
     maptools,
     logger,
     configmanager,
-    convert,
     transform,
 )
 from OhsomeQgis.common import (
@@ -236,14 +232,6 @@ class OhsomeQgisDialogMain:
 
     def run_gui_control(self):
         """Slot function for OK button of main dialog."""
-
-        layer_out = QgsVectorLayer(
-            "LineString?crs=EPSG:4326", "Time_OHSOME    ", "memory"
-        )
-        layer_out.dataProvider().addAttributes(
-            data_extractions_core.get_fields()
-        )
-        layer_out.updateFields()
 
         # Associate annotations with map layer, so they get deleted when layer is deleted
         for annotation in self.dlg.annotations:
@@ -488,38 +476,6 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
         self.centroid_list_point_clear.clicked.connect(
             self._on_clear_listwidget_click
-        )
-
-        # Batch
-        self.batch_routing_points.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:directions_from_points_2_layers".format(PLUGIN_NAME)
-            )
-        )
-        self.batch_routing_point.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:directions_from_points_1_layer".format(PLUGIN_NAME)
-            )
-        )
-        self.batch_routing_line.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:directions_from_polylines_layer".format(PLUGIN_NAME)
-            )
-        )
-        self.batch_iso_point.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:isochrones_from_point".format(PLUGIN_NAME)
-            )
-        )
-        self.batch_iso_layer.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:isochrones_from_layer".format(PLUGIN_NAME)
-            )
-        )
-        self.batch_matrix.clicked.connect(
-            lambda: processing.execAlgorithmDialog(
-                "{}:matrix_from_layers".format(PLUGIN_NAME)
-            )
         )
 
     # On Spec selection
