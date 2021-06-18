@@ -26,18 +26,9 @@
 
 from itertools import product
 from PyQt5.QtCore import QVariant, Qt
-from PyQt5.QtWidgets import QTableView, QMessageBox
 from qgis._core import (
     QgsVectorLayer,
-    QgsFeatureIterator,
-    QgsAttributeTableConfig,
-    QgsVectorLayerCache,
     QgsVectorDataProvider,
-)
-from qgis._gui import (
-    QgsAttributeTableFilterModel,
-    QgsAttributeTableModel,
-    QgsAttributeTableView,
 )
 
 from qgis.core import (
@@ -50,7 +41,6 @@ from qgis.core import (
 )
 
 from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
-from OhsomeQgis.utils import convert
 
 
 def get_request_point_features(route_dict, row_by_row):
