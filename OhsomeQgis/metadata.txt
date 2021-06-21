@@ -5,7 +5,7 @@ description=ohsome-api, spatial and temporal OSM requests for QGIS
 
 version=0.1.0
 author=HeiGIT gGmbH
-email=support@openrouteservice.heigit.org
+email=support@something
 
 about=Ohsome Qgis provides access to the Ohsome-API.
 
