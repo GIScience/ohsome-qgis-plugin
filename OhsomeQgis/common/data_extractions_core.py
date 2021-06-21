@@ -23,12 +23,17 @@
  *                                                                         *
  ***************************************************************************/
 """
-
+import random
 from itertools import product
+from time import sleep
+
 from PyQt5.QtCore import QVariant, Qt
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
+    QgsTask,
+    QgsMessageLog,
+    Qgis,
 )
 
 from qgis.core import (
@@ -133,3 +138,98 @@ def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
 
     vlayer.commitChanges()
     vlayer.updateExtents()
+
+
+MESSAGE_CATEGORY = "RandomIntegerSumTask"
+
+
+class ExtractionTaskFunction(QgsTask):
+    """This shows how to subclass QgsTask"""
+
+    def __init__(self, description, duration):
+        super().__init__(description, QgsTask.CanCancel)
+        self.duration = duration
+        self.total = 0
+        self.iterations = 0
+        self.exception = None
+
+    def run(self):
+        """Here you implement your heavy lifting.
+        Should periodically test for isCanceled() to gracefully
+        abort.
+        This method MUST return True or False.
+        Raising exceptions will crash QGIS, so we handle them
+        internally and raise them in self.finished
+        """
+        QgsMessageLog.logMessage(
+            'Started task "{}"'.format(self.description()),
+            MESSAGE_CATEGORY,
+            Qgis.Info,
+        )
+        wait_time = self.duration / 100
+        for i in range(100):
+            sleep(wait_time)
+            # use setProgress to report progress
+            self.setProgress(i)
+            arandominteger = random.randint(0, 500)
+            self.total += arandominteger
+            self.iterations += 1
+            # check isCanceled() to handle cancellation
+            if self.isCanceled():
+                return False
+            # simulate exceptions to show how to abort task
+            # if arandominteger == 42:
+            #     # DO NOT raise Exception('bad value!')
+            #     # this would crash QGIS
+            #     self.exception = Exception('bad value!')
+            #     return False
+        return True
+
+    def finished(self, result):
+        """
+        This function is automatically called when the task has
+        completed (successfully or not).
+        You implement finished() to do whatever follow-up stuff
+        should happen after the task is complete.
+        finished is always called from the main thread, so it's safe
+        to do GUI operations and raise Python exceptions here.
+        result is the return value from self.run.
+        """
+        if result:
+            QgsMessageLog.logMessage(
+                'RandomTask "{name}" completed\n'
+                "RandomTotal: {total} (with {iterations} "
+                "iterations)".format(
+                    name=self.description(),
+                    total=self.total,
+                    iterations=self.iterations,
+                ),
+                MESSAGE_CATEGORY,
+                Qgis.Success,
+            )
+        else:
+            if self.exception is None:
+                QgsMessageLog.logMessage(
+                    'RandomTask "{name}" not successful but without '
+                    "exception (probably the task was manually "
+                    "canceled by the user)".format(name=self.description()),
+                    MESSAGE_CATEGORY,
+                    Qgis.Warning,
+                )
+            else:
+                QgsMessageLog.logMessage(
+                    'RandomTask "{name}" Exception: {exception}'.format(
+                        name=self.description(), exception=self.exception
+                    ),
+                    MESSAGE_CATEGORY,
+                    Qgis.Critical,
+                )
+                raise self.exception
+
+    def cancel(self):
+        QgsMessageLog.logMessage(
+            'RandomTask "{name}" was canceled'.format(name=self.description()),
+            MESSAGE_CATEGORY,
+            Qgis.Info,
+        )
+        super().cancel()
