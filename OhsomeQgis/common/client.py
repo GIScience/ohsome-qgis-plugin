@@ -32,10 +32,13 @@ from urllib.parse import urlencode
 
 import requests
 from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtWidgets import QMessageBox
+from qgis._core import Qgis
 
 from OhsomeQgis import __version__
 from OhsomeQgis.common import networkaccessmanager
 from OhsomeQgis.utils import exceptions, logger
+from OhsomeQgis.utils.exceptions import ServiceUnavailable
 
 _USER_AGENT = "OHSOMEQGISClient@v{}".format(__version__)
 
@@ -219,6 +222,13 @@ class Client(QObject):
             if self.nam.http_call_result.text != ""
             else self.nam.http_call_result.reason
         )
+        if message == "Network error: Connection refused":
+            raise exceptions.ServiceUnavailable(
+                str(status_code),
+                # error,
+                message
+                + f". Check your internet connection or if your local Ohsome instance is running.",
+            )
         if status_code == 400:
             raise exceptions.BadRequest(
                 str(status_code),
@@ -289,8 +299,26 @@ class Client(QObject):
                 message,
             )
 
-    def check_api_version_support(self) -> bool:
-        pass
+    def check_api_metadata(self, iface) -> bool:
+        try:
+            response = self.request(f"/metadata", {})
+        except ServiceUnavailable as err:
+            iface.messageBar().pushMessage(
+                "Critical",
+                "Endpoint not available. Check your internet connection or provider settings.",
+                level=Qgis.Critical,
+                duration=7,
+            )
+            return False
+        except Exception as err:
+            iface.messageBar().pushMessage(
+                "Critical",
+                f"Endpoint not healthy. Unknown error: {err}.",
+                level=Qgis.Critical,
+                duration=7,
+            )
+            return False
+        return True
 
     def _generate_auth_url(self, path, params):
         """Returns the path and query string portion of the request URL, first
