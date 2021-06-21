@@ -281,11 +281,12 @@ class OhsomeQgisDialogMain:
             self.dlg.debug_text.setText(msg)
 
         clnt = client.Client(provider)
+        metadata_check = clnt.check_api_metadata(self.iface)
         clnt_msg = ""
         preferences = ohsome_gui.OhsomeSpec(self.dlg)
         vlayer = None
         try:
-            if not preferences.is_valid:
+            if not metadata_check or not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
                 self.dlg.debug_text.setText(msg)
@@ -375,10 +376,7 @@ class OhsomeQgisDialogMain:
             self.dlg.debug_text.setText(msg)
             return
 
-        except (
-            exceptions.ApiError,
-            exceptions.GenericServerError,
-        ) as e:
+        except (exceptions.GenericServerError,) as e:
             msg = (e.__class__.__name__, str(e))
 
             logger.log("{}: {}".format(*msg), 2)
@@ -396,6 +394,16 @@ class OhsomeQgisDialogMain:
             clnt_msg += "{}: {}".format(*msg)
 
         finally:
+            if not metadata_check:
+                return
+            elif not preferences.is_valid:
+                self.iface.messageBar().pushMessage(
+                    "Warning",
+                    "Preferences are not valid.",
+                    level=Qgis.Critical,
+                    duration=7,
+                )
+                return
             if not vlayer or len(vlayer) <= 0:
                 self.iface.messageBar().pushMessage(
                     "Information",
