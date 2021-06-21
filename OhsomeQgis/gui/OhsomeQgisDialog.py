@@ -101,7 +101,7 @@ def on_about_click(parent):
     """Slot for click event of About button/menu entry."""
 
     info = (
-        '<b>ORS Tools</b> provides access to <a href="https://openrouteservice.org" style="color: {0}">openrouteservice</a> routing functionalities.<br><br>'
+        '<b>Ohsome QGIS Plugin</b> provides access to <a href="https://heigit.org/big-spatial-data-analytics-en/ohsome/" style="color: {0}">OHSOME</a> query functionalities.<br><br>'
         "<center>"
         '<a href="https://heigit.org/de/willkommen"><img src=":/plugins/OhsomeQgis/img/logo_heigit_300.png"/></a> <br><br>'
         "</center>"
