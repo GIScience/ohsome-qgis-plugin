@@ -50,6 +50,7 @@ from qgis.core import (
 from OhsomeQgis.common import client
 from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
 from OhsomeQgis.utils import exceptions, logger
+from OhsomeQgis.utils.exceptions import OhsomeBaseException
 
 
 def write_ohsome_vector_layer(
@@ -73,7 +74,10 @@ def split_geojson_by_geometry(geojson: dict) -> [dict]:
                 features_per_geometry[geometry_type] = []
             features_per_geometry[geometry_type].append(feature)
         except Exception as err:
-            print("")
+            raise exceptions.GeometryError(
+                str("error"),
+                f"Error constructing geometries from the GeoJSON response: {err}",
+            )
     for _, feature_set in features_per_geometry.items():
         temp_geojson = geojson.copy()
         temp_geojson["features"] = feature_set
@@ -174,6 +178,7 @@ class ExtractionTaskFunction(QgsTask):
         self.preferences = preferences
         self.activate_temporal = activate_temporal
         self.result: dict = {}
+        self.exception: OhsomeBaseException = None
         self.request_time = None
         self.client = client.Client(provider)
 
@@ -264,9 +269,8 @@ class ExtractionTaskFunction(QgsTask):
                 post_json=self.preferences,
             )
         except Exception as e:
-            raise e
-        logger.log(f'Task direct response "{self.result}"', Qgis.Info)
-
+            self.result = None
+            self.exception = e
         return True
 
     def finished(self, valid_result):
@@ -280,26 +284,40 @@ class ExtractionTaskFunction(QgsTask):
         result is the return value from self.run.
         """
         default_message = (
-            f'API URL: {self.client.base_url}\n"'
-            f'Endpoint: {self.request_url}\n"'
-            f'Preferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
         )
         if valid_result and self.result:
-            msg = f"The request was successful:\n" + default_message
-            logger.log(msg, Qgis.Warning)
-            self.iface.messageBar().pushMessage(
-                "Info",
-                "Success!",
-                level=Qgis.Info,
-                duration=5,
-            )
-            self.dlg.debug_text.append(">" + msg)
-            self.postprocess_results()
-
+            msg = f"The request was successful:" + default_message
+            try:
+                self.postprocess_results()
+                logger.log(msg, Qgis.Info)
+                self.iface.messageBar().pushMessage(
+                    "Info",
+                    "Success!",
+                    level=Qgis.Info,
+                    duration=5,
+                )
+            except Exception as err:
+                msg = (
+                    f"> Error while processing the geometry response from Ohsome:"
+                    + default_message
+                    + f"\nException: {err}"
+                )
+                logger.log(msg, Qgis.Critical)
+                self.iface.messageBar().pushMessage(
+                    "Critical",
+                    "Error while processing the returned geometries!",
+                    level=Qgis.Critical,
+                    duration=5,
+                )
+            finally:
+                self.dlg.debug_text.append("> " + msg)
         elif self.client.canceled:
-            msg = f'Task "{self.description()}" canceled.'
+            msg = f"The request was canceled."
             logger.log(msg, Qgis.Warning)
-            self.dlg.debug_text.setText(msg)
+            self.dlg.debug_text.append(msg)
             self.iface.messageBar().pushMessage(
                 "Info",
                 msg,
@@ -308,30 +326,31 @@ class ExtractionTaskFunction(QgsTask):
             )
         elif self.exception:
             msg = (
-                f"The request was not successful and threw an exception:\n"
+                f"> The request was not successful and threw an exception:"
                 + default_message
                 + f"\nException: {self.exception}"
             )
-            self.dlg.debug_text.setText(msg)
+            self.dlg.debug_text.append(msg)
             logger.log(msg, Qgis.Critical)
             self.iface.messageBar().pushMessage(
                 "Warning",
-                "The response is empty and an error was returned. Refine your filter query and check the plugin console for errors.",
+                "The response is empty and an error was returned. Refine your filter query and check the log or plugin console for errors.",
                 level=Qgis.Critical,
                 duration=5,
             )
-            raise self.exception
+            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         else:
             msg = (
-                f"The request was not successful and the reason is unclear. This should not happen!\n"
+                f"The request was not successful and the reason is unclear. This should not happen!"
                 + default_message
-                + f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
+                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
             )
-            self.dlg.debug_text.setText(msg)
+            self.dlg.debug_text.append(msg)
             logger.log(msg, Qgis.Warning)
             self.iface.messageBar().pushMessage(
                 "Warning",
-                "The response is empty but without evident error. Refine your filter query and check the plugin console.",
+                "The response is empty but without evident error. Refine your filter query and check the log or plugin console.",
                 level=Qgis.Warning,
                 duration=5,
             )
@@ -340,7 +359,7 @@ class ExtractionTaskFunction(QgsTask):
     def cancel(self):
         self.client.cancel()
         logger.log(
-            'RandomTask "{name}" was canceled'.format(name=self.description()),
+            "The Ohsome request was canceled by the user.",
             Qgis.Info,
         )
         super().cancel()

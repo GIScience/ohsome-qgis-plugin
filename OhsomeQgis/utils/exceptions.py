@@ -41,6 +41,12 @@ class OhsomeBaseException(Exception):
             return "{} ({})".format(self.status, self.message)
 
 
+class GeometryError(OhsomeBaseException):
+    """Represents an exception returned by the geometry processing tools."""
+
+    pass
+
+
 class GenericClientError(OhsomeBaseException):
     """Represents an exception returned by the remote API."""
 
