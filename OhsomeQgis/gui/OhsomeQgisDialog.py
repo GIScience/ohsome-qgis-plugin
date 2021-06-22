@@ -304,8 +304,12 @@ class OhsomeQgisDialogMain:
 
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
+            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
+                True
+            )
             globals()[task_name] = ExtractionTaskFunction(
                 iface=self.iface,
+                dlg=self.dlg,
                 description=f"OHSOME task",
                 provider=provider,
                 request_url=preferences.get_request_url(),
@@ -392,6 +396,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
         # Change OK and Cancel button names
         self.global_buttons.button(QDialogButtonBox.Ok).setText("Apply")
+        self.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
 
         #### Set up signals/slots ####

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeQgisDialogBase(object):
     def setupUi(self, OhsomeQgisDialogBase):
         OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(462, 928)
+        OhsomeQgisDialogBase.resize(462, 1202)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -747,6 +747,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.about_button.setObjectName("about_button")
         self.horizontalLayout_8.addWidget(self.about_button)
         self.global_buttons = QtWidgets.QDialogButtonBox(self.control_widget)
+        self.global_buttons.setEnabled(True)
         self.global_buttons.setOrientation(QtCore.Qt.Horizontal)
         self.global_buttons.setStandardButtons(
             QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
@@ -762,7 +763,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.groupBox_4.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(1)
+        self.request_types_widget.setCurrentIndex(0)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -877,7 +878,7 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.layer_tab),
-            _translate("OhsomeQgisDialogBase", "Layer Selection"),
+            _translate("OhsomeQgisDialogBase", "Polygon layer"),
         )
         self.configuration_group_box.setTitle(
             _translate("OhsomeQgisDialogBase", "Configuration")
@@ -1029,3 +1030,4 @@ class Ui_OhsomeQgisDialogBase(object):
 
 
 from qgis import gui
+from . import resources_rc

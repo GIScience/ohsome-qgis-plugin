@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>462</width>
-    <height>928</height>
+    <height>1202</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -265,7 +265,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -427,7 +427,7 @@
      </widget>
      <widget class="QWidget" name="layer_tab">
       <attribute name="title">
-       <string>Layer Selection</string>
+       <string>Polygon layer</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
@@ -1149,6 +1149,9 @@
       </item>
       <item>
        <widget class="QDialogButtonBox" name="global_buttons">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
