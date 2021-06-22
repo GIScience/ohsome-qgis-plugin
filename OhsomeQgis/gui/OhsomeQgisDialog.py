@@ -252,6 +252,9 @@ class OhsomeQgisDialogMain:
             self.project.annotationManager().removeAnnotation(annotation)
         self.dlg.annotations = []
 
+        # Clean the debug text
+        self.dlg.debug_text.append(f">>> New Ohsome query started <<<")
+
         provider_id = self.dlg.provider_combo.currentIndex()
         provider = configmanager.read_config()["providers"][provider_id]
 
@@ -288,19 +291,17 @@ class OhsomeQgisDialogMain:
         if provider["base_url"].startswith("https://api.ohsome.org"):
             msg = "Using the public API. Rate limits may apply."
             logger.log(msg, 0)
-            self.dlg.debug_text.setText(msg)
+            self.dlg.debug_text.append(">" + msg)
 
         clnt = client.Client(provider)
         metadata_check = clnt.check_api_metadata(self.iface)
-        clnt_msg = ""
         preferences = ohsome_gui.OhsomeSpec(self.dlg)
         try:
             if not metadata_check or not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
-                self.dlg.debug_text.setText(msg)
+                self.dlg.debug_text.append(">" + msg)
                 return
-
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
             self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
@@ -332,7 +333,6 @@ class OhsomeQgisDialogMain:
                     duration=7,
                 )
                 return
-            self.dlg.debug_text.setText(clnt_msg)
 
 
 class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
