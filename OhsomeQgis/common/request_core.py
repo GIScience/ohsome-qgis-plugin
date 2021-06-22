@@ -49,6 +49,7 @@ from qgis.core import (
 
 from OhsomeQgis.common import client
 from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
+from OhsomeQgis.utils import exceptions, logger
 
 
 def write_ohsome_vector_layer(
@@ -254,23 +255,17 @@ class ExtractionTaskFunction(QgsTask):
         internally and raise them in self.finished
         """
         self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+        logger.log(f'Started task "{self.description()}"', Qgis.Info)
+        try:
 
-        QgsMessageLog.logMessage(
-            f'Started task "{self.description()}"',
-            MESSAGE_CATEGORY,
-            Qgis.Info,
-        )
-
-        self.result = self.client.request(
-            f"/{self.request_url}",
-            {},
-            post_json=self.preferences,
-        )
-        QgsMessageLog.logMessage(
-            f'Task direct response "{self.result}"',
-            MESSAGE_CATEGORY,
-            Qgis.Info,
-        )
+            self.result = self.client.request(
+                f"/{self.request_url}",
+                {},
+                post_json=self.preferences,
+            )
+        except Exception as e:
+            raise e
+        logger.log(f'Task direct response "{self.result}"', Qgis.Info)
 
         return True
 
@@ -286,11 +281,10 @@ class ExtractionTaskFunction(QgsTask):
         """
         successfully_postprocessed = None
         if valid_result and self.result:
-            QgsMessageLog.logMessage(
+            logger.log(
                 f'Task "{self.description()}" was successful with the following parameters:\n '
                 f'URL: {self.request_url}"'
                 f'Preferences: {self.preferences}"',
-                MESSAGE_CATEGORY,
                 Qgis.Warning,
             )
             self.iface.messageBar().pushMessage(
@@ -302,21 +296,17 @@ class ExtractionTaskFunction(QgsTask):
             successfully_postprocessed = self.postprocess_results()
 
         if self.client.canceled:
-            QgsMessageLog.logMessage(
-                f'Task "{self.description()}" canceled.',
-                MESSAGE_CATEGORY,
-                Qgis.Warning,
-            )
+            logger.log(f'Task "{self.description()}" canceled.', Qgis.Warning)
             self.iface.messageBar().pushMessage(
                 "Info",
                 "The request was canceled.",
                 level=Qgis.Info,
                 duration=5,
             )
+
         elif self.exception is None and not successfully_postprocessed:
-            QgsMessageLog.logMessage(
+            logger.log(
                 f'Task "{self.description()}" not successfull \nResult: {valid_result}"',
-                MESSAGE_CATEGORY,
                 Qgis.Warning,
             )
             self.iface.messageBar().pushMessage(
@@ -326,11 +316,10 @@ class ExtractionTaskFunction(QgsTask):
                 duration=5,
             )
         elif self.exception:
-            QgsMessageLog.logMessage(
+            logger.log(
                 f'Task "{self.description()}" not successfull with Exception.\n'
                 f'Result: {valid_result}"'
                 f"Exception: {self.exception}",
-                MESSAGE_CATEGORY,
                 Qgis.Critical,
             )
             self.iface.messageBar().pushMessage(
@@ -344,9 +333,8 @@ class ExtractionTaskFunction(QgsTask):
 
     def cancel(self):
         self.client.cancel()
-        QgsMessageLog.logMessage(
+        logger.log(
             'RandomTask "{name}" was canceled'.format(name=self.description()),
-            MESSAGE_CATEGORY,
             Qgis.Info,
         )
         super().cancel()

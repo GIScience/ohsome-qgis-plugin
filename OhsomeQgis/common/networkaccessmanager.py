@@ -34,6 +34,8 @@ from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import QgsApplication, QgsNetworkAccessManager, QgsMessageLog
 
 # FIXME: ignored
+from OhsomeQgis.utils import logger
+
 DEFAULT_MAX_REDIRECTS = 4
 
 
@@ -176,7 +178,7 @@ class NetworkAccessManager(object):
 
     def msg_log(self, msg):
         if self.debug:
-            QgsMessageLog.logMessage(msg, "NetworkAccessManager")
+            logger.log(msg, "NetworkAccessManager")
 
     def httpResult(self):
         return self.http_call_result

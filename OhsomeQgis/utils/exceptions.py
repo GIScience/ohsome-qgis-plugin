@@ -101,7 +101,7 @@ class ServiceUnavailable(OhsomeBaseException):
     pass
 
 
-class Timeout(Exception):
+class Timeout(OhsomeBaseException):
     """The request timed out."""
 
     pass
