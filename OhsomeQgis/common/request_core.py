@@ -31,6 +31,7 @@ from itertools import product
 from time import sleep
 
 from PyQt5.QtCore import QVariant, Qt, QUrl
+from PyQt5.QtWidgets import QDialogButtonBox
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
@@ -155,6 +156,7 @@ class ExtractionTaskFunction(QgsTask):
     def __init__(
         self,
         iface,
+        dlg,
         description: str,
         provider,
         request_url,
@@ -163,6 +165,7 @@ class ExtractionTaskFunction(QgsTask):
     ):
         super().__init__(description, QgsTask.CanCancel)
         self.iface = iface
+        self.dlg = dlg
         self.total = 0
         self.iterations = 0
         self.exception = None
@@ -337,6 +340,7 @@ class ExtractionTaskFunction(QgsTask):
                 duration=5,
             )
             raise self.exception
+        self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
 
     def cancel(self):
         self.client.cancel()
