@@ -72,6 +72,7 @@ class Client(QObject):
         # Save some references to retrieve in client instances
         self.url = None
         self.warnings = None
+        self.canceled = False
 
     overQueryLimit = pyqtSignal()
 
@@ -343,3 +344,7 @@ class Client(QObject):
         #     params.append(("api_key", self.key))
 
         return path + "?" + requests.utils.unquote_unreserved(urlencode(params))
+
+    def cancel(self):
+        self.nam.abort()
+        self.canceled = True

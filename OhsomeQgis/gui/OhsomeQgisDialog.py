@@ -25,6 +25,8 @@
 """
 import csv
 import json
+import random
+import string
 import webbrowser
 from datetime import datetime
 
@@ -40,7 +42,13 @@ from PyQt5.QtWidgets import (
     QListWidget,
     QListWidgetItem,
 )
-from qgis._core import QgsProcessingUtils, Qgis
+from qgis._core import (
+    QgsProcessingUtils,
+    Qgis,
+    QgsTask,
+    QgsMessageLog,
+    QgsApplication,
+)
 from qgis.core import (
     QgsProject,
     QgsTextAnnotation,
@@ -69,7 +77,7 @@ from OhsomeQgis.utils import (
 )
 from OhsomeQgis.common import (
     client,
-    data_extractions_core,
+    request_core,
     API_ENDPOINTS,
     EXTRACTION_SPECS,
     AGGREGATION_SPECS,
@@ -79,6 +87,8 @@ from OhsomeQgis.gui import ohsome_gui
 
 from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
+from .ohsome_gui import OhsomeSpec
+from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
 
 
@@ -292,84 +302,18 @@ class OhsomeQgisDialogMain:
                 self.dlg.debug_text.setText(msg)
                 return
 
-            if tab_index == 0:
-                bcircles_preferences = (
-                    preferences.get_bcircles_request_preferences()
-                )
-                request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
-                response = clnt.request(
-                    f"/{preferences.get_request_url()}",
-                    {},
-                    post_json=bcircles_preferences,
-                )
-                if (
-                    all(i in response.keys() for i in ["type", "features"])
-                    and response.get("type").lower() == "featurecollection"
-                ):
-                    # Process GeoJSON
-                    geojsons: [] = (
-                        data_extractions_core.split_geojson_by_geometry(
-                            response
-                        )
-                    )
-                    for i in range(len(geojsons)):
-                        file = QgsProcessingUtils.generateTempFilename(
-                            f"{preferences.get_request_url()}.geojson"
-                        )
-                        with open(file, "w") as f:
-                            f.write(json.dumps(geojsons[i], indent=4))
-                        vlayer = (
-                            data_extractions_core.write_ohsome_vector_layer(
-                                self.iface, file, request_time
-                            )
-                        )
-                        data_extractions_core.postprocess_qgsvectorlayer(
-                            vlayer,
-                            activate_temporal=preferences.activate_temporal_feature,
-                        )
-                elif (
-                    "result" in response.keys()
-                    and len(response.get("result")) > 0
-                ):
-                    # Process flat tables
-                    file = QgsProcessingUtils.generateTempFilename(
-                        f"{preferences.get_request_url()}.csv"
-                    )
-                    results = response["result"]
-                    with open(file, "w", newline="") as f:
-                        wr = csv.DictWriter(
-                            f,
-                            fieldnames=results[0].keys(),
-                        )
-                        wr.writeheader()
-                        for row_result in results:
-                            wr.writerow(row_result)
-                    vlayer = data_extractions_core.write_ohsome_vector_layer(
-                        self.iface, file, request_time
-                    )
-                elif (
-                    "groupByResult" in response.keys()
-                    and len(response.get("groupByResult")) > 0
-                ):
-                    # Process non-flat tables
-                    results = response["groupByResult"]
-                    for result_group in results:
-                        file = QgsProcessingUtils.generateTempFilename(
-                            f'{result_group["groupByObject"]}_{preferences.get_request_url()}.csv'
-                        )
-                        with open(file, "w", newline="") as f:
-                            wr = csv.DictWriter(
-                                f,
-                                fieldnames=results[0]["result"][0].keys(),
-                            )
-                            wr.writeheader()
-                            for row_result in result_group["result"]:
-                                wr.writerow(row_result)
-                        vlayer = (
-                            data_extractions_core.write_ohsome_vector_layer(
-                                self.iface, file, request_time
-                            )
-                        )
+            letters = string.ascii_lowercase
+            task_name = "".join(random.choice(letters) for i in range(10))
+            globals()[task_name] = ExtractionTaskFunction(
+                iface=self.iface,
+                description=f"OHSOME task",
+                provider=provider,
+                request_url=preferences.get_request_url(),
+                preferences=preferences.get_bcircles_request_preferences(),
+                activate_temporal=preferences.activate_temporal_feature,
+            )
+            QgsApplication.taskManager().addTask(globals()[task_name])
+
         except exceptions.Timeout:
             msg = "The connection has timed out!"
             logger.log(msg, 2)
@@ -404,13 +348,6 @@ class OhsomeQgisDialogMain:
                     duration=7,
                 )
                 return
-            if not vlayer or len(vlayer) <= 0:
-                self.iface.messageBar().pushMessage(
-                    "Information",
-                    "The response is empty. Refine your filter query and check the plugin console for errors.",
-                    level=Qgis.Info,
-                    duration=5,
-                )
             self.dlg.debug_text.setText(clnt_msg)
 
 

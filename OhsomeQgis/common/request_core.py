@@ -23,17 +23,22 @@
  *                                                                         *
  ***************************************************************************/
 """
+import csv
+import json
 import random
+from datetime import datetime
 from itertools import product
 from time import sleep
 
-from PyQt5.QtCore import QVariant, Qt
+from PyQt5.QtCore import QVariant, Qt, QUrl
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
     QgsTask,
     QgsMessageLog,
     Qgis,
+    QgsNetworkContentFetcherTask,
+    QgsProcessingUtils,
 )
 
 from qgis.core import (
@@ -41,6 +46,7 @@ from qgis.core import (
     QgsField,
 )
 
+from OhsomeQgis.common import client
 from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
 
 
@@ -146,12 +152,95 @@ MESSAGE_CATEGORY = "RandomIntegerSumTask"
 class ExtractionTaskFunction(QgsTask):
     """This shows how to subclass QgsTask"""
 
-    def __init__(self, description, duration):
+    def __init__(
+        self,
+        iface,
+        description: str,
+        provider,
+        request_url,
+        preferences: dict,
+        activate_temporal: bool = False,
+    ):
         super().__init__(description, QgsTask.CanCancel)
-        self.duration = duration
+        self.iface = iface
         self.total = 0
         self.iterations = 0
         self.exception = None
+        self.request_url = request_url
+        self.preferences = preferences
+        self.activate_temporal = activate_temporal
+        self.result: dict = {}
+        self.request_time = None
+        self.client = client.Client(provider)
+
+    def postprocess_results(self) -> bool:
+        if not self.result or not len(self.result):
+            return False
+
+        if (
+            all(i in self.result.keys() for i in ["type", "features"])
+            and self.result.get("type").lower() == "featurecollection"
+        ):
+            # Process GeoJSON
+            geojsons: [] = split_geojson_by_geometry(self.result)
+            for i in range(len(geojsons)):
+                file = QgsProcessingUtils.generateTempFilename(
+                    f"{self.request_url}.geojson"
+                )
+                with open(file, "w") as f:
+                    f.write(json.dumps(geojsons[i], indent=4))
+                vlayer = write_ohsome_vector_layer(
+                    self.iface, file, self.request_time
+                )
+                postprocess_qgsvectorlayer(
+                    vlayer,
+                    activate_temporal=self.activate_temporal,
+                )
+            return True
+        elif (
+            "result" in self.result.keys()
+            and len(self.result.get("result")) > 0
+        ):
+            # Process flat tables
+            file = QgsProcessingUtils.generateTempFilename(
+                f"{self.request_url}.csv"
+            )
+            results = self.result["result"]
+            with open(file, "w", newline="") as f:
+                wr = csv.DictWriter(
+                    f,
+                    fieldnames=results[0].keys(),
+                )
+                wr.writeheader()
+                for row_result in results:
+                    wr.writerow(row_result)
+            vlayer = write_ohsome_vector_layer(
+                self.iface, file, self.request_time
+            )
+            return True
+        elif (
+            "groupByResult" in self.result.keys()
+            and len(self.result.get("groupByResult")) > 0
+        ):
+            # Process non-flat tables
+            results = self.result["groupByResult"]
+            for result_group in results:
+                file = QgsProcessingUtils.generateTempFilename(
+                    f'{result_group["groupByObject"]}_{self.request_url}.csv'
+                )
+                with open(file, "w", newline="") as f:
+                    wr = csv.DictWriter(
+                        f,
+                        fieldnames=results[0]["result"][0].keys(),
+                    )
+                    wr.writeheader()
+                    for row_result in result_group["result"]:
+                        wr.writerow(row_result)
+                vlayer = write_ohsome_vector_layer(
+                    self.iface, file, self.request_time
+                )
+            return True
+        return False
 
     def run(self):
         """Here you implement your heavy lifting.
@@ -161,31 +250,28 @@ class ExtractionTaskFunction(QgsTask):
         Raising exceptions will crash QGIS, so we handle them
         internally and raise them in self.finished
         """
+        self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+
         QgsMessageLog.logMessage(
-            'Started task "{}"'.format(self.description()),
+            f'Started task "{self.description()}"',
             MESSAGE_CATEGORY,
             Qgis.Info,
         )
-        wait_time = self.duration / 100
-        for i in range(100):
-            sleep(wait_time)
-            # use setProgress to report progress
-            self.setProgress(i)
-            arandominteger = random.randint(0, 500)
-            self.total += arandominteger
-            self.iterations += 1
-            # check isCanceled() to handle cancellation
-            if self.isCanceled():
-                return False
-            # simulate exceptions to show how to abort task
-            # if arandominteger == 42:
-            #     # DO NOT raise Exception('bad value!')
-            #     # this would crash QGIS
-            #     self.exception = Exception('bad value!')
-            #     return False
+
+        self.result = self.client.request(
+            f"/{self.request_url}",
+            {},
+            post_json=self.preferences,
+        )
+        QgsMessageLog.logMessage(
+            f'Task direct response "{self.result}"',
+            MESSAGE_CATEGORY,
+            Qgis.Info,
+        )
+
         return True
 
-    def finished(self, result):
+    def finished(self, valid_result):
         """
         This function is automatically called when the task has
         completed (successfully or not).
@@ -195,38 +281,65 @@ class ExtractionTaskFunction(QgsTask):
         to do GUI operations and raise Python exceptions here.
         result is the return value from self.run.
         """
-        if result:
+        successfully_postprocessed = None
+        if valid_result and self.result:
             QgsMessageLog.logMessage(
-                'RandomTask "{name}" completed\n'
-                "RandomTotal: {total} (with {iterations} "
-                "iterations)".format(
-                    name=self.description(),
-                    total=self.total,
-                    iterations=self.iterations,
-                ),
+                f'Task "{self.description()}" was successful with the following parameters:\n '
+                f'URL: {self.request_url}"'
+                f'Preferences: {self.preferences}"',
                 MESSAGE_CATEGORY,
-                Qgis.Success,
+                Qgis.Warning,
             )
-        else:
-            if self.exception is None:
-                QgsMessageLog.logMessage(
-                    'RandomTask "{name}" not successful but without '
-                    "exception (probably the task was manually "
-                    "canceled by the user)".format(name=self.description()),
-                    MESSAGE_CATEGORY,
-                    Qgis.Warning,
-                )
-            else:
-                QgsMessageLog.logMessage(
-                    'RandomTask "{name}" Exception: {exception}'.format(
-                        name=self.description(), exception=self.exception
-                    ),
-                    MESSAGE_CATEGORY,
-                    Qgis.Critical,
-                )
-                raise self.exception
+            self.iface.messageBar().pushMessage(
+                "Info",
+                "Success!",
+                level=Qgis.Info,
+                duration=5,
+            )
+            successfully_postprocessed = self.postprocess_results()
+
+        if self.client.canceled:
+            QgsMessageLog.logMessage(
+                f'Task "{self.description()}" canceled.',
+                MESSAGE_CATEGORY,
+                Qgis.Warning,
+            )
+            self.iface.messageBar().pushMessage(
+                "Info",
+                "The request was canceled.",
+                level=Qgis.Info,
+                duration=5,
+            )
+        elif self.exception is None and not successfully_postprocessed:
+            QgsMessageLog.logMessage(
+                f'Task "{self.description()}" not successfull \nResult: {valid_result}"',
+                MESSAGE_CATEGORY,
+                Qgis.Warning,
+            )
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The response is empty but without evident error. Refine your filter query and check the plugin console.",
+                level=Qgis.Warning,
+                duration=5,
+            )
+        elif self.exception:
+            QgsMessageLog.logMessage(
+                f'Task "{self.description()}" not successfull with Exception.\n'
+                f'Result: {valid_result}"'
+                f"Exception: {self.exception}",
+                MESSAGE_CATEGORY,
+                Qgis.Critical,
+            )
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The response is empty and an error was returned. Refine your filter query and check the plugin console for errors.",
+                level=Qgis.Critical,
+                duration=5,
+            )
+            raise self.exception
 
     def cancel(self):
+        self.client.cancel()
         QgsMessageLog.logMessage(
             'RandomTask "{name}" was canceled'.format(name=self.description()),
             MESSAGE_CATEGORY,
