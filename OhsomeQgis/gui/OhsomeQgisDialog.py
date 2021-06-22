@@ -294,7 +294,6 @@ class OhsomeQgisDialogMain:
         metadata_check = clnt.check_api_metadata(self.iface)
         clnt_msg = ""
         preferences = ohsome_gui.OhsomeSpec(self.dlg)
-        vlayer = None
         try:
             if not metadata_check or not preferences.is_valid:
                 msg = "The request has been aborted!"
@@ -318,28 +317,9 @@ class OhsomeQgisDialogMain:
             )
             QgsApplication.taskManager().addTask(globals()[task_name])
 
-        except exceptions.Timeout:
-            msg = "The connection has timed out!"
-            logger.log(msg, 2)
-            self.dlg.debug_text.setText(msg)
-            return
-
-        except (exceptions.GenericServerError,) as e:
-            msg = (e.__class__.__name__, str(e))
-
-            logger.log("{}: {}".format(*msg), 2)
-            clnt_msg += "<b>{}</b>: ({})<br>".format(*msg)
-            self.iface.messageBar().pushMessage(
-                "Warning",
-                "The API returned a query error.",
-                level=Qgis.Warning,
-                duration=7,
-            )
-
         except Exception as e:
             msg = [e.__class__.__name__, str(e)]
             logger.log("{}: {}".format(*msg), 2)
-            clnt_msg += "{}: {}".format(*msg)
 
         finally:
             if not metadata_check:
