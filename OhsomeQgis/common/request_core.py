@@ -279,49 +279,41 @@ class ExtractionTaskFunction(QgsTask):
         to do GUI operations and raise Python exceptions here.
         result is the return value from self.run.
         """
-        successfully_postprocessed = None
+        default_message = (
+            f'API URL: {self.client.base_url}\n"'
+            f'Endpoint: {self.request_url}\n"'
+            f'Preferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
         if valid_result and self.result:
-            logger.log(
-                f'Task "{self.description()}" was successful with the following parameters:\n '
-                f'URL: {self.request_url}"'
-                f'Preferences: {self.preferences}"',
-                Qgis.Warning,
-            )
+            msg = f"The request was successful:\n" + default_message
+            logger.log(msg, Qgis.Warning)
             self.iface.messageBar().pushMessage(
                 "Info",
                 "Success!",
                 level=Qgis.Info,
                 duration=5,
             )
-            successfully_postprocessed = self.postprocess_results()
+            self.dlg.debug_text.append(">" + msg)
+            self.postprocess_results()
 
-        if self.client.canceled:
-            logger.log(f'Task "{self.description()}" canceled.', Qgis.Warning)
+        elif self.client.canceled:
+            msg = f'Task "{self.description()}" canceled.'
+            logger.log(msg, Qgis.Warning)
+            self.dlg.debug_text.setText(msg)
             self.iface.messageBar().pushMessage(
                 "Info",
-                "The request was canceled.",
+                msg,
                 level=Qgis.Info,
                 duration=5,
             )
-
-        elif self.exception is None and not successfully_postprocessed:
-            logger.log(
-                f'Task "{self.description()}" not successfull \nResult: {valid_result}"',
-                Qgis.Warning,
-            )
-            self.iface.messageBar().pushMessage(
-                "Warning",
-                "The response is empty but without evident error. Refine your filter query and check the plugin console.",
-                level=Qgis.Warning,
-                duration=5,
-            )
         elif self.exception:
-            logger.log(
-                f'Task "{self.description()}" not successfull with Exception.\n'
-                f'Result: {valid_result}"'
-                f"Exception: {self.exception}",
-                Qgis.Critical,
+            msg = (
+                f"The request was not successful and threw an exception:\n"
+                + default_message
+                + f"\nException: {self.exception}"
             )
+            self.dlg.debug_text.setText(msg)
+            logger.log(msg, Qgis.Critical)
             self.iface.messageBar().pushMessage(
                 "Warning",
                 "The response is empty and an error was returned. Refine your filter query and check the plugin console for errors.",
@@ -329,6 +321,20 @@ class ExtractionTaskFunction(QgsTask):
                 duration=5,
             )
             raise self.exception
+        else:
+            msg = (
+                f"The request was not successful and the reason is unclear. This should not happen!\n"
+                + default_message
+                + f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+            )
+            self.dlg.debug_text.setText(msg)
+            logger.log(msg, Qgis.Warning)
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The response is empty but without evident error. Refine your filter query and check the plugin console.",
+                level=Qgis.Warning,
+                duration=5,
+            )
         self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
 
     def cancel(self):

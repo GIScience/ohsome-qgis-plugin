@@ -178,7 +178,7 @@ class NetworkAccessManager(object):
 
     def msg_log(self, msg):
         if self.debug:
-            logger.log(msg, "NetworkAccessManager")
+            logger.log(msg, tag="NetworkAccessManager")
 
     def httpResult(self):
         return self.http_call_result

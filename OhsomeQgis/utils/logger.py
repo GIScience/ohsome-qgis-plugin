@@ -29,7 +29,7 @@ from qgis.core import QgsMessageLog, Qgis
 from OhsomeQgis import PLUGIN_NAME
 
 
-def log(message, tag=PLUGIN_NAME, level_in=0):
+def log(message, level_in=0, tag=PLUGIN_NAME):
     """
     Writes to QGIS inbuilt logger accessible through panel.
 
@@ -38,6 +38,7 @@ def log(message, tag=PLUGIN_NAME, level_in=0):
 
     :param level_in: integer representation of logging level.
     :type level_in: int
+    @param tag: if relevant give tag name.
     """
     if level_in == 0:
         level = Qgis.Info
@@ -48,4 +49,4 @@ def log(message, tag=PLUGIN_NAME, level_in=0):
     else:
         level = Qgis.Info
 
-    QgsMessageLog.logMessage(message, tag, level)
+    QgsMessageLog.logMessage(message, tag.strip(), level)
