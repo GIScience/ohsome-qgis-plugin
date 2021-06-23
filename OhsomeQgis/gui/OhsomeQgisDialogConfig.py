@@ -26,7 +26,7 @@
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QMetaObject
-from PyQt5.QtWidgets import QDialog, QInputDialog
+from PyQt5.QtWidgets import QDialog, QInputDialog, QDialogButtonBox
 
 from qgis.gui import QgsCollapsibleGroupBox
 
