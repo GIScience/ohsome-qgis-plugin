@@ -118,10 +118,12 @@ DATA_AGGREGATION_FORMAT = {
     "groupBy/boundary": [
         "geojson",
         "json",
-        "csv",
+        # Csv not needed for now as (geo)json is enough so far.
+        # "csv",
     ],
     "default": [
         "json",
-        "csv",
+        # Csv not needed for now as (geo)json is enough so far.
+        # "csv",
     ],
 }
