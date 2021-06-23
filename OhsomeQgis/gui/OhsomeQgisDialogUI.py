@@ -433,14 +433,12 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box.sizePolicy().hasHeightForWidth()
         )
         self.configuration_group_box.setSizePolicy(sizePolicy)
-        self.configuration_group_box.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
+        self.configuration_group_box.setMaximumSize(QtCore.QSize(16777215, 28))
         self.configuration_group_box.setAutoFillBackground(False)
         self.configuration_group_box.setFlat(True)
         self.configuration_group_box.setCheckable(False)
         self.configuration_group_box.setChecked(False)
-        self.configuration_group_box.setCollapsed(False)
+        self.configuration_group_box.setCollapsed(True)
         self.configuration_group_box.setScrollOnExpand(False)
         self.configuration_group_box.setSaveCollapsedState(False)
         self.configuration_group_box.setObjectName("configuration_group_box")
@@ -622,9 +620,10 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_years.setObjectName("interval_years")
         self.gridLayout_10.addWidget(self.interval_years, 3, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.intervals_group)
-        self.filter_frame = QtWidgets.QFrame(self.configuration_group_box)
+        self.verticalLayout_5.addWidget(self.configuration_group_box)
+        self.filter_frame = QtWidgets.QFrame(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -661,10 +660,10 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.filter_input.setSizePolicy(sizePolicy)
         self.filter_input.setMaximumSize(QtCore.QSize(331, 101))
+        self.filter_input.setPlainText("")
         self.filter_input.setObjectName("filter_input")
         self.horizontalLayout_6.addWidget(self.filter_input)
-        self.verticalLayout_4.addWidget(self.filter_frame)
-        self.verticalLayout_5.addWidget(self.configuration_group_box)
+        self.verticalLayout_5.addWidget(self.filter_frame)
         self.ohsome_log_group = gui.QgsCollapsibleGroupBox(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -761,6 +760,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.request_types_widget.raise_()
         self.configuration_group_box.raise_()
         self.groupBox_4.raise_()
+        self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
         self.request_types_widget.setCurrentIndex(0)
@@ -1007,14 +1007,8 @@ class Ui_OhsomeQgisDialogBase(object):
                 '<html><head/><body><p>Enter your desired filter query by using common OpenStreetMap tags. For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
             )
         )
-        self.filter_input.setPlainText(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "building=* or (type:way and highway=residential)",
-            )
-        )
         self.filter_input.setPlaceholderText(
-            _translate("OhsomeQgisDialogBase", "landuse=forest or natural=wood")
+            _translate("OhsomeQgisDialogBase", "landuse=forest or natural=*")
         )
         self.ohsome_log_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Log")
