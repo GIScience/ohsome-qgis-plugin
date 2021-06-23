@@ -50,7 +50,7 @@ from qgis.core import (
 )
 
 from OhsomeQgis.common import client
-from OhsomeQgis.gui.ohsome_gui import OhsomeSpec
+from OhsomeQgis.gui.ohsome_spec import OhsomeSpec
 from OhsomeQgis.utils import exceptions, logger
 from OhsomeQgis.utils.exceptions import OhsomeBaseException
 

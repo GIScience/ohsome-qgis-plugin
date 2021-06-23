@@ -83,11 +83,11 @@ from OhsomeQgis.common import (
     AGGREGATION_SPECS,
     DATA_AGGREGATION_FORMAT,
 )
-from OhsomeQgis.gui import ohsome_gui
+from OhsomeQgis.gui import ohsome_spec
 
 from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
-from .ohsome_gui import OhsomeSpec
+from .ohsome_spec import OhsomeSpec
 from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
 
@@ -290,7 +290,6 @@ class OhsomeQgisDialogMain:
             return
         elif tab_index != 0 and tab_index != 1:
             return
-            # if no API key is present, when ORS is selected, throw an error message
         if provider["base_url"].startswith("https://api.ohsome.org"):
             msg = "Using the public API. Rate limits may apply."
             logger.log(msg, 0)
@@ -298,7 +297,7 @@ class OhsomeQgisDialogMain:
 
         clnt = client.Client(provider)
         metadata_check = clnt.check_api_metadata(self.iface)
-        preferences = ohsome_gui.OhsomeSpec(self.dlg)
+        preferences = ohsome_spec.OhsomeSpec(self.dlg)
         try:
             if not metadata_check or not preferences.is_valid:
                 msg = "The request has been aborted!"
