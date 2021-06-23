@@ -231,6 +231,9 @@ class OhsomeQgisDialogMain:
                 self.dlg.ohsome_centroid_location_list.addItem(
                     f"Point 0: 8.67, 49.39 | Radius: 1000"
                 )
+                self.dlg.filter_input.setPlainText(
+                    "building=* or (type:way and highway=residential)"
+                )
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
