@@ -74,7 +74,9 @@ class OhsomeSpec:
         if self.dlg.property_groups_check_tags.isChecked():
             properties = "tags"
         if self.dlg.property_groups_check_metadata.isChecked():
-            properties = f"{properties},metadata"
+            properties = (
+                f"{properties},metadata" if properties == "tags" else "metadata"
+            )
         return properties
 
     @property
