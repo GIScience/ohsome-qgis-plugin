@@ -40,6 +40,8 @@ from qgis._core import (
     Qgis,
     QgsNetworkContentFetcherTask,
     QgsProcessingUtils,
+    QgsLayerMetadata,
+    QgsAbstractMetadataBase,
 )
 
 from qgis.core import (
@@ -53,14 +55,53 @@ from OhsomeQgis.utils import exceptions, logger
 from OhsomeQgis.utils.exceptions import OhsomeBaseException
 
 
-def write_ohsome_vector_layer(
-    iface, file: str, request_time: str
-) -> QgsVectorLayer:
+def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
+    metadata: QgsLayerMetadata = vlayer.metadata()
+    if original_json.get("metadata") and original_json.get("metadata").get(
+        "description"
+    ):
+        metadata.setTitle("Ohsome Qgis plugin query result.")
+        metadata.setAbstract(original_json.get("metadata").get("description"))
+    if original_json.get("attribution"):
+        attribution: dict = original_json.get("attribution")
+        licenses: [] = [value for _, value in attribution.items()]
+        metadata.setLicenses(licenses=licenses)
+    vlayer.setMetadata(metadata=metadata)
+
+
+def create_ohsome_csv_layer(
+    iface, results, header, output_file, request_time: str
+):
+    with open(output_file, "w", newline="") as f:
+        wr = csv.DictWriter(
+            f,
+            fieldnames=header,
+        )
+        wr.writeheader()
+        for row_result in results:
+            wr.writerow(row_result)
     return iface.addVectorLayer(
+        output_file, f"ohsome_" f"{request_time}", "ogr"
+    )
+
+
+def create_ohsome_vector_layer(
+    iface,
+    geojson: dict,
+    request_time: str,
+    request_url: str,
+    activate_temporal: bool = False,
+):
+    file = QgsProcessingUtils.generateTempFilename(f"{request_url}.geojson")
+    with open(file, "w") as f:
+        f.write(json.dumps(geojson, indent=4))
+    vlayer: QgsVectorLayer = iface.addVectorLayer(
         file,
         f"ohsome_" f"{request_time}",
         "ogr",
     )
+    postprocess_qgsvectorlayer(vlayer, activate_temporal=activate_temporal)
+    return vlayer
 
 
 def split_geojson_by_geometry(geojson: dict) -> [dict]:
@@ -69,7 +110,10 @@ def split_geojson_by_geometry(geojson: dict) -> [dict]:
     features = geojson.pop("features")
     for feature in features:
         try:
-            geometry_type = feature["geometry"]["type"]
+            if "geometry" not in feature or feature["geometry"] is None:
+                continue
+            else:
+                geometry_type = feature["geometry"]["type"]
             if geometry_type not in features_per_geometry:
                 features_per_geometry[geometry_type] = []
             features_per_geometry[geometry_type].append(feature)
@@ -193,18 +237,14 @@ class ExtractionTaskFunction(QgsTask):
             # Process GeoJSON
             geojsons: [] = split_geojson_by_geometry(self.result)
             for i in range(len(geojsons)):
-                file = QgsProcessingUtils.generateTempFilename(
-                    f"{self.request_url}.geojson"
+                vlayer = create_ohsome_vector_layer(
+                    self.iface,
+                    geojsons[i],
+                    self.request_time,
+                    self.request_url,
+                    self.activate_temporal,
                 )
-                with open(file, "w") as f:
-                    f.write(json.dumps(geojsons[i], indent=4))
-                vlayer = write_ohsome_vector_layer(
-                    self.iface, file, self.request_time
-                )
-                postprocess_qgsvectorlayer(
-                    vlayer,
-                    activate_temporal=self.activate_temporal,
-                )
+                postprocess_metadata(geojsons[i], vlayer)
             return True
         elif (
             "result" in self.result.keys()
@@ -214,18 +254,15 @@ class ExtractionTaskFunction(QgsTask):
             file = QgsProcessingUtils.generateTempFilename(
                 f"{self.request_url}.csv"
             )
-            results = self.result["result"]
-            with open(file, "w", newline="") as f:
-                wr = csv.DictWriter(
-                    f,
-                    fieldnames=results[0].keys(),
-                )
-                wr.writeheader()
-                for row_result in results:
-                    wr.writerow(row_result)
-            vlayer = write_ohsome_vector_layer(
-                self.iface, file, self.request_time
+            header = self.result["result"][0].keys()
+            vlayer = create_ohsome_csv_layer(
+                self.iface,
+                self.result["result"],
+                header,
+                file,
+                self.request_time,
             )
+            postprocess_metadata(self.result, vlayer)
             return True
         elif (
             "groupByResult" in self.result.keys()
@@ -237,17 +274,15 @@ class ExtractionTaskFunction(QgsTask):
                 file = QgsProcessingUtils.generateTempFilename(
                     f'{result_group["groupByObject"]}_{self.request_url}.csv'
                 )
-                with open(file, "w", newline="") as f:
-                    wr = csv.DictWriter(
-                        f,
-                        fieldnames=results[0]["result"][0].keys(),
-                    )
-                    wr.writeheader()
-                    for row_result in result_group["result"]:
-                        wr.writerow(row_result)
-                vlayer = write_ohsome_vector_layer(
-                    self.iface, file, self.request_time
+                header = results[0]["result"][0].keys()
+                vlayer = create_ohsome_csv_layer(
+                    self.iface,
+                    result_group["result"],
+                    header,
+                    file,
+                    self.request_time,
                 )
+                postprocess_metadata(self.result, vlayer)
             return True
         return False
 
