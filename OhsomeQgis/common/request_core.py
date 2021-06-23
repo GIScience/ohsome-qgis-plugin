@@ -110,17 +110,45 @@ def create_ohsome_vector_layer(
     return vlayer
 
 
-def split_geojson_by_geometry(geojson: dict) -> [dict]:
+def split_geojson_by_geometry(
+    geojson: dict,
+    return_features_per_geometry: bool = False,
+    keep_geometry_less: bool = False,
+) -> [dict]:
     geojson_per_geometry = []
     features_per_geometry = {}
-    features = geojson.pop("features")
+    if geojson.get("features"):
+        features = geojson.pop("features")
+    elif geojson.get("geometry") and geojson.get("geometry").get("geometries"):
+        features = geojson.get("geometry").get("geometries")
+    elif geojson.get("geometries") and len(geojson.get("geometries")):
+        features = geojson.get("geometries")
+    else:
+        return {}
     for feature in features:
         try:
-            if "geometry" not in feature or feature["geometry"] is None:
-                continue
-            else:
+            if "geometry" in feature and feature["geometry"] is not None:
                 geometry_type = feature["geometry"]["type"]
-            if geometry_type not in features_per_geometry:
+            elif "type" in feature and feature["type"] is not None:
+                geometry_type = feature["type"]
+            else:
+                continue
+            if geometry_type == "GeometryCollection":
+                geometry_collection = split_geojson_by_geometry(
+                    feature, return_features_per_geometry=True
+                )
+                return_features_per_geometry = False
+                for feature_type in geometry_collection:
+                    for sub_feature in geometry_collection[feature_type]:
+                        sub_feature["properties"] = feature["properties"]
+                    if feature_type not in features_per_geometry:
+                        features_per_geometry[feature_type] = []
+                    element: {}
+                    features_per_geometry.get(feature_type).extend(
+                        geometry_collection[feature_type]
+                    )
+                continue
+            elif geometry_type not in features_per_geometry:
                 features_per_geometry[geometry_type] = []
             features_per_geometry[geometry_type].append(feature)
         except Exception as err:
@@ -128,6 +156,10 @@ def split_geojson_by_geometry(geojson: dict) -> [dict]:
                 str("error"),
                 f"Error constructing geometries from the GeoJSON response: {err}",
             )
+    if return_features_per_geometry:
+        return features_per_geometry
+    if not keep_geometry_less and features_per_geometry.get("Feature"):
+        features_per_geometry.pop("Feature")
     for _, feature_set in features_per_geometry.items():
         temp_geojson = geojson.copy()
         temp_geojson["features"] = feature_set
@@ -241,7 +273,10 @@ class ExtractionTaskFunction(QgsTask):
             and self.result.get("type").lower() == "featurecollection"
         ):
             # Process GeoJSON
-            geojsons: [] = split_geojson_by_geometry(self.result)
+            geojsons: [] = split_geojson_by_geometry(
+                self.result,
+                keep_geometry_less=self.dlg.check_keep_geometryless.isChecked(),
+            )
             for i in range(len(geojsons)):
                 vlayer = create_ohsome_vector_layer(
                     self.iface,

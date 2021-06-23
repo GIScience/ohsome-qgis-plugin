@@ -426,6 +426,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="layer_tab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <attribute name="title">
        <string>Polygon layer</string>
       </attribute>
@@ -556,7 +559,7 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>28</height>
+       <height>16777215</height>
       </size>
      </property>
      <property name="autoFillBackground">
@@ -575,7 +578,7 @@
       <bool>false</bool>
      </property>
      <property name="collapsed">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="scrollOnExpand">
       <bool>false</bool>
@@ -590,7 +593,7 @@
          <string>General</string>
         </property>
         <property name="collapsed">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
@@ -690,23 +693,51 @@
          <bool>true</bool>
         </property>
         <property name="collapsed">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
-          <widget class="QCheckBox" name="check_clip_geometry">
-           <property name="enabled">
-            <bool>true</bool>
+          <widget class="QFrame" name="frame_7">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
            </property>
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Ony available for the data extraction endpoints&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
            </property>
-           <property name="text">
-            <string>Clip Geometry</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QCheckBox" name="check_clip_geometry">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Ony available for the data extraction endpoints&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Clip Geometry</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="check_keep_geometryless">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some results don't contain geometries but metadata.&lt;/p&gt;&lt;p&gt;Decide if you wan't to keep them or only return ones with geometries.&lt;/p&gt;&lt;p&gt;If checked, the geometry less features will be stored separately.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Keep without geometry</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>

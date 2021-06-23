@@ -336,6 +336,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_8.addWidget(self.widget, 0, 0, 1, 1)
         self.request_types_widget.addTab(self.centroid_tab, "")
         self.layer_tab = QtWidgets.QWidget()
+        self.layer_tab.setEnabled(True)
         self.layer_tab.setObjectName("layer_tab")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.layer_tab)
         self.gridLayout_6.setObjectName("gridLayout_6")
@@ -433,12 +434,14 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box.sizePolicy().hasHeightForWidth()
         )
         self.configuration_group_box.setSizePolicy(sizePolicy)
-        self.configuration_group_box.setMaximumSize(QtCore.QSize(16777215, 28))
+        self.configuration_group_box.setMaximumSize(
+            QtCore.QSize(16777215, 16777215)
+        )
         self.configuration_group_box.setAutoFillBackground(False)
         self.configuration_group_box.setFlat(True)
         self.configuration_group_box.setCheckable(False)
         self.configuration_group_box.setChecked(False)
-        self.configuration_group_box.setCollapsed(True)
+        self.configuration_group_box.setCollapsed(False)
         self.configuration_group_box.setScrollOnExpand(False)
         self.configuration_group_box.setSaveCollapsedState(False)
         self.configuration_group_box.setObjectName("configuration_group_box")
@@ -449,7 +452,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.general_options_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.general_options_group.setCollapsed(True)
+        self.general_options_group.setCollapsed(False)
         self.general_options_group.setObjectName("general_options_group")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(
             self.general_options_group
@@ -493,15 +496,27 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box
         )
         self.property_groups_box.setFlat(True)
-        self.property_groups_box.setCollapsed(True)
+        self.property_groups_box.setCollapsed(False)
         self.property_groups_box.setObjectName("property_groups_box")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.check_clip_geometry = QtWidgets.QCheckBox(self.property_groups_box)
+        self.frame_7 = QtWidgets.QFrame(self.property_groups_box)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_7)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.check_clip_geometry = QtWidgets.QCheckBox(self.frame_7)
         self.check_clip_geometry.setEnabled(True)
         self.check_clip_geometry.setChecked(True)
         self.check_clip_geometry.setObjectName("check_clip_geometry")
-        self.verticalLayout_6.addWidget(self.check_clip_geometry)
+        self.horizontalLayout.addWidget(self.check_clip_geometry)
+        self.check_keep_geometryless = QtWidgets.QCheckBox(self.frame_7)
+        self.check_keep_geometryless.setEnabled(True)
+        self.check_keep_geometryless.setChecked(False)
+        self.check_keep_geometryless.setObjectName("check_keep_geometryless")
+        self.horizontalLayout.addWidget(self.check_keep_geometryless)
+        self.verticalLayout_6.addWidget(self.frame_7)
         self.property_groups_groupbox = QtWidgets.QGroupBox(
             self.property_groups_box
         )
@@ -936,6 +951,15 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.check_clip_geometry.setText(
             _translate("OhsomeQgisDialogBase", "Clip Geometry")
+        )
+        self.check_keep_geometryless.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Some results don't contain geometries but metadata.</p><p>Decide if you wan't to keep them or only return ones with geometries.</p><p>If checked, the geometry less features will be stored separately.</p></body></html>",
+            )
+        )
+        self.check_keep_geometryless.setText(
+            _translate("OhsomeQgisDialogBase", "Keep without geometry")
         )
         self.property_groups_groupbox.setTitle(
             _translate("OhsomeQgisDialogBase", "Property Groups")
