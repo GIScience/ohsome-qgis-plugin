@@ -57,11 +57,17 @@ from OhsomeQgis.utils.exceptions import OhsomeBaseException
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
     metadata: QgsLayerMetadata = vlayer.metadata()
+    metadata.setTitle("Ohsome Qgis plugin query result.")
     if original_json.get("metadata") and original_json.get("metadata").get(
         "description"
     ):
-        metadata.setTitle("Ohsome Qgis plugin query result.")
         metadata.setAbstract(original_json.get("metadata").get("description"))
+    if original_json.get("apiVersion"):
+        metadata.addConstraint(
+            QgsLayerMetadata.Constraint(
+                f"{original_json.get('apiVersion')}", "apiVersion"
+            )
+        )
     if original_json.get("attribution"):
         attribution: dict = original_json.get("attribution")
         licenses: [] = [value for _, value in attribution.items()]
