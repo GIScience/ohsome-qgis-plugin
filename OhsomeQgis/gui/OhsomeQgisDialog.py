@@ -261,35 +261,6 @@ class OhsomeQgisDialogMain:
         provider_id = self.dlg.provider_combo.currentIndex()
         provider = configmanager.read_config()["providers"][provider_id]
 
-        # if there are no centroids or layers, throw an error message
-        tab_index = self.dlg.request_types_widget.currentIndex()
-        if (
-            tab_index == 0
-            and not self.dlg.ohsome_centroid_location_list.count()
-        ):
-            QMessageBox.critical(
-                self.dlg,
-                "Missing Centroid locations",
-                """
-                Did you forget to set centroids?<br><br>
-
-                Use the 'Add Centroid' button to add centroids.
-                """,
-            )
-            return
-        elif tab_index == 1 and not self.dlg.layer_list.count():
-            QMessageBox.critical(
-                self.dlg,
-                "Missing layers",
-                """
-                Did you forget to set one?<br><br>
-
-                Use the 'Add Layers' button to add multiple layers.
-                """,
-            )
-            return
-        elif tab_index != 0 and tab_index != 1:
-            return
         if provider["base_url"].startswith("https://api.ohsome.org"):
             msg = "Using the public API. Rate limits may apply."
             logger.log(msg, 0)
@@ -299,31 +270,62 @@ class OhsomeQgisDialogMain:
         metadata_check = clnt.check_api_metadata(self.iface)
         preferences = ohsome_spec.OhsomeSpec(self.dlg)
         try:
-            if not metadata_check or not preferences.is_valid:
-                msg = "The request has been aborted!"
-                logger.log(msg, 0)
-                self.dlg.debug_text.append("> " + msg)
-                return
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
             self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                 True
             )
-            globals()[task_name] = ExtractionTaskFunction(
-                iface=self.iface,
-                dlg=self.dlg,
-                description=f"OHSOME task",
-                provider=provider,
-                request_url=preferences.get_request_url(),
-                preferences=preferences.get_bcircles_request_preferences(),
-                activate_temporal=preferences.activate_temporal_feature,
-            )
-            QgsApplication.taskManager().addTask(globals()[task_name])
+            if not metadata_check or not preferences.is_valid:
+                msg = "The request has been aborted!"
+                logger.log(msg, 0)
+                self.dlg.debug_text.append("> " + msg)
+                return
 
+            # if there are no centroids or layers, throw an error message
+            tab_index = self.dlg.request_types_widget.currentIndex()
+            if tab_index == 0:
+                if not self.dlg.ohsome_centroid_location_list.count():
+                    QMessageBox.critical(
+                        self.dlg,
+                        "Missing Centroid locations",
+                        """
+                        Did you forget to set centroids?<br><br>
+
+                        Use the 'Add Centroid' button to add centroids.
+                        """,
+                    )
+                    return
+                else:
+                    globals()[task_name] = ExtractionTaskFunction(
+                        iface=self.iface,
+                        dlg=self.dlg,
+                        description=f"OHSOME task",
+                        provider=provider,
+                        request_url=preferences.get_request_url(),
+                        preferences=preferences.get_bcircles_request_preferences(),
+                        activate_temporal=preferences.activate_temporal_feature,
+                    )
+                    QgsApplication.taskManager().addTask(globals()[task_name])
+            elif tab_index == 1:
+                if not self.dlg.layer_list.count():
+                    QMessageBox.critical(
+                        self.dlg,
+                        "Missing layers",
+                        """
+                        Did you forget to set one?<br><br>
+
+                        Use the 'Add Layers' button to add multiple layers.
+                        """,
+                    )
+                    return
+                else:
+                    pass
+            elif tab_index != 0 and tab_index != 1:
+                return
         except Exception as e:
             msg = [e.__class__.__name__, str(e)]
             logger.log("{}: {}".format(*msg), 2)
-
+            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         finally:
             if not metadata_check:
                 return
