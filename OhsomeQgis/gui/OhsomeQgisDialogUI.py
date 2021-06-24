@@ -335,15 +335,119 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout.addWidget(self.centroid_radius_label, 0, 0, 1, 1)
         self.gridLayout_8.addWidget(self.widget, 0, 0, 1, 1)
         self.request_types_widget.addTab(self.centroid_tab, "")
-        self.layer_tab = QtWidgets.QWidget()
-        self.layer_tab.setEnabled(True)
-        self.layer_tab.setObjectName("layer_tab")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.layer_tab)
+        self.point_layer_tab = QtWidgets.QWidget()
+        self.point_layer_tab.setEnabled(True)
+        self.point_layer_tab.setObjectName("point_layer_tab")
+        self.gridLayout_12 = QtWidgets.QGridLayout(self.point_layer_tab)
+        self.gridLayout_12.setObjectName("gridLayout_12")
+        self.widget_6 = QtWidgets.QWidget(self.point_layer_tab)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.widget_6.sizePolicy().hasHeightForWidth()
+        )
+        self.widget_6.setSizePolicy(sizePolicy)
+        self.widget_6.setAutoFillBackground(False)
+        self.widget_6.setObjectName("widget_6")
+        self.gridLayout_5 = QtWidgets.QGridLayout(self.widget_6)
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.point_layer_list = QtWidgets.QListWidget(self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.point_layer_list.sizePolicy().hasHeightForWidth()
+        )
+        self.point_layer_list.setSizePolicy(sizePolicy)
+        self.point_layer_list.setMinimumSize(QtCore.QSize(0, 0))
+        self.point_layer_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.point_layer_list.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.point_layer_list.setSelectionMode(
+            QtWidgets.QAbstractItemView.MultiSelection
+        )
+        self.point_layer_list.setResizeMode(QtWidgets.QListView.Fixed)
+        self.point_layer_list.setObjectName("point_layer_list")
+        self.gridLayout_5.addWidget(self.point_layer_list, 0, 1, 1, 1)
+        self.widget_9 = QtWidgets.QWidget(self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.widget_9.sizePolicy().hasHeightForWidth()
+        )
+        self.widget_9.setSizePolicy(sizePolicy)
+        self.widget_9.setObjectName("widget_9")
+        self.gridLayout_11 = QtWidgets.QGridLayout(self.widget_9)
+        self.gridLayout_11.setObjectName("gridLayout_11")
+        self.point_layer_list_remove = QtWidgets.QPushButton(self.widget_9)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.point_layer_list_remove.sizePolicy().hasHeightForWidth()
+        )
+        self.point_layer_list_remove.setSizePolicy(sizePolicy)
+        self.point_layer_list_remove.setText("")
+        self.point_layer_list_remove.setIcon(icon3)
+        self.point_layer_list_remove.setObjectName("point_layer_list_remove")
+        self.gridLayout_11.addWidget(self.point_layer_list_remove, 1, 0, 1, 1)
+        self.point_layer_list_add = QtWidgets.QPushButton(self.widget_9)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.point_layer_list_add.sizePolicy().hasHeightForWidth()
+        )
+        self.point_layer_list_add.setSizePolicy(sizePolicy)
+        self.point_layer_list_add.setText("")
+        self.point_layer_list_add.setIcon(icon2)
+        self.point_layer_list_add.setObjectName("point_layer_list_add")
+        self.gridLayout_11.addWidget(self.point_layer_list_add, 0, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.widget_9, 0, 0, 1, 1)
+        self.gridLayout_12.addWidget(self.widget_6, 2, 0, 1, 4)
+        self.point_layer_radius_input = QtWidgets.QSpinBox(self.point_layer_tab)
+        self.point_layer_radius_input.setAccessibleDescription("")
+        self.point_layer_radius_input.setMinimum(1)
+        self.point_layer_radius_input.setMaximum(999999999)
+        self.point_layer_radius_input.setProperty("value", 1000)
+        self.point_layer_radius_input.setObjectName("point_layer_radius_input")
+        self.gridLayout_12.addWidget(self.point_layer_radius_input, 0, 1, 2, 1)
+        self.point_layer_radius_label = QtWidgets.QLabel(self.point_layer_tab)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.point_layer_radius_label.sizePolicy().hasHeightForWidth()
+        )
+        self.point_layer_radius_label.setSizePolicy(sizePolicy)
+        self.point_layer_radius_label.setObjectName("point_layer_radius_label")
+        self.gridLayout_12.addWidget(self.point_layer_radius_label, 0, 0, 2, 1)
+        self.point_layer_input = gui.QgsMapLayerComboBox(self.point_layer_tab)
+        self.point_layer_input.setObjectName("point_layer_input")
+        self.gridLayout_12.addWidget(self.point_layer_input, 0, 2, 2, 2)
+        self.request_types_widget.addTab(self.point_layer_tab, "")
+        self.polygon_layer_tab = QtWidgets.QWidget()
+        self.polygon_layer_tab.setEnabled(True)
+        self.polygon_layer_tab.setObjectName("polygon_layer_tab")
+        self.gridLayout_6 = QtWidgets.QGridLayout(self.polygon_layer_tab)
         self.gridLayout_6.setObjectName("gridLayout_6")
-        self.layer_input = gui.QgsMapLayerComboBox(self.layer_tab)
+        self.layer_input = gui.QgsMapLayerComboBox(self.polygon_layer_tab)
         self.layer_input.setObjectName("layer_input")
         self.gridLayout_6.addWidget(self.layer_input, 0, 0, 1, 1)
-        self.widget_5 = QtWidgets.QWidget(self.layer_tab)
+        self.widget_5 = QtWidgets.QWidget(self.polygon_layer_tab)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -419,7 +523,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.gridLayout_9.addWidget(self.layer_list_add, 0, 0, 1, 1)
         self.gridLayout_3.addWidget(self.widget_8, 0, 0, 1, 1)
         self.gridLayout_6.addWidget(self.widget_5, 1, 0, 1, 1)
-        self.request_types_widget.addTab(self.layer_tab, "")
+        self.request_types_widget.addTab(self.polygon_layer_tab, "")
         self.verticalLayout_5.addWidget(self.request_types_widget)
         self.configuration_group_box = gui.QgsCollapsibleGroupBox(
             OhsomeQgisDialogBase
@@ -434,14 +538,12 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box.sizePolicy().hasHeightForWidth()
         )
         self.configuration_group_box.setSizePolicy(sizePolicy)
-        self.configuration_group_box.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
+        self.configuration_group_box.setMaximumSize(QtCore.QSize(16777215, 28))
         self.configuration_group_box.setAutoFillBackground(False)
         self.configuration_group_box.setFlat(True)
         self.configuration_group_box.setCheckable(False)
         self.configuration_group_box.setChecked(False)
-        self.configuration_group_box.setCollapsed(False)
+        self.configuration_group_box.setCollapsed(True)
         self.configuration_group_box.setScrollOnExpand(False)
         self.configuration_group_box.setSaveCollapsedState(False)
         self.configuration_group_box.setObjectName("configuration_group_box")
@@ -452,7 +554,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.general_options_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.general_options_group.setCollapsed(False)
+        self.general_options_group.setCollapsed(True)
         self.general_options_group.setObjectName("general_options_group")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(
             self.general_options_group
@@ -508,7 +610,7 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box
         )
         self.property_groups_box.setFlat(True)
-        self.property_groups_box.setCollapsed(False)
+        self.property_groups_box.setCollapsed(True)
         self.property_groups_box.setObjectName("property_groups_box")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
@@ -880,6 +982,42 @@ class Ui_OhsomeQgisDialogBase(object):
             self.request_types_widget.indexOf(self.centroid_tab),
             _translate("OhsomeQgisDialogBase", "Centroid"),
         )
+        self.point_layer_list.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase", "Select layers from your layer list!"
+            )
+        )
+        self.point_layer_list_remove.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>",
+            )
+        )
+        self.point_layer_list_add.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
+            )
+        )
+        self.point_layer_radius_input.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
+            )
+        )
+        self.point_layer_radius_label.setText(
+            _translate("OhsomeQgisDialogBase", "Radius")
+        )
+        self.point_layer_input.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
+            )
+        )
+        self.request_types_widget.setTabText(
+            self.request_types_widget.indexOf(self.point_layer_tab),
+            _translate("OhsomeQgisDialogBase", "Point Layer"),
+        )
         self.layer_input.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -904,7 +1042,7 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.request_types_widget.setTabText(
-            self.request_types_widget.indexOf(self.layer_tab),
+            self.request_types_widget.indexOf(self.polygon_layer_tab),
             _translate("OhsomeQgisDialogBase", "Polygon layer"),
         )
         self.configuration_group_box.setTitle(
@@ -1053,7 +1191,10 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.filter_input.setPlaceholderText(
-            _translate("OhsomeQgisDialogBase", "landuse=forest or natural=*")
+            _translate(
+                "OhsomeQgisDialogBase",
+                "building=* or (type:way and highway=residential)",
+            )
         )
         self.ohsome_log_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Log")
