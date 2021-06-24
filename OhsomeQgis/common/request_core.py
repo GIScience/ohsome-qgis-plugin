@@ -114,6 +114,7 @@ def split_geojson_by_geometry(
     geojson: dict,
     return_features_per_geometry: bool = False,
     keep_geometry_less: bool = False,
+    combine_single_with_multi_geometries: bool = False,
 ) -> [dict]:
     geojson_per_geometry = []
     features_per_geometry = {}
@@ -160,11 +161,25 @@ def split_geojson_by_geometry(
         return features_per_geometry
     if not keep_geometry_less and features_per_geometry.get("Feature"):
         features_per_geometry.pop("Feature")
+    if combine_single_with_multi_geometries:
+        if all(i in features_per_geometry for i in ["Polygon", "MultiPolygon"]):
+            single_geometry = features_per_geometry.pop("Polygon")
+            features_per_geometry.get("MultiPolygon").extend(single_geometry)
+        if all(i in features_per_geometry for i in ["Point", "MultiPoint"]):
+            single_geometry = features_per_geometry.pop("Point")
+            features_per_geometry.get("MultiPoint").extend(single_geometry)
+        if all(
+            i in features_per_geometry
+            for i in ["LineString", "MultiLineString"]
+        ):
+            single_geometry = features_per_geometry.pop("LineString")
+            features_per_geometry.get("MultiLineString").extend(single_geometry)
     for _, feature_set in features_per_geometry.items():
         temp_geojson = geojson.copy()
         temp_geojson["features"] = feature_set
         geojson_per_geometry.append(temp_geojson)
         del temp_geojson
+
     return geojson_per_geometry
 
 
@@ -276,6 +291,7 @@ class ExtractionTaskFunction(QgsTask):
             geojsons: [] = split_geojson_by_geometry(
                 self.result,
                 keep_geometry_less=self.dlg.check_keep_geometryless.isChecked(),
+                combine_single_with_multi_geometries=self.dlg.check_merge_geometries.isChecked(),
             )
             for i in range(len(geojsons)):
                 vlayer = create_ohsome_vector_layer(
