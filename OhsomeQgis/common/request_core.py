@@ -359,6 +359,10 @@ class ExtractionTaskFunction(QgsTask):
         to do GUI operations and raise Python exceptions here.
         result is the return value from self.run.
         """
+        if "bpolys" in self.preferences:
+            self.preferences[
+                "bpolys"
+            ] = "Shortened geometry to decrease log size"
         default_message = (
             f"\nAPI URL: {self.client.base_url}"
             f"\nEndpoint: {self.request_url}"

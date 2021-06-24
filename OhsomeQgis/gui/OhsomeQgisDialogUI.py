@@ -229,6 +229,42 @@ class Ui_OhsomeQgisDialogBase(object):
         self.widget.setObjectName("widget")
         self.gridLayout = QtWidgets.QGridLayout(self.widget)
         self.gridLayout.setObjectName("gridLayout")
+        self.centroid_radius_input = QtWidgets.QSpinBox(self.widget)
+        self.centroid_radius_input.setAccessibleDescription("")
+        self.centroid_radius_input.setMinimum(1)
+        self.centroid_radius_input.setMaximum(999999999)
+        self.centroid_radius_input.setProperty("value", 1000)
+        self.centroid_radius_input.setObjectName("centroid_radius_input")
+        self.gridLayout.addWidget(self.centroid_radius_input, 0, 1, 1, 1)
+        self.ohsome_centroid_location_list = QtWidgets.QListWidget(self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.ohsome_centroid_location_list.sizePolicy().hasHeightForWidth()
+        )
+        self.ohsome_centroid_location_list.setSizePolicy(sizePolicy)
+        self.ohsome_centroid_location_list.setMinimumSize(QtCore.QSize(0, 0))
+        self.ohsome_centroid_location_list.setMaximumSize(
+            QtCore.QSize(16777215, 16777215)
+        )
+        self.ohsome_centroid_location_list.setFrameShadow(
+            QtWidgets.QFrame.Sunken
+        )
+        self.ohsome_centroid_location_list.setSelectionMode(
+            QtWidgets.QAbstractItemView.MultiSelection
+        )
+        self.ohsome_centroid_location_list.setResizeMode(
+            QtWidgets.QListView.Fixed
+        )
+        self.ohsome_centroid_location_list.setObjectName(
+            "ohsome_centroid_location_list"
+        )
+        self.gridLayout.addWidget(
+            self.ohsome_centroid_location_list, 1, 1, 1, 1
+        )
         self.widget_7 = QtWidgets.QWidget(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
@@ -285,13 +321,6 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.gridLayout_7.addWidget(self.centroid_list_point_clear, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.widget_7, 1, 0, 1, 1)
-        self.centroid_radius_input = QtWidgets.QSpinBox(self.widget)
-        self.centroid_radius_input.setAccessibleDescription("")
-        self.centroid_radius_input.setMinimum(1)
-        self.centroid_radius_input.setMaximum(999999999)
-        self.centroid_radius_input.setProperty("value", 1000)
-        self.centroid_radius_input.setObjectName("centroid_radius_input")
-        self.gridLayout.addWidget(self.centroid_radius_input, 0, 1, 1, 1)
         self.centroid_radius_label = QtWidgets.QLabel(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
@@ -304,35 +333,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.centroid_radius_label.setSizePolicy(sizePolicy)
         self.centroid_radius_label.setObjectName("centroid_radius_label")
         self.gridLayout.addWidget(self.centroid_radius_label, 0, 0, 1, 1)
-        self.ohsome_centroid_location_list = QtWidgets.QListWidget(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.ohsome_centroid_location_list.sizePolicy().hasHeightForWidth()
-        )
-        self.ohsome_centroid_location_list.setSizePolicy(sizePolicy)
-        self.ohsome_centroid_location_list.setMinimumSize(QtCore.QSize(0, 0))
-        self.ohsome_centroid_location_list.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
-        self.ohsome_centroid_location_list.setFrameShadow(
-            QtWidgets.QFrame.Sunken
-        )
-        self.ohsome_centroid_location_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.MultiSelection
-        )
-        self.ohsome_centroid_location_list.setResizeMode(
-            QtWidgets.QListView.Fixed
-        )
-        self.ohsome_centroid_location_list.setObjectName(
-            "ohsome_centroid_location_list"
-        )
-        self.gridLayout.addWidget(
-            self.ohsome_centroid_location_list, 1, 1, 1, 1
-        )
         self.gridLayout_8.addWidget(self.widget, 0, 0, 1, 1)
         self.request_types_widget.addTab(self.centroid_tab, "")
         self.layer_tab = QtWidgets.QWidget()
@@ -357,6 +357,25 @@ class Ui_OhsomeQgisDialogBase(object):
         self.widget_5.setObjectName("widget_5")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_5)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        self.layer_list = QtWidgets.QListWidget(self.widget_5)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.layer_list.sizePolicy().hasHeightForWidth()
+        )
+        self.layer_list.setSizePolicy(sizePolicy)
+        self.layer_list.setMinimumSize(QtCore.QSize(0, 0))
+        self.layer_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.layer_list.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.layer_list.setSelectionMode(
+            QtWidgets.QAbstractItemView.MultiSelection
+        )
+        self.layer_list.setResizeMode(QtWidgets.QListView.Fixed)
+        self.layer_list.setObjectName("layer_list")
+        self.gridLayout_3.addWidget(self.layer_list, 0, 1, 1, 1)
         self.widget_8 = QtWidgets.QWidget(self.widget_5)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
@@ -399,25 +418,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.layer_list_add.setObjectName("layer_list_add")
         self.gridLayout_9.addWidget(self.layer_list_add, 0, 0, 1, 1)
         self.gridLayout_3.addWidget(self.widget_8, 0, 0, 1, 1)
-        self.layer_list = QtWidgets.QListWidget(self.widget_5)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.layer_list.sizePolicy().hasHeightForWidth()
-        )
-        self.layer_list.setSizePolicy(sizePolicy)
-        self.layer_list.setMinimumSize(QtCore.QSize(0, 0))
-        self.layer_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.layer_list.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.layer_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.MultiSelection
-        )
-        self.layer_list.setResizeMode(QtWidgets.QListView.Fixed)
-        self.layer_list.setObjectName("layer_list")
-        self.gridLayout_3.addWidget(self.layer_list, 0, 1, 1, 1)
         self.gridLayout_6.addWidget(self.widget_5, 1, 0, 1, 1)
         self.request_types_widget.addTab(self.layer_tab, "")
         self.verticalLayout_5.addWidget(self.request_types_widget)
@@ -778,7 +778,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(0)
+        self.request_types_widget.setCurrentIndex(1)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -837,6 +837,18 @@ class Ui_OhsomeQgisDialogBase(object):
         self.ohsome_spec_preference_specification.setToolTip(
             _translate("OhsomeQgisDialogBase", "Request preference")
         )
+        self.centroid_radius_input.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
+            )
+        )
+        self.ohsome_centroid_location_list.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "Select centroids from the map with the given radius!",
+            )
+        )
         self.centroid_list_point_add.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
@@ -849,20 +861,8 @@ class Ui_OhsomeQgisDialogBase(object):
                 "<html><head/><body><p>If centroids are selected in the list, only these will be deleted. Else all centroids will be deleted.</p></body></html>",
             )
         )
-        self.centroid_radius_input.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
-            )
-        )
         self.centroid_radius_label.setText(
             _translate("OhsomeQgisDialogBase", "Radius")
-        )
-        self.ohsome_centroid_location_list.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "Select centroids from the map with the given radius!",
-            )
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.centroid_tab),
@@ -872,6 +872,11 @@ class Ui_OhsomeQgisDialogBase(object):
             _translate(
                 "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
+            )
+        )
+        self.layer_list.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase", "Select layers from your layer list!"
             )
         )
         self.layer_list_remove.setToolTip(
@@ -884,11 +889,6 @@ class Ui_OhsomeQgisDialogBase(object):
             _translate(
                 "OhsomeQgisDialogBase",
                 "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
-            )
-        )
-        self.layer_list.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase", "Select layers from your layer list!"
             )
         )
         self.request_types_widget.setTabText(

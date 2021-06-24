@@ -272,9 +272,6 @@ class OhsomeQgisDialogMain:
         try:
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
-            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
-                True
-            )
             if not metadata_check or not preferences.is_valid:
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
@@ -296,6 +293,9 @@ class OhsomeQgisDialogMain:
                     )
                     return
                 else:
+                    self.dlg.global_buttons.button(
+                        QDialogButtonBox.Ok
+                    ).setDisabled(True)
                     globals()[task_name] = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
@@ -319,7 +319,39 @@ class OhsomeQgisDialogMain:
                     )
                     return
                 else:
-                    pass
+                    self.dlg.global_buttons.button(
+                        QDialogButtonBox.Ok
+                    ).setDisabled(True)
+                    bpolys_preferences = (
+                        preferences.get_polygon_layer_request_preferences()
+                    )
+                    last_task = None
+                    for bpoly_preferences in bpolys_preferences:
+                        task = ExtractionTaskFunction(
+                            iface=self.iface,
+                            dlg=self.dlg,
+                            description=f"OHSOME task",
+                            provider=provider,
+                            request_url=preferences.get_request_url(),
+                            preferences=bpoly_preferences,
+                            activate_temporal=preferences.activate_temporal_feature,
+                        )
+                        if last_task and last_task != globals()[task_name]:
+                            # Never add the main task as a dependency!
+                            globals()[task_name].addSubTask(
+                                task,
+                                [last_task],
+                                QgsTask.ParentDependsOnSubTask,
+                            )
+                        elif last_task:
+                            globals()[task_name].addSubTask(
+                                task, [], QgsTask.ParentDependsOnSubTask
+                            )
+                        else:
+                            globals()[task_name] = task
+                        last_task = task
+                    QgsApplication.taskManager().addTask(globals()[task_name])
+
             elif tab_index != 0 and tab_index != 1:
                 return
         except Exception as e:

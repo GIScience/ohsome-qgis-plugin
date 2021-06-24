@@ -23,9 +23,11 @@
  *                                                                         *
  ***************************************************************************/
 """
+import json
 
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QMessageBox, QDialog
+from PyQt5.QtWidgets import QMessageBox, QDialog, QListWidgetItem
+from qgis._core import QgsMapLayer, QgsProject, QgsJsonExporter
 
 
 class OhsomeSpec:
@@ -181,6 +183,17 @@ class OhsomeSpec:
             dates = f"{date_start},{date_end}"
         return dates
 
+    def __get_selected_layers_geometries(self) -> {}:
+        layers = [
+            self.dlg.layer_list.item(index).text()
+            for index in range(self.dlg.layer_list.count())
+        ]
+        return [
+            QgsJsonExporter(lyr).exportFeatures(lyr.getFeatures())
+            for lyr in QgsProject.instance().mapLayers().values()
+            if lyr.name() in layers
+        ]
+
     def __prepare_request_properties(self):
         """
         Builds parameters across different api specification combinations. Not all api endpoints support the same set of parameters.
@@ -206,13 +219,24 @@ class OhsomeSpec:
 
         return properties
 
-    def get_bcircles_request_preferences(self):
+    def get_bcircles_request_preferences(self) -> {}:
         endpoint_specific_request_properties = (
             self.__prepare_request_properties()
         )
         endpoint_specific_request_properties[
             "bcircles"
         ] = self._request_bcircles_coordinates
+        return endpoint_specific_request_properties
+
+    def get_polygon_layer_request_preferences(self) -> []:
+        endpoint_specific_request_properties = []
+        request_properties = self.__prepare_request_properties()
+        geojsons = self.__get_selected_layers_geometries()
+        for geojson_geometry in geojsons:
+            request_properties["bpolys"] = geojson_geometry
+            endpoint_specific_request_properties.append(
+                request_properties.copy()
+            )
         return endpoint_specific_request_properties
 
     def get_request_url(self) -> str:
