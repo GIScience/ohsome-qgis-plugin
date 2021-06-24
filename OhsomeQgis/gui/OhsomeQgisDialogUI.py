@@ -474,6 +474,18 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_show_metadata.setObjectName("check_show_metadata")
         self.horizontalLayout_12.addWidget(self.check_show_metadata)
         self.verticalLayout_3.addWidget(self.frame_6)
+        self.frame_8 = QtWidgets.QFrame(self.general_options_group)
+        self.frame_8.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_8.setObjectName("frame_8")
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout(self.frame_8)
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.check_merge_geometries = QtWidgets.QCheckBox(self.frame_8)
+        self.check_merge_geometries.setEnabled(True)
+        self.check_merge_geometries.setChecked(True)
+        self.check_merge_geometries.setObjectName("check_merge_geometries")
+        self.horizontalLayout_13.addWidget(self.check_merge_geometries)
+        self.verticalLayout_3.addWidget(self.frame_8)
         self.frame_5 = QtWidgets.QFrame(self.general_options_group)
         self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -918,6 +930,15 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.check_show_metadata.setText(
             _translate("OhsomeQgisDialogBase", "Show metadata")
+        )
+        self.check_merge_geometries.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Check this to <span style=" text-decoration: underline;">automatically merge compatible geometry types</span>. </p><p><span style=" text-decoration: underline;">It is recommended to keep this checked.</span></p><p>The benefit is that the amount of written layers will be massively reduced.</p><p>The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. </p><p><br/></p></body></html>',
+            )
+        )
+        self.check_merge_geometries.setText(
+            _translate("OhsomeQgisDialogBase", "Harmonize geometries")
         )
         self.timeout_label.setToolTip(
             _translate(
