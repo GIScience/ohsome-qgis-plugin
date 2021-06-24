@@ -27,7 +27,23 @@ import json
 
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QMessageBox, QDialog, QListWidgetItem
-from qgis._core import QgsMapLayer, QgsProject, QgsJsonExporter
+from qgis._core import (
+    QgsMapLayer,
+    QgsProject,
+    QgsJsonExporter,
+    QgsPoint,
+    QgsFeature,
+    QgsGeometry,
+    QgsWkbTypes,
+    QgsPointXY,
+    QgsVectorLayer,
+)
+
+from OhsomeQgis.utils import exceptions
+from OhsomeQgis.utils.datamanager import (
+    convert_point_features_to_ohsome_bcircles,
+)
+from OhsomeQgis.utils.exceptions import TooManyInputsFound
 
 
 class OhsomeSpec:
@@ -133,15 +149,14 @@ class OhsomeSpec:
 
     @property
     def is_valid(self) -> bool:
-        if (
-            len(self._request_bcircles_coordinates) <= 0
-        ):  # TODO Add another check for the layer coordinates!
-            return False
         if len(self._request_filter) <= 0:
+            self.dlg.debug_text.append("> Request filter needs to be set.")
             return False
         if len(self._request_url) <= 3:
+            self.dlg.debug_text.append("> Request url needs to be set.")
             return False
         if len(self._request_date_string) <= 0:
+            self.dlg.debug_text.append("> Request date needs to be set.")
             return False
         return True
 
@@ -183,16 +198,58 @@ class OhsomeSpec:
             dates = f"{date_start},{date_end}"
         return dates
 
-    def __get_selected_layers_geometries(self) -> {}:
-        layers = [
-            self.dlg.layer_list.item(index).text()
-            for index in range(self.dlg.layer_list.count())
-        ]
+    def __get_selected_polygon_layers_geometries(self) -> []:
+        layers = []
+        polygon_layer_list = self.dlg.layer_list
+        for idx in range(polygon_layer_list.count()):
+            item: str = polygon_layer_list.item(idx).text()
+            layers = QgsProject.instance().mapLayersByName(item)
+            layers = [
+                layer
+                for layer in layers
+                if layer.geometryType() == QgsWkbTypes.PolygonGeometry
+            ]
+            if len(layers) > 1:
+                raise exceptions.TooManyInputsFound(
+                    str("error"),
+                    # error,
+                    "Found too many input layers with the same name. Use unique names for your layers.",
+                )
         return [
             QgsJsonExporter(lyr).exportFeatures(lyr.getFeatures())
-            for lyr in QgsProject.instance().mapLayers().values()
-            if lyr.name() in layers
+            for lyr in layers
         ]
+
+    def __get_selected_point_layers_geometries(self) -> {}:
+        ordered_layer_radii = []
+        ordered_list_of_features = []
+        point_layers_list = self.dlg.point_layer_list
+        for idx in range(point_layers_list.count()):
+            item: str = point_layers_list.item(idx).text()
+            file_name, radius = item.rsplit(" | Radius: ")
+            ordered_layer_radii.append(int(radius))
+            layers = QgsProject.instance().mapLayersByName(file_name)
+            layers = [
+                layer
+                for layer in layers
+                if layer.geometryType() == QgsWkbTypes.PointGeometry
+            ]
+            if len(layers) > 1:
+                raise exceptions.TooManyInputsFound(
+                    str("error"),
+                    # error,
+                    "Found too many input layers with the same name. Use unique names for your layers.",
+                )
+            features = [
+                layer.getFeatures()
+                for layer in layers
+                if layer.geometryType() == QgsWkbTypes.PointGeometry
+            ]
+            ordered_list_of_features.extend(features)
+        list_of_coordinates = convert_point_features_to_ohsome_bcircles(
+            ordered_list_of_features, ordered_layer_radii
+        )
+        return list_of_coordinates
 
     def __prepare_request_properties(self):
         """
@@ -228,10 +285,21 @@ class OhsomeSpec:
         ] = self._request_bcircles_coordinates
         return endpoint_specific_request_properties
 
+    def get_point_layer_request_preferences(self) -> []:
+        endpoint_specific_request_properties = []
+        request_properties = self.__prepare_request_properties()
+        list_of_bcircles = self.__get_selected_point_layers_geometries()
+        for bcircles in list_of_bcircles:
+            request_properties["bcircles"] = bcircles
+            endpoint_specific_request_properties.append(
+                request_properties.copy()
+            )
+        return endpoint_specific_request_properties
+
     def get_polygon_layer_request_preferences(self) -> []:
         endpoint_specific_request_properties = []
         request_properties = self.__prepare_request_properties()
-        geojsons = self.__get_selected_layers_geometries()
+        geojsons = self.__get_selected_polygon_layers_geometries()
         for geojson_geometry in geojsons:
             request_properties["bpolys"] = geojson_geometry
             endpoint_specific_request_properties.append(

@@ -42,6 +42,9 @@ from qgis._core import (
     QgsProcessingUtils,
     QgsLayerMetadata,
     QgsAbstractMetadataBase,
+    QgsGeometry,
+    QgsWkbTypes,
+    QgsPointXY,
 )
 
 from qgis.core import (
@@ -228,7 +231,7 @@ def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
     youngest_timestamp = youngest_timestamp.addDays(1)
     features = sorted(features, key=lambda sort_id: sort_id["@osmId"])
     vlayer.dataProvider().deleteFeatures([feature.id() for feature in features])
-    for i in range(len(features)):
+    for i in range(len(features) - 1):
         feature: QgsFeature = features[i]
         if (
             i < len(features) - 1

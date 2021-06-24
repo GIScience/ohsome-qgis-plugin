@@ -225,6 +225,9 @@ class OhsomeQgisDialogMain:
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
             self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+            self.dlg.point_layer_input.setFilters(
+                QgsMapLayerProxyModel.PointLayer
+            )
             # TODO RAD
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
@@ -307,10 +310,10 @@ class OhsomeQgisDialogMain:
                     )
                     QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 1:
-                if not self.dlg.layer_list.count():
+                if not self.dlg.point_layer_list.count():
                     QMessageBox.critical(
                         self.dlg,
-                        "Missing layers",
+                        "Missing point layers",
                         """
                         Did you forget to set one?<br><br>
 
@@ -322,18 +325,68 @@ class OhsomeQgisDialogMain:
                     self.dlg.global_buttons.button(
                         QDialogButtonBox.Ok
                     ).setDisabled(True)
-                    bpolys_preferences = (
-                        preferences.get_polygon_layer_request_preferences()
+                    point_layer_preferences = (
+                        preferences.get_point_layer_request_preferences()
                     )
+                    if not len(point_layer_preferences):
+                        self.dlg.global_buttons.button(
+                            QDialogButtonBox.Ok
+                        ).setEnabled(True)
+                        return
                     last_task = None
-                    for bpoly_preferences in bpolys_preferences:
+                    for point_layer_preference in point_layer_preferences:
                         task = ExtractionTaskFunction(
                             iface=self.iface,
                             dlg=self.dlg,
                             description=f"OHSOME task",
                             provider=provider,
                             request_url=preferences.get_request_url(),
-                            preferences=bpoly_preferences,
+                            preferences=point_layer_preference,
+                            activate_temporal=preferences.activate_temporal_feature,
+                        )
+                        if last_task and last_task != globals()[task_name]:
+                            # Never add the main task as a dependency!
+                            globals()[task_name].addSubTask(
+                                task,
+                                [last_task],
+                                QgsTask.ParentDependsOnSubTask,
+                            )
+                        elif last_task:
+                            globals()[task_name].addSubTask(
+                                task, [], QgsTask.ParentDependsOnSubTask
+                            )
+                        else:
+                            globals()[task_name] = task
+                        last_task = task
+                    QgsApplication.taskManager().addTask(globals()[task_name])
+            elif tab_index == 2:
+                if not self.dlg.layer_list.count():
+                    QMessageBox.critical(
+                        self.dlg,
+                        "Missing polygon layers",
+                        """
+                        Did you forget to set one?<br><br>
+
+                        Use the 'Add Layers' button to add multiple layers.
+                        """,
+                    )
+                    return
+                else:
+                    self.dlg.global_buttons.button(
+                        QDialogButtonBox.Ok
+                    ).setDisabled(True)
+                    point_layer_preferences = (
+                        preferences.get_polygon_layer_request_preferences()
+                    )
+                    last_task = None
+                    for point_layer_preference in point_layer_preferences:
+                        task = ExtractionTaskFunction(
+                            iface=self.iface,
+                            dlg=self.dlg,
+                            description=f"OHSOME task",
+                            provider=provider,
+                            request_url=preferences.get_request_url(),
+                            preferences=point_layer_preference,
                             activate_temporal=preferences.activate_temporal_feature,
                         )
                         if last_task and last_task != globals()[task_name]:
@@ -352,11 +405,31 @@ class OhsomeQgisDialogMain:
                         last_task = task
                     QgsApplication.taskManager().addTask(globals()[task_name])
 
-            elif tab_index != 0 and tab_index != 1:
+            else:
                 return
+        except exceptions.TooManyInputsFound as e:
+            msg = [e.__class__.__name__, str(e)]
+            logger.log("{}: {}".format(*msg), 2)
+            self.dlg.debug_text.append(
+                "Request aborted. Layer input name is not unique."
+            )
+            self.iface.messageBar().pushMessage(
+                "Error",
+                "Request aborted. Layer input name is not unique.",
+                level=Qgis.Critical,
+                duration=5,
+            )
+            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         except Exception as e:
             msg = [e.__class__.__name__, str(e)]
             logger.log("{}: {}".format(*msg), 2)
+            self.dlg.debug_text.append(msg)
+            self.iface.messageBar().pushMessage(
+                "Error",
+                "Request aborted. Check the tool log.",
+                level=Qgis.Critical,
+                duration=5,
+            )
             self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         finally:
             if not metadata_check:
@@ -435,11 +508,13 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             lambda: on_about_click(parent=self._iface.mainWindow())
         )
         self.provider_refresh.clicked.connect(self._on_prov_refresh_click)
-
-        # Layer tab
-        self.layer_list_add.clicked.connect(self._add_layer)
-        self.layer_list_remove.clicked.connect(self._remove_layer)
-        # Routing tab
+        # Point Layer tab
+        self.point_layer_list_add.clicked.connect(self._add_point_layer)
+        self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
+        # Polygon Layer tab
+        self.layer_list_add.clicked.connect(self._add_polygon_layer)
+        self.layer_list_remove.clicked.connect(self._remove_polygon_layer)
+        # Centroid tab
         self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
         self.centroid_list_point_clear.clicked.connect(
             self._on_clear_listwidget_click
@@ -592,17 +667,39 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self._iface.mapCanvas().setMapTool(self.last_maptool)
         self.show()
 
-    def _add_layer(self) -> bool:
-        layer = self.layer_input.currentLayer()
-        if layer and not check_list_duplicates(self.layer_list, layer.name()):
-            self.layer_list.addItem(layer.name())
-            self.layer_input.setCurrentIndex(0)
-            # self.add_to_settings("layer_list", layer.name(), append=True)
+    def _add_point_layer(self) -> bool:
+        layer = self.point_layer_input.currentLayer()
+        list_name = (
+            f"{layer.name()} | Radius: {self.point_layer_radius_input.value()}"
+        )
+        if layer and not check_list_duplicates(
+            self.point_layer_list, list_name
+        ):
+            self.point_layer_list.addItem(list_name)
+            self.point_layer_input.setCurrentIndex(0)
         else:
             return False
         return True
 
-    def _remove_layer(self):
+    def _remove_point_layer(self):
+        layers: QListWidget = self.point_layer_list
+        selected_layers: [QListWidgetItem] = layers.selectedItems()
+        if not selected_layers:
+            return
+        element: QListWidgetItem
+        for element in selected_layers:
+            self.point_layer_list.takeItem(self.point_layer_list.row(element))
+
+    def _add_polygon_layer(self) -> bool:
+        layer = self.layer_input.currentLayer()
+        if layer and not check_list_duplicates(self.layer_list, layer.name()):
+            self.layer_list.addItem(layer.name())
+            self.layer_input.setCurrentIndex(0)
+        else:
+            return False
+        return True
+
+    def _remove_polygon_layer(self):
         layers: QListWidget = self.layer_list
         selected_layers: [QListWidgetItem] = layers.selectedItems()
         if not selected_layers:
@@ -610,4 +707,3 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         element: QListWidgetItem
         for element in selected_layers:
             self.layer_list.takeItem(self.layer_list.row(element))
-            # self.remove_value_from_settings("layer_list", element.text())
