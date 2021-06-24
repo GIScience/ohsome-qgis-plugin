@@ -1,6 +1,7 @@
 import json
 
 from PyQt5.QtWidgets import QListWidget
+from qgis._core import QgsFeature, QgsGeometry, QgsWkbTypes, QgsPointXY
 
 
 def check_list_duplicates(list_widget: QListWidget, item_name: str) -> bool:
@@ -40,3 +41,25 @@ def _get_layer_polygons(layer):
         return json.loads("{}")
     else:
         return json.loads(polygons.asJson())
+
+
+def convert_point_features_to_ohsome_bcircles(
+    features: [QgsFeature], radii: [int]
+):
+    coordinates_list = []
+    for i in range(len(features)):
+        coordinates = None
+        counter = 0
+        for feature in features[i]:
+            geometry: QgsGeometry = feature.geometry()
+            if geometry.type() == QgsWkbTypes.PointGeometry:
+                point: QgsPointXY = feature.geometry().asPoint()
+                coordinates = (
+                    f"{coordinates}|id{counter}:{point.x()},{point.y()},{radii[i]}"
+                    if coordinates
+                    else f"id{counter}:{point.x()},{point.y()},{radii[i]}"
+                )
+                counter += 1
+        if coordinates:
+            coordinates_list.append(coordinates)
+    return coordinates_list

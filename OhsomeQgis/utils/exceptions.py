@@ -113,6 +113,12 @@ class Timeout(OhsomeBaseException):
     pass
 
 
+class TooManyInputsFound(OhsomeBaseException):
+    """The layer selection found multiple input layers with the same name."""
+
+    pass
+
+
 class GenericServerError(OhsomeBaseException):
     """Anything else"""
 
