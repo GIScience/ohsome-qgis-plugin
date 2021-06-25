@@ -240,7 +240,7 @@ class OhsomeSpec:
         return dates
 
     def __get_selected_polygon_layers_geometries(self) -> []:
-        layers = []
+        layer_list = []
         polygon_layer_list = self.dlg.layer_list
         for idx in range(polygon_layer_list.count()):
             item: str = polygon_layer_list.item(idx).text()
@@ -256,9 +256,10 @@ class OhsomeSpec:
                     # error,
                     "Found too many input layers with the same name. Use unique names for your layers.",
                 )
+            layer_list.extend(layers)
         return [
             QgsJsonExporter(lyr).exportFeatures(lyr.getFeatures())
-            for lyr in layers
+            for lyr in layer_list
         ]
 
     def __get_selected_point_layers_geometries(self) -> {}:
