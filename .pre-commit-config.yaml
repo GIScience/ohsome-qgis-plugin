@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v4.0.1
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -19,14 +19,14 @@ repos:
       - id: no-commit-to-branch
         args: [ --branch, master ]
   - repo: https://github.com/ambv/black
-    rev: stable
+    rev: 21.6b0
     hooks:
       - id: black
         args: # arguments to configure black
           - --line-length=80
         language_version: python3.9
   - repo: https://gitlab.com/pycqa/flake8
-    rev: "3.8.4"
+    rev: "3.9.2"
     hooks:
       - id: flake8
         exclude: |
