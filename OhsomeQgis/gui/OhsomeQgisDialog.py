@@ -301,16 +301,16 @@ class OhsomeQgisDialogMain:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
-                point_layer_preferences = (
+                layer_preferences = (
                     preferences.get_point_layer_request_preferences()
                 )
-                if not len(point_layer_preferences):
+                if not len(layer_preferences):
                     self.dlg.global_buttons.button(
                         QDialogButtonBox.Ok
                     ).setEnabled(True)
                     return
                 last_task = None
-                for point_layer_preference in point_layer_preferences:
+                for point_layer_preference in layer_preferences:
                     task = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
@@ -339,11 +339,11 @@ class OhsomeQgisDialogMain:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
-                point_layer_preferences = (
+                layer_preferences = (
                     preferences.get_polygon_layer_request_preferences()
                 )
                 last_task = None
-                for point_layer_preference in point_layer_preferences:
+                for point_layer_preference in layer_preferences:
                     task = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
