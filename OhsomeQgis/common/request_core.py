@@ -416,6 +416,10 @@ class ExtractionTaskFunction(QgsTask):
             self.preferences[
                 "bpolys"
             ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        elif "bcircles" in self.preferences:
+            self.preferences[
+                "bcircles"
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
         shortened_default_message = (
             f"\nAPI URL: {self.client.base_url}"
             f"\nEndpoint: {self.request_url}"
