@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeQgisDialogBase(object):
     def setupUi(self, OhsomeQgisDialogBase):
         OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(462, 1368)
+        OhsomeQgisDialogBase.resize(462, 1416)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -538,14 +538,12 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box.sizePolicy().hasHeightForWidth()
         )
         self.configuration_group_box.setSizePolicy(sizePolicy)
-        self.configuration_group_box.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
+        self.configuration_group_box.setMaximumSize(QtCore.QSize(16777215, 28))
         self.configuration_group_box.setAutoFillBackground(False)
         self.configuration_group_box.setFlat(True)
         self.configuration_group_box.setCheckable(False)
         self.configuration_group_box.setChecked(False)
-        self.configuration_group_box.setCollapsed(False)
+        self.configuration_group_box.setCollapsed(True)
         self.configuration_group_box.setScrollOnExpand(False)
         self.configuration_group_box.setSaveCollapsedState(False)
         self.configuration_group_box.setObjectName("configuration_group_box")
@@ -1005,7 +1003,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(2)
+        self.request_types_widget.setCurrentIndex(1)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
