@@ -1,13 +1,13 @@
 [general]
-name=Ohsome Qgis
-qgisMinimumVersion=3.0
-description=ohsome-api, spatial and temporal OSM requests for QGIS
+name=Ohsome QGIS plugin
+qgisMinimumVersion=3.14
+description=Ohsome-API, spatial and temporal OSM requests for QGIS
 
 version=0.1.0
 author=HeiGIT gGmbH
 email=support@something
 
-about=Ohsome Qgis provides access to the Ohsome-API.
+about=Ohsome QGIS provides access to the Ohsome-API.
 
 changelog=YYYY/MM/DD v1.X.X
     Added:
@@ -15,11 +15,11 @@ changelog=YYYY/MM/DD v1.X.X
     Removed:
 
 
-tracker=https://github.com/MichaelsJP/ohsome-qgis-plugin/issues
-repository=https://github.com/GIScience/orstools-qgis-plugin.git
-help=https://github.com/MichaelsJP/ohsome-qgis-plugin/wiki/
+tracker=https://github.com/GIScience/ohsome-qgis-plugin/issues
+repository=https://github.com/GIScience/ohsome-qgis-plugin.git
+help=https://github.com/GIScience/ohsome-qgis-plugin/wiki/
 
-homepage=https://github.com/MichaelsJP/ohsome-qgis-plugin/wiki/
+homepage=https://github.com/GIScience/ohsome-qgis-plugin/wiki
 category=Web
 icon=gui/img/icon_ohsome.png
 experimental=False
@@ -27,4 +27,4 @@ hasProcessingProvider=yes
 
 deprecated=False
 
-tags=ohsome, OSM, openstreetmap, temporal, processing
+tags=ohsome, OSM, openstreetmap, temporal, processing, hex
