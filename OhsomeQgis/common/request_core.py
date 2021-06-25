@@ -407,17 +407,25 @@ class ExtractionTaskFunction(QgsTask):
         to do GUI operations and raise Python exceptions here.
         result is the return value from self.run.
         """
+        default_message = (
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
         if "bpolys" in self.preferences:
             self.preferences[
                 "bpolys"
-            ] = "Shortened geometry to decrease log size"
-        default_message = (
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        shortened_default_message = (
             f"\nAPI URL: {self.client.base_url}"
             f"\nEndpoint: {self.request_url}"
             f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
         )
         if valid_result and self.result:
             msg = f"The request was successful:" + default_message
+            short_msg = (
+                f"The request was successful:" + shortened_default_message
+            )
             try:
                 self.postprocess_results()
                 logger.log(msg, Qgis.Info)
@@ -433,6 +441,11 @@ class ExtractionTaskFunction(QgsTask):
                     + default_message
                     + f"\nException: {err}"
                 )
+                short_msg = (
+                    f"> Error while processing the geometry response from Ohsome:"
+                    + shortened_default_message
+                    + f"\nException: {err}"
+                )
                 logger.log(msg, Qgis.Critical)
                 self.iface.messageBar().pushMessage(
                     "Critical",
@@ -441,7 +454,7 @@ class ExtractionTaskFunction(QgsTask):
                     duration=5,
                 )
             finally:
-                self.dlg.debug_text.append("> " + msg)
+                self.dlg.debug_text.append("> " + short_msg)
         elif self.client.canceled:
             msg = f"The request was canceled."
             logger.log(msg, Qgis.Warning)
@@ -458,7 +471,12 @@ class ExtractionTaskFunction(QgsTask):
                 + default_message
                 + f"\nException: {self.exception}"
             )
-            self.dlg.debug_text.append(msg)
+            short_msg = (
+                f"> The request was not successful and threw an exception:"
+                + shortened_default_message
+                + f"\nException: {self.exception}"
+            )
+            self.dlg.debug_text.append(short_msg)
             logger.log(msg, Qgis.Critical)
             self.iface.messageBar().pushMessage(
                 "Warning",
@@ -474,7 +492,13 @@ class ExtractionTaskFunction(QgsTask):
                 + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
                 + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
             )
-            self.dlg.debug_text.append(msg)
+            short_msg = (
+                f"The request was not successful and the reason is unclear. This should not happen!"
+                + shortened_default_message
+                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
+                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
+            )
+            self.dlg.debug_text.append(short_msg)
             logger.log(msg, Qgis.Warning)
             self.iface.messageBar().pushMessage(
                 "Warning",
