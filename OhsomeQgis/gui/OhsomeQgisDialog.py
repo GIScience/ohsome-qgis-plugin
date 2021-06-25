@@ -275,7 +275,7 @@ class OhsomeQgisDialogMain:
         try:
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
-            if not metadata_check or not preferences.is_valid:
+            if not metadata_check or not preferences.is_valid(False):
                 msg = "The request has been aborted!"
                 logger.log(msg, 0)
                 self.dlg.debug_text.append("> " + msg)
@@ -284,126 +284,90 @@ class OhsomeQgisDialogMain:
             # if there are no centroids or layers, throw an error message
             tab_index = self.dlg.request_types_widget.currentIndex()
             if tab_index == 0:
-                if not self.dlg.ohsome_centroid_location_list.count():
-                    QMessageBox.critical(
-                        self.dlg,
-                        "Missing Centroid locations",
-                        """
-                        Did you forget to set centroids?<br><br>
-
-                        Use the 'Add Centroid' button to add centroids.
-                        """,
-                    )
-                    return
-                else:
+                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
+                    True
+                )
+                globals()[task_name] = ExtractionTaskFunction(
+                    iface=self.iface,
+                    dlg=self.dlg,
+                    description=f"OHSOME task",
+                    provider=provider,
+                    request_url=preferences.get_request_url(),
+                    preferences=preferences.get_bcircles_request_preferences(),
+                    activate_temporal=preferences.activate_temporal_feature,
+                )
+                QgsApplication.taskManager().addTask(globals()[task_name])
+            elif tab_index == 1:
+                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
+                    True
+                )
+                point_layer_preferences = (
+                    preferences.get_point_layer_request_preferences()
+                )
+                if not len(point_layer_preferences):
                     self.dlg.global_buttons.button(
                         QDialogButtonBox.Ok
-                    ).setDisabled(True)
-                    globals()[task_name] = ExtractionTaskFunction(
+                    ).setEnabled(True)
+                    return
+                last_task = None
+                for point_layer_preference in point_layer_preferences:
+                    task = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
                         description=f"OHSOME task",
                         provider=provider,
                         request_url=preferences.get_request_url(),
-                        preferences=preferences.get_bcircles_request_preferences(),
+                        preferences=point_layer_preference,
                         activate_temporal=preferences.activate_temporal_feature,
                     )
-                    QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1:
-                if not self.dlg.point_layer_list.count():
-                    QMessageBox.critical(
-                        self.dlg,
-                        "Missing point layers",
-                        """
-                        Did you forget to set one?<br><br>
-
-                        Use the 'Add Layers' button to add multiple layers.
-                        """,
-                    )
-                    return
-                else:
-                    self.dlg.global_buttons.button(
-                        QDialogButtonBox.Ok
-                    ).setDisabled(True)
-                    point_layer_preferences = (
-                        preferences.get_point_layer_request_preferences()
-                    )
-                    if not len(point_layer_preferences):
-                        self.dlg.global_buttons.button(
-                            QDialogButtonBox.Ok
-                        ).setEnabled(True)
-                        return
-                    last_task = None
-                    for point_layer_preference in point_layer_preferences:
-                        task = ExtractionTaskFunction(
-                            iface=self.iface,
-                            dlg=self.dlg,
-                            description=f"OHSOME task",
-                            provider=provider,
-                            request_url=preferences.get_request_url(),
-                            preferences=point_layer_preference,
-                            activate_temporal=preferences.activate_temporal_feature,
+                    if last_task and last_task != globals()[task_name]:
+                        # Never add the main task as a dependency!
+                        globals()[task_name].addSubTask(
+                            task,
+                            [last_task],
+                            QgsTask.ParentDependsOnSubTask,
                         )
-                        if last_task and last_task != globals()[task_name]:
-                            # Never add the main task as a dependency!
-                            globals()[task_name].addSubTask(
-                                task,
-                                [last_task],
-                                QgsTask.ParentDependsOnSubTask,
-                            )
-                        elif last_task:
-                            globals()[task_name].addSubTask(
-                                task, [], QgsTask.ParentDependsOnSubTask
-                            )
-                        else:
-                            globals()[task_name] = task
-                        last_task = task
-                    QgsApplication.taskManager().addTask(globals()[task_name])
+                    elif last_task:
+                        globals()[task_name].addSubTask(
+                            task, [], QgsTask.ParentDependsOnSubTask
+                        )
+                    else:
+                        globals()[task_name] = task
+                    last_task = task
+                QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 2:
-                if not self.dlg.layer_list.count():
-                    QMessageBox.critical(
-                        self.dlg,
-                        "Missing polygon layers",
-                        """
-                        Did you forget to set one?<br><br>
-
-                        Use the 'Add Layers' button to add multiple layers.
-                        """,
+                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
+                    True
+                )
+                point_layer_preferences = (
+                    preferences.get_polygon_layer_request_preferences()
+                )
+                last_task = None
+                for point_layer_preference in point_layer_preferences:
+                    task = ExtractionTaskFunction(
+                        iface=self.iface,
+                        dlg=self.dlg,
+                        description=f"OHSOME task",
+                        provider=provider,
+                        request_url=preferences.get_request_url(),
+                        preferences=point_layer_preference,
+                        activate_temporal=preferences.activate_temporal_feature,
                     )
-                    return
-                else:
-                    self.dlg.global_buttons.button(
-                        QDialogButtonBox.Ok
-                    ).setDisabled(True)
-                    point_layer_preferences = (
-                        preferences.get_polygon_layer_request_preferences()
-                    )
-                    last_task = None
-                    for point_layer_preference in point_layer_preferences:
-                        task = ExtractionTaskFunction(
-                            iface=self.iface,
-                            dlg=self.dlg,
-                            description=f"OHSOME task",
-                            provider=provider,
-                            request_url=preferences.get_request_url(),
-                            preferences=point_layer_preference,
-                            activate_temporal=preferences.activate_temporal_feature,
+                    if last_task and last_task != globals()[task_name]:
+                        # Never add the main task as a dependency!
+                        globals()[task_name].addSubTask(
+                            task,
+                            [last_task],
+                            QgsTask.ParentDependsOnSubTask,
                         )
-                        if last_task and last_task != globals()[task_name]:
-                            # Never add the main task as a dependency!
-                            globals()[task_name].addSubTask(
-                                task,
-                                [last_task],
-                                QgsTask.ParentDependsOnSubTask,
-                            )
-                        elif last_task:
-                            globals()[task_name].addSubTask(
-                                task, [], QgsTask.ParentDependsOnSubTask
-                            )
-                        else:
-                            globals()[task_name] = task
-                        last_task = task
-                    QgsApplication.taskManager().addTask(globals()[task_name])
+                    elif last_task:
+                        globals()[task_name].addSubTask(
+                            task, [], QgsTask.ParentDependsOnSubTask
+                        )
+                    else:
+                        globals()[task_name] = task
+                    last_task = task
+                QgsApplication.taskManager().addTask(globals()[task_name])
 
             else:
                 return
@@ -434,10 +398,10 @@ class OhsomeQgisDialogMain:
         finally:
             if not metadata_check:
                 return
-            elif not preferences.is_valid:
+            elif not preferences.is_valid(True):
                 self.iface.messageBar().pushMessage(
                     "Warning",
-                    "Preferences are not valid.",
+                    "Preferences are not valid. Check the plugin log.",
                     level=Qgis.Critical,
                     duration=7,
                 )
@@ -574,6 +538,14 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.data_aggregation_format.addItems(
                 DATA_AGGREGATION_FORMAT.get("default")
             )
+        if "groupBy/tag" in current_text:
+            self.group_by_key_line_edit.setEnabled(True)
+            self.group_by_values_line_edit.setEnabled(True)
+        elif "groupBy/key" in current_text:
+            self.group_by_key_line_edit.setEnabled(True)
+        else:
+            self.group_by_key_line_edit.setEnabled(False)
+            self.group_by_values_line_edit.setEnabled(False)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""

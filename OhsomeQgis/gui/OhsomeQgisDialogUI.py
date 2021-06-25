@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeQgisDialogBase(object):
     def setupUi(self, OhsomeQgisDialogBase):
         OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(462, 1202)
+        OhsomeQgisDialogBase.resize(462, 1368)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -538,12 +538,14 @@ class Ui_OhsomeQgisDialogBase(object):
             self.configuration_group_box.sizePolicy().hasHeightForWidth()
         )
         self.configuration_group_box.setSizePolicy(sizePolicy)
-        self.configuration_group_box.setMaximumSize(QtCore.QSize(16777215, 28))
+        self.configuration_group_box.setMaximumSize(
+            QtCore.QSize(16777215, 16777215)
+        )
         self.configuration_group_box.setAutoFillBackground(False)
         self.configuration_group_box.setFlat(True)
         self.configuration_group_box.setCheckable(False)
         self.configuration_group_box.setChecked(False)
-        self.configuration_group_box.setCollapsed(True)
+        self.configuration_group_box.setCollapsed(False)
         self.configuration_group_box.setScrollOnExpand(False)
         self.configuration_group_box.setSaveCollapsedState(False)
         self.configuration_group_box.setObjectName("configuration_group_box")
@@ -606,84 +608,6 @@ class Ui_OhsomeQgisDialogBase(object):
         self.horizontalLayout_10.addWidget(self.timeout_input)
         self.verticalLayout_3.addWidget(self.frame_5)
         self.verticalLayout_4.addWidget(self.general_options_group)
-        self.property_groups_box = gui.QgsCollapsibleGroupBox(
-            self.configuration_group_box
-        )
-        self.property_groups_box.setFlat(True)
-        self.property_groups_box.setCollapsed(True)
-        self.property_groups_box.setObjectName("property_groups_box")
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.frame_7 = QtWidgets.QFrame(self.property_groups_box)
-        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_7.setObjectName("frame_7")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_7)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.check_clip_geometry = QtWidgets.QCheckBox(self.frame_7)
-        self.check_clip_geometry.setEnabled(True)
-        self.check_clip_geometry.setChecked(True)
-        self.check_clip_geometry.setObjectName("check_clip_geometry")
-        self.horizontalLayout.addWidget(self.check_clip_geometry)
-        self.check_keep_geometryless = QtWidgets.QCheckBox(self.frame_7)
-        self.check_keep_geometryless.setEnabled(True)
-        self.check_keep_geometryless.setChecked(False)
-        self.check_keep_geometryless.setObjectName("check_keep_geometryless")
-        self.horizontalLayout.addWidget(self.check_keep_geometryless)
-        self.verticalLayout_6.addWidget(self.frame_7)
-        self.property_groups_groupbox = QtWidgets.QGroupBox(
-            self.property_groups_box
-        )
-        self.property_groups_groupbox.setFlat(False)
-        self.property_groups_groupbox.setCheckable(False)
-        self.property_groups_groupbox.setObjectName("property_groups_groupbox")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(
-            self.property_groups_groupbox
-        )
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.frame_4 = QtWidgets.QFrame(self.property_groups_groupbox)
-        self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_4.setObjectName("frame_4")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_4)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.property_groups_check_metadata = QtWidgets.QCheckBox(self.frame_4)
-        self.property_groups_check_metadata.setObjectName(
-            "property_groups_check_metadata"
-        )
-        self.horizontalLayout_2.addWidget(self.property_groups_check_metadata)
-        self.property_groups_check_tags = QtWidgets.QCheckBox(self.frame_4)
-        self.property_groups_check_tags.setChecked(True)
-        self.property_groups_check_tags.setObjectName(
-            "property_groups_check_tags"
-        )
-        self.horizontalLayout_2.addWidget(self.property_groups_check_tags)
-        self.verticalLayout_7.addWidget(self.frame_4)
-        self.verticalLayout_6.addWidget(self.property_groups_groupbox)
-        self.verticalLayout_4.addWidget(self.property_groups_box)
-        self.data_aggregation_group = gui.QgsCollapsibleGroupBox(
-            self.configuration_group_box
-        )
-        self.data_aggregation_group.setCollapsed(True)
-        self.data_aggregation_group.setObjectName("data_aggregation_group")
-        self.verticalLayout_9 = QtWidgets.QVBoxLayout(
-            self.data_aggregation_group
-        )
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
-        self.frame = QtWidgets.QFrame(self.data_aggregation_group)
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame)
-        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.label = QtWidgets.QLabel(self.frame)
-        self.label.setObjectName("label")
-        self.horizontalLayout_9.addWidget(self.label)
-        self.data_aggregation_format = QtWidgets.QComboBox(self.frame)
-        self.data_aggregation_format.setObjectName("data_aggregation_format")
-        self.horizontalLayout_9.addWidget(self.data_aggregation_format)
-        self.verticalLayout_9.addWidget(self.frame)
-        self.verticalLayout_4.addWidget(self.data_aggregation_group)
         self.intervals_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
@@ -749,6 +673,161 @@ class Ui_OhsomeQgisDialogBase(object):
         self.interval_years.setObjectName("interval_years")
         self.gridLayout_10.addWidget(self.interval_years, 3, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.intervals_group)
+        self.property_groups_box = gui.QgsCollapsibleGroupBox(
+            self.configuration_group_box
+        )
+        self.property_groups_box.setFlat(True)
+        self.property_groups_box.setCollapsed(True)
+        self.property_groups_box.setObjectName("property_groups_box")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.property_groups_box)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.frame_7 = QtWidgets.QFrame(self.property_groups_box)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_7)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.check_clip_geometry = QtWidgets.QCheckBox(self.frame_7)
+        self.check_clip_geometry.setEnabled(True)
+        self.check_clip_geometry.setChecked(True)
+        self.check_clip_geometry.setObjectName("check_clip_geometry")
+        self.horizontalLayout.addWidget(self.check_clip_geometry)
+        self.check_keep_geometryless = QtWidgets.QCheckBox(self.frame_7)
+        self.check_keep_geometryless.setEnabled(True)
+        self.check_keep_geometryless.setChecked(False)
+        self.check_keep_geometryless.setObjectName("check_keep_geometryless")
+        self.horizontalLayout.addWidget(self.check_keep_geometryless)
+        self.verticalLayout_6.addWidget(self.frame_7)
+        self.property_groups_groupbox = QtWidgets.QGroupBox(
+            self.property_groups_box
+        )
+        self.property_groups_groupbox.setFlat(False)
+        self.property_groups_groupbox.setCheckable(False)
+        self.property_groups_groupbox.setObjectName("property_groups_groupbox")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(
+            self.property_groups_groupbox
+        )
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.frame_4 = QtWidgets.QFrame(self.property_groups_groupbox)
+        self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_4.setObjectName("frame_4")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_4)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.property_groups_check_metadata = QtWidgets.QCheckBox(self.frame_4)
+        self.property_groups_check_metadata.setObjectName(
+            "property_groups_check_metadata"
+        )
+        self.horizontalLayout_2.addWidget(self.property_groups_check_metadata)
+        self.property_groups_check_tags = QtWidgets.QCheckBox(self.frame_4)
+        self.property_groups_check_tags.setChecked(True)
+        self.property_groups_check_tags.setObjectName(
+            "property_groups_check_tags"
+        )
+        self.horizontalLayout_2.addWidget(self.property_groups_check_tags)
+        self.verticalLayout_7.addWidget(self.frame_4)
+        self.verticalLayout_6.addWidget(self.property_groups_groupbox)
+        self.verticalLayout_4.addWidget(self.property_groups_box)
+        self.data_aggregation_group = gui.QgsCollapsibleGroupBox(
+            self.configuration_group_box
+        )
+        self.data_aggregation_group.setCollapsed(False)
+        self.data_aggregation_group.setObjectName("data_aggregation_group")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(
+            self.data_aggregation_group
+        )
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.frame = QtWidgets.QFrame(self.data_aggregation_group)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setObjectName("label")
+        self.horizontalLayout_9.addWidget(self.label)
+        self.data_aggregation_format = QtWidgets.QComboBox(self.frame)
+        self.data_aggregation_format.setObjectName("data_aggregation_format")
+        self.horizontalLayout_9.addWidget(self.data_aggregation_format)
+        self.verticalLayout_9.addWidget(self.frame)
+        self.group_by_frame = QtWidgets.QFrame(self.data_aggregation_group)
+        self.group_by_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.group_by_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.group_by_frame.setObjectName("group_by_frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.group_by_frame)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.filter_frame_2 = QtWidgets.QFrame(self.group_by_frame)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.filter_frame_2.sizePolicy().hasHeightForWidth()
+        )
+        self.filter_frame_2.setSizePolicy(sizePolicy)
+        self.filter_frame_2.setToolTip("")
+        self.filter_frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.filter_frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.filter_frame_2.setObjectName("filter_frame_2")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.filter_frame_2)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.group_by_keys_label = QtWidgets.QLabel(self.filter_frame_2)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.group_by_keys_label.sizePolicy().hasHeightForWidth()
+        )
+        self.group_by_keys_label.setSizePolicy(sizePolicy)
+        self.group_by_keys_label.setObjectName("group_by_keys_label")
+        self.horizontalLayout_11.addWidget(self.group_by_keys_label)
+        self.group_by_key_line_edit = QtWidgets.QLineEdit(self.filter_frame_2)
+        self.group_by_key_line_edit.setText("")
+        self.group_by_key_line_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.group_by_key_line_edit.setObjectName("group_by_key_line_edit")
+        self.horizontalLayout_11.addWidget(self.group_by_key_line_edit)
+        self.verticalLayout.addWidget(self.filter_frame_2)
+        self.filter_frame_3 = QtWidgets.QFrame(self.group_by_frame)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.filter_frame_3.sizePolicy().hasHeightForWidth()
+        )
+        self.filter_frame_3.setSizePolicy(sizePolicy)
+        self.filter_frame_3.setToolTip("")
+        self.filter_frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.filter_frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.filter_frame_3.setObjectName("filter_frame_3")
+        self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.filter_frame_3)
+        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
+        self.group_by_values_label = QtWidgets.QLabel(self.filter_frame_3)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.group_by_values_label.sizePolicy().hasHeightForWidth()
+        )
+        self.group_by_values_label.setSizePolicy(sizePolicy)
+        self.group_by_values_label.setObjectName("group_by_values_label")
+        self.horizontalLayout_14.addWidget(self.group_by_values_label)
+        self.group_by_values_line_edit = QtWidgets.QLineEdit(
+            self.filter_frame_3
+        )
+        self.group_by_values_line_edit.setObjectName(
+            "group_by_values_line_edit"
+        )
+        self.horizontalLayout_14.addWidget(self.group_by_values_line_edit)
+        self.verticalLayout.addWidget(self.filter_frame_3)
+        self.verticalLayout_9.addWidget(self.group_by_frame)
+        self.verticalLayout_4.addWidget(self.data_aggregation_group)
         self.verticalLayout_5.addWidget(self.configuration_group_box)
         self.filter_frame = QtWidgets.QFrame(OhsomeQgisDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -892,7 +971,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(1)
+        self.request_types_widget.setCurrentIndex(0)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -1093,46 +1172,6 @@ class Ui_OhsomeQgisDialogBase(object):
                 '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public Ohsome API and not for private ones.</p></body></html>',
             )
         )
-        self.property_groups_box.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
-            )
-        )
-        self.property_groups_box.setTitle(
-            _translate("OhsomeQgisDialogBase", "Data extraction")
-        )
-        self.check_clip_geometry.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.</p><p><span style=" text-decoration: underline;">Ony available for the data extraction endpoints</span>.</p></body></html>',
-            )
-        )
-        self.check_clip_geometry.setText(
-            _translate("OhsomeQgisDialogBase", "Clip Geometry")
-        )
-        self.check_keep_geometryless.setToolTip(
-            _translate(
-                "OhsomeQgisDialogBase",
-                "<html><head/><body><p>Some results don't contain geometries but metadata.</p><p>Decide if you wan't to keep them or only return ones with geometries.</p><p>If checked, the geometry less features will be stored separately.</p></body></html>",
-            )
-        )
-        self.check_keep_geometryless.setText(
-            _translate("OhsomeQgisDialogBase", "Keep without geometry")
-        )
-        self.property_groups_groupbox.setTitle(
-            _translate("OhsomeQgisDialogBase", "Property Groups")
-        )
-        self.property_groups_check_metadata.setText(
-            _translate("OhsomeQgisDialogBase", "Metadata")
-        )
-        self.property_groups_check_tags.setText(
-            _translate("OhsomeQgisDialogBase", "Tags")
-        )
-        self.data_aggregation_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "Data aggregation")
-        )
-        self.label.setText(_translate("OhsomeQgisDialogBase", "Format"))
         self.intervals_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Intervals")
         )
@@ -1181,13 +1220,104 @@ class Ui_OhsomeQgisDialogBase(object):
                 '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p><p>Only available for the data aggregation endpoints.</p></body></html>',
             )
         )
+        self.property_groups_box.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
+            )
+        )
+        self.property_groups_box.setTitle(
+            _translate("OhsomeQgisDialogBase", "Data extraction")
+        )
+        self.check_clip_geometry.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.</p><p><span style=" text-decoration: underline;">Ony available for the data extraction endpoints</span>.</p></body></html>',
+            )
+        )
+        self.check_clip_geometry.setText(
+            _translate("OhsomeQgisDialogBase", "Clip Geometry")
+        )
+        self.check_keep_geometryless.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Some results don't contain geometries but metadata.</p><p>Decide if you wan't to keep them or only return ones with geometries.</p><p>If checked, the geometry less features will be stored separately.</p></body></html>",
+            )
+        )
+        self.check_keep_geometryless.setText(
+            _translate("OhsomeQgisDialogBase", "Keep without geometry")
+        )
+        self.property_groups_groupbox.setTitle(
+            _translate("OhsomeQgisDialogBase", "Property Groups")
+        )
+        self.property_groups_check_metadata.setText(
+            _translate("OhsomeQgisDialogBase", "Metadata")
+        )
+        self.property_groups_check_tags.setText(
+            _translate("OhsomeQgisDialogBase", "Tags")
+        )
+        self.data_aggregation_group.setTitle(
+            _translate("OhsomeQgisDialogBase", "Data aggregation")
+        )
+        self.label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
+            )
+        )
+        self.label.setText(_translate("OhsomeQgisDialogBase", "Format"))
+        self.data_aggregation_format.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
+            )
+        )
+        self.group_by_keys_label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+            )
+        )
+        self.group_by_keys_label.setText(
+            _translate("OhsomeQgisDialogBase", "groupByKey")
+        )
+        self.group_by_key_line_edit.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+            )
+        )
+        self.group_by_key_line_edit.setPlaceholderText(
+            _translate("OhsomeQgisDialogBase", "building")
+        )
+        self.group_by_values_label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+            )
+        )
+        self.group_by_values_label.setText(
+            _translate("OhsomeQgisDialogBase", "groupByValues")
+        )
+        self.group_by_values_line_edit.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+            )
+        )
+        self.filter_label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
+            )
+        )
         self.filter_label.setText(
             _translate("OhsomeQgisDialogBase", "Filter  ")
         )
         self.filter_input.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Enter your desired filter query by using common OpenStreetMap tags. For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
+                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
             )
         )
         self.filter_input.setPlaceholderText(
