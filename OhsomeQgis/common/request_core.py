@@ -189,6 +189,14 @@ def split_geojson_by_geometry(
 def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
     if not vlayer or len(vlayer) <= 0:
         return
+    # Determine the id field
+    id_field = None
+    if vlayer.fields().names().__contains__("@osmId"):
+        id_field = "@osmId"
+    # elif vlayer.fields().names().__contains__("id"):
+    #     id_field = "id"
+    else:
+        return
     if vlayer.fields().names().__contains__("@validFrom"):
         date_start = "@validFrom"
         date_end = "@validTo"
@@ -198,6 +206,9 @@ def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
     elif vlayer.fields().names().__contains__("@timestamp"):
         date_start = "@timestamp"
         date_end = "endDate"
+    # elif vlayer.fields().names().__contains__("timestamp"):
+    #     date_start = "timestamp"
+    #     date_end = "endDate"
     else:
         return
 
@@ -229,13 +240,13 @@ def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
         features[-1].attribute(date_start) if len(features) > 0 else None
     )
     youngest_timestamp = youngest_timestamp.addDays(1)
-    features = sorted(features, key=lambda sort_id: sort_id["@osmId"])
+    features = sorted(features, key=lambda sort_id: sort_id[id_field])
     vlayer.dataProvider().deleteFeatures([feature.id() for feature in features])
     for i in range(len(features) - 1):
         feature: QgsFeature = features[i]
         if (
             i < len(features) - 1
-            and features[i + 1]["@osmId"] == feature["@osmId"]
+            and features[i + 1][id_field] == feature[id_field]
             and feature[date_end] is None
         ):
             feature.setAttribute(

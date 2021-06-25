@@ -26,7 +26,7 @@
 import json
 
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QMessageBox, QDialog, QListWidgetItem
+from PyQt5.QtWidgets import QMessageBox, QDialog, QListWidgetItem, QLineEdit
 from qgis._core import (
     QgsMapLayer,
     QgsProject,
@@ -102,6 +102,14 @@ class OhsomeSpec:
         return self.dlg.data_aggregation_format.currentText()
 
     @property
+    def _group_by_key(self):
+        return self.dlg.group_by_key_line_edit.text()
+
+    @property
+    def _group_by_values(self):
+        return self.dlg.group_by_values_line_edit.text()
+
+    @property
     def _request_bcircles_coordinates(self) -> str:
         coordinate_string = ""
         layers_list = self.dlg.ohsome_centroid_location_list
@@ -147,16 +155,41 @@ class OhsomeSpec:
         )
         return date_string
 
-    @property
-    def is_valid(self) -> bool:
+    def is_valid(self, warn: bool = False) -> bool:
+        tab_index = self.dlg.request_types_widget.currentIndex()
+        msg = ""
+        if (
+            tab_index == 0
+            and not self.dlg.ohsome_centroid_location_list.count()
+        ):
+            msg = (
+                f"{msg}> Missing Centroid locations, did you forget to set centroids?\n"
+                "Use the green plus button to add centroids.\n"
+            )
+        if tab_index == 1 and not self.dlg.point_layer_list.count():
+            msg = (
+                f"{msg}> Missing point layers, did you forget to set one?\n"
+                "Use the green plus button to add multiple layers.\n"
+            )
+        if tab_index == 2 and not self.dlg.layer_list.count():
+            msg = (
+                f"{msg}> Missing polygon layers, did you forget to set one?\n"
+                "Use the green plus button to add multiple layers.\n"
+            )
+        if any(
+            groupby in self._request_url.lower()
+            for groupby in ["groupby/key", "groupby/tag"]
+        ) and not len(self.dlg.group_by_key_line_edit.text()):
+            msg = f"{msg}> For `groupBy/tag` and `groupBy/key` endpoints provide at least one `groupByKey` tag in the data aggregation settings.\n"
         if len(self._request_filter) <= 0:
-            self.dlg.debug_text.append("> Request filter needs to be set.")
-            return False
+            msg = f"{msg}> Request filter needs to be set.\n"
         if len(self._request_url) <= 3:
-            self.dlg.debug_text.append("> Request url needs to be set.")
-            return False
+            msg = f"{msg}> Request url needs to be set.\n"
         if len(self._request_date_string) <= 0:
-            self.dlg.debug_text.append("> Request date needs to be set.")
+            msg = f"{msg}> Request date needs to be set.\n"
+        if len(msg) and warn:
+            self.dlg.debug_text.append(msg)
+        if len(msg):
             return False
         return True
 
@@ -267,6 +300,15 @@ class OhsomeSpec:
                 properties["properties"] = self._property_groups
         elif self._api_spec.lower() == "data-aggregation":
             properties["format"] = self._data_aggregation_format
+            if any(
+                groupby in self._request_url.lower()
+                for groupby in ["groupby/key", "groupby/tag"]
+            ):
+                properties["groupByKey"] = self._group_by_key
+            if "groupby/tag" in self._request_url.lower() and len(
+                self._group_by_values
+            ):
+                properties["groupByValues"] = self._group_by_values
         properties["showMetadata"] = self._show_metadata.__str__().lower()
         properties["filter"] = self._request_filter
         properties["time"] = self._request_date_string
