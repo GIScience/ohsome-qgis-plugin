@@ -130,11 +130,18 @@ class OhsomeSpec:
     @property
     def _request_url(self):
         # Construct request url
-        request_url = (
-            f"{self.dlg.ohsome_spec_preference_combo.currentText()}/"
-            f"{self.dlg.ohsome_spec_preference_specification.currentText()}"
-        )
-        return request_url
+        if (
+            self.dlg.ohsome_spec_selection_combo.currentText().lower()
+            == "metadata"
+        ):
+            return (
+                f"{self.dlg.ohsome_spec_selection_combo.currentText().lower()}"
+            )
+        else:
+            return (
+                f"{self.dlg.ohsome_spec_preference_combo.currentText()}/"
+                f"{self.dlg.ohsome_spec_preference_specification.currentText()}"
+            )
 
     @property
     def _request_date_string(self) -> str:
@@ -148,6 +155,11 @@ class OhsomeSpec:
         return date_string
 
     def is_valid(self, warn: bool = False) -> bool:
+        if (
+            self.dlg.ohsome_spec_selection_combo.currentText().lower()
+            == "metadata"
+        ):
+            return True
         tab_index = self.dlg.request_types_widget.currentIndex()
         msg = ""
         if (
@@ -296,7 +308,9 @@ class OhsomeSpec:
         @rtype: dict
         """
         properties = {}
-        if self._api_spec.lower() == "data-extraction":
+        if self._api_spec.lower() == "metadata":
+            return properties
+        elif self._api_spec.lower() == "data-extraction":
             properties[
                 "clipGeometry"
             ] = self._data_extraction_clip_geometry.__str__().lower()

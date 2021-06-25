@@ -27,11 +27,9 @@
 API_ENDPOINTS = [
     "Data-Extraction",
     "Data-Aggregation",
+    "Metadata",
 ]
 
-DIMENSIONS = ["time", "distance"]
-
-PREFERENCES = ["fastest", "shortest", "recommended"]
 SUPPORTED_API_VERSIONS = ["1.4.1"]
 EXTRACTION_SPECS = {
     "contributions": [

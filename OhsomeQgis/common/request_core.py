@@ -28,7 +28,7 @@ import json
 from datetime import datetime
 
 from PyQt5.QtCore import QVariant
-from PyQt5.QtWidgets import QDialogButtonBox
+from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
@@ -266,7 +266,7 @@ class ExtractionTaskFunction(QgsTask):
         description: str,
         provider,
         request_url,
-        preferences: dict,
+        preferences=None,
         activate_temporal: bool = False,
     ):
         super().__init__(description, QgsTask.CanCancel)
@@ -276,7 +276,7 @@ class ExtractionTaskFunction(QgsTask):
         self.iterations = 0
         self.exception = None
         self.request_url = request_url
-        self.preferences = preferences
+        self.preferences = preferences if preferences is not None else {}
         self.activate_temporal = activate_temporal
         self.result: dict = {}
         self.exception: OhsomeBaseException = None
@@ -286,8 +286,17 @@ class ExtractionTaskFunction(QgsTask):
     def postprocess_results(self) -> bool:
         if not self.result or not len(self.result):
             return False
-
-        if (
+        if "extractRegion" in self.result:
+            vlayer: QgsVectorLayer = self.iface.addVectorLayer(
+                json.dumps(
+                    self.result.get("extractRegion").get("spatialExtent")
+                ),
+                f"OHSOME_API_spatial_extent",
+                "ogr",
+            )
+            if vlayer:
+                return True
+        elif (
             all(i in self.result.keys() for i in ["type", "features"])
             and self.result.get("type").lower() == "featurecollection"
         ):
@@ -376,12 +385,14 @@ class ExtractionTaskFunction(QgsTask):
         self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         logger.log(f'Started task "{self.description()}"', Qgis.Info)
         try:
-
-            self.result = self.client.request(
-                f"/{self.request_url}",
-                {},
-                post_json=self.preferences,
-            )
+            if len(self.preferences):
+                self.result = self.client.request(
+                    f"/{self.request_url}",
+                    {},
+                    post_json=self.preferences,
+                )
+            else:
+                self.result = self.client.request(f"/metadata", {})
         except Exception as e:
             self.result = None
             self.exception = e
@@ -421,6 +432,30 @@ class ExtractionTaskFunction(QgsTask):
                 f"The request was successful:" + shortened_default_message
             )
             try:
+                if (
+                    valid_result
+                    and self.result
+                    and "extractRegion" in self.result
+                ):
+                    default_message = (
+                        f"\nAPI URL: {self.client.base_url}"
+                        f"\nEndpoint: {self.request_url}"
+                        f'\nMetadata Response: {json.dumps(self.result, indent=4, sort_keys=True)}"'
+                    )
+                    short_msg = msg = (
+                        f"The request was successful:" + default_message
+                    )
+                    QMessageBox.information(
+                        self.dlg,
+                        "Ohsome Metadata",
+                        "Metadata Response:\n"
+                        f"attribution:\n{json.dumps(self.result.get('attribution'), indent=4, sort_keys=True)}\n"
+                        f"apiVersion:{self.result.get('apiVersion')}\n"
+                        f"spatialExtent: The spatial extent will be imported as a new layer.\n"
+                        f"timeout:{self.result.get('timeout')}\n"
+                        f"temporalExtent:\n{json.dumps(self.result.get('extractRegion').get('temporalExtent'), indent=4, sort_keys=True)}",
+                    )
+
                 self.postprocess_results()
                 logger.log(msg, Qgis.Info)
                 self.iface.messageBar().pushMessage(

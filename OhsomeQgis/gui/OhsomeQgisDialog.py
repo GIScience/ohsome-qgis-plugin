@@ -278,7 +278,23 @@ class OhsomeQgisDialogMain:
 
             # if there are no centroids or layers, throw an error message
             tab_index = self.dlg.request_types_widget.currentIndex()
-            if tab_index == 0:
+            if (
+                self.dlg.ohsome_spec_selection_combo.currentText().lower()
+                == "metadata"
+            ):
+                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
+                    True
+                )
+                globals()[task_name] = ExtractionTaskFunction(
+                    iface=self.iface,
+                    dlg=self.dlg,
+                    description=f"OHSOME task",
+                    provider=provider,
+                    request_url=preferences.get_request_url(),
+                    preferences=None,
+                )
+                QgsApplication.taskManager().addTask(globals()[task_name])
+            elif tab_index == 0:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -482,7 +498,9 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
     # On Spec selection
     def _set_preferences(self):
         self.ohsome_spec_preference_combo.clear()
-        if (
+        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
+            pass
+        elif (
             self.ohsome_spec_selection_combo.currentText().lower()
             == "data-extraction"
         ):
@@ -511,7 +529,9 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         # Catch when preference combo is just cleaned and empty.
         if not current_text or len(current_text) <= 0:
             return
-        if (
+        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
+            pass
+        elif (
             self.ohsome_spec_selection_combo.currentText().lower()
             == "data-extraction"
         ):
@@ -532,7 +552,9 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.data_aggregation_format.clear()
         current_text = self.ohsome_spec_preference_specification.currentText()
         # Set the available output formats
-        if "groupBy/boundary" in current_text:
+        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
+            pass
+        elif "groupBy/boundary" in current_text:
             self.data_aggregation_format.addItems(
                 DATA_AGGREGATION_FORMAT.get("groupBy/boundary")
             )
