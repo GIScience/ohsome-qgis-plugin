@@ -60,7 +60,7 @@ from OhsomeQgis.utils.exceptions import OhsomeBaseException
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
     metadata: QgsLayerMetadata = vlayer.metadata()
-    metadata.setTitle("Ohsome Qgis plugin query result.")
+    metadata.setTitle("Ohsome QGIS plugin query result.")
     if original_json.get("metadata") and original_json.get("metadata").get(
         "description"
     ):

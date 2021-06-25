@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ohsomeplugin"
+name = "ohsomeplugindevelopment"
 version = "0.1.0"
 description = ""
 authors = ["Julian Psotta <julianpsotta@gmail.com>"]
