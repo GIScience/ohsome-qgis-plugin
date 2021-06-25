@@ -483,7 +483,9 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             lambda: on_about_click(parent=self._iface.mainWindow())
         )
         self.provider_refresh.clicked.connect(self._on_prov_refresh_click)
-        self.provider_combo.currentIndexChanged.connect(self._set_preferences)
+        self.provider_combo.currentIndexChanged.connect(
+            self._set_temporal_extent
+        )
         # Point Layer tab
         self.point_layer_list_add.clicked.connect(self._add_point_layer)
         self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
@@ -498,7 +500,6 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
     # On Spec selection
     def _set_preferences(self):
-        self._set_temporal_extent()
         self.ohsome_spec_preference_combo.clear()
         if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
             pass
@@ -597,41 +598,49 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
                 .get("temporalExtent")
                 .get("fromTimestamp")
             ):
-                start_date = (
+                start_date_string = (
                     metadata.get("extractRegion")
                     .get("temporalExtent")
                     .get("fromTimestamp")
                 )
                 start_date = QtCore.QDateTime.fromString(
-                    start_date, "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                    start_date_string, "yyyy-MM-dd'T'HH:mm:ss'Z'"
                 )
-                self.date_start.setDateTime(
-                    start_date
-                ) if start_date else self.date_start
-                self.date_start.setMinimumDateTime(self.date_start.dateTime())
-                self.date_start.setToolTip(
-                    f'<html><head/><body><p>Enter your start date. </p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" text-decoration: underline;">{self.date_start.date().toString("yyyy-MM-dd")}</span> are valid.</p></body></html>'
-                )
+                if not start_date.isValid():
+                    start_date = QtCore.QDateTime.fromString(
+                        start_date_string, "yyyy-MM-dd'T'HH:mm'Z'"
+                    )
+            else:
+                start_date = self.date_start.dateTime()
+
             if (
                 metadata.get("extractRegion")
                 .get("temporalExtent")
                 .get("toTimestamp")
             ):
-                end_date = (
+                end_date_string = (
                     metadata.get("extractRegion")
                     .get("temporalExtent")
                     .get("toTimestamp")
                 )
                 end_date = QtCore.QDateTime.fromString(
-                    end_date, "yyyy-MM-dd'T'HH:mm'Z'"
+                    end_date_string, "yyyy-MM-dd'T'HH:mm:ss'Z'"
                 )
-                self.date_end.setDateTime(
-                    end_date
-                ) if end_date else self.date_end
-                self.date_end.setMaximumDateTime(self.date_end.dateTime())
-                self.date_end.setToolTip(
-                    f'<html><head/><body><p>Enter your end date. </p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" text-decoration: underline;">{self.date_end.date().toString("yyyy-MM-dd")}</span> are valid.</p></body></html>'
-                )
+                if not end_date.isValid():
+                    end_date = QtCore.QDateTime.fromString(
+                        end_date_string, "yyyy-MM-dd'T'HH:mm'Z'"
+                    )
+            else:
+                end_date = self.date_end.dateTime()
+            tooltip = f'<html><head/><body><p>Enter your end date. </p><p>All dates from {start_date.toString("yyyy-MM-dd")} until {end_date.toString("yyyy-MM-dd")} are valid.</p></body></html>'
+            self.date_end.setDateTime(end_date)
+            self.date_end.setMaximumDateTime(end_date)
+            self.date_end.setMinimumDateTime(start_date)
+            self.date_end.setToolTip(tooltip)
+            self.date_start.setDateTime(start_date)
+            self.date_start.setMaximumDateTime(end_date)
+            self.date_start.setMinimumDateTime(start_date)
+            self.date_start.setToolTip(tooltip)
         except Exception as e:
             msg = [e.__class__.__name__, str(e)]
             logger.log("{}: {}".format(*msg), 2)
