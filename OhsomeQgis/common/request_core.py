@@ -480,7 +480,8 @@ class ExtractionTaskFunction(QgsTask):
             logger.log(msg, Qgis.Critical)
             self.iface.messageBar().pushMessage(
                 "Warning",
-                "The response is empty and an error was returned. Refine your filter query and check the log or plugin console for errors.",
+                "The response is empty and an error was returned. "
+                "Refine your filter query and check the log or plugin console for errors and exceptions.",
                 level=Qgis.Critical,
                 duration=5,
             )
