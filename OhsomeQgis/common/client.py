@@ -39,7 +39,7 @@ from OhsomeQgis.common import networkaccessmanager
 from OhsomeQgis.utils import exceptions, logger
 from OhsomeQgis.utils.exceptions import ServiceUnavailable
 
-_USER_AGENT = "OHSOMEQGISClient@v{}".format(__version__)
+_USER_AGENT = f"ohsome-qgis-plugin/{__version__}"
 
 
 class Client(QObject):
