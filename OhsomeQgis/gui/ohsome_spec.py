@@ -128,11 +128,6 @@ class OhsomeSpec:
 
     @property
     def _request_filter(self) -> str:
-        if len(self.dlg.filter_input.toPlainText()) <= 0:
-            QMessageBox.critical(
-                self.dlg, "Filter error", "Set a filter query."
-            )
-            return ""
         return self.dlg.filter_input.toPlainText()
 
     @property
@@ -190,6 +185,10 @@ class OhsomeSpec:
         ):
             msg = f"{msg}> For `ratio` endpoints provide the `Filter 2` under the data aggregation settings.\n"
         if len(self._request_filter) <= 0:
+            if warn:
+                QMessageBox.critical(
+                    self.dlg, "Filter error", "Set a filter query."
+                )
             msg = f"{msg}> Request filter needs to be set.\n"
         if len(self._request_url) <= 3:
             msg = f"{msg}> Request url needs to be set.\n"
