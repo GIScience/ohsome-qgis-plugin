@@ -25,26 +25,17 @@
 """
 import csv
 import json
-import random
 from datetime import datetime
-from itertools import product
-from time import sleep
 
-from PyQt5.QtCore import QVariant, Qt, QUrl
+from PyQt5.QtCore import QVariant
 from PyQt5.QtWidgets import QDialogButtonBox
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
     QgsTask,
-    QgsMessageLog,
     Qgis,
-    QgsNetworkContentFetcherTask,
     QgsProcessingUtils,
     QgsLayerMetadata,
-    QgsAbstractMetadataBase,
-    QgsGeometry,
-    QgsWkbTypes,
-    QgsPointXY,
 )
 
 from qgis.core import (
@@ -53,7 +44,6 @@ from qgis.core import (
 )
 
 from OhsomeQgis.common import client
-from OhsomeQgis.gui.ohsome_spec import OhsomeSpec
 from OhsomeQgis.utils import exceptions, logger
 from OhsomeQgis.utils.exceptions import OhsomeBaseException
 

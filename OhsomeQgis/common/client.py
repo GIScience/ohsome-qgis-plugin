@@ -32,7 +32,6 @@ from urllib.parse import urlencode
 
 import requests
 from PyQt5.QtCore import QObject, pyqtSignal
-from PyQt5.QtWidgets import QMessageBox
 from qgis._core import Qgis
 
 from OhsomeQgis import __version__

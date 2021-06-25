@@ -26,24 +26,17 @@
 import json
 
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QMessageBox, QDialog, QListWidgetItem, QLineEdit
+from PyQt5.QtWidgets import QMessageBox, QDialog
 from qgis._core import (
-    QgsMapLayer,
     QgsProject,
     QgsJsonExporter,
-    QgsPoint,
-    QgsFeature,
-    QgsGeometry,
     QgsWkbTypes,
-    QgsPointXY,
-    QgsVectorLayer,
 )
 
 from OhsomeQgis.utils import exceptions
 from OhsomeQgis.utils.datamanager import (
     convert_point_features_to_ohsome_bcircles,
 )
-from OhsomeQgis.utils.exceptions import TooManyInputsFound
 
 
 class OhsomeSpec:

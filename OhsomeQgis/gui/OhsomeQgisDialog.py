@@ -23,12 +23,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-import csv
-import json
 import random
 import string
 import webbrowser
-from datetime import datetime
 
 from PyQt5.QtCore import QSizeF, QPointF
 from PyQt5.QtGui import QIcon, QTextDocument
@@ -43,10 +40,8 @@ from PyQt5.QtWidgets import (
     QListWidgetItem,
 )
 from qgis._core import (
-    QgsProcessingUtils,
     Qgis,
     QgsTask,
-    QgsMessageLog,
     QgsApplication,
 )
 from qgis.core import (
