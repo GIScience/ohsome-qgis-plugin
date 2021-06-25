@@ -27,7 +27,8 @@ import random
 import string
 import webbrowser
 
-from PyQt5.QtCore import QSizeF, QPointF
+from PyQt5 import QtCore
+from PyQt5.QtCore import QSizeF, QPointF, QDate
 from PyQt5.QtGui import QIcon, QTextDocument
 from PyQt5.QtWidgets import (
     QAction,
@@ -82,7 +83,6 @@ from OhsomeQgis.gui import ohsome_spec
 
 from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
-from .ohsome_spec import OhsomeSpec
 from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
 
@@ -483,6 +483,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             lambda: on_about_click(parent=self._iface.mainWindow())
         )
         self.provider_refresh.clicked.connect(self._on_prov_refresh_click)
+        self.provider_combo.currentIndexChanged.connect(self._set_preferences)
         # Point Layer tab
         self.point_layer_list_add.clicked.connect(self._add_point_layer)
         self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
@@ -497,6 +498,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
 
     # On Spec selection
     def _set_preferences(self):
+        self._set_temporal_extent()
         self.ohsome_spec_preference_combo.clear()
         if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
             pass
@@ -583,6 +585,67 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.filter2_input.setEnabled(True)
             self.filter2_input.setStyleSheet("border: 1px solid green")
 
+    def _set_temporal_extent(self):
+        provider_id = self.provider_combo.currentIndex()
+        provider = configmanager.read_config()["providers"][provider_id]
+        clnt = client.Client(provider)
+        metadata = None
+        try:
+            metadata = clnt.check_api_metadata(self._iface)
+            if (
+                metadata.get("extractRegion")
+                .get("temporalExtent")
+                .get("fromTimestamp")
+            ):
+                start_date = (
+                    metadata.get("extractRegion")
+                    .get("temporalExtent")
+                    .get("fromTimestamp")
+                )
+                start_date = QtCore.QDateTime.fromString(
+                    start_date, "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                )
+                self.date_start.setDateTime(
+                    start_date
+                ) if start_date else self.date_start
+                self.date_start.setMinimumDateTime(self.date_start.dateTime())
+                self.date_start.setToolTip(
+                    f'<html><head/><body><p>Enter your start date. </p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" text-decoration: underline;">{self.date_start.date().toString("yyyy-MM-dd")}</span> are valid.</p></body></html>'
+                )
+            if (
+                metadata.get("extractRegion")
+                .get("temporalExtent")
+                .get("toTimestamp")
+            ):
+                end_date = (
+                    metadata.get("extractRegion")
+                    .get("temporalExtent")
+                    .get("toTimestamp")
+                )
+                end_date = QtCore.QDateTime.fromString(
+                    end_date, "yyyy-MM-dd'T'HH:mm'Z'"
+                )
+                self.date_end.setDateTime(
+                    end_date
+                ) if end_date else self.date_end
+                self.date_end.setMaximumDateTime(self.date_end.dateTime())
+                self.date_end.setToolTip(
+                    f'<html><head/><body><p>Enter your end date. </p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" text-decoration: underline;">{self.date_end.date().toString("yyyy-MM-dd")}</span> are valid.</p></body></html>'
+                )
+        except Exception as e:
+            msg = [e.__class__.__name__, str(e)]
+            logger.log("{}: {}".format(*msg), 2)
+            if not metadata:
+                self.debug_text.append(
+                    "API error: The API couldn't be reached. Check your connection.\n"
+                )
+            else:
+
+                self.debug_text.setText(
+                    "Date ranges: Couldn't be fetched automatically. Defaults are used which may "
+                    "not cover the dates correctly.\n"
+                )
+
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
 
@@ -590,6 +653,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         self.provider_combo.clear()
         for provider in providers:
             self.provider_combo.addItem(provider["name"], provider)
+        self._set_preferences()
 
     def _on_clear_listwidget_click(self):
         """Clears the contents of the QgsListWidget and the annotations."""

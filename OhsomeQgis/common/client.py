@@ -299,9 +299,9 @@ class Client(QObject):
                 message,
             )
 
-    def check_api_metadata(self, iface) -> bool:
+    def check_api_metadata(self, iface) -> {}:
         try:
-            response = self.request(f"/metadata", {})
+            return self.request(f"/metadata", {})
         except ServiceUnavailable as err:
             iface.messageBar().pushMessage(
                 "Critical",
@@ -318,7 +318,6 @@ class Client(QObject):
                 duration=7,
             )
             return False
-        return True
 
     def _generate_auth_url(self, path, params):
         """Returns the path and query string portion of the request URL, first

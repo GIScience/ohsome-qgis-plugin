@@ -47,6 +47,12 @@ class GeometryError(OhsomeBaseException):
     pass
 
 
+class PluginError(OhsomeBaseException):
+    """Represents an exception returned by the plugin in general."""
+
+    pass
+
+
 class GenericClientError(OhsomeBaseException):
     """Represents an exception returned by the remote API."""
 

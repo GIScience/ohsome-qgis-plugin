@@ -39,6 +39,8 @@ def classFactory(iface):  # pylint: disable=invalid-name
 
     from .OhsomeQgisPlugin import OhsomeQgis
 
+    globals()["global_date_status_message"] = "Empty"
+
     return OhsomeQgis(iface)
 
 
