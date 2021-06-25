@@ -257,10 +257,13 @@ class OhsomeSpec:
                     "Found too many input layers with the same name. Use unique names for your layers.",
                 )
             layer_list.extend(layers)
-        return [
-            QgsJsonExporter(lyr).exportFeatures(lyr.getFeatures())
+        geojsons = [
+            QgsJsonExporter(lyr)
+            .exportFeatures(lyr.getFeatures())
+            .replace('"properties":null', '"properties":{"":""}')
             for lyr in layer_list
         ]
+        return geojsons
 
     def __get_selected_point_layers_geometries(self) -> {}:
         ordered_layer_radii = []
