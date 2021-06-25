@@ -15,6 +15,12 @@ Python >= 3.8
 QGIS >= 3.14
 
 ## Ohsome Qgis Plugin
+Per default the QGIS native temporal feature (version >= 3.14) is activated, if the result contains suitable geometries.
+
+The Temporal Controller can be accessed via `View` -> `Panels` -> `Temporal Controller`.
+
+
+
 ![Screenshot](static/ohsome_tab1.png)
 ![Screenshot](static/ohsome_tab2.png)
 ![Screenshot](static/ohsome_tab3.png)
