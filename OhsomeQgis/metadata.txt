@@ -1,5 +1,5 @@
 [general]
-name=Ohsome QGIS plugin
+name=Ohsome QGIS
 qgisMinimumVersion=3.14
 description=Ohsome-API, spatial and temporal OSM requests for QGIS
 
