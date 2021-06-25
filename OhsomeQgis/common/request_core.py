@@ -355,6 +355,24 @@ class ExtractionTaskFunction(QgsTask):
                 )
                 postprocess_metadata(self.result, vlayer)
             return True
+        elif (
+            "ratioResult" in self.result.keys()
+            and len(self.result.get("ratioResult")) > 0
+        ):
+            # Process flat tables
+            file = QgsProcessingUtils.generateTempFilename(
+                f"{self.request_url}.csv"
+            )
+            header = self.result.get("ratioResult")[0].keys()
+            vlayer = create_ohsome_csv_layer(
+                self.iface,
+                self.result["ratioResult"],
+                header,
+                file,
+                self.request_time,
+            )
+            postprocess_metadata(self.result, vlayer)
+            return True
         return False
 
     def run(self):
