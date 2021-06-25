@@ -494,14 +494,20 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.ohsome_spec_preference_combo.addItems(EXTRACTION_SPECS)
             self.ohsome_spec_preference_combo.setCurrentIndex(0)
             self.interval_years.setEnabled(False)
+            self.interval_years.setStyleSheet("border: 1px solid grey")
             self.interval_months.setEnabled(False)
+            self.interval_months.setStyleSheet("border: 1px solid grey")
             self.interval_days.setEnabled(False)
+            self.interval_days.setStyleSheet("border: 1px solid grey")
         else:
             self.ohsome_spec_preference_combo.addItems(AGGREGATION_SPECS)
             self.ohsome_spec_preference_combo.setCurrentIndex(0)
             self.interval_years.setEnabled(True)
+            self.interval_years.setStyleSheet("border: 1px solid green")
             self.interval_months.setEnabled(True)
+            self.interval_months.setStyleSheet("border: 1px solid green")
             self.interval_days.setEnabled(True)
+            self.interval_days.setStyleSheet("border: 1px solid green")
         self._set_preferences_endpoint()
 
     def _set_preferences_endpoint(self):
@@ -530,6 +536,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
     def _set_data_aggregation_format(self):
         self.data_aggregation_format.clear()
         current_text = self.ohsome_spec_preference_specification.currentText()
+        # Set the available output formats
         if "groupBy/boundary" in current_text:
             self.data_aggregation_format.addItems(
                 DATA_AGGREGATION_FORMAT.get("groupBy/boundary")
@@ -538,14 +545,26 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.data_aggregation_format.addItems(
                 DATA_AGGREGATION_FORMAT.get("default")
             )
+        # Set the available data aggregation settings. They differ a lot for each endpoint.
+        self.group_by_key_line_edit.setEnabled(False)
+        self.group_by_key_line_edit.setStyleSheet("border: 1px solid grey")
+        self.group_by_values_line_edit.setEnabled(False)
+        self.group_by_values_line_edit.setStyleSheet("border: 1px solid grey")
+        self.filter2_input.setEnabled(False)
+        self.filter2_input.setStyleSheet("border: 1px solid grey")
         if "groupBy/tag" in current_text:
             self.group_by_key_line_edit.setEnabled(True)
+            self.group_by_key_line_edit.setStyleSheet("border: 1px solid green")
             self.group_by_values_line_edit.setEnabled(True)
+            self.group_by_values_line_edit.setStyleSheet(
+                "border: 1px solid green"
+            )
         elif "groupBy/key" in current_text:
             self.group_by_key_line_edit.setEnabled(True)
-        else:
-            self.group_by_key_line_edit.setEnabled(False)
-            self.group_by_values_line_edit.setEnabled(False)
+            self.group_by_key_line_edit.setStyleSheet("border: 1px solid green")
+        elif "ratio" in current_text:
+            self.filter2_input.setEnabled(True)
+            self.filter2_input.setStyleSheet("border: 1px solid green")
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""

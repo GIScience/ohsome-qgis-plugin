@@ -136,6 +136,10 @@ class OhsomeSpec:
         return self.dlg.filter_input.toPlainText()
 
     @property
+    def _request_filter2(self) -> str:
+        return self.dlg.filter2_input.text()
+
+    @property
     def _request_url(self):
         # Construct request url
         request_url = (
@@ -179,8 +183,12 @@ class OhsomeSpec:
         if any(
             groupby in self._request_url.lower()
             for groupby in ["groupby/key", "groupby/tag"]
-        ) and not len(self.dlg.group_by_key_line_edit.text()):
+        ) and not len(self._group_by_key):
             msg = f"{msg}> For `groupBy/tag` and `groupBy/key` endpoints provide at least one `groupByKey` tag in the data aggregation settings.\n"
+        if "ratio" in self._request_url.lower() and not len(
+            self._request_filter2
+        ):
+            msg = f"{msg}> For `ratio` endpoints provide the `Filter 2` under the data aggregation settings.\n"
         if len(self._request_filter) <= 0:
             msg = f"{msg}> Request filter needs to be set.\n"
         if len(self._request_url) <= 3:
@@ -309,6 +317,10 @@ class OhsomeSpec:
                 self._group_by_values
             ):
                 properties["groupByValues"] = self._group_by_values
+            if "ratio" in self._request_url.lower() and len(
+                self._request_filter2
+            ):
+                properties["filter2"] = self._request_filter2
         properties["showMetadata"] = self._show_metadata.__str__().lower()
         properties["filter"] = self._request_filter
         properties["time"] = self._request_date_string

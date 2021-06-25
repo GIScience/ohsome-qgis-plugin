@@ -58,8 +58,8 @@ AGGREGATION_SPECS = {
         "groupBy/key",
         "groupBy/tag",
         "groupBy/type",
-        # "ratio",
-        # "ratio/groupBy/boundary",
+        "ratio",
+        "ratio/groupBy/boundary",
     ],
     "elements/count": [
         "density",
@@ -72,8 +72,8 @@ AGGREGATION_SPECS = {
         "groupBy/key",
         "groupBy/tag",
         "groupBy/type",
-        # "ratio",
-        # "ratio/groupBy/boundary",
+        "ratio",
+        "ratio/groupBy/boundary",
     ],
     "elements/length": [
         "density",
@@ -86,8 +86,8 @@ AGGREGATION_SPECS = {
         "groupBy/key",
         "groupBy/tag",
         "groupBy/type",
-        # "ratio",
-        # "ratio/groupBy/boundary",
+        "ratio",
+        "ratio/groupBy/boundary",
     ],
     "elements/perimeter": [
         "density",
@@ -100,8 +100,8 @@ AGGREGATION_SPECS = {
         "groupBy/key",
         "groupBy/tag",
         "groupBy/type",
-        # "ratio",
-        # "ratio/groupBy/boundary",
+        "ratio",
+        "ratio/groupBy/boundary",
     ],
     "users/count": [
         "density",

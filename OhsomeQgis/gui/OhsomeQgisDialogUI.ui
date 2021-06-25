@@ -265,7 +265,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -758,7 +758,7 @@
             <item>
              <widget class="QCheckBox" name="check_activate_temporal">
               <property name="toolTip">
-               <string>Automatically enable the temporal feature for new layers.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically enable the temporal feature for new layers where applicable.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Qgis temporal feature</string>
@@ -1159,7 +1159,7 @@
          <string>Data aggregation</string>
         </property>
         <property name="collapsed">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_9">
          <item>
@@ -1237,7 +1237,7 @@
                <item>
                 <widget class="QLineEdit" name="group_by_key_line_edit">
                  <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` and `groupBy/key` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -1291,6 +1291,56 @@
                 <widget class="QLineEdit" name="group_by_values_line_edit">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="filter_frame_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <item>
+                <widget class="QLabel" name="filter2_input_label">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `ratio` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>Filter 2</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="filter2_input">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `ratio` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
                  </property>
                 </widget>
                </item>

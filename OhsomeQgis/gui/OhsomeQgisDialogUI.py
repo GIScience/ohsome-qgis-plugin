@@ -731,7 +731,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.data_aggregation_group = gui.QgsCollapsibleGroupBox(
             self.configuration_group_box
         )
-        self.data_aggregation_group.setCollapsed(False)
+        self.data_aggregation_group.setCollapsed(True)
         self.data_aggregation_group.setObjectName("data_aggregation_group")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(
             self.data_aggregation_group
@@ -826,6 +826,40 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.horizontalLayout_14.addWidget(self.group_by_values_line_edit)
         self.verticalLayout.addWidget(self.filter_frame_3)
+        self.filter_frame_4 = QtWidgets.QFrame(self.group_by_frame)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.filter_frame_4.sizePolicy().hasHeightForWidth()
+        )
+        self.filter_frame_4.setSizePolicy(sizePolicy)
+        self.filter_frame_4.setToolTip("")
+        self.filter_frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.filter_frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.filter_frame_4.setObjectName("filter_frame_4")
+        self.horizontalLayout_15 = QtWidgets.QHBoxLayout(self.filter_frame_4)
+        self.horizontalLayout_15.setObjectName("horizontalLayout_15")
+        self.filter2_input_label = QtWidgets.QLabel(self.filter_frame_4)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.filter2_input_label.sizePolicy().hasHeightForWidth()
+        )
+        self.filter2_input_label.setSizePolicy(sizePolicy)
+        self.filter2_input_label.setObjectName("filter2_input_label")
+        self.horizontalLayout_15.addWidget(self.filter2_input_label)
+        self.filter2_input = QtWidgets.QLineEdit(self.filter_frame_4)
+        self.filter2_input.setAutoFillBackground(False)
+        self.filter2_input.setStyleSheet("")
+        self.filter2_input.setObjectName("filter2_input")
+        self.horizontalLayout_15.addWidget(self.filter2_input)
+        self.verticalLayout.addWidget(self.filter_frame_4)
         self.verticalLayout_9.addWidget(self.group_by_frame)
         self.verticalLayout_4.addWidget(self.data_aggregation_group)
         self.verticalLayout_5.addWidget(self.configuration_group_box)
@@ -971,7 +1005,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(0)
+        self.request_types_widget.setCurrentIndex(2)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
@@ -1133,7 +1167,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.check_activate_temporal.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Automatically enable the temporal feature for new layers.",
+                "<html><head/><body><p>Automatically enable the temporal feature for new layers where applicable.</p><p><br/></p><p>This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</p></body></html>",
             )
         )
         self.check_activate_temporal.setText(
@@ -1284,7 +1318,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.group_by_key_line_edit.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+                "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` and `groupBy/key` endpoints.</span></p></body></html>",
             )
         )
         self.group_by_key_line_edit.setPlaceholderText(
@@ -1303,6 +1337,21 @@ class Ui_OhsomeQgisDialogBase(object):
             _translate(
                 "OhsomeQgisDialogBase",
                 "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
+            )
+        )
+        self.filter2_input_label.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value</p><p><span style=" text-decoration: underline;">Only for `ratio` endpoints.</span></p></body></html>',
+            )
+        )
+        self.filter2_input_label.setText(
+            _translate("OhsomeQgisDialogBase", "Filter 2")
+        )
+        self.filter2_input.setToolTip(
+            _translate(
+                "OhsomeQgisDialogBase",
+                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value</p><p><span style=" text-decoration: underline;">Only for `ratio` endpoints.</span></p></body></html>',
             )
         )
         self.filter_label.setToolTip(
