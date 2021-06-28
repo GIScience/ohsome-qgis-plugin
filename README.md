@@ -1,5 +1,19 @@
 # Ohsome QGIS Plugin
 
+- [Ohsome QGIS Plugin](#ohsome-qgis-plugin)
+  * [Functionalities](#functionalities)
+    + [General](#general)
+    + [Customization](#customization)
+  * [Getting Started](#getting-started)
+    + [Prerequisites](#prerequisites)
+    + [Installation](#installation)
+      - [Install via private QGIS repository:](#install-via-private-qgis-repository-)
+      - [Install manually from GitHub:](#install-manually-from-github-)
+  * [License](#license)
+  * [Acknowledgements](#acknowledgements)
+  * [Development](#development)
+
+
 Per default the QGIS native temporal feature (version >= 3.14) is activated, if the result contains suitable geometries.
 
 The Temporal Controller can be accessed via `View` -> `Panels` -> `Temporal Controller`.
@@ -64,9 +78,29 @@ QGIS version: min. **v3.14**
 
 ### Installation
 
-At the moment no QGIS repository installation is possible.
+At the moment only a private QGIS repository installation is available. It will be published in the public repository, once it reaches a decent version.
 
-Install manually from GitHub:
+#### Install via private QGIS repository:
+
+Open the repository manager:
+- `Plugins -> Manage and Install PluginsPlugins -> Manage and Install Plugins -> Settings -> Scroll down to "Plugin Repositories" -> Press Add`
+
+Insert and apply the following details for a new private qgis repository:
+```text
+Name: Ohsome QGIS
+URL: https://raw.githubusercontent.com/GIScience/ohsome-qgis-plugin/main/qgis-private-release.xml
+Parameters: Should be at least "?qgis=3.14". If it is lower than .14 please upgrade your QGIS.
+Authentication: Leave empty
+Enabled: Check.
+```
+
+Go to all and search for "Ohsome". The plugin should appear as "Ohsome QGIS".
+Click and install.
+If it tells you "There is a new update available", just ignore it.
+
+
+
+#### Install manually from GitHub:
 
 - [Download](https://github.com/GIScience/ohsome-qgis-plugin/archive/main.zip) ZIP file from GitHub
 - Unzip folder contents and copy `OhsomeQgis` folder to:
