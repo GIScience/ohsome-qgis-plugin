@@ -229,16 +229,24 @@ class OhsomeQgisDialogMain:
                 self.dlg.ohsome_centroid_location_list.addItem(
                     f"Point 0: 8.67, 49.39 | Radius: 1000"
                 )
-                self.dlg.filter_input.setPlainText(
-                    "building=* or (type:way and highway=residential)"
-                )
+
+            self.dlg.filter_input.setPlainText(
+                "building=* or (type:way and highway=residential)"
+            )
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
+        self.dlg.provider_combo.currentIndexChanged.disconnect(
+            self.dlg.set_temporal_extent
+        )
         self.dlg.provider_combo.clear()
         for provider in providers:
             self.dlg.provider_combo.addItem(provider["name"], provider)
-
+        self.dlg.provider_combo.currentIndexChanged.connect(
+            self.dlg.set_temporal_extent
+        )
+        self.dlg.set_temporal_extent()
+        self.dlg.filter_input.clearFocus()
         self.dlg.show()
 
     def run_gui_control(self):
@@ -484,7 +492,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
         )
         self.provider_refresh.clicked.connect(self._on_prov_refresh_click)
         self.provider_combo.currentIndexChanged.connect(
-            self._set_temporal_extent
+            self.set_temporal_extent
         )
         # Point Layer tab
         self.point_layer_list_add.clicked.connect(self._add_point_layer)
@@ -586,7 +594,7 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.filter2_input.setEnabled(True)
             self.filter2_input.setStyleSheet("border: 1px solid green")
 
-    def _set_temporal_extent(self):
+    def set_temporal_extent(self):
         provider_id = self.provider_combo.currentIndex()
         provider = configmanager.read_config()["providers"][provider_id]
         clnt = client.Client(provider)
@@ -641,27 +649,36 @@ class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
             self.date_start.setMaximumDateTime(end_date)
             self.date_start.setMinimumDateTime(start_date)
             self.date_start.setToolTip(tooltip)
+            self.debug_text.setText(
+                f"API success: The API {clnt.url} could be reached. Metadata set.\n"
+            )
         except Exception as e:
-            msg = [e.__class__.__name__, str(e)]
-            logger.log("{}: {}".format(*msg), 2)
-            if not metadata:
-                self.debug_text.append(
-                    "API error: The API couldn't be reached. Check your connection.\n"
-                )
-            else:
-
-                self.debug_text.setText(
-                    "Date ranges: Couldn't be fetched automatically. Defaults are used which may "
+            if metadata is False:
+                msg = (
+                    f"API error: The API {clnt.url} couldn't be reached. Check your connection.\n"
+                    f"Metadata error: Date ranges couldn't be fetched automatically. Defaults are used which may "
                     "not cover the dates correctly.\n"
                 )
+                self.debug_text.setText(msg)
+            else:
+                msg = [e.__class__.__name__, str(e)]
+                logger.log("{}: {}".format(*msg), 2)
+                self.debug_text.setText(msg)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
 
         providers = configmanager.read_config()["providers"]
+        self.provider_combo.currentIndexChanged.disconnect(
+            self.set_temporal_extent
+        )
         self.provider_combo.clear()
         for provider in providers:
             self.provider_combo.addItem(provider["name"], provider)
+        self.provider_combo.currentIndexChanged.connect(
+            self.set_temporal_extent
+        )
+
         self._set_preferences()
 
     def _on_clear_listwidget_click(self):
