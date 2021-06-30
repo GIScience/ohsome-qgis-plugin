@@ -3,7 +3,7 @@ name=Ohsome QGIS
 qgisMinimumVersion=3.14
 description=Ohsome-API, spatial and temporal OSM requests for QGIS
 
-version=0.1.0-alpha
+version=0.1.1-alpha
 author=HeiGIT gGmbH
 email=support@something
 
