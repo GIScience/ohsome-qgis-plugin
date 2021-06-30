@@ -7,8 +7,8 @@
   * [Getting Started](#getting-started)
     + [Prerequisites](#prerequisites)
     + [Installation](#installation)
-      - [Install via private QGIS repository:](#install-via-private-qgis-repository-)
-      - [Install manually from GitHub:](#install-manually-from-github-)
+      - [Install via private QGIS repository](#install-via-private-qgis-repository)
+      - [Install manually from GitHub](#install-manually-from-github)
   * [License](#license)
   * [Acknowledgements](#acknowledgements)
   * [Development](#development)
@@ -80,7 +80,7 @@ QGIS version: min. **v3.14**
 
 At the moment only a private QGIS repository installation is available. It will be published in the public repository, once it reaches a decent version.
 
-#### Install via private QGIS repository:
+#### Install via private QGIS repository
 
 Open the repository manager:
 - `Plugins -> Manage and Install PluginsPlugins -> Manage and Install Plugins -> Settings -> Scroll down to "Plugin Repositories" -> Press Add`
@@ -100,7 +100,7 @@ If it tells you "There is a new update available", just ignore it.
 
 
 
-#### Install manually from GitHub:
+#### Install manually from GitHub
 
 - [Download](https://github.com/GIScience/ohsome-qgis-plugin/archive/main.zip) ZIP file from GitHub
 - Unzip folder contents and copy `OhsomeQgis` folder to:
