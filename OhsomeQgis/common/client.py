@@ -304,10 +304,10 @@ class Client(QObject):
             return self.request(f"/metadata", {})
         except ServiceUnavailable as err:
             iface.messageBar().pushMessage(
-                "Critical",
-                "Endpoint not available. Check your internet connection or provider settings.",
+                "Warning",
+                f"Endpoint {self.url} not available. Check your internet connection or provider settings.",
                 level=Qgis.Critical,
-                duration=7,
+                duration=5,
             )
             return False
         except Exception as err:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'OhsomeQgisDialogUI.ui'
+# Form implementation generated from reading ui file 'OhsomeQgis/gui/OhsomeQgisDialogUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -1003,7 +1003,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_frame.raise_()
 
         self.retranslateUi(OhsomeQgisDialogBase)
-        self.request_types_widget.setCurrentIndex(1)
+        self.request_types_widget.setCurrentIndex(0)
         self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
         QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
