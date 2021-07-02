@@ -19,9 +19,10 @@ jobs:
         with:
           extra_args: --all-files
       - name: Get debug value
+        id: debug_value
         run:  |
-          echo ::set-env name=DEBUG_SWITCH::$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
+          echo ::set-output name=DEBUG_SWITCH::$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
         shell: bash
       - name: Fail if debug not false
         run: exit 1
-        if:  env.DEBUG_SWITCH != 'false'
+        if:  steps.debug_value.outputs.DEBUG_SWITCH != 'false'
