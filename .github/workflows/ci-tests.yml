@@ -1,0 +1,19 @@
+name: tests
+
+on:
+  pull_request:
+    branches: '**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Install and run pre-commit
+        uses: pre-commit/action@v2.0.0
+        with:
+          extra_args: --all-files
+      - name: Check if debug is disabled
+        if: grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}' != false
+        run: exit 1
