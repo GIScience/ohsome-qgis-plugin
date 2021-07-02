@@ -1,4 +1,4 @@
-name: tests
+name: Basic workflow checks
 
 on:
   pull_request:
@@ -20,5 +20,5 @@ jobs:
           extra_args: --all-files
       - name: Check if debug is disabled
         run:  |
-          DEBUG=grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}'
+          DEBUG=$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
           if "$DEBUG" != "false" exit 1
