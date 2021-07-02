@@ -18,7 +18,10 @@ jobs:
         uses: pre-commit/action@v2.0.0
         with:
           extra_args: --all-files
-      - name: Check if debug is disabled
+      - name: Get debug value
         run:  |
-          DEBUG=$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
-          if "$DEBUG" != "false" exit 1
+          echo ::set-env name=DEBUG_SWITCH::$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
+        shell: bash
+      - name: Fail if debug not false
+        run: exit 1
+        if:  env.DEBUG_SWITCH != 'false'
