@@ -1,5 +1,5 @@
 runtime:
-  debug: false
+  debug: true
 providers:
 - base_url: https://api.ohsome.org/v1
   key: null
