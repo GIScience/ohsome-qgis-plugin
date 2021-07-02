@@ -15,5 +15,6 @@ jobs:
         with:
           extra_args: --all-files
       - name: Check if debug is disabled
-        if: grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}' != false
-        run: exit 1
+        run:  |
+          DEBUG=grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}'
+          if "$DEBUG" != "false" exit 1
