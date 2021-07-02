@@ -25,4 +25,4 @@ jobs:
         shell: bash
       - name: Fail if debug not false
         run: exit 1
-        if:  steps.debug_value.outputs.DEBUG_SWITCH != 'false' and steps.debug_value.outputs.DEBUG_SWITCH != 'False'
+        if:  steps.debug_value.outputs.DEBUG_SWITCH != 'false' && steps.debug_value.outputs.DEBUG_SWITCH != 'False'
