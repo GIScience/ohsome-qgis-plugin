@@ -2,7 +2,7 @@
 #
 # This is a custom script for QGIS-Development to give a development solution to the annoying resources_rc bug.
 #
-# Copyright (c) 2020 Julian Psotta <julianpsotta@gmail.com>
+# Copyright (c) 2020 Julian Psotta <julian.psotta@heigit.org>
 usage() {
   set +x
   cat 1>&2 <<HERE
