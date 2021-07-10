@@ -3,7 +3,7 @@
 /***************************************************************************
  OhsomeQgis
                                  A QGIS plugin
- QGIS client to query the ohsome api
+ QGIS client to query the ohsome API
                               -------------------
         begin                : 2021-05-01
         git sha              : $Format:%H$

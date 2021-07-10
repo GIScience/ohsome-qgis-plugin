@@ -1192,7 +1192,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_label.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.timeout_label.setText(
@@ -1201,7 +1201,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_input.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the Ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public Ohsome API and not for private ones.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public ohsome API and not for private ones.</p></body></html>',
             )
         )
         self.intervals_group.setTitle(

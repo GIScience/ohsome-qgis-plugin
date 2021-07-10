@@ -827,7 +827,7 @@
             <item>
              <widget class="QLabel" name="timeout_label">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Timeout</string>
@@ -837,7 +837,7 @@
             <item>
              <widget class="QSpinBox" name="timeout_input">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the Ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.&lt;/p&gt;&lt;p&gt;Depending on the size of the query, too low entries will yield API errors.&lt;/p&gt;&lt;p&gt;This setting is only used for the public Ohsome API and not for private ones.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.&lt;/p&gt;&lt;p&gt;Depending on the size of the query, too low entries will yield API errors.&lt;/p&gt;&lt;p&gt;This setting is only used for the public ohsome API and not for private ones.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="accessibleDescription">
                <string/>

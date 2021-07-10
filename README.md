@@ -47,16 +47,16 @@ In case of issues/bugs, please use the [issue tracker](https://github.com/GIScie
 
 See also:
 
-- Host your own local docker instance of the [OHSOME API](https://github.com/GIScience/ohsome-api-dockerized) for faster
+- Host your own local docker instance of the [ohsome API](https://github.com/GIScience/ohsome-api-dockerized) for faster
   usage.
 - Check out the [Ohsome History Explorer](https://ohsome.org/apps/osm-history-explorer/) to get an idea of what is
-  possible by using the OHSOME API.
+  possible by using the ohsome API.
 
 ## Functionalities
 
 ### General
 
-Use QGIS to query OSM data with defining spatial and temporal requests by using the OHSOME API.
+Use QGIS to query OSM data with defining spatial and temporal requests by using the ohsome API.
 
 The current state offers only GUI related requests with limited batch functionalities.
 
@@ -65,7 +65,7 @@ The current state offers only GUI related requests with limited batch functional
 The API is free of charge and doesn't require any registration or API-Key.
 
 For faster results without size or time limits by the public API it is possible to host a private instance by using a
-local [Dockerized Ohsome API](https://github.com/GIScience/ohsome-api-dockerized).
+local [Dockerized ohsome API](https://github.com/GIScience/ohsome-api-dockerized).
 
 Configuration takes place either from the Web menu entry *Ohsome QGIS* ► *Provider settings*. Or from *Config* button in
 the GUI.
