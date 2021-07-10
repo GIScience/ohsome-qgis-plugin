@@ -8,7 +8,7 @@
         begin                : 2021-05-01
         git sha              : $Format:%H$
         copyright            : (C) 2021 by Julian Psotta
-        email                : julianpsotta@gmail.com
+        email                : julian.psotta@heigit.org
  ***************************************************************************/
 
  This plugin provides access to the ohsome API (https://api.ohsome.org),

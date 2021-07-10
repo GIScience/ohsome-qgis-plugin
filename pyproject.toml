@@ -2,7 +2,7 @@
 name = "ohsomeplugindevelopment"
 version = "0.1.0"
 description = ""
-authors = ["Julian Psotta <julianpsotta@gmail.com>"]
+authors = ["Julian Psotta <julian.psotta@heigit.org>"]
 
 [tool.poetry.dependencies]
 python = ">=3.6.1,<4.0"
