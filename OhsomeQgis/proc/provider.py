@@ -11,9 +11,9 @@
         email                : julianpsotta@gmail.com
  ***************************************************************************/
 
- This plugin provides access to the API from Ohsome
- (https://ohsome.org), developed and
- maintained by GIScience team at University of Heidelberg, Germany.
+ This plugin provides access to the ohsome API (https://api.ohsome.org),
+ developed and maintained by the Heidelberg Institute for Geoinformation
+ Technology, HeiGIT gGmbH, Heidelberg, Germany.
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
