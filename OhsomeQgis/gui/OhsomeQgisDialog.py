@@ -106,14 +106,14 @@ def on_about_click(parent):
     """Slot for click event of About button/menu entry."""
 
     info = (
-        '<b>Ohsome QGIS Plugin</b> provides access to <a href="https://heigit.org/big-spatial-data-analytics-en/ohsome/" style="color: {0}">OHSOME</a> query functionalities.<br><br>'
+        '<b>ohsomeTools</b> provides access to <a href="https://api.ohsome.org" style="color: {0}">ohsome API</a> query functionalities.<br><br>'
         "<center>"
-        '<a href="https://heigit.org/de/willkommen"><img src=":/plugins/OhsomeQgis/img/logo_heigit_300.png"/></a> <br><br>'
+        '<a href="https://heigit.org"><img src=":/plugins/OhsomeQgis/img/logo_heigit_300.png"/></a> <br><br>'
         "</center>"
         "Author: HeiGIT gGmbH<br>"
-        'Email: <a href="mailto:Openrouteservice <{1}>">{1}</a><br>'
+        'Email: <a href="mailto:ohsome <{1}>">{1}</a><br>'
         'Web: <a href="{2}">{2}</a><br>'
-        'Repo: <a href="https://github.com/GIScience/orstools-qgis-plugin">github.com/GIScience/orstools-qgis-plugin</a><br>'
+        'Repo: <a href="https://github.com/GIScience/ohsome-qgis-plugin">github.com/GIScience/ohsome-qgis-plugin</a><br>'
         "Version: {3}".format(DEFAULT_COLOR, __email__, __web__, __version__)
     )
 
@@ -262,7 +262,7 @@ class OhsomeQgisDialogMain:
         self.dlg.annotations = []
 
         # Clean the debug text
-        self.dlg.debug_text.setText(f">>> New Ohsome query started <<<")
+        self.dlg.debug_text.setText(f">>> New ohsome API query started <<<")
 
         provider_id = self.dlg.provider_combo.currentIndex()
         provider = configmanager.read_config()["providers"][provider_id]

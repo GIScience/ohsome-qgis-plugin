@@ -47,10 +47,10 @@ class Client(QObject):
 
     def __init__(self, provider=None, retry_timeout=60):
         """
-        :param provider: A openrouteservice provider from config.yml
+        :param provider: An ohsome API provider from config.yml
         :type provider: dict
 
-        :param retry_timeout: Timeout across multiple retriable requests, in
+        :param retry_timeout: Timeout across multiple retryable requests, in
             seconds.
         :type retry_timeout: int
         """
@@ -101,7 +101,7 @@ class Client(QObject):
 
         :raises OhsomeQgis.utils.exceptions.ApiError: when the API returns an error.
 
-        :returns: openrouteservice response body
+        :returns: ohsome API response body
         :rtype: dict
         """
 
@@ -227,7 +227,7 @@ class Client(QObject):
                 str(status_code),
                 # error,
                 message
-                + f". Check your internet connection or if your local Ohsome instance is running.",
+                + f". Check your internet connection or if your local ohsome API instance is running.",
             )
         if status_code == 400:
             raise exceptions.BadRequest(

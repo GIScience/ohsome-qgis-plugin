@@ -50,7 +50,7 @@ from OhsomeQgis.utils.exceptions import OhsomeBaseException
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
     metadata: QgsLayerMetadata = vlayer.metadata()
-    metadata.setTitle("Ohsome QGIS plugin query result.")
+    metadata.setTitle("ohsomeTools plugin query result.")
     if original_json.get("metadata") and original_json.get("metadata").get(
         "description"
     ):
@@ -447,7 +447,7 @@ class ExtractionTaskFunction(QgsTask):
                     )
                     QMessageBox.information(
                         self.dlg,
-                        "Ohsome Metadata",
+                        "ohsome API Metadata",
                         "Metadata Response:\n"
                         f"attribution:\n{json.dumps(self.result.get('attribution'), indent=4, sort_keys=True)}\n"
                         f"apiVersion:{self.result.get('apiVersion')}\n"
@@ -466,12 +466,12 @@ class ExtractionTaskFunction(QgsTask):
                 )
             except Exception as err:
                 msg = (
-                    f"> Error while processing the geometry response from Ohsome:"
+                    f"> Error while processing the geometry response from the ohsome API:"
                     + default_message
                     + f"\nException: {err}"
                 )
                 short_msg = (
-                    f"> Error while processing the geometry response from Ohsome:"
+                    f"> Error while processing the geometry response from the ohsome API:"
                     + shortened_default_message
                     + f"\nException: {err}"
                 )
@@ -541,7 +541,7 @@ class ExtractionTaskFunction(QgsTask):
     def cancel(self):
         self.client.cancel()
         logger.log(
-            "The Ohsome request was canceled by the user.",
+            "The ohsome API request was canceled by the user.",
             Qgis.Info,
         )
         super().cancel()

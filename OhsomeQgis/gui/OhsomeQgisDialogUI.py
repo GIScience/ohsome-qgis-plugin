@@ -1011,7 +1011,7 @@ class Ui_OhsomeQgisDialogBase(object):
     def retranslateUi(self, OhsomeQgisDialogBase):
         _translate = QtCore.QCoreApplication.translate
         OhsomeQgisDialogBase.setWindowTitle(
-            _translate("OhsomeQgisDialogBase", "Ohsome Tools")
+            _translate("OhsomeQgisDialogBase", "ohsomeTools")
         )
         self.resources_group.setTitle(
             _translate("OhsomeQgisDialogBase", "Resources")
@@ -1051,7 +1051,7 @@ class Ui_OhsomeQgisDialogBase(object):
             )
         )
         self.ohsome_spec_selection_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Ohsome Endpoint")
+            _translate("OhsomeQgisDialogBase", "ohsome API Endpoint")
         )
         self.ohsome_spec_preference_combo.setToolTip(
             _translate("OhsomeQgisDialogBase", "Request preference")
@@ -1192,7 +1192,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.timeout_label.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.</p></body></html>',
+                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.timeout_label.setText(

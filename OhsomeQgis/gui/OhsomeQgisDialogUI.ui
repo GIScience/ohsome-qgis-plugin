@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Ohsome Tools</string>
+   <string>ohsomeTools</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -220,7 +220,7 @@
          <item>
           <widget class="QComboBox" name="ohsome_spec_selection_combo">
            <property name="toolTip">
-            <string>Ohsome Endpoint</string>
+            <string>ohsome API Endpoint</string>
            </property>
           </widget>
          </item>
@@ -827,7 +827,7 @@
             <item>
              <widget class="QLabel" name="timeout_label">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public API of Ohsome the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Timeout</string>

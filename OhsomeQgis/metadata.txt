@@ -1,13 +1,13 @@
 [general]
-name=Ohsome QGIS
+name=ohsomeTools
 qgisMinimumVersion=3.14
-description=Ohsome-API, spatial and temporal OSM requests for QGIS
+description=ohsome API, spatial and temporal OSM requests for QGIS
 
 version=0.1.1-alpha
 author=HeiGIT gGmbH
-email=support@something
+email=ohsome@heigit.org
 
-about=Ohsome QGIS provides access to the Ohsome-API.
+about=ohsomeTools provides access to the ohsome API.
 
 changelog=YYYY/MM/DD v1.X.X
     Added:

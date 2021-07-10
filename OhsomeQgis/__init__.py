@@ -45,7 +45,7 @@ def classFactory(iface):  # pylint: disable=invalid-name
 
 
 # Define plugin wide constants
-PLUGIN_NAME = "Ohsome QGIS"
+PLUGIN_NAME = "ohsomeTools"
 DEFAULT_COLOR = "#a8b1f5"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
