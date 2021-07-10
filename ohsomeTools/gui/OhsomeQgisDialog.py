@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -55,7 +55,7 @@ import processing
 
 from . import resources_rc
 
-from OhsomeQgis import (
+from ohsomeTools import (
     RESOURCE_PREFIX,
     PLUGIN_NAME,
     DEFAULT_COLOR,
@@ -64,14 +64,14 @@ from OhsomeQgis import (
     __web__,
     __help__,
 )
-from OhsomeQgis.utils import (
+from ohsomeTools.utils import (
     exceptions,
     maptools,
     logger,
     configmanager,
     transform,
 )
-from OhsomeQgis.common import (
+from ohsomeTools.common import (
     client,
     request_core,
     API_ENDPOINTS,
@@ -79,7 +79,7 @@ from OhsomeQgis.common import (
     AGGREGATION_SPECS,
     DATA_AGGREGATION_FORMAT,
 )
-from OhsomeQgis.gui import ohsome_spec
+from ohsomeTools.gui import ohsome_spec
 
 from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
@@ -108,7 +108,7 @@ def on_about_click(parent):
     info = (
         '<b>ohsomeTools</b> provides access to <a href="https://api.ohsome.org" style="color: {0}">ohsome API</a> query functionalities.<br><br>'
         "<center>"
-        '<a href="https://heigit.org"><img src=":/plugins/OhsomeQgis/img/logo_heigit_300.png"/></a> <br><br>'
+        '<a href="https://heigit.org"><img src=":/plugins/ohsomeTools/img/logo_heigit_300.png"/></a> <br><br>'
         "</center>"
         "Author: HeiGIT gGmbH<br>"
         'Email: <a href="mailto:ohsome <{1}>">{1}</a><br>'

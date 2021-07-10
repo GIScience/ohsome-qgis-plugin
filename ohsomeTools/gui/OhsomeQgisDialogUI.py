@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'OhsomeQgis/gui/OhsomeQgisDialogUI.ui'
+# Form implementation generated from reading ui file 'ohsomeTools/gui/OhsomeQgisDialogUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -130,7 +130,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.provider_refresh.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_refresh.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_refresh.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
@@ -150,7 +150,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.provider_config.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_settings.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_settings.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
@@ -291,7 +291,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.centroid_list_point_add.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_add.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_add.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
@@ -311,7 +311,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.centroid_list_point_clear.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_clear.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_clear.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
@@ -968,7 +968,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.help_button.setSizePolicy(sizePolicy)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_help.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_help.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
@@ -978,7 +978,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.about_button = QtWidgets.QPushButton(self.control_widget)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(
-            QtGui.QPixmap(":/plugins/OhsomeQgis/img/icon_about.png"),
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_about.png"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )

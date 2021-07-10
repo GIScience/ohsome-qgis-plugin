@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -31,7 +31,7 @@ from PyQt5.QtWidgets import QDialog, QInputDialog, QDialogButtonBox
 from qgis.gui import QgsCollapsibleGroupBox
 
 from .OhsomeQgisDialogConfigUI import Ui_OhsomeQgisDialogConfigBase
-from OhsomeQgis.utils import configmanager
+from ohsomeTools.utils import configmanager
 
 
 class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):

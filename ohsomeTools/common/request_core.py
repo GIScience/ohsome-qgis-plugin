@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -43,9 +43,9 @@ from qgis.core import (
     QgsField,
 )
 
-from OhsomeQgis.common import client
-from OhsomeQgis.utils import exceptions, logger
-from OhsomeQgis.utils.exceptions import OhsomeBaseException
+from ohsomeTools.common import client
+from ohsomeTools.utils import exceptions, logger
+from ohsomeTools.utils.exceptions import OhsomeBaseException
 
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):

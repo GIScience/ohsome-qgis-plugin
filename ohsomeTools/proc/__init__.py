@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -23,25 +23,8 @@
  *                                                                         *
  ***************************************************************************/
 """
+import os.path
 
-from qgis.core import (
-    QgsCoordinateReferenceSystem,
-    QgsCoordinateTransform,
-    QgsProject,
-)
+from ohsomeTools import BASE_DIR
 
-
-def transformToWGS(old_crs):
-    """
-    Returns a transformer to WGS84
-
-    :param old_crs: CRS to transfrom from
-    :type old_crs: QgsCoordinateReferenceSystem
-
-    :returns: transformer to use in various modules.
-    :rtype: QgsCoordinateTransform
-    """
-    outCrs = QgsCoordinateReferenceSystem(4326)
-    xformer = QgsCoordinateTransform(old_crs, outCrs, QgsProject.instance())
-
-    return xformer
+HELP_DIR = os.path.join(BASE_DIR, "help")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -23,8 +23,44 @@
  *                                                                         *
  ***************************************************************************/
 """
+
 import os.path
+import configparser
+from datetime import datetime
 
-from OhsomeQgis import BASE_DIR
 
-HELP_DIR = os.path.join(BASE_DIR, "help")
+# noinspection PyPep8Naming
+def classFactory(iface):  # pylint: disable=invalid-name
+    """Load OSMtools class from file OS;tools.
+
+    :param iface: A QGIS interface instance.
+    :type iface: QgsInterface
+    """
+
+    from .OhsomeQgisPlugin import OhsomeQgis
+
+    globals()["global_date_status_message"] = "Empty"
+
+    return OhsomeQgis(iface)
+
+
+# Define plugin wide constants
+PLUGIN_NAME = "ohsomeTools"
+DEFAULT_COLOR = "#a8b1f5"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+RESOURCE_PREFIX = ":plugins/ohsomeTools/img/"
+CONFIG_PATH = os.path.join(BASE_DIR, "config.yml")
+
+# Read metadata.txt
+METADATA = configparser.ConfigParser()
+METADATA.read(os.path.join(BASE_DIR, "metadata.txt"), encoding="utf-8")
+today = datetime.today()
+
+__version__ = METADATA["general"]["version"]
+__author__ = METADATA["general"]["author"]
+__email__ = METADATA["general"]["email"]
+__web__ = METADATA["general"]["homepage"]
+__help__ = METADATA["general"]["help"]
+__date__ = today.strftime("%Y-%m-%d")
+__copyright__ = "(C) {} by {}".format(today.year, __author__)

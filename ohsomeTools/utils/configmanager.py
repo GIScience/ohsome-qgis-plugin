@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -23,44 +23,45 @@
  *                                                                         *
  ***************************************************************************/
 """
+import os
 
-import os.path
-import configparser
-from datetime import datetime
+import yaml
+
+from ohsomeTools import CONFIG_PATH
 
 
-# noinspection PyPep8Naming
-def classFactory(iface):  # pylint: disable=invalid-name
-    """Load OSMtools class from file OS;tools.
-
-    :param iface: A QGIS interface instance.
-    :type iface: QgsInterface
+def read_config():
     """
+    Reads config.yml from file and returns the parsed dict.
 
-    from .OhsomeQgisPlugin import OhsomeQgis
+    :returns: Parsed settings dictionary.
+    :rtype: dict
+    """
+    with open(CONFIG_PATH) as f:
+        doc = yaml.safe_load(f)
 
-    globals()["global_date_status_message"] = "Empty"
-
-    return OhsomeQgis(iface)
+    return doc
 
 
-# Define plugin wide constants
-PLUGIN_NAME = "ohsomeTools"
-DEFAULT_COLOR = "#a8b1f5"
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+def write_config(new_config):
+    """
+    Dumps new config
 
-RESOURCE_PREFIX = ":plugins/OhsomeQgis/img/"
-CONFIG_PATH = os.path.join(BASE_DIR, "config.yml")
+    :param new_config: new provider settings after altering in dialog.
+    :type new_config: dict
+    """
+    with open(CONFIG_PATH, "w") as f:
+        yaml.safe_dump(new_config, f)
 
-# Read metadata.txt
-METADATA = configparser.ConfigParser()
-METADATA.read(os.path.join(BASE_DIR, "metadata.txt"), encoding="utf-8")
-today = datetime.today()
 
-__version__ = METADATA["general"]["version"]
-__author__ = METADATA["general"]["author"]
-__email__ = METADATA["general"]["email"]
-__web__ = METADATA["general"]["homepage"]
-__help__ = METADATA["general"]["help"]
-__date__ = today.strftime("%Y-%m-%d")
-__copyright__ = "(C) {} by {}".format(today.year, __author__)
+def write_env_var(key, value):
+    """
+    Update quota env variables
+
+    :param key: environment variable to update.
+    :type key: str
+
+    :param value: value for env variable.
+    :type value: str
+    """
+    os.environ[key] = value

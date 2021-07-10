@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -34,10 +34,10 @@ import requests
 from PyQt5.QtCore import QObject, pyqtSignal
 from qgis._core import Qgis
 
-from OhsomeQgis import __version__
-from OhsomeQgis.common import networkaccessmanager
-from OhsomeQgis.utils import exceptions, logger
-from OhsomeQgis.utils.exceptions import ServiceUnavailable
+from ohsomeTools import __version__
+from ohsomeTools.common import networkaccessmanager
+from ohsomeTools.utils import exceptions, logger
+from ohsomeTools.utils.exceptions import ServiceUnavailable
 
 _USER_AGENT = f"ohsome-qgis-plugin/{__version__}"
 
@@ -99,7 +99,7 @@ class Client(QObject):
         :param post_json: Parameters for POST endpoints
         :type post_json: dict
 
-        :raises OhsomeQgis.utils.exceptions.ApiError: when the API returns an error.
+        :raises ohsomeTools.utils.exceptions.ApiError: when the API returns an error.
 
         :returns: ohsome API response body
         :rtype: dict
@@ -200,17 +200,17 @@ class Client(QObject):
     def _check_status(self):
         """
         Casts JSON response to dict
-        :raises OhsomeQgis.utils.exceptions.BadRequest
-        :raises OhsomeQgis.utils.exceptions.Unauthorized
-        :raises OhsomeQgis.utils.exceptions.NotFound
-        :raises OhsomeQgis.utils.exceptions.MethodNotAllowed
-        :raises OhsomeQgis.utils.exceptions.PayloadTooLarge
-        :raises OhsomeQgis.utils.exceptions.GenericClientError
-        :raises OhsomeQgis.utils.exceptions.InternalServerError
-        :raises OhsomeQgis.utils.exceptions.NotImplemented
-        :raises OhsomeQgis.utils.exceptions.ServiceUnavailable
-        :raises OhsomeQgis.utils.exceptions.GenericServerError
-        :raises OhsomeQgis.utils.exceptions.GenericServerError
+        :raises ohsomeTools.utils.exceptions.BadRequest
+        :raises ohsomeTools.utils.exceptions.Unauthorized
+        :raises ohsomeTools.utils.exceptions.NotFound
+        :raises ohsomeTools.utils.exceptions.MethodNotAllowed
+        :raises ohsomeTools.utils.exceptions.PayloadTooLarge
+        :raises ohsomeTools.utils.exceptions.GenericClientError
+        :raises ohsomeTools.utils.exceptions.InternalServerError
+        :raises ohsomeTools.utils.exceptions.NotImplemented
+        :raises ohsomeTools.utils.exceptions.ServiceUnavailable
+        :raises ohsomeTools.utils.exceptions.GenericServerError
+        :raises ohsomeTools.utils.exceptions.GenericServerError
 
         :returns: response body
         :rtype: dict

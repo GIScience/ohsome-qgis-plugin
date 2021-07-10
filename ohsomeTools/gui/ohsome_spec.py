@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -33,8 +33,8 @@ from qgis._core import (
     QgsWkbTypes,
 )
 
-from OhsomeQgis.utils import exceptions
-from OhsomeQgis.utils.datamanager import (
+from ohsomeTools.utils import exceptions
+from ohsomeTools.utils.datamanager import (
     convert_point_features_to_ohsome_bcircles,
 )
 

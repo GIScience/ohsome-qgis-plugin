@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -27,7 +27,7 @@
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 
-from OhsomeQgis import RESOURCE_PREFIX, PLUGIN_NAME, __version__
+from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
 
 class OhsomeQgisProvider(QgsProcessingProvider):

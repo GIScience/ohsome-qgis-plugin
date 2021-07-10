@@ -11,7 +11,7 @@ def check_list_duplicates(list_widget: QListWidget, item_name: str) -> bool:
     return False
 
 
-from OhsomeQgis.utils import transform
+from ohsomeTools.utils import transform
 
 
 def _get_layer_polygons(layer):

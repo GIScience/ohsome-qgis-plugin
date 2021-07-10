@@ -34,7 +34,7 @@ from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import QgsApplication, QgsNetworkAccessManager, QgsMessageLog
 
 # FIXME: ignored
-from OhsomeQgis.utils import logger
+from ohsomeTools.utils import logger
 
 DEFAULT_MAX_REDIRECTS = 4
 

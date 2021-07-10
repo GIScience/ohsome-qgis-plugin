@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -29,7 +29,7 @@ from PyQt5.QtGui import QCursor, QPixmap
 from PyQt5.QtWidgets import QApplication
 from qgis.gui import QgsMapToolEmitPoint
 
-from OhsomeQgis import RESOURCE_PREFIX
+from ohsomeTools import RESOURCE_PREFIX
 
 
 class PointTool(QgsMapToolEmitPoint):

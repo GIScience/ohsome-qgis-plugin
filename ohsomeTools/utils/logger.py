@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -26,7 +26,7 @@
 
 from qgis.core import QgsMessageLog, Qgis
 
-from OhsomeQgis import PLUGIN_NAME
+from ohsomeTools import PLUGIN_NAME
 
 
 def log(message, level_in=0, tag=PLUGIN_NAME):

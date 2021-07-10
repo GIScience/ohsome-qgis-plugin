@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
- OhsomeQgis
+ ohsomeTools
                                  A QGIS plugin
  QGIS client to query the ohsome API
                               -------------------
@@ -23,45 +23,25 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os
 
-import yaml
+from qgis.core import (
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsProject,
+)
 
-from OhsomeQgis import CONFIG_PATH
 
-
-def read_config():
+def transformToWGS(old_crs):
     """
-    Reads config.yml from file and returns the parsed dict.
+    Returns a transformer to WGS84
 
-    :returns: Parsed settings dictionary.
-    :rtype: dict
+    :param old_crs: CRS to transfrom from
+    :type old_crs: QgsCoordinateReferenceSystem
+
+    :returns: transformer to use in various modules.
+    :rtype: QgsCoordinateTransform
     """
-    with open(CONFIG_PATH) as f:
-        doc = yaml.safe_load(f)
+    outCrs = QgsCoordinateReferenceSystem(4326)
+    xformer = QgsCoordinateTransform(old_crs, outCrs, QgsProject.instance())
 
-    return doc
-
-
-def write_config(new_config):
-    """
-    Dumps new config
-
-    :param new_config: new provider settings after altering in dialog.
-    :type new_config: dict
-    """
-    with open(CONFIG_PATH, "w") as f:
-        yaml.safe_dump(new_config, f)
-
-
-def write_env_var(key, value):
-    """
-    Update quota env variables
-
-    :param key: environment variable to update.
-    :type key: str
-
-    :param value: value for env variable.
-    :type value: str
-    """
-    os.environ[key] = value
+    return xformer

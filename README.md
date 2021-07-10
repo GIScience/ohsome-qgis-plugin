@@ -104,7 +104,7 @@ If it tells you "There is a new update available", just ignore it.
 #### Install manually from GitHub
 
 - [Download](https://github.com/GIScience/ohsome-qgis-plugin/archive/main.zip) ZIP file from GitHub
-- Unzip folder contents and copy `OhsomeQgis` folder to:
+- Unzip folder contents and copy `ohsomeTools` folder to:
     - Linux: `~/.local/share/QGIS/QGIS3/profiles/default/python/plugins`
     - Windows: `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`
     - Mac OS: `Library/Application Support/QGIS/QGIS3/profiles/default/python/plugins`
