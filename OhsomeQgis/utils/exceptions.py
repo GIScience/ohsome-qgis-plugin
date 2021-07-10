@@ -25,7 +25,7 @@
 """
 
 """
-Defines exceptions that are thrown by the ORS client.
+Defines exceptions that are thrown by the ohsome API client.
 """
 
 

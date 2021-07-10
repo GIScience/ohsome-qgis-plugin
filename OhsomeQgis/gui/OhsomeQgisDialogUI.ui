@@ -194,7 +194,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Shortcut to Web ► ORS Tools ► Provider Settings</string>
+            <string>Shortcut to Web ► ohsomeTools ► Provider Settings</string>
            </property>
            <property name="text">
             <string/>

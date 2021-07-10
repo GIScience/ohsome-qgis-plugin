@@ -43,7 +43,7 @@ _USER_AGENT = f"ohsome-qgis-plugin/{__version__}"
 
 
 class Client(QObject):
-    """Performs requests to the ORS API services."""
+    """Performs requests to the ohsome API services."""
 
     def __init__(self, provider=None, retry_timeout=60):
         """

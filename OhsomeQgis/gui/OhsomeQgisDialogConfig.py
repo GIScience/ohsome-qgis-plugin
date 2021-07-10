@@ -91,7 +91,7 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
         self._collapse_boxes()
         # Show quick user input dialog
         provider_name, ok = QInputDialog.getText(
-            self, "New ORS provider", "Enter a name for the provider"
+            self, "New ohsome API provider", "Enter a name for the provider"
         )
         if ok:
             self._add_box(provider_name, "https://", new=True)
@@ -105,7 +105,7 @@ class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeQgisDialogConfigBase):
 
         provider, ok = QInputDialog.getItem(
             self,
-            "Remove ORS provider",
+            "Remove ohsome API provider",
             "Choose provider to remove",
             providers,
             0,

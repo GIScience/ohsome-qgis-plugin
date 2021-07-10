@@ -1047,7 +1047,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.provider_config.setToolTip(
             _translate(
                 "OhsomeQgisDialogBase",
-                "Shortcut to Web ► ORS Tools ► Provider Settings",
+                "Shortcut to Web ► ohsomeTools ► Provider Settings",
             )
         )
         self.ohsome_spec_selection_combo.setToolTip(
