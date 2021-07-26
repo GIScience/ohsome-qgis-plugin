@@ -43,7 +43,7 @@ class OhsomeQgis:
             application at run time.
         :type iface: QgsInterface
         """
-        self.dialog = OhsomeToolsDialog.OhsomeQgisDialogMain(iface)
+        self.dialog = OhsomeToolsDialog.OhsomeToolsDialogMain(iface)
         self.provider = provider.OhsomeQgisProvider()
 
     def initGui(self):

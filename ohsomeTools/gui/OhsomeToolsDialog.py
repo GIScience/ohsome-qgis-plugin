@@ -120,7 +120,7 @@ def on_about_click(parent):
     QMessageBox.information(parent, "About {}".format(PLUGIN_NAME), info)
 
 
-class OhsomeQgisDialogMain:
+class OhsomeToolsDialogMain:
     """Defines all mandatory QGIS things about dialog."""
 
     def __init__(self, iface):
