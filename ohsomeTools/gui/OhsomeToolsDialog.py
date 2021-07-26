@@ -236,15 +236,19 @@ class OhsomeToolsDialogMain:
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
-        self.dlg.provider_combo.currentIndexChanged.disconnect(
-            self.dlg.set_temporal_extent
-        )
-        self.dlg.provider_combo.clear()
-        for provider in providers:
-            self.dlg.provider_combo.addItem(provider["name"], provider)
-        self.dlg.provider_combo.currentIndexChanged.connect(
-            self.dlg.set_temporal_extent
-        )
+        try:
+            self.dlg.provider_combo.currentIndexChanged.disconnect(
+                self.dlg.set_temporal_extent
+            )
+            self.dlg.provider_combo.clear()
+            for provider in providers:
+                self.dlg.provider_combo.addItem(provider["name"], provider)
+            self.dlg.provider_combo.currentIndexChanged.connect(
+                self.dlg.set_temporal_extent
+            )
+        except AttributeError as err:
+            logger.log("{}: {}".format(err.__class__.__name__, str(err)), 1)
+
         self.dlg.set_temporal_extent()
         self.dlg.filter_input.clearFocus()
         self.dlg.show()
