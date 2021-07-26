@@ -82,7 +82,7 @@ from ohsomeTools.common import (
 from ohsomeTools.gui import ohsome_spec
 
 from .OhsomeToolsDialogUI import Ui_OhsomeToolsDialogBase
-from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
+from .OhsomeToolsDialogConfig import OhsomeToolsDialogConfigMain
 from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
 
@@ -93,7 +93,7 @@ def on_config_click(parent):
     :param parent: Sets parent window for modality.
     :type parent: QDialog
     """
-    config_dlg = OhsomeQgisDialogConfigMain(parent=parent)
+    config_dlg = OhsomeToolsDialogConfigMain(parent=parent)
     config_dlg.exec_()
 
 

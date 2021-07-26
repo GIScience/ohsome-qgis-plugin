@@ -34,7 +34,7 @@ from .OhsomeToolsDialogConfigUI import Ui_OhsomeToolsDialogConfigBase
 from ohsomeTools.utils import configmanager
 
 
-class OhsomeQgisDialogConfigMain(QDialog, Ui_OhsomeToolsDialogConfigBase):
+class OhsomeToolsDialogConfigMain(QDialog, Ui_OhsomeToolsDialogConfigBase):
     """Builds provider config dialog."""
 
     def __init__(self, parent=None):
