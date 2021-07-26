@@ -37,11 +37,11 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
 
-    from .OhsomeQgisPlugin import OhsomeQgis
+    from .OhsomeToolsPlugin import OhsomeTools
 
     globals()["global_date_status_message"] = "Empty"
 
-    return OhsomeQgis(iface)
+    return OhsomeTools(iface)
 
 
 # Define plugin wide constants

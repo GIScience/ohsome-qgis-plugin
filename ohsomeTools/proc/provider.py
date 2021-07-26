@@ -30,7 +30,7 @@ from qgis.core import QgsProcessingProvider
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
 
-class OhsomeQgisProvider(QgsProcessingProvider):
+class OhsomeToolsProvider(QgsProcessingProvider):
     def __init__(self):
         QgsProcessingProvider.__init__(self)
 

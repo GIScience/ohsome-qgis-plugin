@@ -30,7 +30,7 @@ from .gui import OhsomeToolsDialog
 from .proc import provider
 
 
-class OhsomeQgis:
+class OhsomeTools:
     """QGIS Plugin Implementation."""
 
     # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
@@ -44,7 +44,7 @@ class OhsomeQgis:
         :type iface: QgsInterface
         """
         self.dialog = OhsomeToolsDialog.OhsomeToolsDialogMain(iface)
-        self.provider = provider.OhsomeQgisProvider()
+        self.provider = provider.OhsomeToolsProvider()
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
