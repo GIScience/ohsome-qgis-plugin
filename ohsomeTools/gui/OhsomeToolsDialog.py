@@ -81,7 +81,7 @@ from ohsomeTools.common import (
 )
 from ohsomeTools.gui import ohsome_spec
 
-from .OhsomeQgisDialogUI import Ui_OhsomeToolsDialogBase
+from .OhsomeToolsDialogUI import Ui_OhsomeToolsDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
 from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
