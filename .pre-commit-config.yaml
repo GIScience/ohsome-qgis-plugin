@@ -32,7 +32,7 @@ repos:
         exclude: |
           (?x)(
               ^test/* |
-              ^OhsomeQgis/* |
+              ^ohsomeTools/* |
               ^docs/*
           )
         args:

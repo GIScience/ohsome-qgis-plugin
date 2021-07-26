@@ -21,7 +21,7 @@ jobs:
       - name: Get debug value
         id: debug_value
         run:  |
-          echo ::set-output name=DEBUG_SWITCH::$(grep -A0 'debug:' OhsomeQgis/config.yml | tail -n1 | awk '{ print $2}')
+          echo ::set-output name=DEBUG_SWITCH::$(grep -A0 'debug:' ohsomeTools/config.yml | tail -n1 | awk '{ print $2}')
         shell: bash
       - name: Fail if debug not false
         run: exit 1

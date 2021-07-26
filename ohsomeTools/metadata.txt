@@ -1,0 +1,30 @@
+[general]
+name=ohsomeTools
+qgisMinimumVersion=3.14
+description=ohsome API, spatial and temporal OSM requests for QGIS
+
+version=0.1.1-alpha
+author=HeiGIT gGmbH
+email=ohsome@heigit.org
+
+about=ohsomeTools provides access to the ohsome API.
+
+changelog=YYYY/MM/DD v1.X.X
+    Added:
+    Fixed:
+    Removed:
+
+
+tracker=https://github.com/GIScience/ohsome-qgis-plugin/issues
+repository=https://github.com/GIScience/ohsome-qgis-plugin.git
+help=https://github.com/GIScience/ohsome-qgis-plugin/wiki/
+
+homepage=https://github.com/GIScience/ohsome-qgis-plugin/wiki
+category=Web
+icon=gui/img/icon_ohsome.png
+experimental=False
+hasProcessingProvider=yes
+
+deprecated=False
+
+tags=ohsome, OSM, openstreetmap, temporal, processing, hex
