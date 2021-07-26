@@ -81,7 +81,7 @@ from ohsomeTools.common import (
 )
 from ohsomeTools.gui import ohsome_spec
 
-from .OhsomeQgisDialogUI import Ui_OhsomeQgisDialogBase
+from .OhsomeQgisDialogUI import Ui_OhsomeToolsDialogBase
 from .OhsomeQgisDialogConfig import OhsomeQgisDialogConfigMain
 from ..common.request_core import ExtractionTaskFunction
 from ..utils.datamanager import check_list_duplicates
@@ -213,7 +213,7 @@ class OhsomeQgisDialogMain:
         # If not checked, GUI would be rebuilt every time!
         if self.first_start:
             self.first_start = False
-            self.dlg = OhsomeQgisDialog(
+            self.dlg = OhsomeToolsDialog(
                 self.iface, self.iface.mainWindow()
             )  # setting parent enables modal view
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
@@ -427,7 +427,7 @@ class OhsomeQgisDialogMain:
                 return
 
 
-class OhsomeQgisDialog(QDialog, Ui_OhsomeQgisDialogBase):
+class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
     """Define the custom behaviour of Dialog"""
 
     def __init__(self, iface, parent=None):

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OhsomeQgisDialogBase</class>
- <widget class="QDialog" name="OhsomeQgisDialogBase">
+ <class>OhsomeToolsDialogBase</class>
+ <widget class="QDialog" name="OhsomeToolsDialogBase">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -1570,7 +1570,7 @@
   <connection>
    <sender>global_buttons</sender>
    <signal>accepted()</signal>
-   <receiver>OhsomeQgisDialogBase</receiver>
+   <receiver>OhsomeToolsDialogBase</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1586,7 +1586,7 @@
   <connection>
    <sender>global_buttons</sender>
    <signal>rejected()</signal>
-   <receiver>OhsomeQgisDialogBase</receiver>
+   <receiver>OhsomeToolsDialogBase</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

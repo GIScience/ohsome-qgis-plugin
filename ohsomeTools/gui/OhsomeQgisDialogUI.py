@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ohsomeTools/gui/OhsomeQgisDialogUI.ui'
+# Form implementation generated from reading ui file 'OhsomeQgisDialogUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,26 +11,26 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_OhsomeQgisDialogBase(object):
-    def setupUi(self, OhsomeQgisDialogBase):
-        OhsomeQgisDialogBase.setObjectName("OhsomeQgisDialogBase")
-        OhsomeQgisDialogBase.resize(462, 1416)
+class Ui_OhsomeToolsDialogBase(object):
+    def setupUi(self, OhsomeToolsDialogBase):
+        OhsomeToolsDialogBase.setObjectName("OhsomeToolsDialogBase")
+        OhsomeToolsDialogBase.resize(462, 1416)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            OhsomeQgisDialogBase.sizePolicy().hasHeightForWidth()
+            OhsomeToolsDialogBase.sizePolicy().hasHeightForWidth()
         )
-        OhsomeQgisDialogBase.setSizePolicy(sizePolicy)
-        OhsomeQgisDialogBase.setSizeGripEnabled(True)
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(OhsomeQgisDialogBase)
+        OhsomeToolsDialogBase.setSizePolicy(sizePolicy)
+        OhsomeToolsDialogBase.setSizeGripEnabled(True)
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(OhsomeToolsDialogBase)
         self.verticalLayout_5.setSizeConstraint(
             QtWidgets.QLayout.SetMinAndMaxSize
         )
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.resources_group = QtWidgets.QGroupBox(OhsomeQgisDialogBase)
+        self.resources_group = QtWidgets.QGroupBox(OhsomeToolsDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -77,7 +77,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.hex_label.setObjectName("hex_label")
         self.horizontalLayout_3.addWidget(self.hex_label)
         self.verticalLayout_5.addWidget(self.resources_group)
-        self.groupBox_4 = QtWidgets.QGroupBox(OhsomeQgisDialogBase)
+        self.groupBox_4 = QtWidgets.QGroupBox(OhsomeToolsDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -185,7 +185,7 @@ class Ui_OhsomeQgisDialogBase(object):
         )
         self.gridLayout_2.addWidget(self.frame_3, 2, 0, 1, 1)
         self.verticalLayout_5.addWidget(self.groupBox_4)
-        self.request_types_widget = QtWidgets.QTabWidget(OhsomeQgisDialogBase)
+        self.request_types_widget = QtWidgets.QTabWidget(OhsomeToolsDialogBase)
         self.request_types_widget.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
@@ -526,7 +526,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.request_types_widget.addTab(self.polygon_layer_tab, "")
         self.verticalLayout_5.addWidget(self.request_types_widget)
         self.configuration_group_box = gui.QgsCollapsibleGroupBox(
-            OhsomeQgisDialogBase
+            OhsomeToolsDialogBase
         )
         self.configuration_group_box.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -861,7 +861,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.verticalLayout_9.addWidget(self.group_by_frame)
         self.verticalLayout_4.addWidget(self.data_aggregation_group)
         self.verticalLayout_5.addWidget(self.configuration_group_box)
-        self.filter_frame = QtWidgets.QFrame(OhsomeQgisDialogBase)
+        self.filter_frame = QtWidgets.QFrame(OhsomeToolsDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
         )
@@ -904,7 +904,9 @@ class Ui_OhsomeQgisDialogBase(object):
         self.filter_input.setObjectName("filter_input")
         self.horizontalLayout_6.addWidget(self.filter_input)
         self.verticalLayout_5.addWidget(self.filter_frame)
-        self.ohsome_log_group = gui.QgsCollapsibleGroupBox(OhsomeQgisDialogBase)
+        self.ohsome_log_group = gui.QgsCollapsibleGroupBox(
+            OhsomeToolsDialogBase
+        )
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -943,7 +945,7 @@ class Ui_OhsomeQgisDialogBase(object):
         self.debug_text.setObjectName("debug_text")
         self.verticalLayout_2.addWidget(self.debug_text)
         self.verticalLayout_5.addWidget(self.ohsome_log_group)
-        self.control_widget = QtWidgets.QWidget(OhsomeQgisDialogBase)
+        self.control_widget = QtWidgets.QWidget(OhsomeToolsDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
         )
@@ -1002,388 +1004,388 @@ class Ui_OhsomeQgisDialogBase(object):
         self.groupBox_4.raise_()
         self.filter_frame.raise_()
 
-        self.retranslateUi(OhsomeQgisDialogBase)
+        self.retranslateUi(OhsomeToolsDialogBase)
         self.request_types_widget.setCurrentIndex(0)
-        self.global_buttons.accepted.connect(OhsomeQgisDialogBase.accept)
-        self.global_buttons.rejected.connect(OhsomeQgisDialogBase.reject)
-        QtCore.QMetaObject.connectSlotsByName(OhsomeQgisDialogBase)
+        self.global_buttons.accepted.connect(OhsomeToolsDialogBase.accept)
+        self.global_buttons.rejected.connect(OhsomeToolsDialogBase.reject)
+        QtCore.QMetaObject.connectSlotsByName(OhsomeToolsDialogBase)
 
-    def retranslateUi(self, OhsomeQgisDialogBase):
+    def retranslateUi(self, OhsomeToolsDialogBase):
         _translate = QtCore.QCoreApplication.translate
-        OhsomeQgisDialogBase.setWindowTitle(
-            _translate("OhsomeQgisDialogBase", "ohsomeTools")
+        OhsomeToolsDialogBase.setWindowTitle(
+            _translate("OhsomeToolsDialogBase", "ohsomeTools")
         )
         self.resources_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "Resources")
+            _translate("OhsomeToolsDialogBase", "Resources")
         )
         self.api_label.setText(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p><a href="https://docs.ohsome.org/ohsome-api/stable/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">API DOCS</span></a></p></body></html>',
             )
         )
         self.ohsome_label.setText(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p><a href="https://heigit.org/big-spatial-data-analytics-en/ohsome/"><span style=" font-size:14pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">OHSOME</span></a></p></body></html>',
             )
         )
         self.hex_label.setText(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p><a href="https://ohsome.org/apps/osm-history-explorer/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">HEX</span></a></p></body></html>',
             )
         )
         self.groupBox_4.setTitle(
-            _translate("OhsomeQgisDialogBase", "Endpoint Selections")
+            _translate("OhsomeToolsDialogBase", "Endpoint Selections")
         )
-        self.label_15.setText(_translate("OhsomeQgisDialogBase", "Provider"))
+        self.label_15.setText(_translate("OhsomeToolsDialogBase", "Provider"))
         self.provider_refresh.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "Refresh the provider list. Needed after a provider was added or deleted.",
             )
         )
         self.provider_config.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "Shortcut to Web ► ohsomeTools ► Provider Settings",
             )
         )
         self.ohsome_spec_selection_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "ohsome API Endpoint")
+            _translate("OhsomeToolsDialogBase", "ohsome API Endpoint")
         )
         self.ohsome_spec_preference_combo.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Request preference")
+            _translate("OhsomeToolsDialogBase", "Request preference")
         )
         self.ohsome_spec_preference_combo.setPlaceholderText(
-            _translate("OhsomeQgisDialogBase", "Spec")
+            _translate("OhsomeToolsDialogBase", "Spec")
         )
         self.ohsome_spec_preference_specification.setToolTip(
-            _translate("OhsomeQgisDialogBase", "Request preference")
+            _translate("OhsomeToolsDialogBase", "Request preference")
         )
         self.centroid_radius_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
             )
         )
         self.ohsome_centroid_location_list.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "Select centroids from the map with the given radius!",
             )
         )
         self.centroid_list_point_add.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Add centroids interactively from the map canvas.</p><p>Double-click will terminate centroid selection.</p></body></html>",
             )
         )
         self.centroid_list_point_clear.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>If centroids are selected in the list, only these will be deleted. Else all centroids will be deleted.</p></body></html>",
             )
         )
         self.centroid_radius_label.setText(
-            _translate("OhsomeQgisDialogBase", "Radius")
+            _translate("OhsomeToolsDialogBase", "Radius")
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.centroid_tab),
-            _translate("OhsomeQgisDialogBase", "Centroid"),
+            _translate("OhsomeToolsDialogBase", "Centroid"),
         )
         self.point_layer_list.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase", "Select layers from your layer list!"
+                "OhsomeToolsDialogBase", "Select layers from your layer list!"
             )
         )
         self.point_layer_list_remove.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>",
             )
         )
         self.point_layer_list_add.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
             )
         )
         self.point_layer_radius_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
             )
         )
         self.point_layer_radius_label.setText(
-            _translate("OhsomeQgisDialogBase", "Radius")
+            _translate("OhsomeToolsDialogBase", "Radius")
         )
         self.point_layer_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
             )
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.point_layer_tab),
-            _translate("OhsomeQgisDialogBase", "Point Layer"),
+            _translate("OhsomeToolsDialogBase", "Point Layer"),
         )
         self.layer_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
             )
         )
         self.layer_list.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase", "Select layers from your layer list!"
+                "OhsomeToolsDialogBase", "Select layers from your layer list!"
             )
         )
         self.layer_list_remove.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>",
             )
         )
         self.layer_list_add.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
             )
         )
         self.request_types_widget.setTabText(
             self.request_types_widget.indexOf(self.polygon_layer_tab),
-            _translate("OhsomeQgisDialogBase", "Polygon layer"),
+            _translate("OhsomeToolsDialogBase", "Polygon layer"),
         )
         self.configuration_group_box.setTitle(
-            _translate("OhsomeQgisDialogBase", "Configuration")
+            _translate("OhsomeToolsDialogBase", "Configuration")
         )
         self.general_options_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "General")
+            _translate("OhsomeToolsDialogBase", "General")
         )
         self.check_activate_temporal.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Automatically enable the temporal feature for new layers where applicable.</p><p><br/></p><p>This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</p></body></html>",
             )
         )
         self.check_activate_temporal.setText(
-            _translate("OhsomeQgisDialogBase", "Qgis temporal feature")
+            _translate("OhsomeToolsDialogBase", "Qgis temporal feature")
         )
         self.check_show_metadata.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</p></body></html>",
             )
         )
         self.check_show_metadata.setText(
-            _translate("OhsomeQgisDialogBase", "Show metadata")
+            _translate("OhsomeToolsDialogBase", "Show metadata")
         )
         self.check_merge_geometries.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Check this to <span style=" text-decoration: underline;">automatically merge compatible geometry types</span>. </p><p><span style=" text-decoration: underline;">It is recommended to keep this checked.</span></p><p>The benefit is that the amount of written layers will be massively reduced.</p><p>The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. </p><p><br/></p></body></html>',
             )
         )
         self.check_merge_geometries.setText(
-            _translate("OhsomeQgisDialogBase", "Harmonize geometries")
+            _translate("OhsomeToolsDialogBase", "Harmonize geometries")
         )
         self.timeout_label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.</p></body></html>',
             )
         )
         self.timeout_label.setText(
-            _translate("OhsomeQgisDialogBase", "Timeout")
+            _translate("OhsomeToolsDialogBase", "Timeout")
         )
         self.timeout_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public ohsome API and not for private ones.</p></body></html>',
             )
         )
         self.intervals_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "Intervals")
+            _translate("OhsomeToolsDialogBase", "Intervals")
         )
         self.date_start.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">8th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
             )
         )
         self.date_start.setDisplayFormat(
-            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
+            _translate("OhsomeToolsDialogBase", "dd-MM-yyyy")
         )
         self.interval_months.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Run the query every x months. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
             )
         )
-        self.label_months.setText(_translate("OhsomeQgisDialogBase", "Months"))
-        self.label_years.setText(_translate("OhsomeQgisDialogBase", "Years"))
+        self.label_months.setText(_translate("OhsomeToolsDialogBase", "Months"))
+        self.label_years.setText(_translate("OhsomeToolsDialogBase", "Years"))
         self.interval_days.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Run the query every x days. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
             )
         )
         self.date_end_label.setText(
-            _translate("OhsomeQgisDialogBase", "Date End")
+            _translate("OhsomeToolsDialogBase", "Date End")
         )
         self.date_start_label.setText(
-            _translate("OhsomeQgisDialogBase", "Date Start")
+            _translate("OhsomeToolsDialogBase", "Date Start")
         )
-        self.label_days.setText(_translate("OhsomeQgisDialogBase", "Days"))
+        self.label_days.setText(_translate("OhsomeToolsDialogBase", "Days"))
         self.date_end.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Enter your end date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">9th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
             )
         )
         self.date_end.setDisplayFormat(
-            _translate("OhsomeQgisDialogBase", "dd-MM-yyyy")
+            _translate("OhsomeToolsDialogBase", "dd-MM-yyyy")
         )
         self.interval_years.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p><p>Only available for the data aggregation endpoints.</p></body></html>',
             )
         )
         self.property_groups_box.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>List of possible property-groups added to each OSM-element.</p><p>Only available for data extraction.</p></body></html>",
             )
         )
         self.property_groups_box.setTitle(
-            _translate("OhsomeQgisDialogBase", "Data extraction")
+            _translate("OhsomeToolsDialogBase", "Data extraction")
         )
         self.check_clip_geometry.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.</p><p><span style=" text-decoration: underline;">Ony available for the data extraction endpoints</span>.</p></body></html>',
             )
         )
         self.check_clip_geometry.setText(
-            _translate("OhsomeQgisDialogBase", "Clip Geometry")
+            _translate("OhsomeToolsDialogBase", "Clip Geometry")
         )
         self.check_keep_geometryless.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Some results don't contain geometries but metadata.</p><p>Decide if you wan't to keep them or only return ones with geometries.</p><p>If checked, the geometry less features will be stored separately.</p></body></html>",
             )
         )
         self.check_keep_geometryless.setText(
-            _translate("OhsomeQgisDialogBase", "Keep without geometry")
+            _translate("OhsomeToolsDialogBase", "Keep without geometry")
         )
         self.property_groups_groupbox.setTitle(
-            _translate("OhsomeQgisDialogBase", "Property Groups")
+            _translate("OhsomeToolsDialogBase", "Property Groups")
         )
         self.property_groups_check_metadata.setText(
-            _translate("OhsomeQgisDialogBase", "Metadata")
+            _translate("OhsomeToolsDialogBase", "Metadata")
         )
         self.property_groups_check_tags.setText(
-            _translate("OhsomeQgisDialogBase", "Tags")
+            _translate("OhsomeToolsDialogBase", "Tags")
         )
         self.data_aggregation_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "Data aggregation")
+            _translate("OhsomeToolsDialogBase", "Data aggregation")
         )
         self.label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
             )
         )
-        self.label.setText(_translate("OhsomeQgisDialogBase", "Format"))
+        self.label.setText(_translate("OhsomeToolsDialogBase", "Format"))
         self.data_aggregation_format.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
             )
         )
         self.group_by_keys_label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
             )
         )
         self.group_by_keys_label.setText(
-            _translate("OhsomeQgisDialogBase", "groupByKey")
+            _translate("OhsomeToolsDialogBase", "groupByKey")
         )
         self.group_by_key_line_edit.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` and `groupBy/key` endpoints.</span></p></body></html>",
             )
         )
         self.group_by_key_line_edit.setPlaceholderText(
-            _translate("OhsomeQgisDialogBase", "building")
+            _translate("OhsomeToolsDialogBase", "building")
         )
         self.group_by_values_label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
             )
         )
         self.group_by_values_label.setText(
-            _translate("OhsomeQgisDialogBase", "groupByValues")
+            _translate("OhsomeToolsDialogBase", "groupByValues")
         )
         self.group_by_values_line_edit.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
             )
         )
         self.filter2_input_label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value</p><p><span style=" text-decoration: underline;">Only for `ratio` endpoints.</span></p></body></html>',
             )
         )
         self.filter2_input_label.setText(
-            _translate("OhsomeQgisDialogBase", "Filter 2")
+            _translate("OhsomeToolsDialogBase", "Filter 2")
         )
         self.filter2_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value</p><p><span style=" text-decoration: underline;">Only for `ratio` endpoints.</span></p></body></html>',
             )
         )
         self.filter_label.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
             )
         )
         self.filter_label.setText(
-            _translate("OhsomeQgisDialogBase", "Filter  ")
+            _translate("OhsomeToolsDialogBase", "Filter  ")
         )
         self.filter_input.setToolTip(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
             )
         )
         self.filter_input.setPlaceholderText(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "building=* or (type:way and highway=residential)",
             )
         )
         self.ohsome_log_group.setTitle(
-            _translate("OhsomeQgisDialogBase", "Log")
+            _translate("OhsomeToolsDialogBase", "Log")
         )
         self.debug_text.setPlaceholderText(
             _translate(
-                "OhsomeQgisDialogBase",
+                "OhsomeToolsDialogBase",
                 "Queries and errors will be printed here.",
             )
         )
-        self.help_button.setText(_translate("OhsomeQgisDialogBase", "  Help"))
-        self.about_button.setText(_translate("OhsomeQgisDialogBase", "About"))
+        self.help_button.setText(_translate("OhsomeToolsDialogBase", "  Help"))
+        self.about_button.setText(_translate("OhsomeToolsDialogBase", "About"))
 
 
 from qgis import gui
