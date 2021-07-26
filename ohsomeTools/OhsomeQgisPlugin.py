@@ -26,7 +26,7 @@
 
 from qgis.core import QgsApplication
 
-from .gui import OhsomeQgisDialog
+from .gui import OhsomeToolsDialog
 from .proc import provider
 
 
@@ -43,7 +43,7 @@ class OhsomeQgis:
             application at run time.
         :type iface: QgsInterface
         """
-        self.dialog = OhsomeQgisDialog.OhsomeQgisDialogMain(iface)
+        self.dialog = OhsomeToolsDialog.OhsomeQgisDialogMain(iface)
         self.provider = provider.OhsomeQgisProvider()
 
     def initGui(self):
