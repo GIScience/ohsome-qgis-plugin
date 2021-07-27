@@ -8,12 +8,4 @@
         <author_name>Julian Psotta</author_name>
         <download_url>https://github.com/GIScience/ohsome-qgis-plugin/releases/download/v0.2.0-alpha/ohsomeTools.zip</download_url>
     </pyqgis_plugin>
-    <pyqgis_plugin name="ohsomeTools" version="0.1.1-alpha">
-        <description>ohsomeTools alpha version</description>
-        <homepage>https://github.com/GIScience/ohsome-qgis-plugin/</homepage>
-        <qgis_minimum_version>3.14</qgis_minimum_version>
-        <file_name>OhsomeQgis.zip</file_name>
-        <author_name>Julian Psotta</author_name>
-        <download_url>https://github.com/GIScience/ohsome-qgis-plugin/releases/download/v0.1.1-alpha/OhsomeQgis.zip</download_url>
-    </pyqgis_plugin>
 </plugins>
