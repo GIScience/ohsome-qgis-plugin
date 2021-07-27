@@ -3,17 +3,21 @@ name=ohsomeTools
 qgisMinimumVersion=3.14
 description=ohsome API, spatial and temporal OSM requests for QGIS
 
-version=0.1.1-alpha
+version=0.2.0-alpha
 author=HeiGIT gGmbH
 email=ohsome@heigit.org
 
 about=ohsomeTools provides access to the ohsome API.
 
-changelog=YYYY/MM/DD v1.X.X
+changelog=2021/07/27 v0.2.0-alpha
     Added:
+    - Add filter help button
+    - New Logo
+    - Plugin renaming from OhsomeQgis to ohsomeTools
     Fixed:
-    Removed:
-
+    - Fix old release URL
+    - Fix bug when no providers are available. The plugin would normally crash.
+    Removed: None
 
 tracker=https://github.com/GIScience/ohsome-qgis-plugin/issues
 repository=https://github.com/GIScience/ohsome-qgis-plugin.git
