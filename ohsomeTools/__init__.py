@@ -62,5 +62,6 @@ __author__ = METADATA["general"]["author"]
 __email__ = METADATA["general"]["email"]
 __web__ = METADATA["general"]["homepage"]
 __help__ = METADATA["general"]["help"]
+__filter_help__ = METADATA["general"]["filter_help"]
 __date__ = today.strftime("%Y-%m-%d")
 __copyright__ = "(C) {} by {}".format(today.year, __author__)
