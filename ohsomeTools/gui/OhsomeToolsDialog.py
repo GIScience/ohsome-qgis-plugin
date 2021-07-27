@@ -267,9 +267,20 @@ class OhsomeToolsDialogMain:
 
         # Clean the debug text
         self.dlg.debug_text.setText(f">>> New ohsome API query started <<<")
-
-        provider_id = self.dlg.provider_combo.currentIndex()
-        provider = configmanager.read_config()["providers"][provider_id]
+        try:
+            provider_id = self.dlg.provider_combo.currentIndex()
+            provider = configmanager.read_config()["providers"][provider_id]
+        except IndexError:
+            msg = "Request aborted. No provider available. Please check your provider list.\n"
+            logger.log(msg, 1)
+            self.dlg.debug_text.setText(msg)
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                msg,
+                level=Qgis.Warning,
+                duration=5,
+            )
+            return
 
         if provider["base_url"].startswith("https://api.ohsome.org"):
             msg = "Using the public API. Rate limits may apply."
@@ -599,11 +610,13 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
             self.filter2_input.setStyleSheet("border: 1px solid green")
 
     def set_temporal_extent(self):
-        provider_id = self.provider_combo.currentIndex()
-        provider = configmanager.read_config()["providers"][provider_id]
-        clnt = client.Client(provider)
+        start_date = self.date_start.dateTime()
+        end_date = self.date_end.dateTime()
         metadata = None
         try:
+            provider_id = self.provider_combo.currentIndex()
+            provider = configmanager.read_config()["providers"][provider_id]
+            clnt = client.Client(provider)
             metadata = clnt.check_api_metadata(self._iface)
             if (
                 metadata.get("extractRegion")
@@ -644,6 +657,29 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
                     )
             else:
                 end_date = self.date_end.dateTime()
+            self.debug_text.setText(
+                f"API success: The API {clnt.url} could be reached. Metadata set.\n"
+            )
+        except IndexError:
+            msg = (
+                "No providers found. Are providers available in your provider list?\n"
+                "Clicking the refresh button could help.\n"
+            )
+            logger.log(msg, 1)
+            self.debug_text.setText(msg)
+        except Exception as e:
+            if metadata is False:
+                msg = (
+                    f"API error: The API couldn't be reached. Check your connection.\n"
+                    f"Metadata error: Date ranges couldn't be fetched automatically. Defaults are used which may "
+                    "not cover the dates correctly.\n"
+                )
+                self.debug_text.setText(msg)
+            else:
+                msg = [e.__class__.__name__, str(e)]
+                logger.log("{}: {}".format(*msg), 2)
+                self.debug_text.setText(msg)
+        finally:
             tooltip = f'<html><head/><body><p>Enter your end date. </p><p>All dates from {start_date.toString("yyyy-MM-dd")} until {end_date.toString("yyyy-MM-dd")} are valid.</p></body></html>'
             self.date_end.setDateTime(end_date)
             self.date_end.setMaximumDateTime(end_date)
@@ -653,21 +689,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
             self.date_start.setMaximumDateTime(end_date)
             self.date_start.setMinimumDateTime(start_date)
             self.date_start.setToolTip(tooltip)
-            self.debug_text.setText(
-                f"API success: The API {clnt.url} could be reached. Metadata set.\n"
-            )
-        except Exception as e:
-            if metadata is False:
-                msg = (
-                    f"API error: The API {clnt.url} couldn't be reached. Check your connection.\n"
-                    f"Metadata error: Date ranges couldn't be fetched automatically. Defaults are used which may "
-                    "not cover the dates correctly.\n"
-                )
-                self.debug_text.setText(msg)
-            else:
-                msg = [e.__class__.__name__, str(e)]
-                logger.log("{}: {}".format(*msg), 2)
-                self.debug_text.setText(msg)
 
     def _on_prov_refresh_click(self):
         """Populates provider dropdown with fresh list from config.yml"""
