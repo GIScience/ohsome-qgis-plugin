@@ -24,6 +24,7 @@ class Ui_OhsomeToolsDialogBase(object):
             OhsomeToolsDialogBase.sizePolicy().hasHeightForWidth()
         )
         OhsomeToolsDialogBase.setSizePolicy(sizePolicy)
+        OhsomeToolsDialogBase.setToolTipDuration(-1)
         OhsomeToolsDialogBase.setSizeGripEnabled(True)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(OhsomeToolsDialogBase)
         self.verticalLayout_5.setSizeConstraint(
@@ -876,7 +877,15 @@ class Ui_OhsomeToolsDialogBase(object):
         self.filter_frame.setObjectName("filter_frame")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.filter_frame)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.filter_label = QtWidgets.QLabel(self.filter_frame)
+        self.frame_9 = QtWidgets.QFrame(self.filter_frame)
+        self.frame_9.setMinimumSize(QtCore.QSize(0, 0))
+        self.frame_9.setMaximumSize(QtCore.QSize(90, 16777215))
+        self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_9.setObjectName("frame_9")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_9)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.filter_label = QtWidgets.QLabel(self.frame_9)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
         )
@@ -887,7 +896,28 @@ class Ui_OhsomeToolsDialogBase(object):
         )
         self.filter_label.setSizePolicy(sizePolicy)
         self.filter_label.setObjectName("filter_label")
-        self.horizontalLayout_6.addWidget(self.filter_label)
+        self.horizontalLayout_4.addWidget(self.filter_label)
+        self.filter_help = QtWidgets.QPushButton(self.frame_9)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum
+        )
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.filter_help.sizePolicy().hasHeightForWidth()
+        )
+        self.filter_help.setSizePolicy(sizePolicy)
+        self.filter_help.setText("")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(
+            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_help.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
+        self.filter_help.setIcon(icon4)
+        self.filter_help.setObjectName("filter_help")
+        self.horizontalLayout_4.addWidget(self.filter_help)
+        self.horizontalLayout_6.addWidget(self.frame_9)
         self.filter_input = QtWidgets.QPlainTextEdit(self.filter_frame)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.MinimumExpanding,
@@ -899,7 +929,8 @@ class Ui_OhsomeToolsDialogBase(object):
             self.filter_input.sizePolicy().hasHeightForWidth()
         )
         self.filter_input.setSizePolicy(sizePolicy)
-        self.filter_input.setMaximumSize(QtCore.QSize(331, 101))
+        self.filter_input.setMaximumSize(QtCore.QSize(360, 101))
+        self.filter_input.setToolTipDuration(-1)
         self.filter_input.setPlainText("")
         self.filter_input.setObjectName("filter_input")
         self.horizontalLayout_6.addWidget(self.filter_input)
@@ -968,12 +999,6 @@ class Ui_OhsomeToolsDialogBase(object):
             self.help_button.sizePolicy().hasHeightForWidth()
         )
         self.help_button.setSizePolicy(sizePolicy)
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(
-            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_help.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
         self.help_button.setIcon(icon4)
         self.help_button.setObjectName("help_button")
         self.horizontalLayout_8.addWidget(self.help_button)
@@ -1362,6 +1387,12 @@ class Ui_OhsomeToolsDialogBase(object):
         )
         self.filter_label.setText(
             _translate("OhsomeToolsDialogBase", "Filter  ")
+        )
+        self.filter_help.setToolTip(
+            _translate(
+                "OhsomeToolsDialogBase",
+                "Filter specific help page. Scroll to bottom to see examples.",
+            )
         )
         self.filter_input.setToolTip(
             _translate(

@@ -63,6 +63,7 @@ from ohsomeTools import (
     __email__,
     __web__,
     __help__,
+    __filter_help__,
 )
 from ohsomeTools.utils import (
     exceptions,
@@ -100,6 +101,11 @@ def on_config_click(parent):
 def on_help_click():
     """Open help URL from button/menu entry."""
     webbrowser.open(__help__)
+
+
+def on_filter_help_click():
+    """Open help URL from button/menu entry."""
+    webbrowser.open(__filter_help__)
 
 
 def on_about_click(parent):
@@ -502,6 +508,8 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
         self.help_button.clicked.connect(on_help_click)
+        self.filter_help.clicked.connect(on_filter_help_click)
+
         self.about_button.clicked.connect(
             lambda: on_about_click(parent=self._iface.mainWindow())
         )

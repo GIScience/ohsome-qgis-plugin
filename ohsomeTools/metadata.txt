@@ -17,7 +17,8 @@ changelog=YYYY/MM/DD v1.X.X
 
 tracker=https://github.com/GIScience/ohsome-qgis-plugin/issues
 repository=https://github.com/GIScience/ohsome-qgis-plugin.git
-help=https://github.com/GIScience/ohsome-qgis-plugin/wiki/
+help=https://docs.ohsome.org/ohsome-api/stable/
+filter_help=https://docs.ohsome.org/ohsome-api/stable/filter.html
 
 homepage=https://github.com/GIScience/ohsome-qgis-plugin/wiki
 category=Web
