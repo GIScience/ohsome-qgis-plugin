@@ -6,6 +6,6 @@
         <qgis_minimum_version>3.14</qgis_minimum_version>
         <file_name>ohsomeTools.zip</file_name>
         <author_name>Julian Psotta</author_name>
-        <download_url>https://github.com/GIScience/ohsome-qgis-plugin/releases/download/v0.1.1-alpha/ohsomeTools.zip</download_url>
+        <download_url>https://github.com/GIScience/ohsome-qgis-plugin/releases/download/v0.1.1-alpha/OhsomeQgis.zip</download_url>
     </pyqgis_plugin>
 </plugins>
