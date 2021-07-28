@@ -232,9 +232,6 @@
            <property name="toolTip">
             <string>Request preference</string>
            </property>
-           <property name="placeholderText">
-            <string>Spec</string>
-           </property>
           </widget>
          </item>
          <item>
