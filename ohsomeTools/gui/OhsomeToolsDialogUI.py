@@ -68,15 +68,15 @@ class Ui_OhsomeToolsDialogBase(object):
         self.ohsome_label.setOpenExternalLinks(True)
         self.ohsome_label.setObjectName("ohsome_label")
         self.horizontalLayout_3.addWidget(self.ohsome_label)
-        self.hex_label = QtWidgets.QLabel(self.resources_group)
+        self.oqt_label = QtWidgets.QLabel(self.resources_group)
         font = QtGui.QFont()
         font.setBold(False)
         font.setWeight(50)
-        self.hex_label.setFont(font)
-        self.hex_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.hex_label.setOpenExternalLinks(True)
-        self.hex_label.setObjectName("hex_label")
-        self.horizontalLayout_3.addWidget(self.hex_label)
+        self.oqt_label.setFont(font)
+        self.oqt_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.oqt_label.setOpenExternalLinks(True)
+        self.oqt_label.setObjectName("oqt_label")
+        self.horizontalLayout_3.addWidget(self.oqt_label)
         self.verticalLayout_5.addWidget(self.resources_group)
         self.groupBox_4 = QtWidgets.QGroupBox(OhsomeToolsDialogBase)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -1055,10 +1055,10 @@ class Ui_OhsomeToolsDialogBase(object):
                 '<html><head/><body><p><a href="https://heigit.org/big-spatial-data-analytics-en/ohsome/"><span style=" font-size:14pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">OHSOME</span></a></p></body></html>',
             )
         )
-        self.hex_label.setText(
+        self.oqt_label.setText(
             _translate(
                 "OhsomeToolsDialogBase",
-                '<html><head/><body><p><a href="https://ohsome.org/apps/osm-history-explorer/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">HEX</span></a></p></body></html>',
+                '<html><head/><body><p><a href="https://oqt.ohsome.org"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">OQT</span></a></p></body></html>',
             )
         )
         self.groupBox_4.setTitle(
