@@ -1083,9 +1083,6 @@ class Ui_OhsomeToolsDialogBase(object):
         self.ohsome_spec_preference_combo.setToolTip(
             _translate("OhsomeToolsDialogBase", "Request preference")
         )
-        self.ohsome_spec_preference_combo.setPlaceholderText(
-            _translate("OhsomeToolsDialogBase", "Spec")
-        )
         self.ohsome_spec_preference_specification.setToolTip(
             _translate("OhsomeToolsDialogBase", "Request preference")
         )
