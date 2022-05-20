@@ -3,19 +3,18 @@ name=ohsomeTools
 qgisMinimumVersion=3.14
 description=ohsome API, spatial and temporal OSM requests for QGIS
 
-version=0.2.1-alpha
+version=0.2.2-alpha
 author=HeiGIT gGmbH
 email=ohsome@heigit.org
 
 about=ohsomeTools provides access to the ohsome API.
 
-changelog=2021.07.28 v0.2.1-alpha
+changelog=2021.07.28 v0.2.2-alpha
     Added:
-    - Replace the hex link with oqt to the top bar [`#41`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/41)
-    - Remove old release [`#38`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/38)
+    - bump release [`#52`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/54)
     Fixed:
-    - Fix the qt related bug [`#39`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/39)
-    - Fix wrong url [`#37`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/37)
+    - fix time selector [`#52`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/52)
+    - fix metadata release version [`#41`](https://github.com/MichaelsJP/ohsome-qgis-plugin/pull/41)
     Removed: None
     Complete changelog of all versions: https://github.com/GIScience/ohsome-qgis-plugin/blob/main/CHANGELOG.md
 
