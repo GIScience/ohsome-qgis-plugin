@@ -200,7 +200,7 @@ class NetworkAccessManager(object):
         Make a network request by calling QgsNetworkAccessManager.
         redirections argument is ignored and is here only for httplib2 compatibility.
         """
-        self.msg_log(u"http_call request: {0}".format(url))
+        self.msg_log("http_call request: {0}".format(url))
 
         self.blocking_mode = blocking
         req = QNetworkRequest()
