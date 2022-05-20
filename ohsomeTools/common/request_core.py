@@ -209,7 +209,9 @@ def postprocess_qgsvectorlayer(vlayer: QgsVectorLayer, activate_temporal: bool):
         pr.addAttributes(
             [QgsField(date_end, QVariant.DateTime)]
         )  # Add durationsField
-    vlayer.temporalProperties().setMode(2)  # Set the correct temporal mode
+    vlayer.temporalProperties().setMode(
+        Qgis.VectorTemporalMode.FeatureDateTimeStartAndEndFromFields
+    )  # Set the correct temporal mode
     vlayer.temporalProperties().setStartField(date_start)
     vlayer.temporalProperties().setEndField(date_end)
     vlayer.temporalProperties().setIsActive(activate_temporal)
