@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugins>
-    <pyqgis_plugin name="ohsomeTools" version="0.2.1-alpha">
+    <pyqgis_plugin name="ohsomeTools" version="0.2.2-alpha">
         <description>ohsomeTools alpha version</description>
         <homepage>https://github.com/GIScience/ohsome-qgis-plugin/</homepage>
         <qgis_minimum_version>3.14</qgis_minimum_version>
