@@ -1,12 +1,24 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.2.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
         exclude: |
-          (?x)()
+          (?x)(
+              ^.git/ |
+              ^.github/ |
+              ^.frontend/ |
+              ^.git/ |
+              ^__pycache__/ |
+              ^__init__.py/ |
+              ^.mypy_cache/ |
+              ^.pytest_cache/ |
+              ^.venv/ |
+              ^.tox/ |
+              ^.idea/
+          )
       - id: check-json
       - id: forbid-new-submodules
       - id: mixed-line-ending
@@ -17,9 +29,9 @@ repos:
       - id: no-commit-to-branch
         args: [ --branch, master ]
       - id: no-commit-to-branch
-        args: [ --branch, master ]
+        args: [ --branch, main ]
   - repo: https://github.com/ambv/black
-    rev: 21.6b0
+    rev: 22.3.0
     hooks:
       - id: black
         args: # arguments to configure black
@@ -31,9 +43,9 @@ repos:
       - id: flake8
         exclude: |
           (?x)(
-              ^test/* |
-              ^ohsomeTools/* |
-              ^docs/*
+              ^test/ |
+              ^ohsomeTools/ |
+              ^docs/
           )
         args:
           - "--max-line-length=120"
