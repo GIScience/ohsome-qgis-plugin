@@ -266,7 +266,7 @@ class OhsomeToolsDialogMain:
         for annotation in self.dlg.annotations:
             # Has the potential to be pretty cool: instead of deleting, associate with mapLayer, you can change order after optimization
             # Then in theory, when the layer is remove, the annotation is removed as well
-            # Doesng't work though, the annotations are still there when project is re-opened
+            # Doesn't work though, the annotations are still there when project is re-opened
             # annotation.setMapLayer(layer_out)
             self.project.annotationManager().removeAnnotation(annotation)
         self.dlg.annotations = []
@@ -294,7 +294,10 @@ class OhsomeToolsDialogMain:
             self.dlg.debug_text.append("> " + msg)
 
         clnt = client.Client(provider)
+
         metadata_check = clnt.check_api_metadata(self.iface)
+
+        # get preferences from dialog
         preferences = ohsome_spec.OhsomeSpec(self.dlg)
         try:
             letters = string.ascii_lowercase
@@ -466,7 +469,7 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
 
             pydevd_pycharm.settrace(
                 "127.0.0.1",
-                port=53101,
+                port=8080,
                 stdoutToServer=True,
                 stderrToServer=True,
             )
@@ -488,9 +491,9 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self._set_preferences()
 
         # Change OK and Cancel button names
-        self.global_buttons.button(QDialogButtonBox.Ok).setText("Apply")
+        # self.global_buttons.button(QDialogButtonBox.Ok).setText("Apply")
         self.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
-        self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
+        # self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
 
         #### Set up signals/slots ####
 
