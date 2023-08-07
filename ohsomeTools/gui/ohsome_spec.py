@@ -42,12 +42,18 @@ from ohsomeTools.utils.datamanager import (
 class OhsomeSpec:
     """Extended functionality for all endpoints for the GUI."""
 
-    def __init__(self, dlg: QDialog):
+    def __init__(self, dlg=None):
         """
         :param dlg: Main GUI dialog.
         :type dlg: QDialog
         """
         self.dlg: QDialog = dlg
+
+        print(self.dlg.date_start.date(),
+            self.dlg.date_end.date(),
+            self.dlg.interval_years.value(),
+            self.dlg.interval_months.value(),
+            self.dlg.interval_days.value())
 
     @property
     def _api_spec(self):
@@ -106,6 +112,7 @@ class OhsomeSpec:
     def _request_bcircles_coordinates(self) -> str:
         coordinate_string = ""
         layers_list = self.dlg.ohsome_centroid_location_list
+        print(self.dlg.ohsome_centroid_location_list)
         for idx in range(layers_list.count()):
             item: str = layers_list.item(idx).text()
             param_cords, radius = item.rsplit(" | Radius: ")
@@ -389,3 +396,89 @@ class OhsomeSpec:
             "request_date_string": self._request_date_string,
             "et_request_url": self.get_request_url,
         }
+class ProcessingOhsomeSpec(OhsomeSpec):
+    def __init__(self, params):
+        self.params = params
+        self.filter = filter
+        print(params)
+
+    @property
+    def _request_date_string(self) -> str:
+        date_string = self.__prepare_ohsome_time_parameter(
+            self.params['date_start'],
+            self.params['date_end'],
+            self.params['YEARS'],
+            self.params['MONTHS'],
+            self.params['DAYS'],
+        )
+        return date_string
+
+    @property
+    def _group_by_values(self):
+        # return self.dlg.group_by_values_line_edit.text()
+        pass
+
+    @property
+    def _group_by_key(self):
+        # return self.dlg.group_by_key_line_edit.text()
+        pass
+
+    @property
+    def _data_aggregation_format(self) -> str:
+        return self.params['data_aggregation_format']
+
+    @property
+    def _property_groups(self) -> str:
+        properties = ""
+        if self.p['property_groups_check_tags']:
+            properties = "tags"
+        if self.params['property_groups_check_metadata']:
+            properties = (
+                f"{properties},metadata" if properties == "tags" else "metadata"
+            )
+        return properties
+
+    @property
+    def _data_extraction_clip_geometry(self) -> bool:
+        if self.params['check_clip_geometry']:
+            return True
+        return False
+
+    @property
+    def _request_timeout(self) -> int:
+        value = 0
+        if self.params['timeout_input']:
+            value: int = int(self.dlg.timeout_input.value())
+        return value
+
+    @property
+    def _show_metadata(self) -> bool:
+        # Get all parameters
+        if self.params['check_show_metadata']:
+            return True
+        return False
+
+    @property
+    def activate_temporal_feature(self):
+        if self.params['check_activate_temporal']:
+            return True
+        return False
+    @property
+    def _api_spec(self):
+        return self.params['selection']
+
+    @property
+    def _request_url(self):
+        # Construct request url
+        if (
+            self.params['selection']
+            == "metadata"
+        ):
+            return (
+                f"{self.params['selection']}"
+            )
+        else:
+            print (
+                f"{self.params['preference']}/"
+                f"{self.params['preference_specification']}"
+            )

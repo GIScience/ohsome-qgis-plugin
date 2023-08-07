@@ -51,7 +51,6 @@ class OhsomeTools:
 
         QgsApplication.processingRegistry().addProvider(self.provider)
         self.dialog.initGui()
-        print('init')
 
     def unload(self):
         """remove menu entry and toolbar icons"""

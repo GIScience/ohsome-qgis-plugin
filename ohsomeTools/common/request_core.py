@@ -547,3 +547,292 @@ class ExtractionTaskFunction(QgsTask):
             Qgis.Info,
         )
         super().cancel()
+
+
+class processingExtractionTaskFunction(QgsTask):
+    """This shows how to subclass QgsTask"""
+
+    def __init__(
+        self,
+        iface,
+        description: str,
+        provider,
+        request_url,
+        preferences=None,
+        activate_temporal: bool = False,
+    ):
+        super().__init__(description, QgsTask.CanCancel)
+        self.iface = iface
+        self.total = 0
+        self.iterations = 0
+        self.exception = None
+        self.request_url = request_url
+        self.preferences = preferences if preferences is not None else {}
+        self.activate_temporal = activate_temporal
+        self.result: dict = {}
+        self.exception: OhsomeBaseException = None
+        self.request_time = None
+        self.client = client.Client(provider)
+
+    def postprocess_results(self) -> bool:
+        if not self.result or not len(self.result):
+            return False
+        if "extractRegion" in self.result:
+            vlayer: QgsVectorLayer = self.iface.addVectorLayer(
+                json.dumps(
+                    self.result.get("extractRegion").get("spatialExtent")
+                ),
+                f"OHSOME_API_spatial_extent",
+                "ogr",
+            )
+            if vlayer:
+                return True
+        elif (
+            all(i in self.result.keys() for i in ["type", "features"])
+            and self.result.get("type").lower() == "featurecollection"
+        ):
+            # Process GeoJSON
+            geojsons: [] = split_geojson_by_geometry(
+                self.result,
+                keep_geometry_less=self.dlg.check_keep_geometryless.isChecked(),
+                combine_single_with_multi_geometries=self.dlg.check_merge_geometries.isChecked(),
+            )
+            for i in range(len(geojsons)):
+                vlayer = create_ohsome_vector_layer(
+                    self.iface,
+                    geojsons[i],
+                    self.request_time,
+                    self.request_url,
+                    self.activate_temporal,
+                )
+                postprocess_metadata(geojsons[i], vlayer)
+            return True
+        elif (
+            "result" in self.result.keys()
+            and len(self.result.get("result")) > 0
+        ):
+            # Process flat tables
+            file = QgsProcessingUtils.generateTempFilename(
+                f"{self.request_url}.csv"
+            )
+            header = self.result["result"][0].keys()
+            vlayer = create_ohsome_csv_layer(
+                self.iface,
+                self.result["result"],
+                header,
+                file,
+                self.request_time,
+            )
+            postprocess_metadata(self.result, vlayer)
+            return True
+        elif (
+            "groupByResult" in self.result.keys()
+            and len(self.result.get("groupByResult")) > 0
+        ):
+            # Process non-flat tables
+            results = self.result["groupByResult"]
+            for result_group in results:
+                file = QgsProcessingUtils.generateTempFilename(
+                    f'{result_group["groupByObject"]}_{self.request_url}.csv'
+                )
+                header = results[0]["result"][0].keys()
+                vlayer = create_ohsome_csv_layer(
+                    self.iface,
+                    result_group["result"],
+                    header,
+                    file,
+                    self.request_time,
+                )
+                postprocess_metadata(self.result, vlayer)
+            return True
+        elif (
+            "ratioResult" in self.result.keys()
+            and len(self.result.get("ratioResult")) > 0
+        ):
+            # Process flat tables
+            file = QgsProcessingUtils.generateTempFilename(
+                f"{self.request_url}.csv"
+            )
+            header = self.result.get("ratioResult")[0].keys()
+            vlayer = create_ohsome_csv_layer(
+                self.iface,
+                self.result["ratioResult"],
+                header,
+                file,
+                self.request_time,
+            )
+            postprocess_metadata(self.result, vlayer)
+            return True
+        return False
+
+    def run(self):
+        """Here you implement your heavy lifting.
+        Should periodically test for isCanceled() to gracefully
+        abort.
+        This method MUST return True or False.
+        Raising exceptions will crash QGIS, so we handle them
+        internally and raise them in self.finished
+        """
+        self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+        logger.log(f'Started task "{self.description()}"', Qgis.Info)
+        try:
+            if len(self.preferences):
+                self.result = self.client.request(
+                    f"/{self.request_url}",
+                    {},
+                    post_json=self.preferences,
+                )
+            else:
+                self.result = self.client.request(f"/metadata", {})
+        except Exception as e:
+            self.result = None
+            self.exception = e
+        return True
+
+    def finished(self, valid_result):
+        """
+        This function is automatically called when the task has
+        completed (successfully or not).
+        You implement finished() to do whatever follow-up stuff
+        should happen after the task is complete.
+        finished is always called from the main thread, so it's safe
+        to do GUI operations and raise Python exceptions here.
+        result is the return value from self.run.
+        """
+        default_message = (
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
+        if "bpolys" in self.preferences:
+            self.preferences[
+                "bpolys"
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        elif "bcircles" in self.preferences:
+            self.preferences[
+                "bcircles"
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        shortened_default_message = (
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
+        if valid_result and self.result:
+            msg = f"The request was successful:" + default_message
+            short_msg = (
+                f"The request was successful:" + shortened_default_message
+            )
+            try:
+                if (
+                    valid_result
+                    and self.result
+                    and "extractRegion" in self.result
+                ):
+                    default_message = (
+                        f"\nAPI URL: {self.client.base_url}"
+                        f"\nEndpoint: {self.request_url}"
+                        f'\nMetadata Response: {json.dumps(self.result, indent=4, sort_keys=True)}"'
+                    )
+                    short_msg = msg = (
+                        f"The request was successful:" + default_message
+                    )
+                    QMessageBox.information(
+                        self.dlg,
+                        "ohsome API Metadata",
+                        "Metadata Response:\n"
+                        f"attribution:\n{json.dumps(self.result.get('attribution'), indent=4, sort_keys=True)}\n"
+                        f"apiVersion:{self.result.get('apiVersion')}\n"
+                        f"spatialExtent: The spatial extent will be imported as a new layer.\n"
+                        f"timeout:{self.result.get('timeout')}\n"
+                        f"temporalExtent:\n{json.dumps(self.result.get('extractRegion').get('temporalExtent'), indent=4, sort_keys=True)}",
+                    )
+
+                self.postprocess_results()
+                logger.log(msg, Qgis.Info)
+                self.iface.messageBar().pushMessage(
+                    "Info",
+                    "Success!",
+                    level=Qgis.Info,
+                    duration=5,
+                )
+            except Exception as err:
+                msg = (
+                    f"> Error while processing the geometry response from the ohsome API:"
+                    + default_message
+                    + f"\nException: {err}"
+                )
+                short_msg = (
+                    f"> Error while processing the geometry response from the ohsome API:"
+                    + shortened_default_message
+                    + f"\nException: {err}"
+                )
+                logger.log(msg, Qgis.Critical)
+                self.iface.messageBar().pushMessage(
+                    "Critical",
+                    "Error while processing the returned geometries!",
+                    level=Qgis.Critical,
+                    duration=5,
+                )
+            finally:
+                self.dlg.debug_text.append("> " + short_msg)
+        elif self.client.canceled:
+            msg = f"The request was canceled."
+            logger.log(msg, Qgis.Warning)
+            self.dlg.debug_text.append(msg)
+            self.iface.messageBar().pushMessage(
+                "Info",
+                msg,
+                level=Qgis.Info,
+                duration=5,
+            )
+        elif self.exception:
+            msg = (
+                f"> The request was not successful and threw an exception:"
+                + default_message
+                + f"\nException: {self.exception}"
+            )
+            short_msg = (
+                f"> The request was not successful and threw an exception:"
+                + shortened_default_message
+                + f"\nException: {self.exception}"
+            )
+            self.dlg.debug_text.append(short_msg)
+            logger.log(msg, Qgis.Critical)
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The response is empty and an error was returned. "
+                "Refine your filter query and check the log or plugin console for errors and exceptions.",
+                level=Qgis.Critical,
+                duration=5,
+            )
+            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
+        else:
+            msg = (
+                f"The request was not successful and the reason is unclear. This should not happen!"
+                + default_message
+                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
+                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
+            )
+            short_msg = (
+                f"The request was not successful and the reason is unclear. This should not happen!"
+                + shortened_default_message
+                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
+                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
+            )
+            self.dlg.debug_text.append(short_msg)
+            logger.log(msg, Qgis.Warning)
+            self.iface.messageBar().pushMessage(
+                "Warning",
+                "The response is empty but without evident error. Refine your filter query and check the log or plugin console.",
+                level=Qgis.Warning,
+                duration=5,
+            )
+        self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
+
+    def cancel(self):
+        self.client.cancel()
+        logger.log(
+            "The ohsome API request was canceled by the user.",
+            Qgis.Info,
+        )
+        super().cancel()
