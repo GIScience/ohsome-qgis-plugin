@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeToolsDialogBase(object):
     def setupUi(self, OhsomeToolsDialogBase):
         OhsomeToolsDialogBase.setObjectName("OhsomeToolsDialogBase")
-        OhsomeToolsDialogBase.resize(591, 658)
+        OhsomeToolsDialogBase.resize(562, 631)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -707,11 +707,16 @@ class Ui_OhsomeToolsDialogBase(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 183, 591))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 274, 547))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_18 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_18.setObjectName("gridLayout_18")
         self.textEdit = QtWidgets.QTextEdit(self.scrollAreaWidgetContents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
+        self.textEdit.setSizePolicy(sizePolicy)
         self.textEdit.setObjectName("textEdit")
         self.gridLayout_18.addWidget(self.textEdit, 0, 0, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -743,7 +748,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.point_layer_list_remove.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>"))
         self.point_layer_list_add.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>"))
         self.point_layer_radius_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Add a centroid radius <span style=\" text-decoration: underline;\">in meters</span> per centroid. Default is <span style=\" text-decoration: underline;\">10 meters</span>.</p></body></html>"))
-        self.point_layer_radius_label.setText(_translate("OhsomeToolsDialogBase", "Radius"))
+        self.point_layer_radius_label.setText(_translate("OhsomeToolsDialogBase", "Radius [m]"))
         self.point_layer_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>"))
         self.request_types_widget.setTabText(self.request_types_widget.indexOf(self.point_layer_tab), _translate("OhsomeToolsDialogBase", "Point Layer"))
         self.layer_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>"))
@@ -825,13 +830,3 @@ class Ui_OhsomeToolsDialogBase(object):
 from qgscollapsiblegroupbox import QgsCollapsibleGroupBox
 from qgsmaplayercombobox import QgsMapLayerComboBox
 # import resources_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    OhsomeToolsDialogBase = QtWidgets.QDialog()
-    ui = Ui_OhsomeToolsDialogBase()
-    ui.setupUi(OhsomeToolsDialogBase)
-    OhsomeToolsDialogBase.show()
-    sys.exit(app.exec_())

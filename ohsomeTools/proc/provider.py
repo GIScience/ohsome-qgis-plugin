@@ -26,6 +26,7 @@
 
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
+from ohsomeTools.proc.data_aggregation.contributions_count import ContributionsCount
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
@@ -45,7 +46,8 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         """
         Loads all algorithms belonging to this provider.
         """
-        #
+        # self.addAlgorithm(ExampleProcessingAlgorithm())
+        self.addAlgorithm(ContributionsCount())
         pass
 
     def icon(self):

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>658</height>
+    <width>682</width>
+    <height>663</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1477,13 +1477,19 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>183</width>
-        <height>591</height>
+        <width>274</width>
+        <height>596</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_18">
        <item row="0" column="0">
         <widget class="QTextEdit" name="textEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
