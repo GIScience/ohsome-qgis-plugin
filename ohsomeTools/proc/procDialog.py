@@ -12,6 +12,8 @@ from qgis._core import (
     QgsApplication,
 )
 
+import time
+
 from ohsomeTools.common import (
     client,
     request_core,
@@ -39,13 +41,13 @@ from PyQt5.QtWidgets import (
     QListWidgetItem,
 )
 
-from ..common.request_core import ExtractionTaskFunction, processingExtractionTaskFunction
+from ..common.request_core import processingExtractionTaskFunction
 
 def run_processing_alg(processingParams):
 
     # Clean the debug text
     try:
-        provider_id = 'https://api.ohsome.org/v1'
+        provider_id = 0 # Muss in combo box noch zugänglich gemacht werden.
         provider = configmanager.read_config()["providers"][provider_id]
     except IndexError:
         msg = "Request aborted. No provider available. Please check your provider list.\n"
@@ -64,39 +66,35 @@ def run_processing_alg(processingParams):
 
     # get preferences from dialog
     preferences = ohsome_spec.ProcessingOhsomeSpec(params=processingParams)
+
     try:
         letters = string.ascii_lowercase
         task_name = "".join(random.choice(letters) for i in range(10))
-        if not metadata_check or not preferences.is_valid(False):
+        '''if not metadata_check or not preferences.is_valid(False):
             msg = "The request has been aborted!"
             logger.log(msg, 0)
-            return
+            return'''
 
         # if there are no centroids or layers, throw an error message
         geom = processingParams['geom']
-        print(geom)
         if (
                 processingParams['selection']
                 == "metadata"
         ):
-            globals()[task_name] = processingExtractionTaskFunction(
-                iface=iface,
-                description=f"OHSOME task",
-                provider=provider,
-                request_url=preferences.get_request_url(),
-                preferences=None,
-            )
+            globals()[task_name] = processingExtractionTaskFunction(iface=iface, description=f"OHSOME task metadata",
+                                                                    provider=provider,
+                                                                    request_url=preferences.get_request_url(),
+                                                                    processingParams=processingParams,
+                                                                    preferences=None)
             QgsApplication.taskManager().addTask(globals()[task_name])
         elif geom == 0: # geometry type of input layer
-            globals()[task_name] = processingExtractionTaskFunction(
-                iface=iface,
-                processingParams=processingParams,
-                description=f"OHSOME task",
-                provider=provider,
-                request_url=preferences.get_request_url(),
-                preferences=preferences.get_bcircles_request_preferences(),
-                activate_temporal=preferences.activate_temporal_feature,
-            )
+            globals()[task_name] = processingExtractionTaskFunction(iface=iface,
+                                                                    description=f"OHSOME task",
+                                                                    provider=provider,
+                                                                    request_url=preferences.get_request_url(),
+                                                                    processingParams=processingParams,
+                                                                    preferences=preferences.get_bcircles_request_preferences(),
+                                                                    activate_temporal=preferences.activate_temporal_feature)
             QgsApplication.taskManager().addTask(globals()[task_name])
         elif geom == 1:
             layer_preferences = (
@@ -106,15 +104,13 @@ def run_processing_alg(processingParams):
                 return
             last_task = None
             for point_layer_preference in layer_preferences:
-                task = ExtractionTaskFunction(
-                    iface=iface,
-                    processingParams=processingParams,
-                    description=f"OHSOME task",
-                    provider=provider,
-                    request_url=preferences.get_request_url(),
-                    preferences=point_layer_preference,
-                    activate_temporal=preferences.activate_temporal_feature,
-                )
+                task = processingExtractionTaskFunction(iface=iface,
+                                                        description=f"OHSOME task main",
+                                                        provider=provider,
+                                                        request_url=preferences.get_request_url(),
+                                                        processingParams=processingParams,
+                                                        preferences=point_layer_preference,
+                                                        activate_temporal=preferences.activate_temporal_feature)
                 if last_task and last_task != globals()[task_name]:
                     # Never add the main task as a dependency!
                     globals()[task_name].addSubTask(
@@ -130,6 +126,12 @@ def run_processing_alg(processingParams):
                     globals()[task_name] = task
                 last_task = task
             QgsApplication.taskManager().addTask(globals()[task_name])
+            '''            if globals()[task_name].isCanceled():
+                globals()[task_name].kill()
+            while globals()[task_name].isActive():
+                print('still active')
+                time.sleep(5)'''
+            # print('task manager done')
         elif geom == 2:
 
             layer_preferences = (
@@ -137,15 +139,13 @@ def run_processing_alg(processingParams):
             )
             last_task = None
             for point_layer_preference in layer_preferences:
-                task = processingExtractionTaskFunction(
-                    iface=iface,
-                    processingParams=processingParams,
-                    description=f"OHSOME task",
-                    provider=provider,
-                    request_url=preferences.get_request_url(),
-                    preferences=point_layer_preference,
-                    activate_temporal=preferences.activate_temporal_feature,
-                )
+                task = processingExtractionTaskFunction(iface=iface,
+                                                        description=f"OHSOME task",
+                                                        provider=provider,
+                                                        request_url=preferences.get_request_url(),
+                                                        processingParams=processingParams,
+                                                        preferences=point_layer_preference,
+                                                        activate_temporal=preferences.activate_temporal_feature)
                 if last_task and last_task != globals()[task_name]:
                     # Never add the main task as a dependency!
                     globals()[task_name].addSubTask(
@@ -161,7 +161,6 @@ def run_processing_alg(processingParams):
                     globals()[task_name] = task
                 last_task = task
             QgsApplication.taskManager().addTask(globals()[task_name])
-
         else:
             return
     except exceptions.TooManyInputsFound as e:
@@ -184,7 +183,7 @@ def run_processing_alg(processingParams):
         )
     finally:
         if not metadata_check:
-            return
+            return True
         elif not preferences.is_valid(True):
             iface.messageBar().pushMessage(
                 "Warning",
@@ -193,3 +192,4 @@ def run_processing_alg(processingParams):
                 duration=7,
             )
             return
+    # print('run_processing_alg done')

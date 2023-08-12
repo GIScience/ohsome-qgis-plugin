@@ -59,6 +59,7 @@ class Client(QObject):
         self.base_url = provider["base_url"]
 
         # self.session = requests.Session()
+        # print('NetworkAccessManager')
         self.nam = networkaccessmanager.NetworkAccessManager(debug=False)
 
         self.retry_timeout = timedelta(seconds=retry_timeout)
@@ -104,20 +105,17 @@ class Client(QObject):
         :returns: ohsome API response body
         :rtype: dict
         """
-
         if not first_request_time:
             first_request_time = datetime.now()
 
         elapsed = datetime.now() - first_request_time
         if elapsed > self.retry_timeout:
             raise exceptions.Timeout()
-
         if retry_counter > 0:
             # 0.5 * (1.5 ^ i) is an increased sleep time of 1.5x per iteration,
             # starting at 0.5s when retry_counter=1. The first retry will occur
             # at 1, so subtract that first.
             delay_seconds = 1.5 ** (retry_counter - 1)
-
             # Jitter this value by 50% and pause.
             time.sleep(delay_seconds * (random.random() + 0.5))
 
@@ -126,7 +124,6 @@ class Client(QObject):
             params,
         )
         self.url = self.base_url + authed_url
-
         # Default to the client-level self.requests_kwargs, with method-level
         # requests_kwargs arg overriding.
         # final_requests_kwargs = self.requests_kwargs
@@ -173,7 +170,6 @@ class Client(QObject):
                 self._check_status()
 
             except exceptions.Unauthorized as e:
-
                 # Let the instances know smth happened
                 self.overQueryLimit.emit()
                 logger.log("{}: {}".format(e.__class__.__name__, str(e)), 1)
@@ -194,7 +190,7 @@ class Client(QObject):
                 )
                 raise e
             raise
-
+        # print('request 1 done')
         return json.loads(content.decode("utf-8"))
 
     def _check_status(self):
