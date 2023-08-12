@@ -64,6 +64,13 @@ class ContributionsCount(QgsProcessingAlgorithm):
     YEARS = 'YEARS'
     MONTHS = 'MONTHS'
     DAYS = 'DAYS'
+    RADIUS = 'RADIUS'
+    check_keep_geometryless = 'check_keep_geometryless'
+    check_merge_geometries = 'check_merge_geometries'
+    group_by_values_line_edit = 'group_by_values_line_edit'
+    group_by_key_line_edit = 'group_by_key_line_edit'
+    formats = ['json', 'geojson']
+    parameters = [i for i in AGGREGATION_SPECS['contributions/count']]
 
     def tr(self, string):
         """
@@ -135,7 +142,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.PARAMETER,
                 self.tr('Parameter'),
-                options=[self.tr(i) for i in AGGREGATION_SPECS['contributions/count']],
+                options=self.parameters ,
                 defaultValue=0
             )
         )
@@ -143,7 +150,8 @@ class ContributionsCount(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterString(
                 self.FILTER,
-                self.tr('Filter')
+                self.tr('Filter'),
+                defaultValue='building=* or (type:way and highway=residential)'
             )
         )
 
@@ -159,7 +167,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterBoolean(
                 self.check_show_metadata,
                 self.tr('Show metadata'),
-                defaultValue=True
+                defaultValue=False
             )
         )
 
@@ -168,7 +176,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.timeout_input,
                 'Timeout',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1
+                defaultValue=0
             )
         )
 
@@ -192,7 +200,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterBoolean(
                 self.property_groups_check_metadata,
                 self.tr('Metadata'),
-                defaultValue=True
+                defaultValue=False
             )
         )
 
@@ -200,7 +208,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.data_aggregation_format,
                 self.tr('Format'),
-                options=['json', 'geojson'],
+                options=self.formats,
                 defaultValue=0
             )
         )
@@ -208,14 +216,16 @@ class ContributionsCount(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_start,
-                'Start Date'
+                'Start Date',
+                defaultValue='2007-10-08'
             )
         )
 
         self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_end,
-                'End Date'
+                'End Date',
+                defaultValue='2023-07-28'
             )
         )
 
@@ -224,7 +234,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.YEARS,
                 'Years',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1
+                defaultValue=0
             )
         )
 
@@ -233,7 +243,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.MONTHS,
                 'Months',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1
+                defaultValue=0
             )
         )
 
@@ -246,30 +256,80 @@ class ContributionsCount(QgsProcessingAlgorithm):
             )
         )
 
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                'Radius [m]',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=100
+            )
+        )
 
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_keep_geometryless,
+                self.tr('Keep without geometry'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_merge_geometries,
+                self.tr('Harmonize geometries'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_values_line_edit,
+                self.tr('Group by Values'),
+                optional=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_key_line_edit,
+                self.tr('Group by Key'),
+                optional=True
+
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
         Here is where the processing itself takes place.
         """
+        layer = self.parameterAsLayer(parameters, self.LAYER, context)
+        list_name = (
+            f"{layer.name()} | Radius: {self.parameterAsInt(parameters, self.RADIUS, context)}"
+        )
 
-        processingParams = {'selection':                        'Data-Extraction',
+        processingParams = {'geom':                             1,
+                            'selection':                        'data-Aggregation',
                             'preference':                       'contributions/count',
                             'filter':                           self.parameterAsString(parameters, self.FILTER, context),
-                            'preference_specification':         self.parameterAsString(parameters, self.PARAMETER, context),
-                            'geom':                             self.parameterAsSource(parameters, self.INPUT, context),
+                            'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
+                            'LAYER':                            list_name,
                             'check_activate_temporal':          self.parameterAsBool(parameters, self.check_activate_temporal, context),
                             'check_show_metadata':              self.parameterAsBool(parameters, self.check_show_metadata, context),
                             'timeout_input':                    self.parameterAsInt(parameters, self.timeout_input, context),
                             'check_clip_geometry':              self.parameterAsBool(parameters, self.check_clip_geometry, context),
                             'property_groups_check_tags':       self.parameterAsBool(parameters, self.property_groups_check_tags, context),
                             'property_groups_check_metadata':   self.parameterAsBool(parameters, self.property_groups_check_metadata, context),
-                            'data_aggregation_format':          self.parameterAsString(parameters, self.data_aggregation_format, context),
+                            'data_aggregation_format':          self.formats[self.parameterAsInt(parameters, self.data_aggregation_format, context)],
                             'date_start':                       self.parameterAsDateTime(parameters, self.date_start, context),
                             'date_end':                         self.parameterAsDateTime(parameters, self.date_end, context),
                             'YEARS':                            self.parameterAsInt(parameters, self.YEARS, context),
                             'MONTHS':                           self.parameterAsInt(parameters, self.MONTHS, context),
                             'DAYS':                             self.parameterAsInt(parameters, self.DAYS, context),
+                            'check_keep_geometryless':          self.parameterAsBool(parameters, self.check_keep_geometryless, context),
+                            'check_merge_geometries':           self.parameterAsBool(parameters, self.check_merge_geometries, context),
+                            'group_by_values_line_edit':        self.parameterAsString(parameters, self.group_by_values_line_edit, context),
+                            'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
                             }
 
         run_processing_alg(processingParams)
@@ -286,4 +346,4 @@ class ContributionsCount(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {self.INPUT: True}
+        return 'Process done'

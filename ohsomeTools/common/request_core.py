@@ -386,6 +386,7 @@ class ExtractionTaskFunction(QgsTask):
         """
         self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         logger.log(f'Started task "{self.description()}"', Qgis.Info)
+
         try:
             if len(self.preferences):
                 self.result = self.client.request(
@@ -398,6 +399,7 @@ class ExtractionTaskFunction(QgsTask):
         except Exception as e:
             self.result = None
             self.exception = e
+        # print('run done')
         return True
 
     def finished(self, valid_result):
@@ -558,8 +560,11 @@ class processingExtractionTaskFunction(QgsTask):
         description: str,
         provider,
         request_url,
+        processingParams,
         preferences=None,
         activate_temporal: bool = False,
+
+
     ):
         super().__init__(description, QgsTask.CanCancel)
         self.iface = iface
@@ -573,8 +578,119 @@ class processingExtractionTaskFunction(QgsTask):
         self.exception: OhsomeBaseException = None
         self.request_time = None
         self.client = client.Client(provider)
+        self.processingParams = processingParams
+
+    def run(self):
+        """Here you implement your heavy lifting.
+        Should periodically test for isCanceled() to gracefully
+        abort.
+        This method MUST return True or False.
+        Raising exceptions will crash QGIS, so we handle them
+        internally and raise them in self.finished
+        """
+        '''import pydevd_pycharm
+
+        pydevd_pycharm.settrace(
+            "127.0.0.1",
+            port=8080,
+            stdoutToServer=True,
+            stderrToServer=True,
+        )'''
+
+        self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+        # print(self.preferences)
+        try:
+            if len(self.preferences):
+                # print('requesting 1')
+                self.result = self.client.request(
+                    f"/{self.request_url}",
+                    {},
+                    post_json=self.preferences,
+                )
+            else:
+                # print('meta')
+                self.result = self.client.request(f"/metadata", {})
+        except Exception as e:
+            # print('e601')
+            self.result = None
+            self.exception = e
+        # print(self.result)
+        # print(f'Size of result: {len(self.result)}')
+        # print('run done')
+
+        # self.postprocess_results()
+        return True
+
+    def finished(self, valid_result):
+        """
+        This function is automatically called when the task has
+        completed (successfully or not).
+        You implement finished() to do whatever follow-up stuff
+        should happen after the task is complete.
+        finished is always called from the main thread, so it's safe
+        to do GUI operations and raise Python exceptions here.
+        result is the return value from self.run.
+        """
+        print('finishing')
+        default_message = (
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
+        if "bpolys" in self.preferences:
+            self.preferences[
+                "bpolys"
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        elif "bcircles" in self.preferences:
+            self.preferences[
+                "bcircles"
+            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
+        shortened_default_message = (
+            f"\nAPI URL: {self.client.base_url}"
+            f"\nEndpoint: {self.request_url}"
+            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
+        )
+        '''       import pydevd_pycharm
+
+        pydevd_pycharm.settrace(
+            "127.0.0.1",
+            port=8080,
+            stdoutToServer=True,
+            stderrToServer=True,
+        )'''
+        self.postprocess_results()
+
+        if valid_result and self.result:
+            # print('valid')
+            msg = f"The request was successful:" + default_message
+            short_msg = (
+                f"The request was successful:" + shortened_default_message
+            )
+            # print(self.result)
+            try:
+                if (
+                    valid_result
+                    and self.result
+                    and "extractRegion" in self.result
+                ):
+                    # print('debug1')
+                    default_message = (
+                        f"\nAPI URL: {self.client.base_url}"
+                        f"\nEndpoint: {self.request_url}"
+                        f'\nMetadata Response: {json.dumps(self.result, indent=4, sort_keys=True)}"'
+                    )
+                    short_msg = msg = (
+                        f"The request was successful:" + default_message
+                    )
+
+
+                self.postprocess_results()
+            except:
+                pass
+
 
     def postprocess_results(self) -> bool:
+        # print('postprocessing')
         if not self.result or not len(self.result):
             return False
         if "extractRegion" in self.result:
@@ -664,170 +780,6 @@ class processingExtractionTaskFunction(QgsTask):
             postprocess_metadata(self.result, vlayer)
             return True
         return False
-
-    def run(self):
-        """Here you implement your heavy lifting.
-        Should periodically test for isCanceled() to gracefully
-        abort.
-        This method MUST return True or False.
-        Raising exceptions will crash QGIS, so we handle them
-        internally and raise them in self.finished
-        """
-        self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
-        logger.log(f'Started task "{self.description()}"', Qgis.Info)
-        try:
-            if len(self.preferences):
-                self.result = self.client.request(
-                    f"/{self.request_url}",
-                    {},
-                    post_json=self.preferences,
-                )
-            else:
-                self.result = self.client.request(f"/metadata", {})
-        except Exception as e:
-            self.result = None
-            self.exception = e
-        return True
-
-    def finished(self, valid_result):
-        """
-        This function is automatically called when the task has
-        completed (successfully or not).
-        You implement finished() to do whatever follow-up stuff
-        should happen after the task is complete.
-        finished is always called from the main thread, so it's safe
-        to do GUI operations and raise Python exceptions here.
-        result is the return value from self.run.
-        """
-        default_message = (
-            f"\nAPI URL: {self.client.base_url}"
-            f"\nEndpoint: {self.request_url}"
-            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
-        )
-        if "bpolys" in self.preferences:
-            self.preferences[
-                "bpolys"
-            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
-        elif "bcircles" in self.preferences:
-            self.preferences[
-                "bcircles"
-            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
-        shortened_default_message = (
-            f"\nAPI URL: {self.client.base_url}"
-            f"\nEndpoint: {self.request_url}"
-            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
-        )
-        if valid_result and self.result:
-            msg = f"The request was successful:" + default_message
-            short_msg = (
-                f"The request was successful:" + shortened_default_message
-            )
-            try:
-                if (
-                    valid_result
-                    and self.result
-                    and "extractRegion" in self.result
-                ):
-                    default_message = (
-                        f"\nAPI URL: {self.client.base_url}"
-                        f"\nEndpoint: {self.request_url}"
-                        f'\nMetadata Response: {json.dumps(self.result, indent=4, sort_keys=True)}"'
-                    )
-                    short_msg = msg = (
-                        f"The request was successful:" + default_message
-                    )
-                    QMessageBox.information(
-                        self.dlg,
-                        "ohsome API Metadata",
-                        "Metadata Response:\n"
-                        f"attribution:\n{json.dumps(self.result.get('attribution'), indent=4, sort_keys=True)}\n"
-                        f"apiVersion:{self.result.get('apiVersion')}\n"
-                        f"spatialExtent: The spatial extent will be imported as a new layer.\n"
-                        f"timeout:{self.result.get('timeout')}\n"
-                        f"temporalExtent:\n{json.dumps(self.result.get('extractRegion').get('temporalExtent'), indent=4, sort_keys=True)}",
-                    )
-
-                self.postprocess_results()
-                logger.log(msg, Qgis.Info)
-                self.iface.messageBar().pushMessage(
-                    "Info",
-                    "Success!",
-                    level=Qgis.Info,
-                    duration=5,
-                )
-            except Exception as err:
-                msg = (
-                    f"> Error while processing the geometry response from the ohsome API:"
-                    + default_message
-                    + f"\nException: {err}"
-                )
-                short_msg = (
-                    f"> Error while processing the geometry response from the ohsome API:"
-                    + shortened_default_message
-                    + f"\nException: {err}"
-                )
-                logger.log(msg, Qgis.Critical)
-                self.iface.messageBar().pushMessage(
-                    "Critical",
-                    "Error while processing the returned geometries!",
-                    level=Qgis.Critical,
-                    duration=5,
-                )
-            finally:
-                self.dlg.debug_text.append("> " + short_msg)
-        elif self.client.canceled:
-            msg = f"The request was canceled."
-            logger.log(msg, Qgis.Warning)
-            self.dlg.debug_text.append(msg)
-            self.iface.messageBar().pushMessage(
-                "Info",
-                msg,
-                level=Qgis.Info,
-                duration=5,
-            )
-        elif self.exception:
-            msg = (
-                f"> The request was not successful and threw an exception:"
-                + default_message
-                + f"\nException: {self.exception}"
-            )
-            short_msg = (
-                f"> The request was not successful and threw an exception:"
-                + shortened_default_message
-                + f"\nException: {self.exception}"
-            )
-            self.dlg.debug_text.append(short_msg)
-            logger.log(msg, Qgis.Critical)
-            self.iface.messageBar().pushMessage(
-                "Warning",
-                "The response is empty and an error was returned. "
-                "Refine your filter query and check the log or plugin console for errors and exceptions.",
-                level=Qgis.Critical,
-                duration=5,
-            )
-            self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
-        else:
-            msg = (
-                f"The request was not successful and the reason is unclear. This should not happen!"
-                + default_message
-                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
-                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
-            )
-            short_msg = (
-                f"The request was not successful and the reason is unclear. This should not happen!"
-                + shortened_default_message
-                + f'\nResult: {json.dumps(self.result if self.result else {}, indent=4, sort_keys=True)}"'
-                + f'\nException: {json.dumps(self.exception if self.exception else {}, indent=4, sort_keys=True)}"'
-            )
-            self.dlg.debug_text.append(short_msg)
-            logger.log(msg, Qgis.Warning)
-            self.iface.messageBar().pushMessage(
-                "Warning",
-                "The response is empty but without evident error. Refine your filter query and check the log or plugin console.",
-                level=Qgis.Warning,
-                duration=5,
-            )
-        self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
 
     def cancel(self):
         self.client.cancel()

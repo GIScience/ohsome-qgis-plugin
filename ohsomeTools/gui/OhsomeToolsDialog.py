@@ -463,7 +463,7 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         :type parent: QDialog/QApplication
         """
 
-        runtime_config = configmanager.read_config()["runtime"]
+        '''        runtime_config = configmanager.read_config()["runtime"]
         if runtime_config["debug"]:
             import pydevd_pycharm
 
@@ -472,7 +472,7 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
                 port=8080,
                 stdoutToServer=True,
                 stderrToServer=True,
-            )
+            )'''
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
