@@ -1,49 +1,24 @@
 from ohsomeTools.utils import (
-    exceptions,
-    maptools,
     logger,
     configmanager,
-    transform,
 )
 
+import json
+from datetime import datetime
+from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox
 from qgis._core import (
+    QgsVectorLayer,
     Qgis,
-    QgsTask,
-    QgsApplication,
+    QgsProcessingUtils,
 )
 
-import time
-
-from ohsomeTools.common import (
-    client,
-    request_core,
-    API_ENDPOINTS,
-    EXTRACTION_SPECS,
-    AGGREGATION_SPECS,
-    DATA_AGGREGATION_FORMAT,
-)
-
+from ohsomeTools.common import client, request_core
+from ohsomeTools.utils import exceptions, logger
 from qgis.utils import iface
-
 from ohsomeTools.gui import ohsome_spec
 
-import string
-import random
-
-from PyQt5.QtWidgets import (
-    QAction,
-    QDialog,
-    QApplication,
-    QMenu,
-    QMessageBox,
-    QDialogButtonBox,
-    QListWidget,
-    QListWidgetItem,
-)
-
-from ..common.request_core import processingExtractionTaskFunction
-
 def run_processing_alg(processingParams):
+
 
     # Clean the debug text
     try:
@@ -68,8 +43,6 @@ def run_processing_alg(processingParams):
     preferences = ohsome_spec.ProcessingOhsomeSpec(params=processingParams)
 
     try:
-        letters = string.ascii_lowercase
-        task_name = "".join(random.choice(letters) for i in range(10))
         '''if not metadata_check or not preferences.is_valid(False):
             msg = "The request has been aborted!"
             logger.log(msg, 0)
@@ -81,88 +54,30 @@ def run_processing_alg(processingParams):
                 processingParams['selection']
                 == "metadata"
         ):
-            globals()[task_name] = processingExtractionTaskFunction(iface=iface, description=f"OHSOME task metadata",
-                                                                    provider=provider,
-                                                                    request_url=preferences.get_request_url(),
-                                                                    processingParams=processingParams,
-                                                                    preferences=None)
-            QgsApplication.taskManager().addTask(globals()[task_name])
-        elif geom == 0: # geometry type of input layer
-            globals()[task_name] = processingExtractionTaskFunction(iface=iface,
-                                                                    description=f"OHSOME task",
-                                                                    provider=provider,
-                                                                    request_url=preferences.get_request_url(),
-                                                                    processingParams=processingParams,
-                                                                    preferences=preferences.get_bcircles_request_preferences(),
-                                                                    activate_temporal=preferences.activate_temporal_feature)
-            QgsApplication.taskManager().addTask(globals()[task_name])
+            request(clnt, preferences, processingParams)
+
         elif geom == 1:
             layer_preferences = (
                 preferences.get_point_layer_request_preferences()
             )
             if not len(layer_preferences):
                 return
-            last_task = None
-            for point_layer_preference in layer_preferences:
-                task = processingExtractionTaskFunction(iface=iface,
-                                                        description=f"OHSOME task main",
-                                                        provider=provider,
-                                                        request_url=preferences.get_request_url(),
-                                                        processingParams=processingParams,
-                                                        preferences=point_layer_preference,
-                                                        activate_temporal=preferences.activate_temporal_feature)
-                if last_task and last_task != globals()[task_name]:
-                    # Never add the main task as a dependency!
-                    globals()[task_name].addSubTask(
-                        task,
-                        [last_task],
-                        QgsTask.ParentDependsOnSubTask,
-                    )
-                elif last_task:
-                    globals()[task_name].addSubTask(
-                        task, [], QgsTask.ParentDependsOnSubTask
-                    )
-                else:
-                    globals()[task_name] = task
-                last_task = task
-            QgsApplication.taskManager().addTask(globals()[task_name])
-            '''            if globals()[task_name].isCanceled():
-                globals()[task_name].kill()
-            while globals()[task_name].isActive():
-                print('still active')
-                time.sleep(5)'''
-            # print('task manager done')
-        elif geom == 2:
 
+            for point_layer_preference in layer_preferences:
+
+                request(clnt, preferences, processingParams, point_layer_preference)
+
+        elif geom == 2:
+            logger.log('polygon')
             layer_preferences = (
                 preferences.get_polygon_layer_request_preferences()
             )
-            last_task = None
-            for point_layer_preference in layer_preferences:
-                task = processingExtractionTaskFunction(iface=iface,
-                                                        description=f"OHSOME task",
-                                                        provider=provider,
-                                                        request_url=preferences.get_request_url(),
-                                                        processingParams=processingParams,
-                                                        preferences=point_layer_preference,
-                                                        activate_temporal=preferences.activate_temporal_feature)
-                if last_task and last_task != globals()[task_name]:
-                    # Never add the main task as a dependency!
-                    globals()[task_name].addSubTask(
-                        task,
-                        [last_task],
-                        QgsTask.ParentDependsOnSubTask,
-                    )
-                elif last_task:
-                    globals()[task_name].addSubTask(
-                        task, [], QgsTask.ParentDependsOnSubTask
-                    )
-                else:
-                    globals()[task_name] = task
-                last_task = task
-            QgsApplication.taskManager().addTask(globals()[task_name])
+            for polygon_layer_preference in layer_preferences:
+                logger.log('iteration')
+                request(clnt, preferences, processingParams, polygon_layer_preference)
         else:
             return
+
     except exceptions.TooManyInputsFound as e:
         msg = [e.__class__.__name__, str(e)]
         logger.log("{}: {}".format(*msg), 2)
@@ -192,4 +107,120 @@ def run_processing_alg(processingParams):
                 duration=7,
             )
             return
-    # print('run_processing_alg done')
+    logger.log('run_processing_alg done')
+
+def request(clnt, preferences, parameters, point_layer_preference={}):
+    logger.log('requesting')
+    try:
+        request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
+        if len(point_layer_preference):
+            logger.log('requesting 1')
+            result = clnt.request(
+                f"/{preferences.get_request_url()}",
+                {},
+                post_json=point_layer_preference,
+            )
+        else:
+            logger.log('meta')
+            result = client.request(f"/metadata", {})
+    except Exception as e:
+        logger.log(str(e))
+        result = None
+        logger.log(e)
+
+    logger.log('postprocessing')
+    if not result or not len(result):
+        logger.log('postdbabd')
+        return False
+    logger.log('postprocessing2')
+    if "extractRegion" in result:
+        logger.log('extractRegion')
+        vlayer: QgsVectorLayer = iface.addVectorLayer(
+            json.dumps(
+                result.get("extractRegion").get("spatialExtent")
+            ),
+            f"OHSOME_API_spatial_extent",
+            "ogr",
+        )
+        if vlayer:
+            return True
+    elif (
+            all(i in result.keys() for i in ["type", "features"])
+            and result.get("type").lower() == "featurecollection"
+    ):
+        # Process GeoJSON
+        logger.log('GeoJson')
+        geojsons: [] = request_core.split_geojson_by_geometry(
+            result,
+            keep_geometry_less=parameters['check_keep_geometryless'],
+            combine_single_with_multi_geometries=parameters['check_merge_geometries'],
+        )
+        for i in range(len(geojsons)):
+            vlayer = request_core.create_ohsome_vector_layer(
+                iface,
+                geojsons[i],
+                request_time,
+                preferences.get_request_url(),
+                parameters['check_activate_temporal'],
+            )
+            request_core.postprocess_metadata(geojsons[i], vlayer)
+        return True
+    elif (
+            "result" in result.keys()
+            and len(result.get("result")) > 0
+    ):
+        # Process flat tables
+        file = QgsProcessingUtils.generateTempFilename(
+            f"{preferences.get_request_url()}.csv"
+        )
+        header = result["result"][0].keys()
+        vlayer = request_core.create_ohsome_csv_layer(
+            iface,
+            result["result"],
+            header,
+            file,
+            request_time,
+        )
+        request_core.postprocess_metadata(result, vlayer)
+        return True
+    elif (
+            "groupByResult" in result.keys()
+            and len(result.get("groupByResult")) > 0
+    ):
+        # Process non-flat tables
+        logger.log('non-flat tables')
+        results = result["groupByResult"]
+        for result_group in results:
+            file = QgsProcessingUtils.generateTempFilename(
+                f'{result_group["groupByObject"]}_{preferences.get_request_url()}.csv'
+            )
+            header = results[0]["result"][0].keys()
+            vlayer = request_core.create_ohsome_csv_layer(
+                iface,
+                result_group["result"],
+                header,
+                file,
+                request_time,
+            )
+            request_core.postprocess_metadata(result, vlayer)
+        return True
+    elif (
+            "ratioResult" in result.keys()
+            and len(result.get("ratioResult")) > 0
+    ):
+        # Process flat tables
+        file = QgsProcessingUtils.generateTempFilename(
+            f"{preferences.get_request_url()}.csv"
+        )
+        header = result.get("ratioResult")[0].keys()
+        vlayer = request_core.create_ohsome_csv_layer(
+            iface,
+            result["ratioResult"],
+            header,
+            file,
+            request_time,
+        )
+        request_core.postprocess_metadata(result, vlayer)
+        return True
+    logger.log('postprocessing done')
+    return False

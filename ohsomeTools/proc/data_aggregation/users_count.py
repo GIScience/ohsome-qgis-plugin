@@ -25,7 +25,7 @@ from ohsomeTools.common import AGGREGATION_SPECS
 from ..procDialog import run_processing_alg
 
 
-class ContributionsCount(QgsProcessingAlgorithm):
+class UsersCount(QgsProcessingAlgorithm):
     """
     This is an example algorithm that takes a vector layer and
     creates a new identical one.
@@ -74,7 +74,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return ContributionsCount()
+        return UsersCount()
 
     def name(self):
         """
@@ -84,14 +84,14 @@ class ContributionsCount(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataaggregationcontributionscount'
+        return 'dataaggregationuserscount'
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Contributions Count')
+        return self.tr('Users Count')
 
     def group(self):
         """
@@ -310,7 +310,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
 
         processingParams = {'geom':                             geom,
                             'selection':                        'data-Aggregation',
-                            'preference':                       'contributions/count',
+                            'preference':                       'users/count',
                             'filter':                           self.parameterAsString(parameters, self.FILTER, context),
                             'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
                             'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),

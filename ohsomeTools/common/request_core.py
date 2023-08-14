@@ -27,7 +27,7 @@ import csv
 import json
 from datetime import datetime
 
-from PyQt5.QtCore import QVariant
+from PyQt5.QtCore import (QVariant, pyqtSignal)
 from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox
 from qgis._core import (
     QgsVectorLayer,
@@ -399,7 +399,6 @@ class ExtractionTaskFunction(QgsTask):
         except Exception as e:
             self.result = None
             self.exception = e
-        # print('run done')
         return True
 
     def finished(self, valid_result):
@@ -448,16 +447,6 @@ class ExtractionTaskFunction(QgsTask):
                     )
                     short_msg = msg = (
                         f"The request was successful:" + default_message
-                    )
-                    QMessageBox.information(
-                        self.dlg,
-                        "ohsome API Metadata",
-                        "Metadata Response:\n"
-                        f"attribution:\n{json.dumps(self.result.get('attribution'), indent=4, sort_keys=True)}\n"
-                        f"apiVersion:{self.result.get('apiVersion')}\n"
-                        f"spatialExtent: The spatial extent will be imported as a new layer.\n"
-                        f"timeout:{self.result.get('timeout')}\n"
-                        f"temporalExtent:\n{json.dumps(self.result.get('extractRegion').get('temporalExtent'), indent=4, sort_keys=True)}",
                     )
 
                 self.postprocess_results()
@@ -553,16 +542,18 @@ class ExtractionTaskFunction(QgsTask):
 
 class processingExtractionTaskFunction(QgsTask):
     """This shows how to subclass QgsTask"""
-
+    myObjectSignal = pyqtSignal(object)
     def __init__(
         self,
         iface,
         description: str,
         provider,
         request_url,
+        dummy,
         processingParams,
         preferences=None,
         activate_temporal: bool = False,
+
 
 
     ):
@@ -579,6 +570,8 @@ class processingExtractionTaskFunction(QgsTask):
         self.request_time = None
         self.client = client.Client(provider)
         self.processingParams = processingParams
+        self.argument1 = dummy
+
 
     def run(self):
         """Here you implement your heavy lifting.
@@ -598,27 +591,27 @@ class processingExtractionTaskFunction(QgsTask):
         )'''
 
         self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
-        # print(self.preferences)
+        # logger.log(self.preferences)
         try:
             if len(self.preferences):
-                # print('requesting 1')
+                logger.log('requesting 1')
                 self.result = self.client.request(
                     f"/{self.request_url}",
                     {},
                     post_json=self.preferences,
                 )
             else:
-                # print('meta')
+                logger.log('meta')
                 self.result = self.client.request(f"/metadata", {})
         except Exception as e:
-            # print('e601')
+            logger.log('e601')
             self.result = None
             self.exception = e
-        # print(self.result)
-        # print(f'Size of result: {len(self.result)}')
-        # print('run done')
-
-        # self.postprocess_results()
+        # logger.log(self.result)
+        logger.log(f'Size of result: {len(self.result)}')
+        logger.log('run done')
+        if self.isCanceled():
+            return False
         return True
 
     def finished(self, valid_result):
@@ -658,22 +651,21 @@ class processingExtractionTaskFunction(QgsTask):
             stdoutToServer=True,
             stderrToServer=True,
         )'''
-        self.postprocess_results()
 
         if valid_result and self.result:
-            # print('valid')
+            logger.log('valid')
             msg = f"The request was successful:" + default_message
             short_msg = (
                 f"The request was successful:" + shortened_default_message
             )
-            # print(self.result)
+            # logger.log(self.result)
             try:
                 if (
                     valid_result
                     and self.result
                     and "extractRegion" in self.result
                 ):
-                    # print('debug1')
+                    logger.log('debug1')
                     default_message = (
                         f"\nAPI URL: {self.client.base_url}"
                         f"\nEndpoint: {self.request_url}"
@@ -690,10 +682,13 @@ class processingExtractionTaskFunction(QgsTask):
 
 
     def postprocess_results(self) -> bool:
-        # print('postprocessing')
+        logger.log('postprocessing')
         if not self.result or not len(self.result):
+            logger.log('postdbabd')
             return False
+        logger.log('postprocessing2')
         if "extractRegion" in self.result:
+            logger.log('extractRegion')
             vlayer: QgsVectorLayer = self.iface.addVectorLayer(
                 json.dumps(
                     self.result.get("extractRegion").get("spatialExtent")
@@ -708,6 +703,7 @@ class processingExtractionTaskFunction(QgsTask):
             and self.result.get("type").lower() == "featurecollection"
         ):
             # Process GeoJSON
+            logger.log('GeoJson')
             geojsons: [] = split_geojson_by_geometry(
                 self.result,
                 keep_geometry_less=self.dlg.check_keep_geometryless.isChecked(),
@@ -746,6 +742,7 @@ class processingExtractionTaskFunction(QgsTask):
             and len(self.result.get("groupByResult")) > 0
         ):
             # Process non-flat tables
+            logger.log('non-flat tables')
             results = self.result["groupByResult"]
             for result_group in results:
                 file = QgsProcessingUtils.generateTempFilename(
@@ -779,6 +776,7 @@ class processingExtractionTaskFunction(QgsTask):
             )
             postprocess_metadata(self.result, vlayer)
             return True
+        logger.log('postprocessing done')
         return False
 
     def cancel(self):

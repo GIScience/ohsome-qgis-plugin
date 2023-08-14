@@ -271,7 +271,7 @@ class NetworkAccessManager(object):
         )
 
         self.reply.sslErrors.connect(self.sslErrors)
-        # print('finished.connect 275')
+        logger.log('finished.connect 275')
         self.reply.finished.connect(self.replyFinished)
         self.reply.downloadProgress.connect(self.downloadProgress)
 
@@ -282,7 +282,7 @@ class NetworkAccessManager(object):
 
         # Call and block
         self.el = QEventLoop()
-        # print('finished.connect 286')
+        logger.log('finished.connect 286')
         self.reply.finished.connect(self.el.quit)
 
         # Catch all exceptions (and clean up requests)
@@ -292,7 +292,7 @@ class NetworkAccessManager(object):
             raise e
 
         if self.reply:
-            # print('finished.disconnect 296')
+            logger.log('finished.disconnect 296')
             self.reply.finished.disconnect(self.el.quit)
 
         # emit exception in case of error
@@ -302,7 +302,7 @@ class NetworkAccessManager(object):
             else:
                 raise self.exception_class(self.http_call_result.reason)
 
-        # print('request 2 done')
+        logger.log('request 2 done')
         return (self.http_call_result, self.http_call_result.content)
 
     def downloadProgress(self, bytesReceived, bytesTotal):
@@ -449,7 +449,9 @@ class NetworkAccessManager(object):
         else:
             self.msg_log("Reply was already deleted ...")
 
-        # print('networkaccessmanager done')
+        logger.log(msg)
+
+        logger.log('replyFinished done')
 
     def sslErrors(self, ssl_errors):
         """

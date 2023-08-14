@@ -59,7 +59,7 @@ class Client(QObject):
         self.base_url = provider["base_url"]
 
         # self.session = requests.Session()
-        # print('NetworkAccessManager')
+        logger.log('NetworkAccessManager')
         self.nam = networkaccessmanager.NetworkAccessManager(debug=False)
 
         self.retry_timeout = timedelta(seconds=retry_timeout)
@@ -190,7 +190,7 @@ class Client(QObject):
                 )
                 raise e
             raise
-        # print('request 1 done')
+        logger.log('request 1 done')
         return json.loads(content.decode("utf-8"))
 
     def _check_status(self):

@@ -25,7 +25,7 @@ from ohsomeTools.common import AGGREGATION_SPECS
 from ..procDialog import run_processing_alg
 
 
-class ContributionsCount(QgsProcessingAlgorithm):
+class ElementsLength(QgsProcessingAlgorithm):
     """
     This is an example algorithm that takes a vector layer and
     creates a new identical one.
@@ -65,7 +65,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
     group_by_values_line_edit = 'group_by_values_line_edit'
     group_by_key_line_edit = 'group_by_key_line_edit'
     formats = ['json', 'geojson']
-    parameters = [i for i in AGGREGATION_SPECS['contributions/count']]
+    parameters = [i for i in AGGREGATION_SPECS['elements/length']]
 
     def tr(self, string):
         """
@@ -74,7 +74,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return ContributionsCount()
+        return ElementsLength()
 
     def name(self):
         """
@@ -84,14 +84,14 @@ class ContributionsCount(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataaggregationcontributionscount'
+        return 'dataaggregationelementslength'
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Contributions Count')
+        return self.tr('Elements Length')
 
     def group(self):
         """
@@ -310,7 +310,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
 
         processingParams = {'geom':                             geom,
                             'selection':                        'data-Aggregation',
-                            'preference':                       'contributions/count',
+                            'preference':                       'elements/length',
                             'filter':                           self.parameterAsString(parameters, self.FILTER, context),
                             'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
                             'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),
