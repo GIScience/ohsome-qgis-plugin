@@ -27,6 +27,11 @@
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 from ohsomeTools.proc.data_aggregation.contributions_count import ContributionsCount
+from ohsomeTools.proc.data_aggregation.elements_area import ElementsArea
+from ohsomeTools.proc.data_aggregation.elements_count import ElementsCount
+from ohsomeTools.proc.data_aggregation.elements_length import ElementsLength
+from ohsomeTools.proc.data_aggregation.users_count import UsersCount
+from ohsomeTools.proc.data_aggregation.elements_perimeter import ElementsPerimeter
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
@@ -48,6 +53,11 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         """
         # self.addAlgorithm(ExampleProcessingAlgorithm())
         self.addAlgorithm(ContributionsCount())
+        self.addAlgorithm(ElementsArea())
+        self.addAlgorithm(ElementsCount())
+        self.addAlgorithm(ElementsLength())
+        self.addAlgorithm(UsersCount())
+        self.addAlgorithm(ElementsPerimeter())
         pass
 
     def icon(self):

@@ -23,8 +23,6 @@
  *                                                                         *
  ***************************************************************************/
 """
-import json
-
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QMessageBox, QDialog
 from qgis._core import (
@@ -33,11 +31,10 @@ from qgis._core import (
     QgsWkbTypes,
 )
 
-from ohsomeTools.utils import exceptions
 from ohsomeTools.utils.datamanager import (
     convert_point_features_to_ohsome_bcircles,
 )
-
+from ohsomeTools.utils import exceptions, logger
 
 class OhsomeSpec:
     """Extended functionality for all endpoints for the GUI."""
@@ -241,7 +238,7 @@ class OhsomeSpec:
             dates = f"{date_start},{date_end}"
         return dates
 
-    def __get_selected_polygon_layers_geometries(self) -> []:
+    def _get_selected_polygon_layers_geometries(self) -> []:
         layer_list = []
         polygon_layer_list = self.dlg.layer_list
         for idx in range(polygon_layer_list.count()):
@@ -350,17 +347,19 @@ class OhsomeSpec:
         endpoint_specific_request_properties = []
         request_properties = self.__prepare_request_properties()
         list_of_bcircles = self._get_selected_point_layers_geometries()
+        logger.log(str(list_of_bcircles))
         for bcircles in list_of_bcircles:
             request_properties["bcircles"] = bcircles
             endpoint_specific_request_properties.append(
                 request_properties.copy()
             )
+        logger.log('endpoint_specific_request_properties' + str(endpoint_specific_request_properties))
         return endpoint_specific_request_properties
 
     def get_polygon_layer_request_preferences(self) -> []:
         endpoint_specific_request_properties = []
         request_properties = self.__prepare_request_properties()
-        geojsons = self.__get_selected_polygon_layers_geometries()
+        geojsons = self._get_selected_polygon_layers_geometries()
         for geojson_geometry in geojsons:
             request_properties["bpolys"] = geojson_geometry
             endpoint_specific_request_properties.append(
@@ -391,6 +390,35 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     def __init__(self, params):
         self.params = params
 
+    def _get_selected_polygon_layers_geometries(self) -> []:
+        layer_list = []
+        polygon_layer_list = [self.params['LAYER'].name()]
+        logger.log(str([self.params['LAYER']]))
+        for idx in range(len(polygon_layer_list)):
+            item: str = polygon_layer_list[idx]
+            logger.log(item)
+            layers = QgsProject.instance().mapLayersByName(item)
+            layers = [
+                layer
+                for layer in layers
+                if layer.geometryType() == QgsWkbTypes.PolygonGeometry
+            ]
+            logger.log(str([layer for layer in layers]))
+            if len(layers) > 1:
+                raise exceptions.TooManyInputsFound(
+                    str("error"),
+                    # error,
+                    "Found too many input layers with the same name. Use unique names for your layers.",
+                )
+            layer_list.extend(layers)
+        geojsons = [
+            QgsJsonExporter(lyr)
+            .exportFeatures(lyr.getFeatures())
+            .replace('"properties":null', '"properties":{"":""}')
+            for lyr in layer_list
+        ]
+        return geojsons
+
     def is_valid(self, warn: bool = False) -> bool:
         if (
             self.params['selection']
@@ -404,7 +432,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
                 f"{msg}> Missing point layers, did you forget to set one?\n"
                 "Use the green plus button to add multiple layers.\n"
             )
-        if tab_index == 2 and not [self.params['LAYER']].count():
+        if tab_index == 2 and not len([self.params['LAYER']]):
             msg = (
                 f"{msg}> Missing polygon layers, did you forget to set one?\n"
                 "Use the green plus button to add multiple layers.\n"
@@ -433,7 +461,8 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         point_layers_list = [self.params['LAYER']]
         # for idx in range(point_layers_list.count()):
         for item in point_layers_list:
-            file_name, radius = item.rsplit(" | Radius: ")
+            file_name = item.name()
+            radius = self.params['RADIUS']
             ordered_layer_radii.append(int(radius))
             layers = QgsProject.instance().mapLayersByName(file_name)
             layers = [
