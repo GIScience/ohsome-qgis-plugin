@@ -342,3 +342,49 @@ class Client(QObject):
     def cancel(self):
         self.nam.abort()
         self.canceled = True
+
+class ProcessingClient(Client):
+    def __init__(self, provider=None, retry_timeout=60, feedback=None):
+        """
+        :param provider: An ohsome API provider from config.yml
+        :type provider: dict
+
+        :param retry_timeout: Timeout across multiple retryable requests, in
+            seconds.
+        :type retry_timeout: int
+        """
+        QObject.__init__(self)
+
+        self.base_url = provider["base_url"]
+
+        # self.session = requests.Session()
+        logger.log('NetworkAccessManager')
+        self.nam = networkaccessmanager.NetworkAccessManager(debug=False)
+
+        self.retry_timeout = timedelta(seconds=retry_timeout)
+        self.headers = {
+            "User-Agent": _USER_AGENT,
+            "Content-Type": "application/x-www-form-urlencoded",
+            "accept": "application/json",
+        }
+
+        # Save some references to retrieve in client instances
+        self.url = None
+        self.warnings = None
+        self.canceled = False
+        self.feedback = feedback
+
+    def check_api_metadata(self, iface) -> {}:
+        try:
+            return self.request(f"/metadata", {})
+        except ServiceUnavailable as err:
+            self.feedback.reportError(
+                f"Endpoint {self.url} not available. Check your internet connection or provider settings."
+            )
+            return False
+        except Exception as err:
+            self.feedback.reportError(
+                f"Endpoint not healthy. Unknown error: {err}."
+            )
+            return False
+

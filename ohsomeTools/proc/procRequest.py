@@ -3,26 +3,27 @@ from datetime import datetime
 from qgis._core import (
     QgsVectorLayer,
     QgsProcessingUtils,
-)
+    QgsProject
+    )
 from ohsomeTools.common import client, request_core
 from ohsomeTools.utils import logger
 from qgis.utils import iface
 
 
-def request(clnt, preferences, parameters, point_layer_preference={}):
+def processing_request(clnt, preferences, parameters, point_layer_preference={}):
     logger.log('requesting')
     try:
         request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         if len(point_layer_preference):
             logger.log('requesting 1')
-            result = clnt.request(
+            result = clnt.processing_request(
                 f"/{preferences.get_request_url()}",
                 {},
                 post_json=point_layer_preference,
             )
         else:
             logger.log('meta')
-            result = client.request(f"/metadata", {})
+            result = clnt.request(f"/metadata", {})
     except Exception as e:
         logger.log(str(e))
         result = None
@@ -34,13 +35,14 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
         return False
     if "extractRegion" in result:
         logger.log('extractRegion')
-        vlayer: QgsVectorLayer = iface.addVectorLayer(
+
+        vlayer : QgsVectorLayer= QgsVectorLayer(
             json.dumps(
-                result.get("extractRegion").get("spatialExtent")
-            ),
-            f"OHSOME_API_spatial_extent",
-            "ogr",
-        )
+                result.get("extractRegion")
+                .get("spatialExtent")),
+                f"OHSOME_API_spatial_extent",
+                "ogr")
+        QgsProject.instance().addMapLayer(vlayer)
         logger.log('extractRegion2')
         if vlayer:
             logger.log('extractRegion3')

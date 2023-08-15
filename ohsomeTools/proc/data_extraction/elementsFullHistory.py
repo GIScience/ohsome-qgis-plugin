@@ -65,7 +65,7 @@ class ElementsFullHistory(QgsProcessingAlgorithm):
     group_by_values_line_edit = 'group_by_values_line_edit'
     group_by_key_line_edit = 'group_by_key_line_edit'
     formats = ['json', 'geojson']
-    parameters = [i for i in EXTRACTION_SPECS['elements']]
+    parameters = [i for i in EXTRACTION_SPECS['elementsFullHistory']]
 
     def tr(self, string):
         """

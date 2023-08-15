@@ -21,7 +21,6 @@ from qgis.core import (QgsProcessingParameterNumber,
                        QgsProcessingParameterDateTime,
                        QgsWkbTypes)
 
-from ohsomeTools.common import EXTRACTION_SPECS
 from ..procDialog import run_processing_alg
 
 
@@ -65,7 +64,7 @@ class Metadata(QgsProcessingAlgorithm):
     group_by_values_line_edit = 'group_by_values_line_edit'
     group_by_key_line_edit = 'group_by_key_line_edit'
     formats = ['json', 'geojson']
-    parameters = [i for i in EXTRACTION_SPECS['elements']]
+    # parameters = [i for i in EXTRACTION_SPECS['elements']]
 
     def tr(self, string):
         """
@@ -133,14 +132,14 @@ class Metadata(QgsProcessingAlgorithm):
             )
         )
 
-        self.addParameter(
+        '''self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
                 self.tr('Parameter'),
                 options=self.parameters ,
                 defaultValue=0
             )
-        )
+        )'''
 
         self.addParameter(
             QgsProcessingParameterString(
@@ -309,10 +308,10 @@ class Metadata(QgsProcessingAlgorithm):
             pass
 
         processingParams = {'geom':                             geom,
-                            'selection':                        'data-Extraction',
-                            'preference':                       'elements',
+                            'selection':                        'metadata',
+                            'preference':                       '',
                             'filter':                           self.parameterAsString(parameters, self.FILTER, context),
-                            'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
+                            # 'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
                             'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),
                             'RADIUS':                           self.parameterAsInt(parameters, self.RADIUS, context),
                             'check_activate_temporal':          self.parameterAsBool(parameters, self.check_activate_temporal, context),
