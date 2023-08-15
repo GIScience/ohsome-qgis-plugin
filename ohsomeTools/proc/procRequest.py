@@ -16,7 +16,7 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
         request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         if len(point_layer_preference):
             logger.log('requesting 1')
-            result = clnt.processing_request(
+            result = clnt.request(
                 f"/{preferences.get_request_url()}",
                 {},
                 post_json=point_layer_preference,

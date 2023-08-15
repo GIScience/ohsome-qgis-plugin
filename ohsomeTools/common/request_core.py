@@ -102,11 +102,12 @@ def create_ohsome_vector_layer(
     file = QgsProcessingUtils.generateTempFilename(f"{request_url}.geojson")
     with open(file, "w") as f:
         f.write(json.dumps(geojson, indent=4))
-    vlayer: QgsVectorLayer = iface.addVectorLayer(
+    vlayer: QgsVectorLayer = QgsVectorLayer(
         file,
         f"ohsome_" f"{request_time}",
         "ogr",
     )
+    QgsProject.instance().addMapLayer(vlayer)
     postprocess_qgsvectorlayer(vlayer, activate_temporal=activate_temporal)
     return vlayer
 
@@ -298,13 +299,15 @@ class ExtractionTaskFunction(QgsTask):
         if not self.result or not len(self.result):
             return False
         if "extractRegion" in self.result:
-            vlayer: QgsVectorLayer = self.iface.addVectorLayer(
+
+            vlayer: QgsVectorLayer = QgsVectorLayer(
                 json.dumps(
                     self.result.get("extractRegion").get("spatialExtent")
                 ),
                 f"OHSOME_API_spatial_extent",
                 "ogr",
             )
+            QgsProject.instance().addMapLayer(vlayer)
             if vlayer:
                 return True
         elif (
