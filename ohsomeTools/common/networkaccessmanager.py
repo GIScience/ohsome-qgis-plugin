@@ -26,6 +26,7 @@ __date__ = "August 2016"
 
 import re
 import io
+import time
 import urllib.request, urllib.error, urllib.parse
 
 from qgis.PyQt.QtCore import QUrl, QEventLoop

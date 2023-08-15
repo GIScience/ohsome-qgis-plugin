@@ -27,8 +27,9 @@ import csv
 import json
 from datetime import datetime
 
-from PyQt5.QtCore import (QVariant, pyqtSignal)
-from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox
+from PyQt5.QtCore import QVariant
+from PyQt5.QtWidgets import QDialogButtonBox
+
 from qgis._core import (
     QgsVectorLayer,
     QgsVectorDataProvider,
@@ -49,36 +50,50 @@ from ohsomeTools.utils.exceptions import OhsomeBaseException
 
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
+    logger.log('postprocess_metadata 1')
     metadata: QgsLayerMetadata = vlayer.metadata()
     metadata.setTitle("ohsomeTools plugin query result.")
     if original_json.get("metadata") and original_json.get("metadata").get(
         "description"
     ):
+        logger.log('postprocess_metadata 2')
         metadata.setAbstract(original_json.get("metadata").get("description"))
     if original_json.get("apiVersion"):
+        logger.log('postprocess_metadata 3')
         metadata.addConstraint(
             QgsLayerMetadata.Constraint(
                 f"{original_json.get('apiVersion')}", "apiVersion"
             )
         )
     if original_json.get("attribution"):
+        logger.log('postprocess_metadata 4')
         attribution: dict = original_json.get("attribution")
         licenses: [] = [value for _, value in attribution.items()]
         metadata.setLicenses(licenses=licenses)
+    logger.log('postprocess_metadata 5')
     vlayer.setMetadata(metadata=metadata)
+    logger.log('postprocess_metadata 6')
 
 
 def create_ohsome_csv_layer(
     iface, results, header, output_file, request_time: str
 ):
+    import time
+    logger.log('create_ohsome_csv_layer1')
+    time.sleep(5)
     with open(output_file, "w", newline="") as f:
         wr = csv.DictWriter(
             f,
             fieldnames=header,
         )
+        logger.log('create_ohsome_csv_layer2')
+        time.sleep(5)
         wr.writeheader()
         for row_result in results:
             wr.writerow(row_result)
+    logger.log('create_ohsome_csv_layer3')
+    time.sleep(5)
+    print(output_file)
     return iface.addVectorLayer(
         output_file, f"ohsome_" f"{request_time}", "ogr"
     )
@@ -530,254 +545,6 @@ class ExtractionTaskFunction(QgsTask):
                 duration=5,
             )
         self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
-
-    def cancel(self):
-        self.client.cancel()
-        logger.log(
-            "The ohsome API request was canceled by the user.",
-            Qgis.Info,
-        )
-        super().cancel()
-
-
-class processingExtractionTaskFunction(QgsTask):
-    """This shows how to subclass QgsTask"""
-    myObjectSignal = pyqtSignal(object)
-    def __init__(
-        self,
-        iface,
-        description: str,
-        provider,
-        request_url,
-        dummy,
-        processingParams,
-        preferences=None,
-        activate_temporal: bool = False,
-
-
-
-    ):
-        super().__init__(description, QgsTask.CanCancel)
-        self.iface = iface
-        self.total = 0
-        self.iterations = 0
-        self.exception = None
-        self.request_url = request_url
-        self.preferences = preferences if preferences is not None else {}
-        self.activate_temporal = activate_temporal
-        self.result: dict = {}
-        self.exception: OhsomeBaseException = None
-        self.request_time = None
-        self.client = client.Client(provider)
-        self.processingParams = processingParams
-        self.argument1 = dummy
-
-
-    def run(self):
-        """Here you implement your heavy lifting.
-        Should periodically test for isCanceled() to gracefully
-        abort.
-        This method MUST return True or False.
-        Raising exceptions will crash QGIS, so we handle them
-        internally and raise them in self.finished
-        """
-        '''import pydevd_pycharm
-
-        pydevd_pycharm.settrace(
-            "127.0.0.1",
-            port=8080,
-            stdoutToServer=True,
-            stderrToServer=True,
-        )'''
-
-        self.request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
-        # logger.log(self.preferences)
-        try:
-            if len(self.preferences):
-                logger.log('requesting 1')
-                self.result = self.client.request(
-                    f"/{self.request_url}",
-                    {},
-                    post_json=self.preferences,
-                )
-            else:
-                logger.log('meta')
-                self.result = self.client.request(f"/metadata", {})
-        except Exception as e:
-            logger.log('e601')
-            self.result = None
-            self.exception = e
-        # logger.log(self.result)
-        logger.log(f'Size of result: {len(self.result)}')
-        logger.log('run done')
-        if self.isCanceled():
-            return False
-        return True
-
-    def finished(self, valid_result):
-        """
-        This function is automatically called when the task has
-        completed (successfully or not).
-        You implement finished() to do whatever follow-up stuff
-        should happen after the task is complete.
-        finished is always called from the main thread, so it's safe
-        to do GUI operations and raise Python exceptions here.
-        result is the return value from self.run.
-        """
-        print('finishing')
-        default_message = (
-            f"\nAPI URL: {self.client.base_url}"
-            f"\nEndpoint: {self.request_url}"
-            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
-        )
-        if "bpolys" in self.preferences:
-            self.preferences[
-                "bpolys"
-            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
-        elif "bcircles" in self.preferences:
-            self.preferences[
-                "bcircles"
-            ] = "Geometry shortened. For issue/debug copy from 'View'->'Panels'->'Log Messages'."
-        shortened_default_message = (
-            f"\nAPI URL: {self.client.base_url}"
-            f"\nEndpoint: {self.request_url}"
-            f'\nPreferences: {json.dumps(self.preferences, indent=4, sort_keys=True)}"'
-        )
-        '''       import pydevd_pycharm
-
-        pydevd_pycharm.settrace(
-            "127.0.0.1",
-            port=8080,
-            stdoutToServer=True,
-            stderrToServer=True,
-        )'''
-
-        if valid_result and self.result:
-            logger.log('valid')
-            msg = f"The request was successful:" + default_message
-            short_msg = (
-                f"The request was successful:" + shortened_default_message
-            )
-            # logger.log(self.result)
-            try:
-                if (
-                    valid_result
-                    and self.result
-                    and "extractRegion" in self.result
-                ):
-                    logger.log('debug1')
-                    default_message = (
-                        f"\nAPI URL: {self.client.base_url}"
-                        f"\nEndpoint: {self.request_url}"
-                        f'\nMetadata Response: {json.dumps(self.result, indent=4, sort_keys=True)}"'
-                    )
-                    short_msg = msg = (
-                        f"The request was successful:" + default_message
-                    )
-
-
-                self.postprocess_results()
-            except:
-                pass
-
-
-    def postprocess_results(self) -> bool:
-        logger.log('postprocessing')
-        if not self.result or not len(self.result):
-            logger.log('postdbabd')
-            return False
-        logger.log('postprocessing2')
-        if "extractRegion" in self.result:
-            logger.log('extractRegion')
-            vlayer: QgsVectorLayer = self.iface.addVectorLayer(
-                json.dumps(
-                    self.result.get("extractRegion").get("spatialExtent")
-                ),
-                f"OHSOME_API_spatial_extent",
-                "ogr",
-            )
-            if vlayer:
-                return True
-        elif (
-            all(i in self.result.keys() for i in ["type", "features"])
-            and self.result.get("type").lower() == "featurecollection"
-        ):
-            # Process GeoJSON
-            logger.log('GeoJson')
-            geojsons: [] = split_geojson_by_geometry(
-                self.result,
-                keep_geometry_less=self.dlg.check_keep_geometryless.isChecked(),
-                combine_single_with_multi_geometries=self.dlg.check_merge_geometries.isChecked(),
-            )
-            for i in range(len(geojsons)):
-                vlayer = create_ohsome_vector_layer(
-                    self.iface,
-                    geojsons[i],
-                    self.request_time,
-                    self.request_url,
-                    self.activate_temporal,
-                )
-                postprocess_metadata(geojsons[i], vlayer)
-            return True
-        elif (
-            "result" in self.result.keys()
-            and len(self.result.get("result")) > 0
-        ):
-            # Process flat tables
-            file = QgsProcessingUtils.generateTempFilename(
-                f"{self.request_url}.csv"
-            )
-            header = self.result["result"][0].keys()
-            vlayer = create_ohsome_csv_layer(
-                self.iface,
-                self.result["result"],
-                header,
-                file,
-                self.request_time,
-            )
-            postprocess_metadata(self.result, vlayer)
-            return True
-        elif (
-            "groupByResult" in self.result.keys()
-            and len(self.result.get("groupByResult")) > 0
-        ):
-            # Process non-flat tables
-            logger.log('non-flat tables')
-            results = self.result["groupByResult"]
-            for result_group in results:
-                file = QgsProcessingUtils.generateTempFilename(
-                    f'{result_group["groupByObject"]}_{self.request_url}.csv'
-                )
-                header = results[0]["result"][0].keys()
-                vlayer = create_ohsome_csv_layer(
-                    self.iface,
-                    result_group["result"],
-                    header,
-                    file,
-                    self.request_time,
-                )
-                postprocess_metadata(self.result, vlayer)
-            return True
-        elif (
-            "ratioResult" in self.result.keys()
-            and len(self.result.get("ratioResult")) > 0
-        ):
-            # Process flat tables
-            file = QgsProcessingUtils.generateTempFilename(
-                f"{self.request_url}.csv"
-            )
-            header = self.result.get("ratioResult")[0].keys()
-            vlayer = create_ohsome_csv_layer(
-                self.iface,
-                self.result["ratioResult"],
-                header,
-                file,
-                self.request_time,
-            )
-            postprocess_metadata(self.result, vlayer)
-            return True
-        logger.log('postprocessing done')
-        return False
 
     def cancel(self):
         self.client.cancel()
