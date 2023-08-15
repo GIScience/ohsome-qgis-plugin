@@ -289,6 +289,7 @@ class ExtractionTaskFunction(QgsTask):
         self.preferences = preferences if preferences is not None else {}
         self.activate_temporal = activate_temporal
         self.result: dict = {}
+        logger.log('debug ExtractionTaskFunction init')
         self.exception: OhsomeBaseException = None
         self.request_time = None
         self.client = client.Client(provider)

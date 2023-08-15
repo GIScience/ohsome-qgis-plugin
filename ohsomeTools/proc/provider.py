@@ -54,7 +54,7 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         # self.addAlgorithm(ExampleProcessingAlgorithm())
         self.addAlgorithm(ContributionsCount())
         self.addAlgorithm(ElementsArea())
-        # self.addAlgorithm(ElementsCount())
+        self.addAlgorithm(ElementsCount())
         # self.addAlgorithm(ElementsLength())
         # self.addAlgorithm(UsersCount())
         # self.addAlgorithm(ElementsPerimeter())

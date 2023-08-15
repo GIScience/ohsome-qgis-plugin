@@ -170,7 +170,7 @@ class ElementsCount(QgsProcessingAlgorithm):
                 self.timeout_input,
                 'Timeout',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0
+                defaultValue=60
             )
         )
 
