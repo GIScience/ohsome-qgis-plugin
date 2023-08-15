@@ -1,23 +1,10 @@
-from ohsomeTools.utils import (
-    logger,
-    configmanager,
-)
-
-import json
-from datetime import datetime
-from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox
-from qgis._core import (
-    QgsVectorLayer,
-    Qgis,
-    QgsProcessingUtils,
-)
-
-from ohsomeTools.common import client, request_core
-from ohsomeTools.utils import exceptions, logger
+from ohsomeTools.common import client
+from ohsomeTools.utils import exceptions, logger, configmanager
 from qgis.utils import iface
 from ohsomeTools.gui import ohsome_spec
 
 from .procRequest import processing_request
+
 def run_processing_alg(processingParams, feedback):
 
 
@@ -64,14 +51,11 @@ def run_processing_alg(processingParams, feedback):
                 processing_request(clnt, preferences, processingParams, point_layer_preference)
 
         elif geom == 2:
-            logger.log('polygon')
             layer_preferences = (
                 preferences.get_polygon_layer_request_preferences()
             )
             for polygon_layer_preference in layer_preferences:
-                logger.log('iteration')
                 processing_request(clnt, preferences, processingParams, polygon_layer_preference)
-                logger.log('iteration done')
         else:
             return
 
@@ -85,13 +69,9 @@ def run_processing_alg(processingParams, feedback):
         feedback.reportError("Request aborted. Check the tool log.")
     finally:
         if not metadata_check:
-            logger.log('metadata_check')
             return True
         elif not preferences.is_valid(True):
-            logger.log('debug preferences.is_valid(True)')
             feedback.reportError("Preferences are not valid. Check the plugin log.")
-            logger.log('debug preferences.is_valid(True) 2')
             return
-    logger.log('run_processing_alg done')
 
 

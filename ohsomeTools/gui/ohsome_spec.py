@@ -347,13 +347,11 @@ class OhsomeSpec:
         endpoint_specific_request_properties = []
         request_properties = self.__prepare_request_properties()
         list_of_bcircles = self._get_selected_point_layers_geometries()
-        logger.log(str(list_of_bcircles))
         for bcircles in list_of_bcircles:
             request_properties["bcircles"] = bcircles
             endpoint_specific_request_properties.append(
                 request_properties.copy()
             )
-        logger.log('endpoint_specific_request_properties' + str(endpoint_specific_request_properties))
         return endpoint_specific_request_properties
 
     def get_polygon_layer_request_preferences(self) -> []:
@@ -393,17 +391,14 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     def _get_selected_polygon_layers_geometries(self) -> []:
         layer_list = []
         polygon_layer_list = [self.params['LAYER'].name()]
-        logger.log(str([self.params['LAYER']]))
         for idx in range(len(polygon_layer_list)):
             item: str = polygon_layer_list[idx]
-            logger.log(item)
             layers = QgsProject.instance().mapLayersByName(item)
             layers = [
                 layer
                 for layer in layers
                 if layer.geometryType() == QgsWkbTypes.PolygonGeometry
             ]
-            logger.log(str([layer for layer in layers]))
             if len(layers) > 1:
                 raise exceptions.TooManyInputsFound(
                     str("error"),

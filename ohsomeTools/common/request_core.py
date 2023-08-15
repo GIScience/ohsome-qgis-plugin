@@ -51,29 +51,23 @@ from ohsomeTools.utils.exceptions import OhsomeBaseException
 
 
 def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
-    logger.log('postprocess_metadata 1')
     metadata: QgsLayerMetadata = vlayer.metadata()
     metadata.setTitle("ohsomeTools plugin query result.")
     if original_json.get("metadata") and original_json.get("metadata").get(
         "description"
     ):
-        logger.log('postprocess_metadata 2')
         metadata.setAbstract(original_json.get("metadata").get("description"))
     if original_json.get("apiVersion"):
-        logger.log('postprocess_metadata 3')
         metadata.addConstraint(
             QgsLayerMetadata.Constraint(
                 f"{original_json.get('apiVersion')}", "apiVersion"
             )
         )
     if original_json.get("attribution"):
-        logger.log('postprocess_metadata 4')
         attribution: dict = original_json.get("attribution")
         licenses: [] = [value for _, value in attribution.items()]
         metadata.setLicenses(licenses=licenses)
-    logger.log('postprocess_metadata 5')
     vlayer.setMetadata(metadata=metadata)
-    logger.log('postprocess_metadata 6')
 
 
 def create_ohsome_csv_layer(
@@ -290,7 +284,6 @@ class ExtractionTaskFunction(QgsTask):
         self.preferences = preferences if preferences is not None else {}
         self.activate_temporal = activate_temporal
         self.result: dict = {}
-        logger.log('debug ExtractionTaskFunction init')
         self.exception: OhsomeBaseException = None
         self.request_time = None
         self.client = client.Client(provider)
