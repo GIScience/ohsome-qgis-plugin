@@ -11,31 +11,23 @@ from qgis.utils import iface
 
 
 def processing_request(clnt, preferences, parameters, point_layer_preference={}):
-    logger.log('requesting')
     try:
         request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         if len(point_layer_preference):
-            logger.log('requesting 1')
             result = clnt.request(
                 f"/{preferences.get_request_url()}",
                 {},
                 post_json=point_layer_preference,
             )
         else:
-            logger.log('meta')
             result = clnt.request(f"/metadata", {})
     except Exception as e:
-        logger.log(str(e))
         result = None
         logger.log(e)
 
-    logger.log('postprocessing')
     if not result or not len(result):
-        logger.log('postdbabd')
         return False
     if "extractRegion" in result:
-        logger.log('extractRegion')
-
         vlayer : QgsVectorLayer= QgsVectorLayer(
             json.dumps(
                 result.get("extractRegion")
@@ -43,16 +35,13 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
                 f"OHSOME_API_spatial_extent",
                 "ogr")
         QgsProject.instance().addMapLayer(vlayer)
-        logger.log('extractRegion2')
         if vlayer:
-            logger.log('extractRegion3')
             return True
     elif (
             all(i in result.keys() for i in ["type", "features"])
             and result.get("type").lower() == "featurecollection"
     ):
         # Process GeoJSON
-        logger.log('GeoJson')
         geojsons: [] = request_core.split_geojson_by_geometry(
             result,
             keep_geometry_less=parameters['check_keep_geometryless'],
@@ -91,17 +80,12 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
             and len(result.get("groupByResult")) > 0
     ):
         # Process non-flat tables
-        logger.log('non-flat tables procDialog')
         results = result["groupByResult"]
-        logger.log('debug1')
-        logger.log(str(len(results)))
         for result_group in results:
-            logger.log('debug2')
             file = QgsProcessingUtils.generateTempFilename(
                 f'{result_group["groupByObject"]}_{preferences.get_request_url()}.csv'
             )
             header = results[0]["result"][0].keys()
-            logger.log('debug3')
             vlayer = request_core.create_ohsome_csv_layer(
                 iface,
                 result_group["result"],
@@ -109,10 +93,7 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
                 file,
                 request_time,
             )
-            logger.log('debug4')
             request_core.postprocess_metadata(result, vlayer)
-            print('debug5')
-        print('debug6')
         return True
     elif (
             "ratioResult" in result.keys()
@@ -132,5 +113,4 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
         )
         request_core.postprocess_metadata(result, vlayer)
         return True
-    logger.log('postprocessing done')
     return False
