@@ -17,7 +17,7 @@ from ohsomeTools.utils import exceptions, logger
 from qgis.utils import iface
 from ohsomeTools.gui import ohsome_spec
 
-from .procRequest import request
+from .procRequest import processing_request
 def run_processing_alg(processingParams, feedback):
 
 
@@ -31,7 +31,7 @@ def run_processing_alg(processingParams, feedback):
         feedback.reportError(msg)
         return
 
-    clnt = client.Client(provider)
+    clnt = client.ProcessingClient(provider, feedback=feedback)
 
     metadata_check = clnt.check_api_metadata(iface)
 
@@ -50,7 +50,7 @@ def run_processing_alg(processingParams, feedback):
                 processingParams['selection']
                 == "metadata"
         ):
-            request(clnt, preferences, processingParams)
+            processing_request(clnt, preferences, processingParams)
 
         elif geom == 1:
             layer_preferences = (
@@ -61,7 +61,7 @@ def run_processing_alg(processingParams, feedback):
 
             for point_layer_preference in layer_preferences:
 
-                request(clnt, preferences, processingParams, point_layer_preference)
+                processing_request(clnt, preferences, processingParams, point_layer_preference)
 
         elif geom == 2:
             logger.log('polygon')
@@ -70,7 +70,7 @@ def run_processing_alg(processingParams, feedback):
             )
             for polygon_layer_preference in layer_preferences:
                 logger.log('iteration')
-                request(clnt, preferences, processingParams, polygon_layer_preference)
+                processing_request(clnt, preferences, processingParams, polygon_layer_preference)
                 logger.log('iteration done')
         else:
             return
