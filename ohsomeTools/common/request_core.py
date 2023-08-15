@@ -102,9 +102,9 @@ def create_ohsome_vector_layer(
     file = QgsProcessingUtils.generateTempFilename(f"{request_url}.geojson")
     with open(file, "w") as f:
         f.write(json.dumps(geojson, indent=4))
-    vlayer: QgsVectorLayer = QgsVectorLayer(
+    vlayer = QgsVectorLayer(
         file,
-        f"ohsome_" f"{request_time}",
+        f"ohsome_{request_time}",
         "ogr",
     )
     QgsProject.instance().addMapLayer(vlayer)

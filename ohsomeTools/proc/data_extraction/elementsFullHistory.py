@@ -256,7 +256,7 @@ class ElementsFullHistory(QgsProcessingAlgorithm):
                 self.RADIUS,
                 'Radius [m]',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=100
+                defaultValue=0
             )
         )
 
