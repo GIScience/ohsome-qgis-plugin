@@ -23,6 +23,7 @@ from qgis.core import (QgsProcessingParameterNumber,
 
 from ohsomeTools.common import AGGREGATION_SPECS
 from ..procDialog import run_processing_alg
+from qgis.utils import iface
 
 class ElementsCount(QgsProcessingAlgorithm):
     """
@@ -332,7 +333,7 @@ class ElementsCount(QgsProcessingAlgorithm):
                             'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
                             }
 
-        run_processing_alg(processingParams)
+        run_processing_alg(processingParams, feedback)
 
         # To run another Processing algorithm as part of this algorithm, you can use
         # processing.run(...). Make sure you pass the current context and feedback
