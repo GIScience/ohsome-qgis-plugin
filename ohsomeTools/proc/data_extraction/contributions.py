@@ -21,11 +21,11 @@ from qgis.core import (QgsProcessingParameterNumber,
                        QgsProcessingParameterDateTime,
                        QgsWkbTypes)
 
-from ohsomeTools.common import AGGREGATION_SPECS
+from ohsomeTools.common import EXTRACTION_SPECS
 from ..procDialog import run_processing_alg
 
 
-class ContributionsCount(QgsProcessingAlgorithm):
+class Contributions(QgsProcessingAlgorithm):
     """
     This is an example algorithm that takes a vector layer and
     creates a new identical one.
@@ -65,7 +65,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
     group_by_values_line_edit = 'group_by_values_line_edit'
     group_by_key_line_edit = 'group_by_key_line_edit'
     formats = ['json', 'geojson']
-    parameters = [i for i in AGGREGATION_SPECS['contributions/count']]
+    parameters = [i for i in EXTRACTION_SPECS['contributions']]
 
     def tr(self, string):
         """
@@ -74,7 +74,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return ContributionsCount()
+        return Contributions()
 
     def name(self):
         """
@@ -84,21 +84,21 @@ class ContributionsCount(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataaggregationcontributionscount'
+        return 'dataextractioncontributions'
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Contributions Count')
+        return self.tr('Contributions')
 
     def group(self):
         """
         Returns the name of the group this algorithm belongs to. This string
         should be localised.
         """
-        return self.tr('Data Aggregation')
+        return self.tr('Data Extraction')
 
     def groupId(self):
         """
@@ -108,7 +108,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
         contain lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataaggregation'
+        return 'dataextraction'
 
     def shortHelpString(self):
         """
@@ -261,13 +261,13 @@ class ContributionsCount(QgsProcessingAlgorithm):
         )
 
 
-        '''self.addParameter(
+        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
                 self.tr('Keep without geometry'),
                 defaultValue=True
             )
-        )'''
+        )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
@@ -277,7 +277,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
             )
         )
 
-        '''self.addParameter(
+        self.addParameter(
             QgsProcessingParameterString(
                 self.group_by_values_line_edit,
                 self.tr('Group by Values'),
@@ -292,7 +292,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 optional=True
 
             )
-        )'''
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
@@ -309,8 +309,8 @@ class ContributionsCount(QgsProcessingAlgorithm):
             pass
 
         processingParams = {'geom':                             geom,
-                            'selection':                        'data-Aggregation',
-                            'preference':                       'contributions/count',
+                            'selection':                        'data-Extraction',
+                            'preference':                       'contributions',
                             'filter':                           self.parameterAsString(parameters, self.FILTER, context),
                             'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
                             'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),
@@ -327,10 +327,10 @@ class ContributionsCount(QgsProcessingAlgorithm):
                             'YEARS':                            self.parameterAsInt(parameters, self.YEARS, context),
                             'MONTHS':                           self.parameterAsInt(parameters, self.MONTHS, context),
                             'DAYS':                             self.parameterAsInt(parameters, self.DAYS, context),
-                            # 'check_keep_geometryless':          self.parameterAsBool(parameters, self.check_keep_geometryless, context),
-                            # 'check_merge_geometries':           self.parameterAsBool(parameters, self.check_merge_geometries, context),
-                            # 'group_by_values_line_edit':        self.parameterAsString(parameters, self.group_by_values_line_edit, context),
-                            # 'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
+                            'check_keep_geometryless':          self.parameterAsBool(parameters, self.check_keep_geometryless, context),
+                            'check_merge_geometries':           self.parameterAsBool(parameters, self.check_merge_geometries, context),
+                            'group_by_values_line_edit':        self.parameterAsString(parameters, self.group_by_values_line_edit, context),
+                            'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
                             }
 
         run_processing_alg(processingParams, feedback)

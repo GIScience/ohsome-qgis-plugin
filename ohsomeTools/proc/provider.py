@@ -32,6 +32,10 @@ from ohsomeTools.proc.data_aggregation.elements_count import ElementsCount
 from ohsomeTools.proc.data_aggregation.elements_length import ElementsLength
 from ohsomeTools.proc.data_aggregation.users_count import UsersCount
 from ohsomeTools.proc.data_aggregation.elements_perimeter import ElementsPerimeter
+from ohsomeTools.proc.data_extraction.contributions import Contributions
+from ohsomeTools.proc.data_extraction.elements import Elements
+from ohsomeTools.proc.data_extraction.elementsFullHistory import ElementsFullHistory
+from ohsomeTools.proc.metadata.metadata import Metadata
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
@@ -51,13 +55,21 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         """
         Loads all algorithms belonging to this provider.
         """
-        # self.addAlgorithm(ExampleProcessingAlgorithm())
+        # data-aggregation
         self.addAlgorithm(ContributionsCount())
         self.addAlgorithm(ElementsArea())
         self.addAlgorithm(ElementsCount())
-        # self.addAlgorithm(ElementsLength())
-        # self.addAlgorithm(UsersCount())
-        # self.addAlgorithm(ElementsPerimeter())
+        self.addAlgorithm(ElementsLength())
+        self.addAlgorithm(UsersCount())
+        self.addAlgorithm(ElementsPerimeter())
+
+        # data extraction
+        self.addAlgorithm(Contributions())
+        self.addAlgorithm(Elements())
+        self.addAlgorithm(ElementsFullHistory())
+
+        # metadata
+        self.addAlgorithm(Metadata())
 
     def icon(self):
         return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")

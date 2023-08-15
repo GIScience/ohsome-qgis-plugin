@@ -12,23 +12,20 @@
 """
 
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (QgsProcessing,
-                       QgsFeatureSink,
-                       QgsProcessingException,
+from qgis.core import (QgsProcessingParameterNumber,
                        QgsProcessingAlgorithm,
                        QgsProcessingParameterEnum,
-                       QgsProcessingParameterFeatureSink,
-                       QgsProcessingParameterVectorLayer)
-from qgis import processing
-from ohsomeTools.common import (DATA_AGGREGATION_FORMAT,
-                                AGGREGATION_SPECS,
-                                EXTRACTION_SPECS)
+                       QgsProcessingParameterVectorLayer,
+                       QgsProcessingParameterString,
+                       QgsProcessingParameterBoolean,
+                       QgsProcessingParameterDateTime,
+                       QgsWkbTypes)
+
+from ohsomeTools.common import EXTRACTION_SPECS
+from ..procDialog import run_processing_alg
 
 
-
-
-
-class DataAggregation(QgsProcessingAlgorithm):
+class Metadata(QgsProcessingAlgorithm):
     """
     This is an example algorithm that takes a vector layer and
     creates a new identical one.
@@ -46,10 +43,30 @@ class DataAggregation(QgsProcessingAlgorithm):
     # used when calling the algorithm from another algorithm, or when
     # calling from the QGIS console.
 
-    OUTPUT = 'OUTPUT'
     LAYER = 'LAYER'
-    PARAMETER1 = 'PARAMETER_1'
-    PARAMETER2 = 'PARAMETER_2'
+    PARAMETER = 'PARAMETER'
+    INPUT = 'INPUT'
+    FILTER = 'FILTER'
+    check_activate_temporal = 'check_activate_temporal'
+    check_show_metadata = 'check_show_metadata'
+    timeout_input = 'timeout_input'
+    check_clip_geometry = 'check_clip_geometry'
+    property_groups_check_tags = 'property_groups_check_tags'
+    property_groups_check_metadata = 'property_groups_check_metadata'
+    data_aggregation_format = 'data_aggregation_format'
+    date_start = 'date_start'
+    date_end = 'date_end'
+    YEARS = 'YEARS'
+    MONTHS = 'MONTHS'
+    DAYS = 'DAYS'
+    RADIUS = 'RADIUS'
+    check_keep_geometryless = 'check_keep_geometryless'
+    check_merge_geometries = 'check_merge_geometries'
+    group_by_values_line_edit = 'group_by_values_line_edit'
+    group_by_key_line_edit = 'group_by_key_line_edit'
+    formats = ['json', 'geojson']
+    parameters = [i for i in EXTRACTION_SPECS['elements']]
+
     def tr(self, string):
         """
         Returns a translatable string with the self.tr() function.
@@ -57,7 +74,7 @@ class DataAggregation(QgsProcessingAlgorithm):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return DataAggregation()
+        return Metadata()
 
     def name(self):
         """
@@ -67,21 +84,21 @@ class DataAggregation(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'elementsaggregation'
+        return 'metadata'
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Data Aggregation')
+        return self.tr('Metadata')
 
     def group(self):
         """
         Returns the name of the group this algorithm belongs to. This string
         should be localised.
         """
-        return self.tr('Ohsome')
+        return self.tr('Metadata')
 
     def groupId(self):
         """
@@ -91,13 +108,13 @@ class DataAggregation(QgsProcessingAlgorithm):
         contain lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'ohsomescripts'
+        return 'metadata'
 
     def shortHelpString(self):
         """
         Returns a localised short helper string for the algorithm. This string
         should provide a basic description about what the algorithm does and the
-        parameters and outputs associated with it..
+        parameters and outputs associated with it.
         """
         return self.tr("Example algorithm short description")
 
@@ -118,20 +135,162 @@ class DataAggregation(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterEnum(
-                self.PARAMETER1,
-                self.tr('Parameter 1'),
-                options=[self.tr(i) for i in AGGREGATION_SPECS.keys() if 'elements' in i],
+                self.PARAMETER,
+                self.tr('Parameter'),
+                options=self.parameters ,
                 defaultValue=0
             )
         )
 
-        # We add a feature sink in which to store our processed features (this
-        # usually takes the form of a newly created vector layer when the
-        # algorithm is run in QGIS).
         self.addParameter(
-            QgsProcessingParameterFeatureSink(
-                self.OUTPUT,
-                self.tr('Output layer')
+            QgsProcessingParameterString(
+                self.FILTER,
+                self.tr('Filter'),
+                defaultValue='building=* or (type:way and highway=residential)'
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_activate_temporal,
+                self.tr('Qgis temporal feature'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_show_metadata,
+                self.tr('Show metadata'),
+                defaultValue=False
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.timeout_input,
+                'Timeout',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=60
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_clip_geometry,
+                self.tr('Clip geometry'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.property_groups_check_tags,
+                self.tr('Tags'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.property_groups_check_metadata,
+                self.tr('Metadata'),
+                defaultValue=False
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.data_aggregation_format,
+                self.tr('Format'),
+                options=self.formats,
+                defaultValue=0
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                self.date_start,
+                'Start Date',
+                defaultValue='2007-10-08'
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                self.date_end,
+                'End Date',
+                defaultValue='2023-07-28'
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.YEARS,
+                'Years',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=0
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.MONTHS,
+                'Months',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=0
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.DAYS,
+                'Days',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=1
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                'Radius [m]',
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=100
+            )
+        )
+
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_keep_geometryless,
+                self.tr('Keep without geometry'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_merge_geometries,
+                self.tr('Harmonize geometries'),
+                defaultValue=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_values_line_edit,
+                self.tr('Group by Values'),
+                optional=True
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_key_line_edit,
+                self.tr('Group by Key'),
+                optional=True
+
             )
         )
 
@@ -139,73 +298,48 @@ class DataAggregation(QgsProcessingAlgorithm):
         """
         Here is where the processing itself takes place.
         """
-        # Retrieve the feature source and sink. The 'dest_id' variable is used
-        # to uniquely identify the feature sink, and must be included in the
-        # dictionary returned by the processAlgorithm function.
-        source = self.parameterAsSource(
-            parameters,
-            self.INPUT,
-            context
-        )
+        layer = self.parameterAsLayer(parameters, self.LAYER, context)
 
-        # If source was not found, throw an exception to indicate that the algorithm
-        # encountered a fatal error. The exception text can be any string, but in this
-        # case we use the pre-built invalidSourceError method to return a standard
-        # helper text for when a source cannot be evaluated
-        if source is None:
-            raise QgsProcessingException(self.invalidSourceError(parameters, self.INPUT))
+        if layer.geometryType() == QgsWkbTypes.PointGeometry:
+            geom = 1
+        elif layer.geometryType() == QgsWkbTypes.PolygonGeometry:
+            geom = 2
+        else:
+            # implement user information
+            pass
 
-        (sink, dest_id) = self.parameterAsSink(
-            parameters,
-            self.OUTPUT,
-            context,
-            source.fields(),
-            source.wkbType(),
-            source.sourceCrs()
-        )
+        processingParams = {'geom':                             geom,
+                            'selection':                        'data-Extraction',
+                            'preference':                       'elements',
+                            'filter':                           self.parameterAsString(parameters, self.FILTER, context),
+                            'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
+                            'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),
+                            'RADIUS':                           self.parameterAsInt(parameters, self.RADIUS, context),
+                            'check_activate_temporal':          self.parameterAsBool(parameters, self.check_activate_temporal, context),
+                            'check_show_metadata':              self.parameterAsBool(parameters, self.check_show_metadata, context),
+                            'timeout_input':                    self.parameterAsInt(parameters, self.timeout_input, context),
+                            'check_clip_geometry':              self.parameterAsBool(parameters, self.check_clip_geometry, context),
+                            'property_groups_check_tags':       self.parameterAsBool(parameters, self.property_groups_check_tags, context),
+                            'property_groups_check_metadata':   self.parameterAsBool(parameters, self.property_groups_check_metadata, context),
+                            'data_aggregation_format':          self.formats[self.parameterAsInt(parameters, self.data_aggregation_format, context)],
+                            'date_start':                       self.parameterAsDateTime(parameters, self.date_start, context),
+                            'date_end':                         self.parameterAsDateTime(parameters, self.date_end, context),
+                            'YEARS':                            self.parameterAsInt(parameters, self.YEARS, context),
+                            'MONTHS':                           self.parameterAsInt(parameters, self.MONTHS, context),
+                            'DAYS':                             self.parameterAsInt(parameters, self.DAYS, context),
+                            'check_keep_geometryless':          self.parameterAsBool(parameters, self.check_keep_geometryless, context),
+                            'check_merge_geometries':           self.parameterAsBool(parameters, self.check_merge_geometries, context),
+                            'group_by_values_line_edit':        self.parameterAsString(parameters, self.group_by_values_line_edit, context),
+                            'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
+                            }
 
-        # Send some information to the user
-        feedback.pushInfo('CRS is {}'.format(source.sourceCrs().authid()))
-
-        # If sink was not created, throw an exception to indicate that the algorithm
-        # encountered a fatal error. The exception text can be any string, but in this
-        # case we use the pre-built invalidSinkError method to return a standard
-        # helper text for when a sink cannot be evaluated
-        if sink is None:
-            raise QgsProcessingException(self.invalidSinkError(parameters, self.OUTPUT))
-
-        # Compute the number of steps to display within the progress bar and
-        # get features from source
-        total = 100.0 / source.featureCount() if source.featureCount() else 0
-        features = source.getFeatures()
-
-        for current, feature in enumerate(features):
-            # Stop the algorithm if cancel button has been clicked
-            if feedback.isCanceled():
-                break
-
-            # Add a feature in the sink
-            sink.addFeature(feature, QgsFeatureSink.FastInsert)
-
-            # Update the progress bar
-            feedback.setProgress(int(current * total))
+        run_processing_alg(processingParams, feedback)
 
         # To run another Processing algorithm as part of this algorithm, you can use
         # processing.run(...). Make sure you pass the current context and feedback
         # to processing.run to ensure that all temporary layer outputs are available
         # to the executed algorithm, and that the executed algorithm can send feedback
         # reports to the user (and correctly handle cancellation and progress reports!)
-        if False:
-            buffered_layer = processing.run("native:buffer", {
-                'INPUT': dest_id,
-                'DISTANCE': 1.5,
-                'SEGMENTS': 5,
-                'END_CAP_STYLE': 0,
-                'JOIN_STYLE': 0,
-                'MITER_LIMIT': 2,
-                'DISSOLVE': False,
-                'OUTPUT': 'memory:'
-            }, context=context, feedback=feedback)['OUTPUT']
 
         # Return the results of the algorithm. In this case our only result is
         # the feature sink which contains the processed features, but some
@@ -213,4 +347,4 @@ class DataAggregation(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {self.OUTPUT: dest_id}
+        return {}
