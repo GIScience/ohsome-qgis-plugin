@@ -75,6 +75,7 @@ def run_processing_alg(processingParams):
             for polygon_layer_preference in layer_preferences:
                 logger.log('iteration')
                 request(clnt, preferences, processingParams, polygon_layer_preference)
+                logger.log('iteration done')
         else:
             return
 
@@ -98,14 +99,17 @@ def run_processing_alg(processingParams):
         )
     finally:
         if not metadata_check:
+            logger.log('metadata_check')
             return True
         elif not preferences.is_valid(True):
+            logger.log('debug preferences.is_valid(True)')
             iface.messageBar().pushMessage(
                 "Warning",
                 "Preferences are not valid. Check the plugin log.",
                 level=Qgis.Critical,
                 duration=7,
             )
+            logger.log('debug preferences.is_valid(True) 2')
             return
     logger.log('run_processing_alg done')
 
@@ -142,7 +146,9 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             f"OHSOME_API_spatial_extent",
             "ogr",
         )
+        logger.log('extractRegion2')
         if vlayer:
+            logger.log('extractRegion3')
             return True
     elif (
             all(i in result.keys() for i in ["type", "features"])
@@ -174,7 +180,6 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             f"{preferences.get_request_url()}.csv"
         )
         header = result["result"][0].keys()
-        ################################
         vlayer = request_core.create_ohsome_csv_layer(
             iface,
             result["result"],
@@ -182,7 +187,6 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             file,
             request_time,
         )
-        ################################
         request_core.postprocess_metadata(result, vlayer)
         return True
     elif (
@@ -193,6 +197,7 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
         logger.log('non-flat tables procDialog')
         results = result["groupByResult"]
         logger.log('debug1')
+        logger.log(str(len(results)))
         for result_group in results:
             logger.log('debug2')
             file = QgsProcessingUtils.generateTempFilename(
@@ -209,7 +214,8 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             )
             logger.log('debug4')
             request_core.postprocess_metadata(result, vlayer)
-        print('debug5')
+            print('debug5')
+        print('debug6')
         return True
     elif (
             "ratioResult" in result.keys()

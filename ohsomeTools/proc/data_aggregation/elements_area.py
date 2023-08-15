@@ -171,7 +171,7 @@ class ElementsArea(QgsProcessingAlgorithm):
                 self.timeout_input,
                 'Timeout',
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0
+                defaultValue=60
             )
         )
 
@@ -290,7 +290,6 @@ class ElementsArea(QgsProcessingAlgorithm):
                 self.group_by_key_line_edit,
                 self.tr('Group by Key'),
                 optional=True
-
             )
         )
 

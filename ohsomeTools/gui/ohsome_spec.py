@@ -451,6 +451,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
             msg = f"{msg}> Request url needs to be set.\n"
         if len(self._request_date_string) <= 0:
             msg = f"{msg}> Request date needs to be set.\n"
+        logger.log(msg)
         if len(msg):
             return False
         return True
