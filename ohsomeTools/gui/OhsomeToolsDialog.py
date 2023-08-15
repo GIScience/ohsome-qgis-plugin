@@ -69,6 +69,10 @@ from ohsomeTools.utils import (
     configmanager,
     transform,
 )
+
+from . import resources_rc
+
+
 from ohsomeTools.common import (
     client,
     request_core,

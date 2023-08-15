@@ -48,5 +48,4 @@ def log(message, level_in=0, tag=PLUGIN_NAME):
         level = Qgis.Critical
     else:
         level = Qgis.Info
-    print(message)
     QgsMessageLog.logMessage(message, tag.strip(), level)

@@ -191,6 +191,7 @@ class Client(QObject):
                 raise e
             raise
         logger.log('request 1 done')
+        time.sleep(5)
         return json.loads(content.decode("utf-8"))
 
     def _check_status(self):
