@@ -130,7 +130,6 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
 
     import time
     logger.log('postprocessing')
-    time.sleep(5)
     if not result or not len(result):
         logger.log('postdbabd')
         return False
@@ -175,8 +174,7 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             f"{preferences.get_request_url()}.csv"
         )
         header = result["result"][0].keys()
-        logger.log('postprocessing1')
-        time.sleep(5)
+        ################################
         vlayer = request_core.create_ohsome_csv_layer(
             iface,
             result["result"],
@@ -184,8 +182,7 @@ def request(clnt, preferences, parameters, point_layer_preference={}):
             file,
             request_time,
         )
-        logger.log('postprocessing2')
-        time.sleep(5)
+        ################################
         request_core.postprocess_metadata(result, vlayer)
         return True
     elif (

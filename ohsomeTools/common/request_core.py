@@ -42,6 +42,7 @@ from qgis._core import (
 from qgis.core import (
     QgsFeature,
     QgsField,
+    QgsProject
 )
 
 from ohsomeTools.common import client
@@ -78,25 +79,17 @@ def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
 def create_ohsome_csv_layer(
     iface, results, header, output_file, request_time: str
 ):
-    import time
-    logger.log('create_ohsome_csv_layer1')
-    time.sleep(5)
     with open(output_file, "w", newline="") as f:
         wr = csv.DictWriter(
             f,
             fieldnames=header,
         )
-        logger.log('create_ohsome_csv_layer2')
-        time.sleep(5)
         wr.writeheader()
         for row_result in results:
             wr.writerow(row_result)
-    logger.log('create_ohsome_csv_layer3')
-    time.sleep(5)
-    print(output_file)
-    return iface.addVectorLayer(
-        output_file, f"ohsome_" f"{request_time}", "ogr"
-    )
+    layer = QgsVectorLayer(output_file, f"ohsome_" f"{request_time}", 'ogr')
+    QgsProject.instance().addMapLayer(layer)
+    return layer
 
 
 def create_ohsome_vector_layer(
