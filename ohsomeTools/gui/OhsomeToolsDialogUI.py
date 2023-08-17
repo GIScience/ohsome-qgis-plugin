@@ -734,7 +734,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_17.addWidget(self.tabWidget, 0, 0, 1, 1)
         self.scrollArea = QtWidgets.QScrollArea(OhsomeToolsDialogBase)
         self.scrollArea.setMinimumSize(QtCore.QSize(100, 0))
-        self.scrollArea.setMaximumSize(QtCore.QSize(350, 16777215))
+        self.scrollArea.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
