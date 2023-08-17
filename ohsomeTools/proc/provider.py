@@ -37,11 +37,7 @@ from ohsomeTools.proc.data_extraction.elements import Elements
 from ohsomeTools.proc.data_extraction.elementsFullHistory import ElementsFullHistory
 from ohsomeTools.proc.metadata.metadata import Metadata
 
-from ohsomeTools import (
-    RESOURCE_PREFIX,
-    PLUGIN_NAME,
-    __version__
-)
+from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
 
 class OhsomeToolsProvider(QgsProcessingProvider):

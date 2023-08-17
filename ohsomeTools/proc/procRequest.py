@@ -1,10 +1,6 @@
 import json
 from datetime import datetime
-from qgis._core import (
-    QgsVectorLayer,
-    QgsProcessingUtils,
-    QgsProject
-    )
+from qgis._core import QgsVectorLayer, QgsProcessingUtils, QgsProject
 from ohsomeTools.common import client, request_core
 from ohsomeTools.utils import logger
 from qgis.utils import iface
@@ -28,24 +24,23 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
     if not result or not len(result):
         return False
     if "extractRegion" in result:
-        vlayer : QgsVectorLayer= QgsVectorLayer(
-            json.dumps(
-                result.get("extractRegion")
-                .get("spatialExtent")),
-                f"OHSOME_API_spatial_extent",
-                "ogr")
+        vlayer: QgsVectorLayer = QgsVectorLayer(
+            json.dumps(result.get("extractRegion").get("spatialExtent")),
+            f"OHSOME_API_spatial_extent",
+            "ogr",
+        )
         QgsProject.instance().addMapLayer(vlayer)
         if vlayer:
             return True
     elif (
-            all(i in result.keys() for i in ["type", "features"])
-            and result.get("type").lower() == "featurecollection"
+        all(i in result.keys() for i in ["type", "features"])
+        and result.get("type").lower() == "featurecollection"
     ):
         # Process GeoJSON
         geojsons: [] = request_core.split_geojson_by_geometry(
             result,
-            keep_geometry_less=parameters['check_keep_geometryless'],
-            combine_single_with_multi_geometries=parameters['check_merge_geometries'],
+            keep_geometry_less=parameters["check_keep_geometryless"],
+            combine_single_with_multi_geometries=parameters["check_merge_geometries"],
         )
         for i in range(len(geojsons)):
             vlayer = request_core.create_ohsome_vector_layer(
@@ -53,14 +48,11 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
                 geojsons[i],
                 request_time,
                 preferences.get_request_url(),
-                parameters['check_activate_temporal'],
+                parameters["check_activate_temporal"],
             )
             request_core.postprocess_metadata(geojsons[i], vlayer)
         return True
-    elif (
-            "result" in result.keys()
-            and len(result.get("result")) > 0
-    ):
+    elif "result" in result.keys() and len(result.get("result")) > 0:
         # Process flat tables
         file = QgsProcessingUtils.generateTempFilename(
             f"{preferences.get_request_url()}.csv"
@@ -75,10 +67,7 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
         )
         request_core.postprocess_metadata(result, vlayer)
         return True
-    elif (
-            "groupByResult" in result.keys()
-            and len(result.get("groupByResult")) > 0
-    ):
+    elif "groupByResult" in result.keys() and len(result.get("groupByResult")) > 0:
         # Process non-flat tables
         results = result["groupByResult"]
         for result_group in results:
@@ -95,10 +84,7 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
             )
             request_core.postprocess_metadata(result, vlayer)
         return True
-    elif (
-            "ratioResult" in result.keys()
-            and len(result.get("ratioResult")) > 0
-    ):
+    elif "ratioResult" in result.keys() and len(result.get("ratioResult")) > 0:
         # Process flat tables
         file = QgsProcessingUtils.generateTempFilename(
             f"{preferences.get_request_url()}.csv"
