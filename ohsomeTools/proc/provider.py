@@ -37,7 +37,11 @@ from ohsomeTools.proc.data_extraction.elements import Elements
 from ohsomeTools.proc.data_extraction.elementsFullHistory import ElementsFullHistory
 from ohsomeTools.proc.metadata.metadata import Metadata
 
-from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
+from ohsomeTools import (
+    RESOURCE_PREFIX,
+    PLUGIN_NAME,
+    __version__
+)
 
 
 class OhsomeToolsProvider(QgsProcessingProvider):
@@ -93,7 +97,7 @@ class OhsomeToolsProvider(QgsProcessingProvider):
 
     def longName(self):
         """
-        Returns the a longer version of the provider name, which can include
+        Returns the longer version of the provider name, which can include
         extra details such as version numbers. E.g. "Lastools LIDAR tools
         (version 2.2.1)". This string should be localised. The default
         implementation returns the same string as name().
