@@ -63,7 +63,7 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         self.addAlgorithm(UsersCount())
         self.addAlgorithm(ElementsPerimeter())
 
-        # data extraction
+        # data-extraction
         self.addAlgorithm(Contributions())
         self.addAlgorithm(Elements())
         self.addAlgorithm(ElementsFullHistory())
