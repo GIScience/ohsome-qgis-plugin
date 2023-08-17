@@ -36,6 +36,7 @@ from ohsomeTools.utils.datamanager import (
 )
 from ohsomeTools.utils import exceptions, logger
 
+
 class OhsomeSpec:
     """Extended functionality for all endpoints for the GUI."""
 
@@ -384,13 +385,14 @@ class OhsomeSpec:
             "et_request_url": self.get_request_url,
         }
 
+
 class ProcessingOhsomeSpec(OhsomeSpec):
     def __init__(self, params):
         self.params = params
 
     def _get_selected_polygon_layers_geometries(self) -> []:
         layer_list = []
-        polygon_layer_list = [self.params['LAYER'].name()]
+        polygon_layer_list = [self.params["LAYER"].name()]
         for idx in range(len(polygon_layer_list)):
             item: str = polygon_layer_list[idx]
             layers = QgsProject.instance().mapLayersByName(item)
@@ -415,19 +417,16 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         return geojsons
 
     def is_valid(self, warn: bool = False) -> bool:
-        if (
-            self.params['selection']
-            == "metadata"
-        ):
+        if self.params["selection"] == "metadata":
             return True
-        tab_index = self.params['geom']
+        tab_index = self.params["geom"]
         msg = ""
-        if tab_index == 1 and not [self.params['LAYER']]:
+        if tab_index == 1 and not [self.params["LAYER"]]:
             msg = (
                 f"{msg}> Missing point layers, did you forget to set one?\n"
                 "Use the green plus button to add multiple layers.\n"
             )
-        if tab_index == 2 and not len([self.params['LAYER']]):
+        if tab_index == 2 and not len([self.params["LAYER"]]):
             msg = (
                 f"{msg}> Missing polygon layers, did you forget to set one?\n"
                 "Use the green plus button to add multiple layers.\n"
@@ -454,11 +453,11 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     def _get_selected_point_layers_geometries(self) -> {}:
         ordered_layer_radii = []
         ordered_list_of_features = []
-        point_layers_list = [self.params['LAYER']]
+        point_layers_list = [self.params["LAYER"]]
         # for idx in range(point_layers_list.count()):
         for item in point_layers_list:
             file_name = item.name()
-            radius = self.params['RADIUS']
+            radius = self.params["RADIUS"]
             ordered_layer_radii.append(int(radius))
             layers = QgsProject.instance().mapLayersByName(file_name)
             layers = [
@@ -485,14 +484,14 @@ class ProcessingOhsomeSpec(OhsomeSpec):
 
     @property
     def _request_filter(self) -> str:
-        return self.params['filter']
+        return self.params["filter"]
 
     @property
     def _property_groups(self) -> str:
         properties = ""
-        if self.params['property_groups_check_tags']:
+        if self.params["property_groups_check_tags"]:
             properties = "tags"
-        if self.params['property_groups_check_metadata']:
+        if self.params["property_groups_check_metadata"]:
             properties = (
                 f"{properties},metadata" if properties == "tags" else "metadata"
             )
@@ -501,34 +500,34 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     @property
     def _request_date_string(self) -> str:
         date_string = self._prepare_ohsome_time_parameter(
-            self.params['date_start'],
-            self.params['date_end'],
-            self.params['YEARS'],
-            self.params['MONTHS'],
-            self.params['DAYS'],
+            self.params["date_start"],
+            self.params["date_end"],
+            self.params["YEARS"],
+            self.params["MONTHS"],
+            self.params["DAYS"],
         )
         return date_string
 
     @property
     def _group_by_values(self):
-        return self.params['group_by_values_line_edit']
+        return self.params["group_by_values_line_edit"]
         pass
 
     @property
     def _group_by_key(self):
-        return self.params['group_by_key_line_edit']
+        return self.params["group_by_key_line_edit"]
         pass
 
     @property
     def _data_aggregation_format(self) -> str:
-        return self.params['data_aggregation_format']
+        return self.params["data_aggregation_format"]
 
     @property
     def _property_groups(self) -> str:
         properties = ""
-        if self.params['property_groups_check_tags']:
+        if self.params["property_groups_check_tags"]:
             properties = "tags"
-        if self.params['property_groups_check_metadata']:
+        if self.params["property_groups_check_metadata"]:
             properties = (
                 f"{properties},metadata" if properties == "tags" else "metadata"
             )
@@ -536,43 +535,39 @@ class ProcessingOhsomeSpec(OhsomeSpec):
 
     @property
     def _data_extraction_clip_geometry(self) -> bool:
-        if self.params['check_clip_geometry']:
+        if self.params["check_clip_geometry"]:
             return True
         return False
 
     @property
     def _request_timeout(self) -> int:
         value = 0
-        if self.params['timeout_input'] > 0:
-            value: int = int(self.params['timeout_input'])
+        if self.params["timeout_input"] > 0:
+            value: int = int(self.params["timeout_input"])
         return value
 
     @property
     def _show_metadata(self) -> bool:
         # Get all parameters
-        if self.params['check_show_metadata']:
+        if self.params["check_show_metadata"]:
             return True
         return False
 
     @property
     def activate_temporal_feature(self):
-        if self.params['check_activate_temporal']:
+        if self.params["check_activate_temporal"]:
             return True
         return False
+
     @property
     def _api_spec(self):
-        return self.params['selection']
+        return self.params["selection"]
 
     @property
     def _request_url(self):
         # Construct request url
-        if (
-            self.params['selection']
-            == "metadata"
-        ):
-            return (
-                f"{self.params['selection']}"
-            )
+        if self.params["selection"] == "metadata":
+            return f"{self.params['selection']}"
         else:
             return (
                 f"{self.params['preference']}/"

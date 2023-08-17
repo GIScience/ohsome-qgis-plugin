@@ -26,15 +26,21 @@
 
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
-from ohsomeTools.proc.data_aggregation.contributions_count import ContributionsCount
+from ohsomeTools.proc.data_aggregation.contributions_count import (
+    ContributionsCount,
+)
 from ohsomeTools.proc.data_aggregation.elements_area import ElementsArea
 from ohsomeTools.proc.data_aggregation.elements_count import ElementsCount
 from ohsomeTools.proc.data_aggregation.elements_length import ElementsLength
 from ohsomeTools.proc.data_aggregation.users_count import UsersCount
-from ohsomeTools.proc.data_aggregation.elements_perimeter import ElementsPerimeter
+from ohsomeTools.proc.data_aggregation.elements_perimeter import (
+    ElementsPerimeter,
+)
 from ohsomeTools.proc.data_extraction.contributions import Contributions
 from ohsomeTools.proc.data_extraction.elements import Elements
-from ohsomeTools.proc.data_extraction.elementsFullHistory import ElementsFullHistory
+from ohsomeTools.proc.data_extraction.elementsFullHistory import (
+    ElementsFullHistory,
+)
 from ohsomeTools.proc.metadata.metadata import Metadata
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__

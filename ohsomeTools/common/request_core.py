@@ -39,11 +39,7 @@ from qgis._core import (
     QgsLayerMetadata,
 )
 
-from qgis.core import (
-    QgsFeature,
-    QgsField,
-    QgsProject
-)
+from qgis.core import QgsFeature, QgsField, QgsProject
 
 from ohsomeTools.common import client
 from ohsomeTools.utils import exceptions, logger
@@ -81,7 +77,7 @@ def create_ohsome_csv_layer(
         wr.writeheader()
         for row_result in results:
             wr.writerow(row_result)
-    layer = QgsVectorLayer(output_file, f"ohsome_" f"{request_time}", 'ogr')
+    layer = QgsVectorLayer(output_file, f"ohsome_" f"{request_time}", "ogr")
     QgsProject.instance().addMapLayer(layer)
     return layer
 

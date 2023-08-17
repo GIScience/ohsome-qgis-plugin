@@ -5,12 +5,12 @@ from ohsomeTools.gui import ohsome_spec
 
 from .procRequest import processing_request
 
-def run_processing_alg(processingParams, feedback):
 
+def run_processing_alg(processingParams, feedback):
 
     # Clean the debug text
     try:
-        provider_id = 0 # Muss in combo box noch zugänglich gemacht werden.
+        provider_id = 0  # Muss in combo box noch zugänglich gemacht werden.
         provider = configmanager.read_config()["providers"][provider_id]
     except IndexError:
         msg = "Request aborted. No provider available. Please check your provider list.\n"
@@ -32,11 +32,8 @@ def run_processing_alg(processingParams, feedback):
             return
 
         # if there are no centroids or layers, throw an error message
-        geom = processingParams['geom']
-        if (
-                processingParams['selection']
-                == "metadata"
-        ):
+        geom = processingParams["geom"]
+        if processingParams["selection"] == "metadata":
             processing_request(clnt, preferences, processingParams)
 
         elif geom == 1:
@@ -48,14 +45,21 @@ def run_processing_alg(processingParams, feedback):
 
             for point_layer_preference in layer_preferences:
 
-                processing_request(clnt, preferences, processingParams, point_layer_preference)
+                processing_request(
+                    clnt, preferences, processingParams, point_layer_preference
+                )
 
         elif geom == 2:
             layer_preferences = (
                 preferences.get_polygon_layer_request_preferences()
             )
             for polygon_layer_preference in layer_preferences:
-                processing_request(clnt, preferences, processingParams, polygon_layer_preference)
+                processing_request(
+                    clnt,
+                    preferences,
+                    processingParams,
+                    polygon_layer_preference,
+                )
         else:
             return
 
@@ -71,5 +75,7 @@ def run_processing_alg(processingParams, feedback):
         if not metadata_check:
             return True
         elif not preferences.is_valid(True):
-            feedback.reportError("Preferences are not valid. Check the plugin log.")
+            feedback.reportError(
+                "Preferences are not valid. Check the plugin log."
+            )
             return
