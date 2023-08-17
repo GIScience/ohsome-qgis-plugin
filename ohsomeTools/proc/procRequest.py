@@ -6,7 +6,9 @@ from ohsomeTools.utils import logger
 from qgis.utils import iface
 
 
-def processing_request(clnt, preferences, parameters, point_layer_preference={}):
+def processing_request(
+    clnt, preferences, parameters, point_layer_preference={}
+):
     try:
         request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
         if len(point_layer_preference):
@@ -40,7 +42,9 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
         geojsons: [] = request_core.split_geojson_by_geometry(
             result,
             keep_geometry_less=parameters["check_keep_geometryless"],
-            combine_single_with_multi_geometries=parameters["check_merge_geometries"],
+            combine_single_with_multi_geometries=parameters[
+                "check_merge_geometries"
+            ],
         )
         for i in range(len(geojsons)):
             vlayer = request_core.create_ohsome_vector_layer(
@@ -67,7 +71,10 @@ def processing_request(clnt, preferences, parameters, point_layer_preference={})
         )
         request_core.postprocess_metadata(result, vlayer)
         return True
-    elif "groupByResult" in result.keys() and len(result.get("groupByResult")) > 0:
+    elif (
+        "groupByResult" in result.keys()
+        and len(result.get("groupByResult")) > 0
+    ):
         # Process non-flat tables
         results = result["groupByResult"]
         for result_group in results:

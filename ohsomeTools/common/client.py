@@ -341,6 +341,7 @@ class Client(QObject):
         self.nam.abort()
         self.canceled = True
 
+
 class ProcessingClient(Client):
     def __init__(self, provider=None, retry_timeout=60, feedback=None):
         """

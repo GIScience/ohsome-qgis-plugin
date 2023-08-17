@@ -12,14 +12,16 @@
 """
 
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (QgsProcessingParameterNumber,
-                       QgsProcessingAlgorithm,
-                       QgsProcessingParameterEnum,
-                       QgsProcessingParameterVectorLayer,
-                       QgsProcessingParameterString,
-                       QgsProcessingParameterBoolean,
-                       QgsProcessingParameterDateTime,
-                       QgsWkbTypes)
+from qgis.core import (
+    QgsProcessingParameterNumber,
+    QgsProcessingAlgorithm,
+    QgsProcessingParameterEnum,
+    QgsProcessingParameterVectorLayer,
+    QgsProcessingParameterString,
+    QgsProcessingParameterBoolean,
+    QgsProcessingParameterDateTime,
+    QgsWkbTypes,
+)
 
 from ohsomeTools.common import EXTRACTION_SPECS
 from ..procDialog import run_processing_alg
@@ -43,35 +45,35 @@ class Elements(QgsProcessingAlgorithm):
     # used when calling the algorithm from another algorithm, or when
     # calling from the QGIS console.
 
-    LAYER = 'LAYER'
-    PARAMETER = 'PARAMETER'
-    INPUT = 'INPUT'
-    FILTER = 'FILTER'
-    check_activate_temporal = 'check_activate_temporal'
-    check_show_metadata = 'check_show_metadata'
-    timeout_input = 'timeout_input'
-    check_clip_geometry = 'check_clip_geometry'
-    property_groups_check_tags = 'property_groups_check_tags'
-    property_groups_check_metadata = 'property_groups_check_metadata'
-    data_aggregation_format = 'data_aggregation_format'
-    date_start = 'date_start'
-    date_end = 'date_end'
-    YEARS = 'YEARS'
-    MONTHS = 'MONTHS'
-    DAYS = 'DAYS'
-    RADIUS = 'RADIUS'
-    check_keep_geometryless = 'check_keep_geometryless'
-    check_merge_geometries = 'check_merge_geometries'
-    group_by_values_line_edit = 'group_by_values_line_edit'
-    group_by_key_line_edit = 'group_by_key_line_edit'
-    formats = ['json', 'geojson']
-    parameters = [i for i in EXTRACTION_SPECS['elements']]
+    LAYER = "LAYER"
+    PARAMETER = "PARAMETER"
+    INPUT = "INPUT"
+    FILTER = "FILTER"
+    check_activate_temporal = "check_activate_temporal"
+    check_show_metadata = "check_show_metadata"
+    timeout_input = "timeout_input"
+    check_clip_geometry = "check_clip_geometry"
+    property_groups_check_tags = "property_groups_check_tags"
+    property_groups_check_metadata = "property_groups_check_metadata"
+    data_aggregation_format = "data_aggregation_format"
+    date_start = "date_start"
+    date_end = "date_end"
+    YEARS = "YEARS"
+    MONTHS = "MONTHS"
+    DAYS = "DAYS"
+    RADIUS = "RADIUS"
+    check_keep_geometryless = "check_keep_geometryless"
+    check_merge_geometries = "check_merge_geometries"
+    group_by_values_line_edit = "group_by_values_line_edit"
+    group_by_key_line_edit = "group_by_key_line_edit"
+    formats = ["json", "geojson"]
+    parameters = [i for i in EXTRACTION_SPECS["elements"]]
 
     def tr(self, string):
         """
         Returns a translatable string with the self.tr() function.
         """
-        return QCoreApplication.translate('Processing', string)
+        return QCoreApplication.translate("Processing", string)
 
     def createInstance(self):
         return Elements()
@@ -84,21 +86,21 @@ class Elements(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataextractionelements'
+        return "dataextractionelements"
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Elements')
+        return self.tr("Elements")
 
     def group(self):
         """
         Returns the name of the group this algorithm belongs to. This string
         should be localised.
         """
-        return self.tr('Data Extraction')
+        return self.tr("Data Extraction")
 
     def groupId(self):
         """
@@ -108,7 +110,7 @@ class Elements(QgsProcessingAlgorithm):
         contain lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'dataextraction'
+        return "dataextraction"
 
     def shortHelpString(self):
         """
@@ -128,169 +130,162 @@ class Elements(QgsProcessingAlgorithm):
         # geometry.
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                self.LAYER,
-                self.tr('Query Layer')
+                self.LAYER, self.tr("Query Layer")
             )
         )
 
         self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
-                self.tr('Parameter'),
-                options=self.parameters ,
-                defaultValue=0
+                self.tr("Parameter"),
+                options=self.parameters,
+                defaultValue=0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterString(
                 self.FILTER,
-                self.tr('Filter'),
-                defaultValue='building=* or (type:way and highway=residential)'
+                self.tr("Filter"),
+                defaultValue="building=* or (type:way and highway=residential)",
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_activate_temporal,
-                self.tr('Qgis temporal feature'),
-                defaultValue=True
+                self.tr("Qgis temporal feature"),
+                defaultValue=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_show_metadata,
-                self.tr('Show metadata'),
-                defaultValue=False
+                self.tr("Show metadata"),
+                defaultValue=False,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
                 self.timeout_input,
-                'Timeout',
+                "Timeout",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=60
+                defaultValue=60,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_clip_geometry,
-                self.tr('Clip geometry'),
-                defaultValue=True
+                self.tr("Clip geometry"),
+                defaultValue=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.property_groups_check_tags,
-                self.tr('Tags'),
-                defaultValue=True
+                self.tr("Tags"),
+                defaultValue=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.property_groups_check_metadata,
-                self.tr('Metadata'),
-                defaultValue=False
+                self.tr("Metadata"),
+                defaultValue=False,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterEnum(
                 self.data_aggregation_format,
-                self.tr('Format'),
+                self.tr("Format"),
                 options=self.formats,
-                defaultValue=0
+                defaultValue=0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterDateTime(
-                self.date_start,
-                'Start Date',
-                defaultValue='2007-10-08'
+                self.date_start, "Start Date", defaultValue="2007-10-08"
             )
         )
 
         self.addParameter(
             QgsProcessingParameterDateTime(
-                self.date_end,
-                'End Date',
-                defaultValue='2023-07-28'
+                self.date_end, "End Date", defaultValue="2023-07-28"
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
                 self.YEARS,
-                'Years',
+                "Years",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0
+                defaultValue=0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
                 self.MONTHS,
-                'Months',
+                "Months",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0
+                defaultValue=0,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
                 self.DAYS,
-                'Days',
+                "Days",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1
+                defaultValue=1,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterNumber(
                 self.RADIUS,
-                'Radius [m]',
+                "Radius [m]",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0
+                defaultValue=0,
             )
         )
-
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
-                self.tr('Keep without geometry'),
-                defaultValue=True
+                self.tr("Keep without geometry"),
+                defaultValue=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
-                self.tr('Harmonize geometries'),
-                defaultValue=True
+                self.tr("Harmonize geometries"),
+                defaultValue=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterString(
                 self.group_by_values_line_edit,
-                self.tr('Group by Values'),
-                optional=True
+                self.tr("Group by Values"),
+                optional=True,
             )
         )
 
         self.addParameter(
             QgsProcessingParameterString(
                 self.group_by_key_line_edit,
-                self.tr('Group by Key'),
-                optional=True
-
+                self.tr("Group by Key"),
+                optional=True,
             )
         )
 
@@ -308,30 +303,61 @@ class Elements(QgsProcessingAlgorithm):
             # implement user information
             pass
 
-        processingParams = {'geom':                             geom,
-                            'selection':                        'data-Extraction',
-                            'preference':                       'elements',
-                            'filter':                           self.parameterAsString(parameters, self.FILTER, context),
-                            'preference_specification':         self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)],
-                            'LAYER':                            self.parameterAsLayer(parameters, self.LAYER, context),
-                            'RADIUS':                           self.parameterAsInt(parameters, self.RADIUS, context),
-                            'check_activate_temporal':          self.parameterAsBool(parameters, self.check_activate_temporal, context),
-                            'check_show_metadata':              self.parameterAsBool(parameters, self.check_show_metadata, context),
-                            'timeout_input':                    self.parameterAsInt(parameters, self.timeout_input, context),
-                            'check_clip_geometry':              self.parameterAsBool(parameters, self.check_clip_geometry, context),
-                            'property_groups_check_tags':       self.parameterAsBool(parameters, self.property_groups_check_tags, context),
-                            'property_groups_check_metadata':   self.parameterAsBool(parameters, self.property_groups_check_metadata, context),
-                            'data_aggregation_format':          self.formats[self.parameterAsInt(parameters, self.data_aggregation_format, context)],
-                            'date_start':                       self.parameterAsDateTime(parameters, self.date_start, context),
-                            'date_end':                         self.parameterAsDateTime(parameters, self.date_end, context),
-                            'YEARS':                            self.parameterAsInt(parameters, self.YEARS, context),
-                            'MONTHS':                           self.parameterAsInt(parameters, self.MONTHS, context),
-                            'DAYS':                             self.parameterAsInt(parameters, self.DAYS, context),
-                            'check_keep_geometryless':          self.parameterAsBool(parameters, self.check_keep_geometryless, context),
-                            'check_merge_geometries':           self.parameterAsBool(parameters, self.check_merge_geometries, context),
-                            'group_by_values_line_edit':        self.parameterAsString(parameters, self.group_by_values_line_edit, context),
-                            'group_by_key_line_edit':           self.parameterAsString(parameters, self.group_by_key_line_edit, context),
-                            }
+        processingParams = {
+            "geom": geom,
+            "selection": "data-Extraction",
+            "preference": "elements",
+            "filter": self.parameterAsString(parameters, self.FILTER, context),
+            "preference_specification": self.parameters[
+                self.parameterAsInt(parameters, self.PARAMETER, context)
+            ],
+            "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
+            "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
+            "check_activate_temporal": self.parameterAsBool(
+                parameters, self.check_activate_temporal, context
+            ),
+            "check_show_metadata": self.parameterAsBool(
+                parameters, self.check_show_metadata, context
+            ),
+            "timeout_input": self.parameterAsInt(
+                parameters, self.timeout_input, context
+            ),
+            "check_clip_geometry": self.parameterAsBool(
+                parameters, self.check_clip_geometry, context
+            ),
+            "property_groups_check_tags": self.parameterAsBool(
+                parameters, self.property_groups_check_tags, context
+            ),
+            "property_groups_check_metadata": self.parameterAsBool(
+                parameters, self.property_groups_check_metadata, context
+            ),
+            "data_aggregation_format": self.formats[
+                self.parameterAsInt(
+                    parameters, self.data_aggregation_format, context
+                )
+            ],
+            "date_start": self.parameterAsDateTime(
+                parameters, self.date_start, context
+            ),
+            "date_end": self.parameterAsDateTime(
+                parameters, self.date_end, context
+            ),
+            "YEARS": self.parameterAsInt(parameters, self.YEARS, context),
+            "MONTHS": self.parameterAsInt(parameters, self.MONTHS, context),
+            "DAYS": self.parameterAsInt(parameters, self.DAYS, context),
+            "check_keep_geometryless": self.parameterAsBool(
+                parameters, self.check_keep_geometryless, context
+            ),
+            "check_merge_geometries": self.parameterAsBool(
+                parameters, self.check_merge_geometries, context
+            ),
+            "group_by_values_line_edit": self.parameterAsString(
+                parameters, self.group_by_values_line_edit, context
+            ),
+            "group_by_key_line_edit": self.parameterAsString(
+                parameters, self.group_by_key_line_edit, context
+            ),
+        }
 
         run_processing_alg(processingParams, feedback)
 
