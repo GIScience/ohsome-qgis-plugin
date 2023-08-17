@@ -41,6 +41,7 @@ from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
 
 class OhsomeToolsProvider(QgsProcessingProvider):
+
     def __init__(self):
         QgsProcessingProvider.__init__(self)
 
