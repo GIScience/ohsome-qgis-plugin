@@ -384,4 +384,3 @@ class ProcessingClient(Client):
                 f"Endpoint not healthy. Unknown error: {err}."
             )
             return False
-

@@ -73,5 +73,3 @@ def run_processing_alg(processingParams, feedback):
         elif not preferences.is_valid(True):
             feedback.reportError("Preferences are not valid. Check the plugin log.")
             return
-
-
