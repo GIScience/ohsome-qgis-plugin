@@ -288,7 +288,6 @@ class ExtractionTaskFunction(QgsTask):
         if not self.result or not len(self.result):
             return False
         if "extractRegion" in self.result:
-
             vlayer: QgsVectorLayer = QgsVectorLayer(
                 json.dumps(
                     self.result.get("extractRegion").get("spatialExtent")
@@ -449,7 +448,6 @@ class ExtractionTaskFunction(QgsTask):
                     short_msg = msg = (
                         f"The request was successful:" + default_message
                     )
-
                 self.postprocess_results()
                 logger.log(msg, Qgis.Info)
                 self.iface.messageBar().pushMessage(

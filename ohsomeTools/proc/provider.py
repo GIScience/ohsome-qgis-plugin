@@ -41,6 +41,8 @@ from ohsomeTools.proc.data_extraction.elements import Elements
 from ohsomeTools.proc.data_extraction.elementsFullHistory import (
     ElementsFullHistory,
 )
+from ohsomeTools.proc import elements_aggregation
+
 from ohsomeTools.proc.metadata.metadata import Metadata
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
@@ -61,7 +63,7 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         """
         Loads all algorithms belonging to this provider.
         """
-        # data-aggregation
+        '''# data-aggregation
         self.addAlgorithm(ContributionsCount())
         self.addAlgorithm(ElementsArea())
         self.addAlgorithm(ElementsCount())
@@ -75,7 +77,10 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         self.addAlgorithm(ElementsFullHistory())
 
         # metadata
-        self.addAlgorithm(Metadata())
+        self.addAlgorithm(Metadata())'''
+        self.addAlgorithm(elements_aggregation.ElementsAggregation())
+
+
 
     def icon(self):
         return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")
