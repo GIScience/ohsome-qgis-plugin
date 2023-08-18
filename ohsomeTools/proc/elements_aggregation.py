@@ -63,13 +63,14 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
+    GROUPBY = 'GROUPBY'
     check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
     formats = ["json", "geojson"]
     parameters = [i.split('/')[1] for i in AGGREGATION_SPECS.keys() if 'elements' in i]
-    group_by = []
+    group_by = ['', '/boundary', '/key', '/tag', '/type', '/boundary/groupBy/tag']
     DENSITY = 'DENSITY'
 
     def tr(self, string):
@@ -183,15 +184,23 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             )
         )
 
-        '''self.addParameter(
+        self.addParameter(
             QgsProcessingParameterEnum(
-                self.PARAMETER,
+                self.GROUPBY,
                 self.tr("Group By"),
                 options=self.group_by,
                 defaultValue=0,
-                optional=True
             )
-        )'''
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.timeout_input,
+                "Timeout",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=60,
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
@@ -212,10 +221,14 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         else:
             density = ''
 
+        preference = self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)]
+        groupBy = self.group_by[self.parameterAsInt(parameters, self.GROUPBY, context)]
+
         processingParams = {
             "geom": geom,
             "selection": "data-Aggregation",
-            "preference": f"elements/{self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)]}{density}",
+            "preference": f"elements/{preference}{density}",
+            "preference_specification": groupBy,
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
             "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
@@ -224,6 +237,9 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             ),
             "date_end": self.parameterAsDateTime(
                 parameters, self.date_end, context
+            ),
+            "timeout_input": self.parameterAsInt(
+                parameters, self.timeout_input, context
             ),
             'preference_specification': '',
             'YEARS': 0,
