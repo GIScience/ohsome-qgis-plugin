@@ -33,6 +33,7 @@ API_ENDPOINTS = [
 SUPPORTED_API_VERSIONS = ["1.4.1"]
 EXTRACTION_SPECS = {
     "contributions": [
+        "",
         "bbox",
         "centroid",
         "geometry",
@@ -40,12 +41,14 @@ EXTRACTION_SPECS = {
         "latest/centroid",
         "latest/geometry",
     ],
-    "elements": ["bbox", "centroid", "geometry"],
-    "elementsFullHistory": ["bbox", "centroid", "geometry"],
+    "elements": ["", "bbox", "centroid", "geometry"],
+    "elementsFullHistory": ["", "bbox", "centroid", "geometry"],
 }
 AGGREGATION_SPECS = {
-    "contributions/count": ["density"],
+    "elements/": [""],
+    "contributions/count": ["", "density"],
     "elements/area": [
+        "",
         "density",
         "density/groupBy/boundary",
         "density/groupBy/boundary/groupBy/tag",
@@ -60,6 +63,7 @@ AGGREGATION_SPECS = {
         "ratio/groupBy/boundary",
     ],
     "elements/count": [
+        "",
         "density",
         "density/groupBy/boundary",
         "density/groupBy/boundary/groupBy/tag",
@@ -74,6 +78,7 @@ AGGREGATION_SPECS = {
         "ratio/groupBy/boundary",
     ],
     "elements/length": [
+        "",
         "density",
         "density/groupBy/boundary",
         "density/groupBy/boundary/groupBy/tag",
@@ -88,6 +93,7 @@ AGGREGATION_SPECS = {
         "ratio/groupBy/boundary",
     ],
     "elements/perimeter": [
+        "",
         "density",
         "density/groupBy/boundary",
         "density/groupBy/boundary/groupBy/tag",
@@ -102,6 +108,7 @@ AGGREGATION_SPECS = {
         "ratio/groupBy/boundary",
     ],
     "users/count": [
+        "",
         "density",
         "density/groupBy/boundary",
         "density/groupBy/tag",
