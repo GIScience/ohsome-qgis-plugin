@@ -180,6 +180,14 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterString(
+                self.PERIOD,
+                "Period (ISO 8601)",
+                defaultValue='/P1M'
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.DENSITY,
                 self.tr("Density"),
@@ -231,14 +239,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 "Timeout",
                 type=QgsProcessingParameterNumber.Integer,
                 defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.PERIOD,
-                "Period (ISO 8601)",
-                defaultValue='/P'
             )
         )
 
