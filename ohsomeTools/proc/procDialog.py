@@ -23,7 +23,9 @@ def run_processing_alg(processingParams, feedback):
     metadata_check = clnt.check_api_metadata(iface)
 
     # get preferences from dialog
-    preferences = ohsome_spec.ProcessingOhsomeSpec(params=processingParams, feedback=feedback)
+    preferences = ohsome_spec.ProcessingOhsomeSpec(
+        params=processingParams, feedback=feedback
+    )
 
     try:
         if not metadata_check or not preferences.is_valid(False):
@@ -46,7 +48,11 @@ def run_processing_alg(processingParams, feedback):
             for point_layer_preference in layer_preferences:
 
                 processing_request(
-                    clnt, preferences, processingParams, feedback, point_layer_preference
+                    clnt,
+                    preferences,
+                    processingParams,
+                    feedback,
+                    point_layer_preference,
                 )
 
         elif geom == 2:
