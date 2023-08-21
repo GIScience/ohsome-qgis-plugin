@@ -126,7 +126,19 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it.
         """
-        return self.tr("Example algorithm short description")
+        return self.tr("""
+        <p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
+        <p><strong>Parameters</strong></p>
+        <ul>
+        <li><em>Radius</em>: Radius for point layers.</li>
+        <li><em>Period</em>: ISO 8601 Period, eg. /P1M for a monthly aggregation.</li>
+        <li><em>Show Metadata</em>: Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</li>
+        <li><em>Keep without geometry</em>: Some results don&#39;t contain geometries but metadata. Decide if you wan&#39;t to keep them or only return ones with geometries. If checked, the geometry less features will be stored separately.</li>
+        <li><em>Harmonize geometries</em>: Check this to <ins>automatically merge compatible geometry types</ins> It is recommended to keep this checked. The benefit is that the amount of written layers will be massively reduced. The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers.</li>
+        <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
+        <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
+        </ul>
+        """)
 
     def initAlgorithm(self, config=None):
         """
@@ -255,14 +267,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             )
         )
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.property_groups_check_metadata,
-                self.tr("Metadata"),
-                defaultValue=False,
-            )
-        )
-
         # Qgis internal
         self.addParameter(
             QgsProcessingParameterBoolean(
@@ -303,13 +307,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 defaultValue=True,
             )
         ),
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.property_groups_check_tags,
-                self.tr("Tags"),
-                defaultValue=True,
-            )
-        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
@@ -366,9 +363,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             ],
             "check_clip_geometry": self.parameterAsBool(
                 parameters, self.check_clip_geometry, context
-            ),
-            "property_groups_check_metadata": self.parameterAsBool(
-                parameters, self.property_groups_check_metadata, context
             ),
             "group_by_values_line_edit": self.parameterAsString(
                 parameters, self.group_by_values_line_edit, context
