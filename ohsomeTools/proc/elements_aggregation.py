@@ -23,9 +23,12 @@ from qgis.core import (
     QgsWkbTypes,
 )
 
-from ohsomeTools.common import AGGREGATION_SPECS
-from .procDialog import run_processing_alg
 from qgis.utils import iface
+
+from ohsomeTools.utils import configmanager
+
+from ohsomeTools.common import AGGREGATION_SPECS, client
+from .procDialog import run_processing_alg
 
 
 class ElementsAggregation(QgsProcessingAlgorithm):
@@ -130,6 +133,22 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         Here we define the inputs and output of the algorithm, along
         with some other properties.
         """
+        # get dates from metadata
+        provider = configmanager.read_config()["providers"][0]
+        clnt = client.Client(provider)
+        metadata = clnt.check_api_metadata(iface)
+
+        start_date_string = (
+            metadata.get("extractRegion")
+            .get("temporalExtent")
+            .get("fromTimestamp")
+        )
+
+        end_date_string = (
+            metadata.get("extractRegion")
+            .get("temporalExtent")
+            .get("toTimestamp")
+        )
 
         # We add the input vector features source. It can have any kind of
         # geometry.
@@ -158,13 +177,13 @@ class ElementsAggregation(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterDateTime(
-                self.date_start, "Start Date", defaultValue="2007-10-08"
+                self.date_start, "Start Date", defaultValue=start_date_string
             )
         )
 
         self.addParameter(
             QgsProcessingParameterDateTime(
-                self.date_end, "End Date", defaultValue="2023-07-28"
+                self.date_end, "End Date", defaultValue=end_date_string
             )
         )
 
