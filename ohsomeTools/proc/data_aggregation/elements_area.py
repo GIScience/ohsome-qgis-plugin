@@ -203,7 +203,7 @@ class ElementsArea(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterEnum(
                 self.data_aggregation_format,
-                self.tr("Format"),
+                self.tr("Output Format"),
                 options=self.formats,
                 defaultValue=0,
             )
