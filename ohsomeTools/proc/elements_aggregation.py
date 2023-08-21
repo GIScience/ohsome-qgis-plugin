@@ -181,7 +181,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 self.RADIUS,
                 "Radius [m]",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=100,
+                defaultValue=1000,
             )
         )
 
