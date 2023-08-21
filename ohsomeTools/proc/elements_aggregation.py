@@ -72,6 +72,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     parameters = [i.split('/')[1] for i in AGGREGATION_SPECS.keys() if 'elements' in i]
     group_by = ['', '/boundary', '/key', '/tag', '/type', '/boundary/groupBy/tag']
     DENSITY = 'DENSITY'
+    PERIOD = 'PERIOD'
 
     def tr(self, string):
         """
@@ -198,7 +199,96 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 self.timeout_input,
                 "Timeout",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=60,
+                defaultValue=0,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.PERIOD,
+                "Period (ISO 8601)",
+                defaultValue='/P'
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.data_aggregation_format,
+                self.tr("Output Format"),
+                options=self.formats,
+                defaultValue=0,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_values_line_edit,
+                self.tr("Group by Values"),
+                optional=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_key_line_edit,
+                self.tr("Group by Key"),
+                optional=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.property_groups_check_metadata,
+                self.tr("Metadata"),
+                defaultValue=False,
+            )
+        )
+
+        # Qgis internal
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_show_metadata,
+                self.tr("Show metadata"),
+                defaultValue=False,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_keep_geometryless,
+                self.tr("Keep without geometry"),
+                defaultValue=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_merge_geometries,
+                self.tr("Harmonize geometries"),
+                defaultValue=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_activate_temporal,
+                self.tr("Qgis temporal feature"),
+                defaultValue=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_clip_geometry,
+                self.tr("Clip geometry"),
+                defaultValue=True,
+            )
+        ),
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.property_groups_check_tags,
+                self.tr("Tags"),
+                defaultValue=True,
             )
         )
 
@@ -242,12 +332,31 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 parameters, self.timeout_input, context
             ),
             'preference_specification': '',
-            'YEARS': 0,
-            'MONTHS': 0,
-            'DAYS': 1,
             'data_aggregation_format': 'json',
-            'check_show_metadata': '',
-            'timeout_input': 0,
+            "check_show_metadata": self.parameterAsBool(
+                parameters, self.check_show_metadata, context
+            ),
+            'timeout_input': self.parameterAsInt(parameters, self.timeout_input, context),
+            'period': self.parameterAsString(
+            parameters, self.PERIOD, context
+            ),
+            "data_aggregation_format": self.formats[
+                self.parameterAsInt(
+                    parameters, self.data_aggregation_format, context
+                )
+            ],
+            "check_clip_geometry": self.parameterAsBool(
+                parameters, self.check_clip_geometry, context
+            ),
+            "property_groups_check_metadata": self.parameterAsBool(
+                parameters, self.property_groups_check_metadata, context
+            ),
+            "group_by_values_line_edit": self.parameterAsString(
+                parameters, self.group_by_values_line_edit, context
+            ),
+            "group_by_key_line_edit": self.parameterAsString(
+                parameters, self.group_by_key_line_edit, context
+            ),
 
         }
 

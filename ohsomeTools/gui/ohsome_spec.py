@@ -203,7 +203,7 @@ class OhsomeSpec:
             return False
         return True
 
-    def _prepare_ohsome_time_parameter(
+    def __prepare_ohsome_time_parameter(
         self,
         start_date: QDate,
         end_date: QDate,
@@ -227,11 +227,13 @@ class OhsomeSpec:
             intervals = f"{intervals}{months}M"
         if days and days > 0:
             intervals = f"{intervals}{days}D"
+
         # If it's the default date the API will reject all requests that are not equal or greater than the first second.
         if date_start == "2007-10-08":
             date_start = "2007-10-08T00:00:01"
         if date_end == "2007-10-08":
             date_end = "2007-10-08T00:00:01"
+
         # Check if intervals is misconstructed.
         if self._api_spec.lower() == "data-aggregation" and len(intervals) >= 3:
             dates = f"{date_start}/{date_end}{intervals}"
@@ -390,6 +392,32 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     def __init__(self, params):
         self.params = params
 
+    def _prepare_ohsome_time_parameter(
+        self,
+        start_date: QDate,
+        end_date: QDate
+    ) -> str:
+        """
+        Prepare a valid ohsome time string to include into the API query.
+
+        @return Returns a valid date parameter or raises a QGIS Warning and returns an empty string.
+        @rtype: str
+        """
+        date_start = start_date.toString("yyyy-MM-dd")
+        date_end = end_date.toString("yyyy-MM-dd")
+        intervals = self.params['period']
+        # If it's the default date the API will reject all requests that are not equal or greater than the first second.
+        if date_start == "2007-10-08":
+            date_start = "2007-10-08T00:00:01"
+        if date_end == "2007-10-08":
+            date_end = "2007-10-08T00:00:01"
+        # Check if intervals is misconstructed.
+        if self._api_spec.lower() == "data-aggregation" and len(intervals) >= 3:
+            dates = f"{date_start}/{date_end}{intervals}"
+        else:
+            dates = f"{date_start},{date_end}"
+        return dates
+
     def _get_selected_polygon_layers_geometries(self) -> []:
         layer_list = []
         polygon_layer_list = [self.params["LAYER"].name()]
@@ -501,10 +529,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     def _request_date_string(self) -> str:
         date_string = self._prepare_ohsome_time_parameter(
             self.params["date_start"],
-            self.params["date_end"],
-            self.params["YEARS"],
-            self.params["MONTHS"],
-            self.params["DAYS"],
+            self.params["date_end"]
         )
         return date_string
 
