@@ -2,12 +2,11 @@ import json
 from datetime import datetime
 from qgis._core import QgsVectorLayer, QgsProcessingUtils, QgsProject
 from ohsomeTools.common import client, request_core
-from ohsomeTools.utils import logger
 from qgis.utils import iface
 
 
 def processing_request(
-    clnt, preferences, parameters, point_layer_preference={}
+    clnt, preferences, parameters, feedback, point_layer_preference={}
 ):
     try:
         request_time = datetime.now().strftime("%m-%d-%Y:%H-%M-%S")
@@ -21,7 +20,7 @@ def processing_request(
             result = clnt.request(f"/metadata", {})
     except Exception as e:
         result = None
-        logger.log(e)
+
 
     if not result or not len(result):
         return False
@@ -106,4 +105,4 @@ def processing_request(
         )
         request_core.postprocess_metadata(result, vlayer)
         return True
-    return False
+    feedback.reportError('Request Error')
