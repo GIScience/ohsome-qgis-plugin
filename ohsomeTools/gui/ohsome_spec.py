@@ -394,9 +394,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         self.feedback = feedback
 
     def _prepare_ohsome_time_parameter(
-        self,
-        start_date: QDate,
-        end_date: QDate
+        self, start_date: QDate, end_date: QDate
     ) -> str:
         """
         Prepare a valid ohsome time string to include into the API query.
@@ -406,7 +404,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         """
         date_start = start_date.toString("yyyy-MM-dd")
         date_end = end_date.toString("yyyy-MM-dd")
-        intervals = self.params['period']
+        intervals = self.params["period"]
         # If it's the default date the API will reject all requests that are not equal or greater than the first second.
         if date_start == "2007-10-08":
             date_start = "2007-10-08T00:00:01"
@@ -529,8 +527,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     @property
     def _request_date_string(self) -> str:
         date_string = self._prepare_ohsome_time_parameter(
-            self.params["date_start"],
-            self.params["date_end"]
+            self.params["date_start"], self.params["date_end"]
         )
         return date_string
 

@@ -66,16 +66,25 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    GROUPBY = 'GROUPBY'
+    GROUPBY = "GROUPBY"
     check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
     formats = ["json", "geojson"]
-    parameters = [i.split('/')[1] for i in AGGREGATION_SPECS.keys() if 'elements' in i]
-    group_by = ['', '/boundary', '/key', '/tag', '/type', '/boundary/groupBy/tag']
-    DENSITY = 'DENSITY'
-    PERIOD = 'PERIOD'
+    parameters = [
+        i.split("/")[1] for i in AGGREGATION_SPECS.keys() if "elements" in i
+    ]
+    group_by = [
+        "",
+        "/boundary",
+        "/key",
+        "/tag",
+        "/type",
+        "/boundary/groupBy/tag",
+    ]
+    DENSITY = "DENSITY"
+    PERIOD = "PERIOD"
 
     def tr(self, string):
         """
@@ -126,7 +135,8 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it.
         """
-        return self.tr("""
+        return self.tr(
+            """
         <p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
         <p><strong>Parameters</strong></p>
         <ul>
@@ -138,7 +148,8 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
         <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
         </ul>
-        """)
+        """
+        )
 
     def initAlgorithm(self, config=None):
         """
@@ -181,9 +192,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterString(
-                self.PERIOD,
-                "Period (ISO 8601)",
-                defaultValue='/P1M'
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
             )
         )
 
@@ -323,12 +332,16 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             pass
 
         if self.parameterAsBool(parameters, self.DENSITY, context):
-            density = '/density'
+            density = "/density"
         else:
-            density = ''
+            density = ""
 
-        preference = self.parameters[self.parameterAsInt(parameters, self.PARAMETER, context)]
-        groupBy = self.group_by[self.parameterAsInt(parameters, self.GROUPBY, context)]
+        preference = self.parameters[
+            self.parameterAsInt(parameters, self.PARAMETER, context)
+        ]
+        groupBy = self.group_by[
+            self.parameterAsInt(parameters, self.GROUPBY, context)
+        ]
 
         processingParams = {
             "geom": geom,
@@ -347,15 +360,15 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             "timeout_input": self.parameterAsInt(
                 parameters, self.timeout_input, context
             ),
-            'preference_specification': '',
-            'data_aggregation_format': 'json',
+            "preference_specification": "",
+            "data_aggregation_format": "json",
             "check_show_metadata": self.parameterAsBool(
                 parameters, self.check_show_metadata, context
             ),
-            'timeout_input': self.parameterAsInt(parameters, self.timeout_input, context),
-            'period': self.parameterAsString(
-            parameters, self.PERIOD, context
+            "timeout_input": self.parameterAsInt(
+                parameters, self.timeout_input, context
             ),
+            "period": self.parameterAsString(parameters, self.PERIOD, context),
             "data_aggregation_format": self.formats[
                 self.parameterAsInt(
                     parameters, self.data_aggregation_format, context
@@ -370,7 +383,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
-
         }
 
         run_processing_alg(processingParams, feedback)

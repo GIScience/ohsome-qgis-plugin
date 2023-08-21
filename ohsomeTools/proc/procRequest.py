@@ -21,7 +21,6 @@ def processing_request(
     except Exception as e:
         result = None
 
-
     if not result or not len(result):
         return False
     if "extractRegion" in result:
@@ -105,4 +104,4 @@ def processing_request(
         )
         request_core.postprocess_metadata(result, vlayer)
         return True
-    feedback.reportError('Request Error')
+    feedback.reportError("Request Error")
