@@ -21,6 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
+    QgsProcessing
 )
 
 from qgis.utils import iface
@@ -167,7 +168,9 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         # geometry.
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                self.LAYER, self.tr("Query Layer")
+                self.LAYER,
+                self.tr("Query Layer"),
+                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
             )
         )
 
@@ -218,7 +221,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
             QgsProcessingParameterString(
                 self.FILTER_2,
                 self.tr("Filter 2"),
-                defaultValue="building=* or (type:way and highway=residential)",
+                defaultValue="natural=tree",
             )
         )
 

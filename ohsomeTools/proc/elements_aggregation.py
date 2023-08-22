@@ -21,6 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
+    QgsProcessing
 )
 
 from qgis.utils import iface
@@ -177,7 +178,9 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         # geometry.
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                self.LAYER, self.tr("Query Layer")
+                self.LAYER,
+                self.tr("Query Layer"),
+                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
             )
         )
 
