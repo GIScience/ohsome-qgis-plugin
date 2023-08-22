@@ -329,7 +329,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             geom = 2
         else:
             # implement user information
-            pass
+            feedback.reportError('Wrong geometry type of input. Please use point- or polygon-layer.')
 
         if self.parameterAsBool(parameters, self.DENSITY, context):
             density = "/density"
@@ -383,6 +383,8 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
+            'filter_2': self.parameterAsString(parameters, self.FILTER_2, context),
+            "filter": self.parameterAsString(parameters, self.FILTER, context),
         }
 
         run_processing_alg(processingParams, feedback)

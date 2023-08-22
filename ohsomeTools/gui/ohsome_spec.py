@@ -393,6 +393,10 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         self.params = params
         self.feedback = feedback
 
+    @property
+    def _request_filter2(self) -> str:
+        return self.params["filter_2"]
+
     def _prepare_ohsome_time_parameter(
         self, start_date: QDate, end_date: QDate
     ) -> str:
@@ -466,7 +470,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         if "ratio" in self._request_url.lower() and not len(
             self._request_filter2
         ):
-            msg = f"{msg}> For `ratio` endpoints provide the `Filter 2` under the data aggregation settings.\n"
+            msg = f"{msg}> For `ratio` endpoints provide the `Filter 2`\n"
             msg = f"{msg}> Request filter needs to be set.\n"
         if len(self._request_url) <= 3:
             msg = f"{msg}> Request url needs to be set.\n"
