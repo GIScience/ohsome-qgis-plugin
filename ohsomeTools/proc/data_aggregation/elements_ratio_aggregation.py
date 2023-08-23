@@ -398,6 +398,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
                 parameters, self.FILTER_2, context
             ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
+            "period": self.parameterAsString(parameters, self.PERIOD, context),
         }
 
         run_processing_alg(processingParams, feedback)
