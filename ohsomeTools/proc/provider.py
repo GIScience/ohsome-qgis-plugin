@@ -27,7 +27,8 @@
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 
-from ohsomeTools.proc import elements_aggregation, elements_ratio_aggregation
+from ohsomeTools.proc.data_aggregation import elements_aggregation, elements_ratio_aggregation, contributions_count, users_count
+from ohsomeTools.proc.data_extraction import elements, contributions
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
 
@@ -47,23 +48,17 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         """
         Loads all algorithms belonging to this provider.
         """
-        """# data-aggregation
-        self.addAlgorithm(ContributionsCount())
-        self.addAlgorithm(ElementsArea())
-        self.addAlgorithm(ElementsCount())
-        self.addAlgorithm(ElementsLength())
-        self.addAlgorithm(UsersCount())
-        self.addAlgorithm(ElementsPerimeter())
-
-        # data-extraction
-        self.addAlgorithm(Contributions())
-        self.addAlgorithm(Elements())
-        self.addAlgorithm(ElementsFullHistory())
-
-        # metadata
-        self.addAlgorithm(Metadata())"""
+        # data-aggregation
         self.addAlgorithm(elements_aggregation.ElementsAggregation())
         self.addAlgorithm(elements_ratio_aggregation.ElementsRatioAggregation())
+        self.addAlgorithm(contributions_count.ContributionsCount())
+        self.addAlgorithm(users_count.UsersCount())
+
+        # data-extraction
+        self.addAlgorithm(contributions.Contributions())
+        self.addAlgorithm(elements.Elements())
+
+
 
     def icon(self):
         return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")
