@@ -21,9 +21,14 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
+    QgsProcessing
 )
 
-from ohsomeTools.common import EXTRACTION_SPECS
+from qgis.utils import iface
+
+from ohsomeTools.utils import configmanager
+
+from ohsomeTools.common import EXTRACTION_SPECS, client
 from ..procDialog import run_processing_alg
 
 
@@ -62,12 +67,15 @@ class Elements(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
+    ENDPOINT = 'ENDPOINT'
     check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
     formats = ["json", "geojson"]
     parameters = [i for i in EXTRACTION_SPECS["elements"]]
+    endpoints = [i for i in EXTRACTION_SPECS.keys() if i != 'contributions']
+    PERIOD = "PERIOD"
 
     def tr(self, string):
         """
@@ -118,19 +126,56 @@ class Elements(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it.
         """
-        return self.tr("Example algorithm short description")
+        return self.tr('''<p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
+        <p><strong>Parameters</strong></p>
+        <ul>
+        <li><em>Endpoints</em>: desired endpoint for query.</li>
+        <li><em>Radius</em>: Radius for point layers.</li>
+        <li><em>Period</em>: ISO 8601 Period, eg. /P1M for a monthly aggregation.</li>
+        <li><em>Show Metadata</em>: Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</li>
+        <li><em>Keep without geometry</em>: Some results don&#39;t contain geometries but metadata. Decide if you wan&#39;t to keep them or only return ones with geometries. If checked, the geometry less features will be stored separately.</li>
+        <li><em>Harmonize geometries</em>: Check this to <ins>automatically merge compatible geometry types</ins> It is recommended to keep this checked. The benefit is that the amount of written layers will be massively reduced. The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers.</li>
+        <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
+        <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
+        </ul>''')
 
     def initAlgorithm(self, config=None):
         """
         Here we define the inputs and output of the algorithm, along
         with some other properties.
         """
+        provider = configmanager.read_config()["providers"][0]
+        clnt = client.Client(provider)
+        metadata = clnt.check_api_metadata(iface)
+
+        start_date_string = (
+            metadata.get("extractRegion")
+            .get("temporalExtent")
+            .get("fromTimestamp")
+        )
+
+        end_date_string = (
+            metadata.get("extractRegion")
+            .get("temporalExtent")
+            .get("toTimestamp")
+        )
 
         # We add the input vector features source. It can have any kind of
         # geometry.
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                self.LAYER, self.tr("Query Layer")
+                self.LAYER,
+                self.tr("Query Layer"),
+                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.ENDPOINT,
+                self.tr("Endpoint"),
+                options=self.endpoints,
+                defaultValue=0,
             )
         )
 
@@ -145,6 +190,24 @@ class Elements(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterString(
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                self.date_start, "Start Date", defaultValue=start_date_string
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                self.date_end, "End Date", defaultValue=end_date_string
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
                 self.FILTER,
                 self.tr("Filter"),
                 defaultValue="building=* or (type:way and highway=residential)",
@@ -152,13 +215,33 @@ class Elements(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_activate_temporal,
-                self.tr("Qgis temporal feature"),
-                defaultValue=True,
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                "Radius [m]",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=0,
             )
         )
 
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.timeout_input,
+                "Timeout",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=0,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.data_aggregation_format,
+                self.tr("Output Format"),
+                options=self.formats,
+                defaultValue=0,
+            )
+        )
+
+        # checkboxes
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_show_metadata,
@@ -168,11 +251,26 @@ class Elements(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterNumber(
-                self.timeout_input,
-                "Timeout",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=60,
+            QgsProcessingParameterBoolean(
+                self.check_keep_geometryless,
+                self.tr("Keep without geometry"),
+                defaultValue=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_merge_geometries,
+                self.tr("Harmonize geometries"),
+                defaultValue=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterBoolean(
+                self.check_activate_temporal,
+                self.tr("Qgis temporal feature"),
+                defaultValue=True,
             )
         )
 
@@ -200,94 +298,8 @@ class Elements(QgsProcessingAlgorithm):
             )
         )
 
-        self.addParameter(
-            QgsProcessingParameterEnum(
-                self.data_aggregation_format,
-                self.tr("Format"),
-                options=self.formats,
-                defaultValue=0,
-            )
-        )
 
-        self.addParameter(
-            QgsProcessingParameterDateTime(
-                self.date_start, "Start Date", defaultValue="2007-10-08"
-            )
-        )
 
-        self.addParameter(
-            QgsProcessingParameterDateTime(
-                self.date_end, "End Date", defaultValue="2023-07-28"
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.YEARS,
-                "Years",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.MONTHS,
-                "Months",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.DAYS,
-                "Days",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.RADIUS,
-                "Radius [m]",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
-                defaultValue=True,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_merge_geometries,
-                self.tr("Harmonize geometries"),
-                defaultValue=True,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_values_line_edit,
-                self.tr("Group by Values"),
-                optional=True,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_key_line_edit,
-                self.tr("Group by Key"),
-                optional=True,
-            )
-        )
 
     def processAlgorithm(self, parameters, context, feedback):
         """
@@ -299,14 +311,13 @@ class Elements(QgsProcessingAlgorithm):
             geom = 1
         elif layer.geometryType() == QgsWkbTypes.PolygonGeometry:
             geom = 2
-        else:
-            # implement user information
-            pass
 
         processingParams = {
             "geom": geom,
             "selection": "data-Extraction",
-            "preference": "elements",
+            "preference": self.endpoints[
+                                self.parameterAsInt(parameters, self.ENDPOINT, context)
+                            ],
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "preference_specification": self.parameters[
                 self.parameterAsInt(parameters, self.PARAMETER, context)
@@ -342,20 +353,12 @@ class Elements(QgsProcessingAlgorithm):
             "date_end": self.parameterAsDateTime(
                 parameters, self.date_end, context
             ),
-            "YEARS": self.parameterAsInt(parameters, self.YEARS, context),
-            "MONTHS": self.parameterAsInt(parameters, self.MONTHS, context),
-            "DAYS": self.parameterAsInt(parameters, self.DAYS, context),
+            "period": self.parameterAsString(parameters, self.PERIOD, context),
             "check_keep_geometryless": self.parameterAsBool(
                 parameters, self.check_keep_geometryless, context
             ),
             "check_merge_geometries": self.parameterAsBool(
                 parameters, self.check_merge_geometries, context
-            ),
-            "group_by_values_line_edit": self.parameterAsString(
-                parameters, self.group_by_values_line_edit, context
-            ),
-            "group_by_key_line_edit": self.parameterAsString(
-                parameters, self.group_by_key_line_edit, context
             ),
         }
 
