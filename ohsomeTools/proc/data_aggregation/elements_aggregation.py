@@ -386,9 +386,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
-            "filter_2": self.parameterAsString(
-                parameters, self.FILTER_2, context
-            ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
         }
 

@@ -221,7 +221,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.timeout_input,
                 "Timeout",
                 type=QgsProcessingParameterNumber.Integer,
-                defaultValue=60,
+                defaultValue=0,
             )
         )
 
