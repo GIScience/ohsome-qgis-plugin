@@ -21,7 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
-    QgsProcessing
+    QgsProcessing,
 )
 
 from qgis.utils import iface
@@ -124,7 +124,8 @@ class ContributionsCount(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it.
         """
-        return self.tr("""        <p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
+        return self.tr(
+            """        <p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
         <p><strong>Parameters</strong></p>
         <ul>
         <li><em>Radius</em>: Radius for point layers.</li>
@@ -134,7 +135,8 @@ class ContributionsCount(QgsProcessingAlgorithm):
         <li><em>Harmonize geometries</em>: Check this to <ins>automatically merge compatible geometry types</ins> It is recommended to keep this checked. The benefit is that the amount of written layers will be massively reduced. The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers.</li>
         <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
         <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
-        </ul>""")
+        </ul>"""
+        )
 
     def initAlgorithm(self, config=None):
         """
@@ -163,7 +165,10 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
                 self.tr("Query Layer"),
-                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
+                [
+                    QgsProcessing.TypeVectorPolygon,
+                    QgsProcessing.TypeVectorPoint,
+                ],
             )
         )
 
@@ -283,7 +288,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 defaultValue=False,
             )
         )
-
 
     def processAlgorithm(self, parameters, context, feedback):
         """

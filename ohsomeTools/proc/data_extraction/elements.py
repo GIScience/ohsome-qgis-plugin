@@ -21,7 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
-    QgsProcessing
+    QgsProcessing,
 )
 
 from qgis.utils import iface
@@ -67,14 +67,14 @@ class Elements(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    ENDPOINT = 'ENDPOINT'
+    ENDPOINT = "ENDPOINT"
     check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
     formats = ["json", "geojson"]
     parameters = [i for i in EXTRACTION_SPECS["elements"]]
-    endpoints = [i for i in EXTRACTION_SPECS.keys() if i != 'contributions']
+    endpoints = [i for i in EXTRACTION_SPECS.keys() if i != "contributions"]
     PERIOD = "PERIOD"
 
     def tr(self, string):
@@ -126,7 +126,8 @@ class Elements(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it.
         """
-        return self.tr('''<p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
+        return self.tr(
+            """<p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
         <p><strong>Parameters</strong></p>
         <ul>
         <li><em>Endpoints</em>: desired endpoint for query.</li>
@@ -137,7 +138,8 @@ class Elements(QgsProcessingAlgorithm):
         <li><em>Harmonize geometries</em>: Check this to <ins>automatically merge compatible geometry types</ins> It is recommended to keep this checked. The benefit is that the amount of written layers will be massively reduced. The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers.</li>
         <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
         <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
-        </ul>''')
+        </ul>"""
+        )
 
     def initAlgorithm(self, config=None):
         """
@@ -166,7 +168,10 @@ class Elements(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
                 self.tr("Query Layer"),
-                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
+                [
+                    QgsProcessing.TypeVectorPolygon,
+                    QgsProcessing.TypeVectorPoint,
+                ],
             )
         )
 
@@ -298,9 +303,6 @@ class Elements(QgsProcessingAlgorithm):
             )
         )
 
-
-
-
     def processAlgorithm(self, parameters, context, feedback):
         """
         Here is where the processing itself takes place.
@@ -316,8 +318,8 @@ class Elements(QgsProcessingAlgorithm):
             "geom": geom,
             "selection": "data-Extraction",
             "preference": self.endpoints[
-                                self.parameterAsInt(parameters, self.ENDPOINT, context)
-                            ],
+                self.parameterAsInt(parameters, self.ENDPOINT, context)
+            ],
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "preference_specification": self.parameters[
                 self.parameterAsInt(parameters, self.PARAMETER, context)
