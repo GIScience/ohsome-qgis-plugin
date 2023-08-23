@@ -77,14 +77,6 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
     parameters = [
         i.split("/")[1] for i in AGGREGATION_SPECS.keys() if "elements" in i
     ]
-    group_by = [
-        "",
-        "/boundary",
-        "/key",
-        "/tag",
-        "/type",
-        "/boundary/groupBy/tag",
-    ]
     PERIOD = "PERIOD"
     group_by_boundary = "group_by_boundary"
 
@@ -249,15 +241,6 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterEnum(
-                self.GROUPBY,
-                self.tr("Group By"),
-                options=self.group_by,
-                defaultValue=0,
-            )
-        )
-
-        self.addParameter(
             QgsProcessingParameterNumber(
                 self.timeout_input,
                 "Timeout",
@@ -351,15 +334,11 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         preference = self.parameters[
             self.parameterAsInt(parameters, self.PARAMETER, context)
         ]
-        groupBy = self.group_by[
-            self.parameterAsInt(parameters, self.GROUPBY, context)
-        ]
 
         processingParams = {
             "geom": geom,
             "selection": "data-Aggregation",
             "preference": f"elements/{preference}/ratio{group_by_boundary_var}",
-            "preference_specification": groupBy,
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
             "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
