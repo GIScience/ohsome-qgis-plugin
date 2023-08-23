@@ -21,7 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
-    QgsProcessing
+    QgsProcessing,
 )
 
 from qgis.utils import iface
@@ -86,7 +86,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         "/boundary/groupBy/tag",
     ]
     PERIOD = "PERIOD"
-    group_by_boundary = 'group_by_boundary'
+    group_by_boundary = "group_by_boundary"
 
     def tr(self, string):
         """
@@ -181,7 +181,10 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
                 self.tr("Query Layer"),
-                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
+                [
+                    QgsProcessing.TypeVectorPolygon,
+                    QgsProcessing.TypeVectorPoint,
+                ],
             )
         )
 
@@ -377,7 +380,6 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
             "timeout_input": self.parameterAsInt(
                 parameters, self.timeout_input, context
             ),
-
             "data_aggregation_format": self.formats[
                 self.parameterAsInt(
                     parameters, self.data_aggregation_format, context
@@ -392,7 +394,9 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
-            'filter_2': self.parameterAsString(parameters, self.FILTER_2, context),
+            "filter_2": self.parameterAsString(
+                parameters, self.FILTER_2, context
+            ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
         }
 

@@ -27,7 +27,12 @@
 from PyQt5.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 
-from ohsomeTools.proc.data_aggregation import elements_aggregation, elements_ratio_aggregation, contributions_count, users_count
+from ohsomeTools.proc.data_aggregation import (
+    elements_aggregation,
+    elements_ratio_aggregation,
+    contributions_count,
+    users_count,
+)
 from ohsomeTools.proc.data_extraction import elements, contributions
 
 from ohsomeTools import RESOURCE_PREFIX, PLUGIN_NAME, __version__
@@ -57,8 +62,6 @@ class OhsomeToolsProvider(QgsProcessingProvider):
         # data-extraction
         self.addAlgorithm(contributions.Contributions())
         self.addAlgorithm(elements.Elements())
-
-
 
     def icon(self):
         return QIcon(RESOURCE_PREFIX + "icon_ohsome.png")

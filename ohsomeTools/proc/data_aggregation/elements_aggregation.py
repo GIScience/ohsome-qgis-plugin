@@ -21,7 +21,7 @@ from qgis.core import (
     QgsProcessingParameterBoolean,
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
-    QgsProcessing
+    QgsProcessing,
 )
 
 from qgis.utils import iface
@@ -180,7 +180,10 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
                 self.tr("Query Layer"),
-                [QgsProcessing.TypeVectorPolygon, QgsProcessing.TypeVectorPoint]
+                [
+                    QgsProcessing.TypeVectorPolygon,
+                    QgsProcessing.TypeVectorPoint,
+                ],
             )
         )
 
@@ -383,7 +386,9 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
-            'filter_2': self.parameterAsString(parameters, self.FILTER_2, context),
+            "filter_2": self.parameterAsString(
+                parameters, self.FILTER_2, context
+            ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
         }
 
