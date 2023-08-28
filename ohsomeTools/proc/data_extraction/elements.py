@@ -133,7 +133,7 @@ class Elements(QgsProcessingAlgorithm):
         <li><em>Input</em>: Polygons will be passed "as is" (bpoly), points will be passed with radius (bcircles).</li>
         <li><em>Start-/ End-Date and Time</em>: Time in UTC.</li>
         <li><em>Endpoints</em>: desired endpoint for query.</li>
-        <li><em>Radius</em>: Radius for point layers.</li>
+        <li><em>Point Layer Radius</em>: Radius for point layers.</li>
         <li><em>Period</em>: ISO 8601 Period, eg. /P1M for a monthly aggregation.</li>
         <li><em>Show Metadata</em>: Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</li>
         <li><em>Keep without geometry</em>: Some results don&#39;t contain geometries but metadata. Decide if you wan&#39;t to keep them or only return ones with geometries. If checked, the geometry less features will be stored separately.</li>
