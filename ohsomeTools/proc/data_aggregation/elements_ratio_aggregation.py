@@ -134,7 +134,8 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         <p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
         <p><strong>Parameters</strong></p>
         <ul>
-        <li><em>Input</em>: Polygons will be passed "as is" (bpoly), points will be passed with radius (bcircles)</li>
+        <li><em>Input</em>: Polygons will be passed "as is" (bpoly), points will be passed with radius (bcircles).</li>
+        <li><em>Start-/ End-Date and Time</em>: Time in UTC.</li>
         <li><em>Radius</em>: Radius for point layers.</li>
         <li><em>Period</em>: ISO 8601 Period, eg. /P1M for a monthly aggregation.</li>
         <li><em>Show Metadata</em>: Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</li>
