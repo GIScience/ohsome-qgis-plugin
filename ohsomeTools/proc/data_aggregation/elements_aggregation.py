@@ -76,14 +76,22 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     parameters = [
         i.split("/")[1] for i in AGGREGATION_SPECS.keys() if "elements" in i
     ]
-    group_by = [
+    group_by_list = [
         "",
-        "/boundary",
-        "/key",
-        "/tag",
-        "/type",
-        "/boundary/groupBy/tag",
+        "Boundary",
+        "Key",
+        "Tag",
+        "Type",
+        "Boundary and Tag",
     ]
+    group_by_dict = {
+        "": "",
+        "Boundary": "/boundary",
+        "Key": "/key",
+        "Tag": "/tag",
+        "Type": "/type",
+        "Boundary and Tag": "/boundary/groupBy/tag",
+    }
     DENSITY = "DENSITY"
     PERIOD = "PERIOD"
 
@@ -249,7 +257,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.GROUPBY,
                 self.tr("Group By"),
-                options=self.group_by,
+                options=self.group_by_list,
                 defaultValue=0,
             )
         )
@@ -348,9 +356,11 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         preference = self.parameters[
             self.parameterAsInt(parameters, self.PARAMETER, context)
         ]
-        groupBy = self.group_by[
+        groupBy_key = self.group_by_list[
             self.parameterAsInt(parameters, self.GROUPBY, context)
         ]
+
+        groupBy = self.group_by_dict[groupBy_key]
 
         processingParams = {
             "geom": geom,
