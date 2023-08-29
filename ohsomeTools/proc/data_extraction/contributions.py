@@ -125,7 +125,7 @@ class Contributions(QgsProcessingAlgorithm):
         parameters and outputs associated with it.
         """
         return self.tr(
-            """<p>Aggregation endpoints for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
+            """<p>Contributions endpoint for the <strong>Ohsome-API</strong>. See <a href="https://docs.ohsome.org/ohsome-api/v1/">documentation</a>. </p>
         <p><strong>Parameters</strong></p>
         <ul>
         <li><em>Input</em>: Polygons will be passed "as is" (bpoly), points will be passed with radius (bcircles).</li>
