@@ -179,11 +179,10 @@ class UsersCount(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterEnum(
+            QgsProcessingParameterBoolean(
                 self.PARAMETER,
-                self.tr("Parameter"),
-                options=self.parameters,
-                defaultValue=0,
+                self.tr("Calculate Density"),
+                defaultValue=False,
             )
         )
 
@@ -309,14 +308,19 @@ class UsersCount(QgsProcessingAlgorithm):
         elif layer.geometryType() == QgsWkbTypes.PolygonGeometry:
             geom = 2
 
+        if self.parameterAsBool(
+                parameters, self.PARAMETER, context
+            ):
+            density = '/density'
+        else:
+            density = ''
+
         processingParams = {
             "geom": geom,
             "selection": "data-Aggregation",
-            "preference": "users/count",
+            "preference": f"users/count",
             "filter": self.parameterAsString(parameters, self.FILTER, context),
-            "preference_specification": self.parameters[
-                self.parameterAsInt(parameters, self.PARAMETER, context)
-            ],
+            "preference_specification": density,
             "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
             "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
             "check_activate_temporal": self.parameterAsBool(
