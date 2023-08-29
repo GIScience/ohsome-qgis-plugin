@@ -160,21 +160,25 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         with some other properties.
         """
         # get dates from metadata
-        provider = configmanager.read_config()["providers"][0]
-        clnt = client.Client(provider)
-        metadata = clnt.check_api_metadata(iface)
+        try:
+            provider = configmanager.read_config()["providers"][0]
+            clnt = client.Client(provider)
+            metadata = clnt.check_api_metadata(iface)
 
-        start_date_string = (
-            metadata.get("extractRegion")
-            .get("temporalExtent")
-            .get("fromTimestamp")
-        )
+            start_date_string = (
+                metadata.get("extractRegion")
+                .get("temporalExtent")
+                .get("fromTimestamp")
+            )
 
-        end_date_string = (
-            metadata.get("extractRegion")
-            .get("temporalExtent")
-            .get("toTimestamp")
-        )
+            end_date_string = (
+                metadata.get("extractRegion")
+                .get("temporalExtent")
+                .get("toTimestamp")
+            )
+        except:
+            start_date_string = ''
+            end_date_string = ''
 
         # We add the input vector features source. It can have any kind of
         # geometry.
