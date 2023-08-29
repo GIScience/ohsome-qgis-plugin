@@ -219,7 +219,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.DENSITY,
-                self.tr("Density"),
+                self.tr("Calculate Density"),
                 defaultValue=False,
             )
         )
