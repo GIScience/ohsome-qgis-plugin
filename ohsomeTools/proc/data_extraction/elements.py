@@ -67,7 +67,7 @@ class Elements(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    ENDPOINT = "ENDPOINT"
+    extraction_type = "extraction_type"
     check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
@@ -132,7 +132,7 @@ class Elements(QgsProcessingAlgorithm):
         <ul>
         <li><em>Input</em>: Polygons will be passed "as is" (bpoly), points will be passed with radius (bcircles).</li>
         <li><em>Start-/ End-Date and Time</em>: Time in UTC.</li>
-        <li><em>Endpoints</em>: desired endpoint for query.</li>
+        <li><em>Extraction Type</em>: desired endpoint for query.</li>
         <li><em>Point Layer Radius</em>: Radius for point layers.</li>
         <li><em>Period</em>: ISO 8601 Period, eg. /P1M for a monthly aggregation.</li>
         <li><em>Show Metadata</em>: Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</li>
@@ -183,8 +183,8 @@ class Elements(QgsProcessingAlgorithm):
 
         self.addParameter(
             QgsProcessingParameterEnum(
-                self.ENDPOINT,
-                self.tr("Endpoint"),
+                self.extraction_type,
+                self.tr("Extraction Type"),
                 options=self.endpoints,
                 defaultValue=0,
             )
@@ -193,7 +193,7 @@ class Elements(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
-                self.tr("Parameter"),
+                self.tr("Exraction Geometry"),
                 options=self.parameters,
                 defaultValue=0,
             )
@@ -324,7 +324,7 @@ class Elements(QgsProcessingAlgorithm):
             "geom": geom,
             "selection": "data-Extraction",
             "preference": self.endpoints[
-                self.parameterAsInt(parameters, self.ENDPOINT, context)
+                self.parameterAsInt(parameters, self.extraction_type, context)
             ],
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "preference_specification": self.parameters[
