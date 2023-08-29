@@ -318,9 +318,8 @@ class UsersCount(QgsProcessingAlgorithm):
         processingParams = {
             "geom": geom,
             "selection": "data-Aggregation",
-            "preference": f"users/count",
+            "preference": f"users/count{density}",
             "filter": self.parameterAsString(parameters, self.FILTER, context),
-            "preference_specification": density,
             "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
             "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
             "check_activate_temporal": self.parameterAsBool(
