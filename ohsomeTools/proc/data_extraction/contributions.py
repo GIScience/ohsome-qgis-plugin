@@ -181,7 +181,7 @@ class Contributions(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
-                self.tr("Parameter"),
+                self.tr("Extraction Geometry"),
                 options=self.parameters,
                 defaultValue=0,
             )
