@@ -263,6 +263,22 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_values_line_edit,
+                self.tr("Group by Values"),
+                optional=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_key_line_edit,
+                self.tr("Group by Key"),
+                optional=True,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterNumber(
                 self.timeout_input,
                 "Timeout",
@@ -277,22 +293,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 self.tr("Output Format"),
                 options=self.formats,
                 defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_values_line_edit,
-                self.tr("Group by Values"),
-                optional=True,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_key_line_edit,
-                self.tr("Group by Key"),
-                optional=True,
             )
         )
 

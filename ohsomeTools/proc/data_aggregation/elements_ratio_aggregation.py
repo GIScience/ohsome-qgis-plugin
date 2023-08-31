@@ -219,6 +219,23 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_values_line_edit,
+                self.tr("Group by Values"),
+                optional=True,
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.group_by_key_line_edit,
+                self.tr("Group by Key"),
+                optional=True,
+            )
+        )
+
+
+        self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_start, "Start Date", defaultValue=start_date_string
             )
@@ -261,22 +278,6 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
                 self.tr("Output Format"),
                 options=self.formats,
                 defaultValue=0,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_values_line_edit,
-                self.tr("Group by Values"),
-                optional=True,
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterString(
-                self.group_by_key_line_edit,
-                self.tr("Group by Key"),
-                optional=True,
             )
         )
 
