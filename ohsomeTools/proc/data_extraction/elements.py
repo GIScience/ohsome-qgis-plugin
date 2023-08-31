@@ -22,6 +22,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
     QgsProcessing,
+    QgsProcessingParameterDefinition
 )
 
 from qgis.utils import iface
@@ -253,61 +254,54 @@ class Elements(QgsProcessingAlgorithm):
         )
 
         # checkboxes
-        self.addParameter(
+        advanced_parameters = [
+
             QgsProcessingParameterBoolean(
                 self.check_show_metadata,
                 self.tr("Show metadata"),
                 defaultValue=False,
-            )
-        )
+            ),
 
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
                 self.tr("Keep without geometry"),
                 defaultValue=True,
-            )
-        )
+            ),
 
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
                 defaultValue=True,
-            )
-        )
+            ),
 
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_activate_temporal,
                 self.tr("Qgis temporal feature"),
                 defaultValue=True,
-            )
-        )
+            ),
 
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_clip_geometry,
                 self.tr("Clip geometry"),
                 defaultValue=True,
-            )
-        )
+            ),
 
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.property_groups_check_tags,
                 self.tr("Tags"),
                 defaultValue=True,
-            )
-        )
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
+        QgsProcessingParameterBoolean(
                 self.property_groups_check_metadata,
                 self.tr("Metadata"),
                 defaultValue=False,
             )
-        )
+        ]
+
+        for param in advanced_parameters:
+            param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            self.addParameter(param)
 
     def processAlgorithm(self, parameters, context, feedback):
         """

@@ -240,64 +240,55 @@ class Contributions(QgsProcessingAlgorithm):
                 defaultValue=0,
             )
         )
-        
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_show_metadata,
-                self.tr("Show metadata"),
-                defaultValue=False,
-            )
-        ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
-                defaultValue=True,
-                group='Fortgeschrittene Parameter'
-            )
-        ),
+        advanced_parameters = [
+                QgsProcessingParameterBoolean(
+                    self.check_show_metadata,
+                    self.tr("Show metadata"),
+                    defaultValue=False,
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_merge_geometries,
-                self.tr("Harmonize geometries"),
-                defaultValue=True,
-                group='Fortgeschrittene Parameter'
-            )
-        ),
+                QgsProcessingParameterBoolean(
+                    self.check_keep_geometryless,
+                    self.tr("Keep without geometry"),
+                    defaultValue=True,
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_activate_temporal,
-                self.tr("Qgis temporal feature"),
-                defaultValue=True,
-            )
-        ),
+                QgsProcessingParameterBoolean(
+                    self.check_merge_geometries,
+                    self.tr("Harmonize geometries"),
+                    defaultValue=True,
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.check_clip_geometry,
-                self.tr("Clip geometry"),
-                defaultValue=True,
-            )
-        ),
+                QgsProcessingParameterBoolean(
+                    self.check_activate_temporal,
+                    self.tr("Qgis temporal feature"),
+                    defaultValue=True
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.property_groups_check_tags,
-                self.tr("Tags"),
-                defaultValue=True,
-            )
-        ),
+                QgsProcessingParameterBoolean(
+                    self.check_clip_geometry,
+                    self.tr("Clip geometry"),
+                    defaultValue=True,
+            ),
 
-        self.addParameter(
-            QgsProcessingParameterBoolean(
-                self.property_groups_check_metadata,
-                self.tr("Metadata"),
-                defaultValue=False,
-            )
-        )
+                QgsProcessingParameterBoolean(
+                    self.property_groups_check_tags,
+                    self.tr("Tags"),
+                    defaultValue=True,
+            ),
+
+                QgsProcessingParameterBoolean(
+                    self.property_groups_check_metadata,
+                    self.tr("Metadata"),
+                    defaultValue=False,
+                )
+        ]
+
+        for param in advanced_parameters:
+            param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            self.addParameter(param)
+
 
     def processAlgorithm(self, parameters, context, feedback):
         """
