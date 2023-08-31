@@ -179,6 +179,15 @@ class ContributionsCount(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                "Radius [m]",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=100,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.DENSITY,
                 self.tr("Density"),
@@ -209,15 +218,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.FILTER,
                 self.tr("Filter"),
                 defaultValue="building=* or (type:way and highway=residential)",
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.RADIUS,
-                "Radius [m]",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=100,
             )
         )
 

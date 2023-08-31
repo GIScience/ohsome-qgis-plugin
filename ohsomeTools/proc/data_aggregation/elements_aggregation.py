@@ -202,6 +202,15 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                "Radius [m]",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=1000,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
                 self.tr("Aggregation Type"),
@@ -241,15 +250,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 self.FILTER,
                 self.tr("Filter"),
                 defaultValue="building=* or (type:way and highway=residential)",
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.RADIUS,
-                "Radius [m]",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1000,
             )
         )
 

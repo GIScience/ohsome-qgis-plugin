@@ -187,6 +187,15 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                "Radius [m]",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=1000,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
                 self.tr("Aggregation Type"),
@@ -234,15 +243,6 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
                 self.FILTER_2,
                 self.tr("Filter 2"),
                 defaultValue="natural=tree",
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.RADIUS,
-                "Radius [m]",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=1000,
             )
         )
 
