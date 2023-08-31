@@ -196,12 +196,6 @@ class UsersCount(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterString(
-                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
-            )
-        )
-
-        self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_start, "Start Date", defaultValue=start_date_string
             )
@@ -210,6 +204,12 @@ class UsersCount(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_end, "End Date", defaultValue=end_date_string
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
             )
         )
 

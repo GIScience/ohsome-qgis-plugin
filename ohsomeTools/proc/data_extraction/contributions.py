@@ -22,6 +22,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
     QgsProcessing,
+    QgsProcessingParameterDefinition
 )
 
 from qgis.utils import iface
@@ -197,12 +198,6 @@ class Contributions(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterString(
-                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
-            )
-        )
-
-        self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_start, "Start Date", defaultValue=start_date_string
             )
@@ -211,6 +206,12 @@ class Contributions(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_end, "End Date", defaultValue=end_date_string
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
             )
         )
 
@@ -239,32 +240,32 @@ class Contributions(QgsProcessingAlgorithm):
                 defaultValue=0,
             )
         )
-
-        # checkboxes
-
+        
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_show_metadata,
                 self.tr("Show metadata"),
                 defaultValue=False,
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
                 self.tr("Keep without geometry"),
                 defaultValue=True,
+                group='Fortgeschrittene Parameter'
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
                 defaultValue=True,
+                group='Fortgeschrittene Parameter'
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
@@ -272,7 +273,7 @@ class Contributions(QgsProcessingAlgorithm):
                 self.tr("Qgis temporal feature"),
                 defaultValue=True,
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
@@ -280,7 +281,7 @@ class Contributions(QgsProcessingAlgorithm):
                 self.tr("Clip geometry"),
                 defaultValue=True,
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
@@ -288,7 +289,7 @@ class Contributions(QgsProcessingAlgorithm):
                 self.tr("Tags"),
                 defaultValue=True,
             )
-        )
+        ),
 
         self.addParameter(
             QgsProcessingParameterBoolean(
