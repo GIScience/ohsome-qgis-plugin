@@ -179,6 +179,15 @@ class Contributions(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterNumber(
+                self.RADIUS,
+                "Radius [m]",
+                type=QgsProcessingParameterNumber.Integer,
+                defaultValue=0,
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterEnum(
                 self.PARAMETER,
                 self.tr("Extraction Geometry"),
@@ -210,15 +219,6 @@ class Contributions(QgsProcessingAlgorithm):
                 self.FILTER,
                 self.tr("Filter"),
                 defaultValue="building=* or (type:way and highway=residential)",
-            )
-        )
-
-        self.addParameter(
-            QgsProcessingParameterNumber(
-                self.RADIUS,
-                "Radius [m]",
-                type=QgsProcessingParameterNumber.Integer,
-                defaultValue=0,
             )
         )
 
