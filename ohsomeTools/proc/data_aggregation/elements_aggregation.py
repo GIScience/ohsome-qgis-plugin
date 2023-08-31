@@ -220,12 +220,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterString(
-                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
-            )
-        )
-
-        self.addParameter(
             QgsProcessingParameterBoolean(
                 self.DENSITY,
                 self.tr("Calculate Density"),
@@ -242,6 +236,12 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterDateTime(
                 self.date_end, "End Date", defaultValue=end_date_string
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterString(
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
             )
         )
 

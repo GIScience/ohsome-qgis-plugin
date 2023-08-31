@@ -196,14 +196,14 @@ class ContributionsCount(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
-            QgsProcessingParameterString(
-                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
+            QgsProcessingParameterDateTime(
+                self.date_start, "Start Date", defaultValue=start_date_string
             )
         )
 
         self.addParameter(
-            QgsProcessingParameterDateTime(
-                self.date_start, "Start Date", defaultValue=start_date_string
+            QgsProcessingParameterString(
+                self.PERIOD, "Period (ISO 8601)", defaultValue="/P1M"
             )
         )
 
