@@ -75,6 +75,7 @@ class Contributions(QgsProcessingAlgorithm):
     formats = ["json", "geojson"]
     parameters = [i for i in EXTRACTION_SPECS["contributions"]]
     PERIOD = "PERIOD"
+    PROVIDER = "PROVIDER"
 
     def tr(self, string):
         """
@@ -168,6 +169,16 @@ class Contributions(QgsProcessingAlgorithm):
 
         # We add the input vector features source. It can have any kind of
         # geometry.
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.PROVIDER,
+                self.tr("Provider"),
+                options=[i['name'] for i in configmanager.read_config()["providers"]],
+                defaultValue=0,
+            )
+        )
+
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
@@ -302,6 +313,7 @@ class Contributions(QgsProcessingAlgorithm):
             geom = 2
 
         processingParams = {
+            "provider": self.parameterAsInt(parameters, self.PROVIDER, context),
             "geom": geom,
             "selection": "data-Extraction",
             "preference": "contributions",

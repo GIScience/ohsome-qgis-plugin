@@ -80,6 +80,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
     ]
     PERIOD = "PERIOD"
     group_by_boundary = "group_by_boundary"
+    PROVIDER = "PROVIDER"
 
     def tr(self, string):
         """
@@ -176,6 +177,16 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
 
         # We add the input vector features source. It can have any kind of
         # geometry.
+
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                self.PROVIDER,
+                self.tr("Provider"),
+                options=[i['name'] for i in configmanager.read_config()["providers"]],
+                defaultValue=0,
+            )
+        )
+
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 self.LAYER,
@@ -340,6 +351,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
         ]
 
         processingParams = {
+            "provider": self.parameterAsInt(parameters, self.PROVIDER, context),
             "geom": geom,
             "selection": "data-Aggregation",
             "preference": f"elements/{preference}/ratio{group_by_boundary_var}",
