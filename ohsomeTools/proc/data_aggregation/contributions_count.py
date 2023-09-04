@@ -22,7 +22,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
     QgsProcessing,
-    QgsProcessingParameterDefinition
+    QgsProcessingParameterDefinition,
 )
 
 from qgis.utils import iface
@@ -164,8 +164,8 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 .get("toTimestamp")
             )
         except:
-            start_date_string = ''
-            end_date_string = ''
+            start_date_string = ""
+            end_date_string = ""
 
         # We add the input vector features source. It can have any kind of
         # geometry.
@@ -174,7 +174,9 @@ class ContributionsCount(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.PROVIDER,
                 self.tr("Provider"),
-                options=[i['name'] for i in configmanager.read_config()["providers"]],
+                options=[
+                    i["name"] for i in configmanager.read_config()["providers"]
+                ],
                 defaultValue=0,
             )
         )
@@ -257,46 +259,42 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.tr("Show metadata"),
                 defaultValue=False,
             ),
-
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
                 self.tr("Keep without geometry"),
                 defaultValue=True,
             ),
-
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
                 defaultValue=True,
             ),
-
             QgsProcessingParameterBoolean(
                 self.check_activate_temporal,
                 self.tr("Qgis temporal feature"),
                 defaultValue=True,
             ),
-
             QgsProcessingParameterBoolean(
                 self.check_clip_geometry,
                 self.tr("Clip geometry"),
                 defaultValue=True,
             ),
-
             QgsProcessingParameterBoolean(
                 self.property_groups_check_tags,
                 self.tr("Tags"),
                 defaultValue=True,
             ),
-
             QgsProcessingParameterBoolean(
                 self.property_groups_check_metadata,
                 self.tr("Metadata"),
                 defaultValue=False,
-            )
+            ),
         ]
 
         for param in advanced_parameters:
-            param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            param.setFlags(
+                param.flags() | QgsProcessingParameterDefinition.FlagAdvanced
+            )
             self.addParameter(param)
 
     def processAlgorithm(self, parameters, context, feedback):
@@ -310,7 +308,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
         elif layer.geometryType() == QgsWkbTypes.PolygonGeometry:
             geom = 2
 
-        if self.parameterAsBool(parameters, self.DENSITY    , context):
+        if self.parameterAsBool(parameters, self.DENSITY, context):
             density = "/density"
         else:
             density = ""

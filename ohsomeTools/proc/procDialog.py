@@ -10,7 +10,9 @@ def run_processing_alg(processingParams, feedback):
 
     # Clean the debug text
     try:
-        provider_id = processingParams["provider"]  # Muss in combo box noch zugänglich gemacht werden.
+        provider_id = processingParams[
+            "provider"
+        ]  # Muss in combo box noch zugänglich gemacht werden.
         provider = configmanager.read_config()["providers"][provider_id]
     except IndexError:
         msg = "Request aborted. No provider available. Please check your provider list.\n"
