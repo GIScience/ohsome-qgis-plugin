@@ -49,7 +49,7 @@ class OhsomeSpec:
 
     @property
     def _api_spec(self):
-        return self.dlg.ohsome_spec_selection_combo.currentText()
+        return 'data-aggregation'
 
     @property
     def activate_temporal_feature(self):
@@ -119,8 +119,16 @@ class OhsomeSpec:
 
     @property
     def _request_filter(self) -> str:
-        return self.dlg.filter_input.toPlainText()
+        if self.dlg.tabWidget_simple_advanced.currentIndex() == 1:
+            return self.dlg.filter_input.toPlainText()
+        elif self.dlg.tabWidget_simple_advanced.currentIndex() == 0:
+            key = self.dlg.lineEdit_key.toPlaintext()
+            value = self.dlg.lineEdit_value.toPlaintext()
+            type = self.dlg.mcomboBox_osm_type.currentText().lower()
 
+            filter = f'{key}={value} and type:{type}'
+
+            return filter
     @property
     def _request_filter2(self) -> str:
         return self.dlg.filter2_input.text()
