@@ -137,12 +137,12 @@ class OhsomeSpec:
     def _request_url(self):
         # Construct request url
         if self.dlg.buttonGroup_2.checkedButton().text() != 'None':
-            group_by = f'/groupby/{self.dlg.buttonGroup_2.checkedButton().text().lower()}'
+            group_by = f'/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}'
         else:
             group_by = ''
-        print(f"elements/{self.dlg.buttonGroup.checkedButton().text().lower()}{group_by}")
+        print(f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}")
         return (
-                f"elements/{self.dlg.buttonGroup.checkedButton().text().lower()}{group_by}"
+                f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}"
             )
 
     @property
