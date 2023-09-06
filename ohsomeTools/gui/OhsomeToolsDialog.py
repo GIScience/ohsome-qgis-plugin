@@ -311,23 +311,7 @@ class OhsomeToolsDialogMain:
 
             # if there are no centroids or layers, throw an error message
             tab_index = self.dlg.request_types_widget.currentIndex()
-            if (
-                self.dlg.ohsome_spec_selection_combo.currentText().lower()
-                == "metadata"
-            ):
-                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
-                    True
-                )
-                globals()[task_name] = ExtractionTaskFunction(
-                    iface=self.iface,
-                    dlg=self.dlg,
-                    description=f"OHSOME task",
-                    provider=provider,
-                    request_url=preferences.get_request_url(),
-                    preferences=None,
-                )
-                QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 0:
+            if tab_index == 0:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -445,7 +429,7 @@ class OhsomeToolsDialogMain:
             elif not preferences.is_valid(True):
                 self.iface.messageBar().pushMessage(
                     "Warning",
-                    "Preferences are not valid. Check the plugin log.",
+                    "debugPreferences are not valid. Check the plugin log.",
                     level=Qgis.Critical,
                     duration=7,
                 )
@@ -486,9 +470,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self.last_maptool = self._iface.mapCanvas().mapTool()
         self.annotations = []
 
-        # Populate combo boxes
-        self.ohsome_spec_selection_combo.clear()
-        self.ohsome_spec_selection_combo.addItems(API_ENDPOINTS)
         self._set_preferences()
 
         # Change OK and Cancel button names
@@ -497,17 +478,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         # self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
 
         #### Set up signals/slots ####
-
-        # Update preferences on api selection
-        self.ohsome_spec_selection_combo.currentIndexChanged.connect(
-            self._set_preferences
-        )
-        self.ohsome_spec_preference_combo.currentIndexChanged.connect(
-            self._set_preferences_endpoint
-        )
-        self.ohsome_spec_preference_specification.currentIndexChanged.connect(
-            self._set_data_aggregation_format
-        )
 
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
@@ -535,56 +505,12 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
 
     # On Spec selection
     def _set_preferences(self):
-        self.ohsome_spec_preference_combo.clear()
-        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
-            pass
-        elif (
-            self.ohsome_spec_selection_combo.currentText().lower()
-            == "data-extraction"
-        ):
-            self.ohsome_spec_preference_combo.addItems(EXTRACTION_SPECS)
-            self.ohsome_spec_preference_combo.setCurrentIndex(0)
-            self.interval_years.setEnabled(False)
-            self.interval_years.setStyleSheet("border: 1px solid grey")
-            self.interval_months.setEnabled(False)
-            self.interval_months.setStyleSheet("border: 1px solid grey")
-            self.interval_days.setEnabled(False)
-            self.interval_days.setStyleSheet("border: 1px solid grey")
-        else:
-            self.ohsome_spec_preference_combo.addItems(AGGREGATION_SPECS)
-            self.ohsome_spec_preference_combo.setCurrentIndex(0)
-            self.interval_years.setEnabled(True)
-            self.interval_years.setStyleSheet("border: 1px solid green")
-            self.interval_months.setEnabled(True)
-            self.interval_months.setStyleSheet("border: 1px solid green")
-            self.interval_days.setEnabled(True)
-            self.interval_days.setStyleSheet("border: 1px solid green")
-        self._set_preferences_endpoint()
-
-    def _set_preferences_endpoint(self):
-        self.ohsome_spec_preference_specification.clear()
-        current_text = self.ohsome_spec_preference_combo.currentText()
-        # Catch when preference combo is just cleaned and empty.
-        if not current_text or len(current_text) <= 0:
-            return
-        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
-            pass
-        elif (
-            self.ohsome_spec_selection_combo.currentText().lower()
-            == "data-extraction"
-        ):
-            extraction_set = EXTRACTION_SPECS.get(
-                self.ohsome_spec_preference_combo.currentText()
-            )
-            self.ohsome_spec_preference_specification.addItems(extraction_set)
-            self.ohsome_spec_preference_specification.setCurrentIndex(0)
-        else:
-            aggregation_set = AGGREGATION_SPECS.get(
-                self.ohsome_spec_preference_combo.currentText()
-            )
-            self.ohsome_spec_preference_specification.addItems(aggregation_set)
-            self.ohsome_spec_preference_specification.setCurrentIndex(0)
-        self._set_data_aggregation_format()
+        self.interval_years.setEnabled(True)
+        self.interval_years.setStyleSheet("border: 1px solid green")
+        self.interval_months.setEnabled(True)
+        self.interval_months.setStyleSheet("border: 1px solid green")
+        self.interval_days.setEnabled(True)
+        self.interval_days.setStyleSheet("border: 1px solid green")
 
     def _set_data_aggregation_format(self):
         self.data_aggregation_format.clear()

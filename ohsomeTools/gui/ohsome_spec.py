@@ -120,10 +120,10 @@ class OhsomeSpec:
     @property
     def _request_filter(self) -> str:
         if self.dlg.tabWidget_simple_advanced.currentIndex() == 1:
-            return self.dlg.filter_input.toPlainText()
+            return self.dlg.filter_input.text()
         elif self.dlg.tabWidget_simple_advanced.currentIndex() == 0:
-            key = self.dlg.lineEdit_key.toPlaintext()
-            value = self.dlg.lineEdit_value.toPlaintext()
+            key = self.dlg.lineEdit_key.text()
+            value = self.dlg.lineEdit_value.text()
             type = self.dlg.mcomboBox_osm_type.currentText().lower()
 
             filter = f'{key}={value} and type:{type}'
@@ -136,17 +136,13 @@ class OhsomeSpec:
     @property
     def _request_url(self):
         # Construct request url
-        if (
-            self.dlg.ohsome_spec_selection_combo.currentText().lower()
-            == "metadata"
-        ):
-            return (
-                f"{self.dlg.ohsome_spec_selection_combo.currentText().lower()}"
-            )
+        if self.dlg.buttonGroup_2.checkedButton().text() != 'None':
+            group_by = f'/groupby/{self.dlg.buttonGroup_2.checkedButton().text().lower()}'
         else:
-            return (
-                f"{self.dlg.ohsome_spec_preference_combo.currentText()}/"
-                f"{self.dlg.ohsome_spec_preference_specification.currentText()}"
+            group_by = ''
+        print(f"elements/{self.dlg.buttonGroup.checkedButton().text().lower()}{group_by}")
+        return (
+                f"elements/{self.dlg.buttonGroup.checkedButton().text().lower()}{group_by}"
             )
 
     @property
@@ -161,11 +157,6 @@ class OhsomeSpec:
         return date_string
 
     def is_valid(self, warn: bool = False) -> bool:
-        if (
-            self.dlg.ohsome_spec_selection_combo.currentText().lower()
-            == "metadata"
-        ):
-            return True
         tab_index = self.dlg.request_types_widget.currentIndex()
         msg = ""
         if (
@@ -207,11 +198,13 @@ class OhsomeSpec:
             msg = f"{msg}> Request date needs to be set.\n"
         if len(msg) and warn:
             self.dlg.debug_text.append(msg)
+            print(msg)
+
         if len(msg):
             return False
         return True
 
-    def __prepare_ohsome_time_parameter(
+    def _prepare_ohsome_time_parameter(
         self,
         start_date: QDate,
         end_date: QDate,
