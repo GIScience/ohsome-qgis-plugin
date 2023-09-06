@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>702</width>
-    <height>676</height>
+    <height>542</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -74,7 +74,7 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>646</height>
+            <height>694</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -130,7 +130,7 @@
                         <bool>true</bool>
                        </property>
                        <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup</string>
+                        <string notr="true">buttonGroup_measure</string>
                        </attribute>
                       </widget>
                      </item>
@@ -140,7 +140,7 @@
                         <string>Length</string>
                        </property>
                        <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup</string>
+                        <string notr="true">buttonGroup_measure</string>
                        </attribute>
                       </widget>
                      </item>
@@ -150,7 +150,7 @@
                         <string>Area</string>
                        </property>
                        <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup</string>
+                        <string notr="true">buttonGroup_measure</string>
                        </attribute>
                       </widget>
                      </item>
@@ -160,7 +160,7 @@
                         <string>Perimeter</string>
                        </property>
                        <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup</string>
+                        <string notr="true">buttonGroup_measure</string>
                        </attribute>
                       </widget>
                      </item>
@@ -231,7 +231,7 @@
                       <string>tag</string>
                      </property>
                      <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_2</string>
+                      <string notr="true">buttonGroup_groupby</string>
                      </attribute>
                     </widget>
                    </item>
@@ -254,7 +254,7 @@
                       <string>boundary</string>
                      </property>
                      <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_2</string>
+                      <string notr="true">buttonGroup_groupby</string>
                      </attribute>
                     </widget>
                    </item>
@@ -264,7 +264,7 @@
                       <string>key</string>
                      </property>
                      <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_2</string>
+                      <string notr="true">buttonGroup_groupby</string>
                      </attribute>
                     </widget>
                    </item>
@@ -277,7 +277,7 @@
                       <bool>true</bool>
                      </property>
                      <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_2</string>
+                      <string notr="true">buttonGroup_groupby</string>
                      </attribute>
                     </widget>
                    </item>
@@ -287,227 +287,9 @@
                       <string>OSM Type</string>
                      </property>
                      <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_2</string>
+                      <string notr="true">buttonGroup_groupby</string>
                      </attribute>
                     </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="2" column="0">
-                  <layout class="QVBoxLayout" name="verticalLayout_10">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <layout class="QGridLayout" name="gridLayout_25">
-                     <property name="leftMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>5</number>
-                     </property>
-                     <item row="1" column="0">
-                      <widget class="QSpinBox" name="interval_years_4">
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="accessibleDescription">
-                        <string/>
-                       </property>
-                       <property name="maximum">
-                        <number>99</number>
-                       </property>
-                       <property name="value">
-                        <number>0</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QSpinBox" name="interval_months_4">
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x months. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="maximum">
-                        <number>12</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_years_4">
-                       <property name="toolTip">
-                        <string/>
-                       </property>
-                       <property name="text">
-                        <string>Years</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLabel" name="label_months_4">
-                       <property name="toolTip">
-                        <string/>
-                       </property>
-                       <property name="text">
-                        <string>Months</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="2">
-                      <widget class="QLabel" name="label_days_4">
-                       <property name="toolTip">
-                        <string/>
-                       </property>
-                       <property name="text">
-                        <string>Days</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="2">
-                      <widget class="QSpinBox" name="interval_days_4">
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x days. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="maximum">
-                        <number>31</number>
-                       </property>
-                       <property name="value">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QGridLayout" name="gridLayout_26">
-                     <property name="leftMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>5</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>5</number>
-                     </property>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="date_start_label_4">
-                       <property name="text">
-                        <string>Date Start</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QDateEdit" name="date_start_4">
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="dateTime">
-                        <datetime>
-                         <hour>0</hour>
-                         <minute>0</minute>
-                         <second>0</second>
-                         <year>2016</year>
-                         <month>1</month>
-                         <day>1</day>
-                        </datetime>
-                       </property>
-                       <property name="minimumDateTime">
-                        <datetime>
-                         <hour>0</hour>
-                         <minute>0</minute>
-                         <second>0</second>
-                         <year>2007</year>
-                         <month>10</month>
-                         <day>8</day>
-                        </datetime>
-                       </property>
-                       <property name="maximumDate">
-                        <date>
-                         <year>2050</year>
-                         <month>12</month>
-                         <day>31</day>
-                        </date>
-                       </property>
-                       <property name="minimumDate">
-                        <date>
-                         <year>2007</year>
-                         <month>10</month>
-                         <day>8</day>
-                        </date>
-                       </property>
-                       <property name="displayFormat">
-                        <string>dd-MM-yyyy</string>
-                       </property>
-                       <property name="timeSpec">
-                        <enum>Qt::LocalTime</enum>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLabel" name="date_end_label_4">
-                       <property name="text">
-                        <string>Date End</string>
-                       </property>
-                       <property name="buddy">
-                        <cstring></cstring>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QDateEdit" name="date_end_4">
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="dateTime">
-                        <datetime>
-                         <hour>0</hour>
-                         <minute>0</minute>
-                         <second>0</second>
-                         <year>2017</year>
-                         <month>1</month>
-                         <day>1</day>
-                        </datetime>
-                       </property>
-                       <property name="minimumDateTime">
-                        <datetime>
-                         <hour>0</hour>
-                         <minute>0</minute>
-                         <second>0</second>
-                         <year>2007</year>
-                         <month>10</month>
-                         <day>9</day>
-                        </datetime>
-                       </property>
-                       <property name="minimumDate">
-                        <date>
-                         <year>2007</year>
-                         <month>10</month>
-                         <day>9</day>
-                        </date>
-                       </property>
-                       <property name="displayFormat">
-                        <string>dd-MM-yyyy</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
                    </item>
                   </layout>
                  </item>
@@ -626,6 +408,282 @@
              </item>
              <item>
               <layout class="QGridLayout" name="gridLayout_14"/>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_25">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item row="1" column="0">
+                  <widget class="QSpinBox" name="interval_years">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="accessibleDescription">
+                    <string/>
+                   </property>
+                   <property name="maximum">
+                    <number>99</number>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QSpinBox" name="interval_months">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x months. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="maximum">
+                    <number>12</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_years">
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="text">
+                    <string>Years</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_months">
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="text">
+                    <string>Months</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_days">
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="text">
+                    <string>Days</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QSpinBox" name="interval_days">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x days. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="maximum">
+                    <number>31</number>
+                   </property>
+                   <property name="value">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_26">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="group_by_key_line_edit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` and `groupBy/key` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="echoMode">
+                    <enum>QLineEdit::Normal</enum>
+                   </property>
+                   <property name="placeholderText">
+                    <string>building</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="group_by_keys_label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>groupByKey</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QDateEdit" name="date_start">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="dateTime">
+                    <datetime>
+                     <hour>0</hour>
+                     <minute>0</minute>
+                     <second>0</second>
+                     <year>2016</year>
+                     <month>1</month>
+                     <day>1</day>
+                    </datetime>
+                   </property>
+                   <property name="minimumDateTime">
+                    <datetime>
+                     <hour>0</hour>
+                     <minute>0</minute>
+                     <second>0</second>
+                     <year>2007</year>
+                     <month>10</month>
+                     <day>8</day>
+                    </datetime>
+                   </property>
+                   <property name="maximumDate">
+                    <date>
+                     <year>2050</year>
+                     <month>12</month>
+                     <day>31</day>
+                    </date>
+                   </property>
+                   <property name="minimumDate">
+                    <date>
+                     <year>2007</year>
+                     <month>10</month>
+                     <day>8</day>
+                    </date>
+                   </property>
+                   <property name="displayFormat">
+                    <string>dd-MM-yyyy</string>
+                   </property>
+                   <property name="timeSpec">
+                    <enum>Qt::LocalTime</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="date_start_label">
+                   <property name="text">
+                    <string>Date Start</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QDateEdit" name="date_end">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="dateTime">
+                    <datetime>
+                     <hour>0</hour>
+                     <minute>0</minute>
+                     <second>0</second>
+                     <year>2017</year>
+                     <month>1</month>
+                     <day>1</day>
+                    </datetime>
+                   </property>
+                   <property name="minimumDateTime">
+                    <datetime>
+                     <hour>0</hour>
+                     <minute>0</minute>
+                     <second>0</second>
+                     <year>2007</year>
+                     <month>10</month>
+                     <day>9</day>
+                    </datetime>
+                   </property>
+                   <property name="minimumDate">
+                    <date>
+                     <year>2007</year>
+                     <month>10</month>
+                     <day>9</day>
+                    </date>
+                   </property>
+                   <property name="displayFormat">
+                    <string>dd-MM-yyyy</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="date_end_label">
+                   <property name="text">
+                    <string>Date End</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring></cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="group_by_values_label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>groupByValues</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="group_by_values_line_edit">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
              </item>
              <item>
               <widget class="QgsCollapsibleGroupBox" name="configuration_group_box">
@@ -880,194 +938,6 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QgsCollapsibleGroupBox" name="intervals_group">
-                  <property name="title">
-                   <string>Intervals</string>
-                  </property>
-                  <property name="flat">
-                   <bool>true</bool>
-                  </property>
-                  <property name="collapsed">
-                   <bool>true</bool>
-                  </property>
-                  <property name="saveCollapsedState">
-                   <bool>false</bool>
-                  </property>
-                  <layout class="QGridLayout" name="gridLayout_10">
-                   <item row="2" column="1">
-                    <widget class="QLabel" name="label_years">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="text">
-                      <string>Years</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="2">
-                    <widget class="QLabel" name="label_months">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="text">
-                      <string>Months</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="4">
-                    <widget class="QLabel" name="date_end_label">
-                     <property name="text">
-                      <string>Date End</string>
-                     </property>
-                     <property name="buddy">
-                      <cstring></cstring>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QSpinBox" name="interval_years">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="accessibleDescription">
-                      <string/>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                     <property name="value">
-                      <number>0</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="4">
-                    <widget class="QLabel" name="label_days">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="text">
-                      <string>Days</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="4">
-                    <widget class="QSpinBox" name="interval_days">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x days. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="maximum">
-                      <number>31</number>
-                     </property>
-                     <property name="value">
-                      <number>1</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="2">
-                    <widget class="QSpinBox" name="interval_months">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x months. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="maximum">
-                      <number>12</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="5" column="1">
-                    <widget class="QDateEdit" name="date_start">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="dateTime">
-                      <datetime>
-                       <hour>0</hour>
-                       <minute>0</minute>
-                       <second>0</second>
-                       <year>2016</year>
-                       <month>1</month>
-                       <day>1</day>
-                      </datetime>
-                     </property>
-                     <property name="minimumDateTime">
-                      <datetime>
-                       <hour>0</hour>
-                       <minute>0</minute>
-                       <second>0</second>
-                       <year>2007</year>
-                       <month>10</month>
-                       <day>8</day>
-                      </datetime>
-                     </property>
-                     <property name="maximumDate">
-                      <date>
-                       <year>2050</year>
-                       <month>12</month>
-                       <day>31</day>
-                      </date>
-                     </property>
-                     <property name="minimumDate">
-                      <date>
-                       <year>2007</year>
-                       <month>10</month>
-                       <day>8</day>
-                      </date>
-                     </property>
-                     <property name="displayFormat">
-                      <string>dd-MM-yyyy</string>
-                     </property>
-                     <property name="timeSpec">
-                      <enum>Qt::LocalTime</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="1">
-                    <widget class="QLabel" name="date_start_label">
-                     <property name="text">
-                      <string>Date Start</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="5" column="4">
-                    <widget class="QDateEdit" name="date_end">
-                     <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="dateTime">
-                      <datetime>
-                       <hour>0</hour>
-                       <minute>0</minute>
-                       <second>0</second>
-                       <year>2017</year>
-                       <month>1</month>
-                       <day>1</day>
-                      </datetime>
-                     </property>
-                     <property name="minimumDateTime">
-                      <datetime>
-                       <hour>0</hour>
-                       <minute>0</minute>
-                       <second>0</second>
-                       <year>2007</year>
-                       <month>10</month>
-                       <day>9</day>
-                      </datetime>
-                     </property>
-                     <property name="minimumDate">
-                      <date>
-                       <year>2007</year>
-                       <month>10</month>
-                       <day>9</day>
-                      </date>
-                     </property>
-                     <property name="displayFormat">
-                      <string>dd-MM-yyyy</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QgsCollapsibleGroupBox" name="property_groups_box">
                   <property name="toolTip">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;List of possible property-groups added to each OSM-element.&lt;/p&gt;&lt;p&gt;Only available for data extraction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1082,50 +952,6 @@
                    <bool>true</bool>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_6">
-                   <item>
-                    <widget class="QFrame" name="frame_7">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout">
-                      <item>
-                       <widget class="QCheckBox" name="check_clip_geometry">
-                        <property name="enabled">
-                         <bool>true</bool>
-                        </property>
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Ony available for the data extraction endpoints&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="text">
-                         <string>Clip Geometry</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QCheckBox" name="check_keep_geometryless">
-                        <property name="enabled">
-                         <bool>true</bool>
-                        </property>
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some results don't contain geometries but metadata.&lt;/p&gt;&lt;p&gt;Decide if you wan't to keep them or only return ones with geometries.&lt;/p&gt;&lt;p&gt;If checked, the geometry less features will be stored separately.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="text">
-                         <string>Keep without geometry</string>
-                        </property>
-                        <property name="checked">
-                         <bool>false</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </item>
                    <item>
                     <widget class="QGroupBox" name="property_groups_groupbox">
                      <property name="title">
@@ -1237,40 +1063,7 @@
                         <property name="frameShadow">
                          <enum>QFrame::Raised</enum>
                         </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_11">
-                         <item>
-                          <widget class="QLabel" name="group_by_keys_label">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                           <property name="text">
-                            <string>groupByKey</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLineEdit" name="group_by_key_line_edit">
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` and `groupBy/key` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                           <property name="text">
-                            <string/>
-                           </property>
-                           <property name="echoMode">
-                            <enum>QLineEdit::Normal</enum>
-                           </property>
-                           <property name="placeholderText">
-                            <string>building</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
+                        <layout class="QHBoxLayout" name="horizontalLayout_11"/>
                        </widget>
                       </item>
                       <item>
@@ -1290,31 +1083,7 @@
                         <property name="frameShadow">
                          <enum>QFrame::Raised</enum>
                         </property>
-                        <layout class="QHBoxLayout" name="horizontalLayout_14">
-                         <item>
-                          <widget class="QLabel" name="group_by_values_label">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                           <property name="text">
-                            <string>groupByValues</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLineEdit" name="group_by_values_line_edit">
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
+                        <layout class="QHBoxLayout" name="horizontalLayout_14"/>
                        </widget>
                       </item>
                       <item>
@@ -1963,8 +1732,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>185</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -1979,8 +1748,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>185</x>
+     <y>521</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -1988,9 +1757,89 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>radioButton_tag</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>355</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_key</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_None</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>371</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_osm_type</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>364</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_boundary</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>271</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup_measure"/>
+  <buttongroup name="buttonGroup_groupby"/>
  </buttongroups>
 </ui>
