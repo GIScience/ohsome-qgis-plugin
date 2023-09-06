@@ -74,71 +74,12 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>734</height>
+            <height>646</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QGroupBox" name="groupBox_4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="title">
-                <string>Endpoint Selections</string>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
-               </property>
-               <layout class="QGridLayout" name="gridLayout_2">
-                <item row="2" column="0">
-                 <widget class="QFrame" name="frame_3">
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <item>
-                    <widget class="QComboBox" name="ohsome_spec_selection_combo">
-                     <property name="toolTip">
-                      <string>ohsome API Endpoint</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="ohsome_spec_preference_combo">
-                     <property name="toolTip">
-                      <string>Request preference</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="ohsome_spec_preference_specification">
-                     <property name="toolTip">
-                      <string>Request preference</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
              <item>
               <widget class="QTabWidget" name="tabWidget_simple_advanced">
                <property name="tabPosition">
@@ -241,7 +182,7 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QgsCheckableComboBox" name="mComboBox">
+                      <widget class="QgsCheckableComboBox" name="mcomboBox_osm_type">
                        <property name="minimumSize">
                         <size>
                          <width>250</width>
