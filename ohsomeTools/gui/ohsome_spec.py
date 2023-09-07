@@ -136,11 +136,14 @@ class OhsomeSpec:
     @property
     def _request_url(self):
         # Construct request url
-        if self.dlg.buttonGroup_groupby.checkedButton().text() != 'None':
-            group_by = f'/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}'
+        text = self.dlg.buttonGroup_groupby.checkedButton().text()
+        if text != 'None':
+            if text == 'OSM Type':
+                group_by = f'/groupby/type'
+            else:
+                group_by = f'/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}'
         else:
             group_by = ''
-        print(f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}")
         return (
                 f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}"
             )
@@ -198,7 +201,6 @@ class OhsomeSpec:
             msg = f"{msg}> Request date needs to be set.\n"
         if len(msg) and warn:
             self.dlg.debug_text.append(msg)
-            print(msg)
 
         if len(msg):
             return False

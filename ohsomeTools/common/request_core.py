@@ -390,7 +390,7 @@ class ExtractionTaskFunction(QgsTask):
         try:
             if len(self.preferences):
                 self.result = self.client.request(
-                    f"/{self.request_url}",
+                    f"/{self.request_url.replace('groupby', 'groupBy')}",
                     {},
                     post_json=self.preferences,
                 )
