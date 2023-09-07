@@ -478,6 +478,10 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         # self.global_buttons.button(QDialogButtonBox.Cancel).setText("Close")
 
         #### Set up signals/slots ####
+        self.buttonGroup_groupby.buttonToggled.connect(
+            self._set_data_aggregation_format
+        )
+
 
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
@@ -514,11 +518,9 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
 
     def _set_data_aggregation_format(self):
         self.data_aggregation_format.clear()
-        current_text = self.ohsome_spec_preference_specification.currentText()
+        current_text = self.buttonGroup_groupby.checkedButton().text()
         # Set the available output formats
-        if self.ohsome_spec_selection_combo.currentText().lower() == "metadata":
-            pass
-        elif "groupBy/boundary" in current_text:
+        if "boundary" in current_text:
             self.data_aggregation_format.addItems(
                 DATA_AGGREGATION_FORMAT.get("groupBy/boundary")
             )
@@ -540,12 +542,9 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
             self.group_by_values_line_edit.setStyleSheet(
                 "border: 1px solid green"
             )
-        elif "groupBy/key" in current_text:
+        elif "key" in current_text:
             self.group_by_key_line_edit.setEnabled(True)
             self.group_by_key_line_edit.setStyleSheet("border: 1px solid green")
-        elif "ratio" in current_text:
-            self.filter2_input.setEnabled(True)
-            self.filter2_input.setStyleSheet("border: 1px solid green")
 
     def set_temporal_extent(self):
         start_date = self.date_start.dateTime()
