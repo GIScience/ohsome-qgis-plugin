@@ -429,7 +429,7 @@ class OhsomeToolsDialogMain:
             elif not preferences.is_valid(True):
                 self.iface.messageBar().pushMessage(
                     "Warning",
-                    "debugPreferences are not valid. Check the plugin log.",
+                    "Preferences are not valid. Check the plugin log.",
                     level=Qgis.Critical,
                     duration=7,
                 )
@@ -471,6 +471,7 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self.annotations = []
 
         self._set_preferences()
+        self._set_data_aggregation_format()
 
         # Change OK and Cancel button names
         # self.global_buttons.button(QDialogButtonBox.Ok).setText("Apply")

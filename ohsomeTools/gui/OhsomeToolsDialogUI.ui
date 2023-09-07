@@ -74,7 +74,7 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>694</height>
+            <height>720</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -223,76 +223,6 @@
                    </item>
                   </layout>
                  </item>
-                 <item row="1" column="0">
-                  <layout class="QGridLayout" name="gridLayout_19">
-                   <item row="2" column="2">
-                    <widget class="QRadioButton" name="radioButton_tag">
-                     <property name="text">
-                      <string>tag</string>
-                     </property>
-                     <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_groupby</string>
-                     </attribute>
-                    </widget>
-                   </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="group_results">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>15</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Group Results By ...</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="1">
-                    <widget class="QRadioButton" name="radioButton_boundary">
-                     <property name="text">
-                      <string>boundary</string>
-                     </property>
-                     <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_groupby</string>
-                     </attribute>
-                    </widget>
-                   </item>
-                   <item row="2" column="3">
-                    <widget class="QRadioButton" name="radioButton_key">
-                     <property name="text">
-                      <string>key</string>
-                     </property>
-                     <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_groupby</string>
-                     </attribute>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QRadioButton" name="radioButton_None">
-                     <property name="text">
-                      <string>None</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                     <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_groupby</string>
-                     </attribute>
-                    </widget>
-                   </item>
-                   <item row="2" column="0">
-                    <widget class="QRadioButton" name="radioButton_osm_type">
-                     <property name="text">
-                      <string>OSM Type</string>
-                     </property>
-                     <attribute name="buttonGroup">
-                      <string notr="true">buttonGroup_groupby</string>
-                     </attribute>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
                 </layout>
                </widget>
                <widget class="QWidget" name="tab_advanced">
@@ -423,6 +353,76 @@
                <property name="bottomMargin">
                 <number>0</number>
                </property>
+               <item>
+                <layout class="QGridLayout" name="gridLayout_19">
+                 <item row="2" column="2">
+                  <widget class="QRadioButton" name="radioButton_tag">
+                   <property name="text">
+                    <string>tag</string>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup_groupby</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="group_results">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>15</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Group Results By ...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QRadioButton" name="radioButton_boundary">
+                   <property name="text">
+                    <string>boundary</string>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup_groupby</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item row="2" column="3">
+                  <widget class="QRadioButton" name="radioButton_key">
+                   <property name="text">
+                    <string>key</string>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup_groupby</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QRadioButton" name="radioButton_None">
+                   <property name="text">
+                    <string>None</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup_groupby</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QRadioButton" name="radioButton_osm_type">
+                   <property name="text">
+                    <string>OSM Type</string>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">buttonGroup_groupby</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item>
                 <layout class="QGridLayout" name="gridLayout_25">
                  <property name="leftMargin">
@@ -687,6 +687,22 @@
                 </layout>
                </item>
               </layout>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="check_keep_geometryless">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some results don't contain geometries but metadata.&lt;/p&gt;&lt;p&gt;Decide if you wan't to keep them or only return ones with geometries.&lt;/p&gt;&lt;p&gt;If checked, the geometry less features will be stored separately.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Keep without geometry</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QgsCollapsibleGroupBox" name="configuration_group_box">
