@@ -437,22 +437,6 @@
                  <property name="bottomMargin">
                   <number>5</number>
                  </property>
-                 <item row="1" column="0">
-                  <widget class="QSpinBox" name="interval_years">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="accessibleDescription">
-                    <string/>
-                   </property>
-                   <property name="maximum">
-                    <number>99</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="1" column="1">
                   <widget class="QSpinBox" name="interval_months">
                    <property name="toolTip">
@@ -463,16 +447,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_years">
-                   <property name="toolTip">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Years</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="1">
                   <widget class="QLabel" name="label_months">
                    <property name="toolTip">
@@ -480,6 +454,16 @@
                    </property>
                    <property name="text">
                     <string>Months</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_years">
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="text">
+                    <string>Years</string>
                    </property>
                   </widget>
                  </item>
@@ -503,6 +487,22 @@
                    </property>
                    <property name="value">
                     <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QSpinBox" name="interval_years">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="accessibleDescription">
+                    <string/>
+                   </property>
+                   <property name="maximum">
+                    <number>99</number>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
                    </property>
                   </widget>
                  </item>
@@ -543,6 +543,9 @@
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="group_by_keys_label">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
                      <horstretch>0</horstretch>
@@ -1754,86 +1757,6 @@
     <hint type="destinationlabel">
      <x>20</x>
      <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_tag</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>355</x>
-     <y>219</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>284</x>
-     <y>375</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_key</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>513</x>
-     <y>217</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>433</x>
-     <y>365</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_None</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>199</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>181</x>
-     <y>371</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_osm_type</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>134</x>
-     <y>222</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>219</x>
-     <y>364</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_boundary</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>232</x>
-     <y>225</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>271</x>
-     <y>365</y>
     </hint>
    </hints>
   </connection>

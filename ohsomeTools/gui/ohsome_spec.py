@@ -120,7 +120,7 @@ class OhsomeSpec:
     @property
     def _request_filter(self) -> str:
         if self.dlg.tabWidget_simple_advanced.currentIndex() == 1:
-            return self.dlg.filter_input.text()
+            return self.dlg.filter_input.toPlainText()
         elif self.dlg.tabWidget_simple_advanced.currentIndex() == 0:
             key = self.dlg.lineEdit_key.text()
             value = self.dlg.lineEdit_value.text()
@@ -136,7 +136,7 @@ class OhsomeSpec:
     @property
     def _request_url(self):
         # Construct request url
-        if self.dlg.buttonGroup_2.checkedButton().text() != 'None':
+        if self.dlg.buttonGroup_groupby.checkedButton().text() != 'None':
             group_by = f'/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}'
         else:
             group_by = ''
