@@ -483,6 +483,10 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
             self._set_data_aggregation_format
         )
 
+        self.group_by_key_line_edit.setVisible(False)
+        self.group_by_values_line_edit.setVisible(False)
+        self.group_by_keys_label.setVisible(False)
+        self.group_by_values_label.setVisible(False)
 
         # Config/Help dialogs
         self.provider_config.clicked.connect(lambda: on_config_click(self))
