@@ -126,7 +126,14 @@ class OhsomeSpec:
             value = self.dlg.lineEdit_value.text()
             type = self.dlg.mcomboBox_osm_type.currentText().lower()
 
-            filter = f'{key}={value} and type:{type}'
+            filter = f'{key}={value}'
+
+            for i, x in enumerate(type.split(', ')):
+                if i == 0:
+                    text =  f' and type:{x} '
+                else:
+                    text = f'or type:{x} '
+                filter += text
 
             return filter
     @property
