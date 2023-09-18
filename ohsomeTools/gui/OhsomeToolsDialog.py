@@ -538,8 +538,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self.group_by_key_line_edit.setStyleSheet("border: 1px solid grey")
         self.group_by_values_line_edit.setEnabled(False)
         self.group_by_values_line_edit.setStyleSheet("border: 1px solid grey")
-        self.filter2_input.setEnabled(False)
-        self.filter2_input.setStyleSheet("border: 1px solid grey")
         if "groupBy/tag" in current_text:
             self.group_by_key_line_edit.setEnabled(True)
             self.group_by_key_line_edit.setStyleSheet("border: 1px solid green")

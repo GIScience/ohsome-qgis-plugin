@@ -72,9 +72,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-3</y>
+            <y>-313</y>
             <width>645</width>
-            <height>992</height>
+            <height>744</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -95,6 +95,19 @@
                 <layout class="QGridLayout" name="gridLayout_16">
                  <item row="0" column="0">
                   <layout class="QVBoxLayout" name="verticalLayout_2">
+                   <item>
+                    <widget class="QLabel" name="label_6">
+                     <property name="font">
+                      <font>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>OSM tag</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <layout class="QGridLayout" name="gridLayout_20">
                      <item row="0" column="1">
@@ -182,6 +195,22 @@
                       </spacer>
                      </item>
                      <item>
+                      <widget class="QLabel" name="label_4">
+                       <property name="font">
+                        <font>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>OSM type</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QgsCheckableComboBox" name="mcomboBox_osm_type">
                        <property name="minimumSize">
                         <size>
@@ -194,6 +223,9 @@
                          <weight>75</weight>
                          <bold>true</bold>
                         </font>
+                       </property>
+                       <property name="defaultText">
+                        <string/>
                        </property>
                        <item>
                         <property name="text">
@@ -378,6 +410,12 @@
                      <width>16777215</width>
                      <height>15</height>
                     </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
                    </property>
                    <property name="text">
                     <string>Group Results By ...</string>
@@ -591,251 +629,10 @@
                  </item>
                 </layout>
                </item>
-               <item>
-                <layout class="QGridLayout" name="gridLayout_26">
-                 <property name="leftMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>5</number>
-                 </property>
-                 <item row="5" column="2">
-                  <widget class="QDateEdit" name="date_end">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="dateTime">
-                    <datetime>
-                     <hour>0</hour>
-                     <minute>0</minute>
-                     <second>0</second>
-                     <year>2017</year>
-                     <month>1</month>
-                     <day>1</day>
-                    </datetime>
-                   </property>
-                   <property name="minimumDateTime">
-                    <datetime>
-                     <hour>0</hour>
-                     <minute>0</minute>
-                     <second>0</second>
-                     <year>2007</year>
-                     <month>10</month>
-                     <day>9</day>
-                    </datetime>
-                   </property>
-                   <property name="minimumDate">
-                    <date>
-                     <year>2007</year>
-                     <month>10</month>
-                     <day>9</day>
-                    </date>
-                   </property>
-                   <property name="displayFormat">
-                    <string>dd-MM-yyyy</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="2">
-                  <widget class="QLabel" name="date_end_label">
-                   <property name="text">
-                    <string>Date End</string>
-                   </property>
-                   <property name="buddy">
-                    <cstring></cstring>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="date_start_label">
-                   <property name="text">
-                    <string>Date Start</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QDateEdit" name="date_start">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="dateTime">
-                    <datetime>
-                     <hour>0</hour>
-                     <minute>0</minute>
-                     <second>0</second>
-                     <year>2016</year>
-                     <month>1</month>
-                     <day>1</day>
-                    </datetime>
-                   </property>
-                   <property name="minimumDateTime">
-                    <datetime>
-                     <hour>0</hour>
-                     <minute>0</minute>
-                     <second>0</second>
-                     <year>2007</year>
-                     <month>10</month>
-                     <day>8</day>
-                    </datetime>
-                   </property>
-                   <property name="maximumDate">
-                    <date>
-                     <year>2050</year>
-                     <month>12</month>
-                     <day>31</day>
-                    </date>
-                   </property>
-                   <property name="minimumDate">
-                    <date>
-                     <year>2007</year>
-                     <month>10</month>
-                     <day>8</day>
-                    </date>
-                   </property>
-                   <property name="displayFormat">
-                    <string>dd-MM-yyyy</string>
-                   </property>
-                   <property name="timeSpec">
-                    <enum>Qt::LocalTime</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
               </layout>
              </item>
              <item>
-              <widget class="QCheckBox" name="check_keep_geometryless">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some results don't contain geometries but metadata.&lt;/p&gt;&lt;p&gt;Decide if you wan't to keep them or only return ones with geometries.&lt;/p&gt;&lt;p&gt;If checked, the geometry less features will be stored separately.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Keep without geometry</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="property_groups_check_metadata">
-               <property name="text">
-                <string>Metadata</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="check_merge_geometries">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this to &lt;span style=&quot; text-decoration: underline;&quot;&gt;automatically merge compatible geometry types&lt;/span&gt;. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;It is recommended to keep this checked.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The benefit is that the amount of written layers will be massively reduced.&lt;/p&gt;&lt;p&gt;The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Harmonize geometries</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="check_show_metadata">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Show metadata</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="check_activate_temporal">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically enable the temporal feature for new layers where applicable.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Qgis temporal feature</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="property_groups_check_tags">
-               <property name="text">
-                <string>Tags</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output format geojson (for /groupBy/boundary resources only), or json.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Format</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="data_aggregation_format">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output format geojson (for /groupBy/boundary resources only), or json.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="filter2_input_label">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `ratio` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Filter 2</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="filter2_input">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag; no default value&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `ratio` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="autoFillBackground">
-                <bool>false</bool>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <layout class="QGridLayout" name="gridLayout_26">
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -848,115 +645,361 @@
                <property name="bottomMargin">
                 <number>5</number>
                </property>
-               <item>
-                <widget class="QLabel" name="timeout_label">
-                 <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
+               <item row="4" column="2">
+                <widget class="QLabel" name="date_end_label">
                  <property name="text">
-                  <string>Timeout</string>
+                  <string>Date End</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring></cstring>
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QSpinBox" name="timeout_input">
+               <item row="5" column="2">
+                <widget class="QDateEdit" name="date_end">
                  <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.&lt;/p&gt;&lt;p&gt;Depending on the size of the query, too low entries will yield API errors.&lt;/p&gt;&lt;p&gt;This setting is only used for the public ohsome API and not for private ones.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
-                 <property name="accessibleDescription">
-                  <string/>
+                 <property name="dateTime">
+                  <datetime>
+                   <hour>0</hour>
+                   <minute>0</minute>
+                   <second>0</second>
+                   <year>2017</year>
+                   <month>1</month>
+                   <day>1</day>
+                  </datetime>
                  </property>
-                 <property name="minimum">
-                  <number>0</number>
+                 <property name="minimumDateTime">
+                  <datetime>
+                   <hour>0</hour>
+                   <minute>0</minute>
+                   <second>0</second>
+                   <year>2007</year>
+                   <month>10</month>
+                   <day>9</day>
+                  </datetime>
                  </property>
-                 <property name="maximum">
-                  <number>9999999</number>
+                 <property name="minimumDate">
+                  <date>
+                   <year>2007</year>
+                   <month>10</month>
+                   <day>9</day>
+                  </date>
                  </property>
-                 <property name="value">
-                  <number>0</number>
+                 <property name="displayFormat">
+                  <string>dd-MM-yyyy</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QDateEdit" name="date_start">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="dateTime">
+                  <datetime>
+                   <hour>0</hour>
+                   <minute>0</minute>
+                   <second>0</second>
+                   <year>2016</year>
+                   <month>1</month>
+                   <day>1</day>
+                  </datetime>
+                 </property>
+                 <property name="minimumDateTime">
+                  <datetime>
+                   <hour>0</hour>
+                   <minute>0</minute>
+                   <second>0</second>
+                   <year>2007</year>
+                   <month>10</month>
+                   <day>8</day>
+                  </datetime>
+                 </property>
+                 <property name="maximumDate">
+                  <date>
+                   <year>2050</year>
+                   <month>12</month>
+                   <day>31</day>
+                  </date>
+                 </property>
+                 <property name="minimumDate">
+                  <date>
+                   <year>2007</year>
+                   <month>10</month>
+                   <day>8</day>
+                  </date>
+                 </property>
+                 <property name="displayFormat">
+                  <string>dd-MM-yyyy</string>
+                 </property>
+                 <property name="timeSpec">
+                  <enum>Qt::LocalTime</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="date_start_label">
+                 <property name="text">
+                  <string>Date Start</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Time Interval</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout">
-               <property name="leftMargin">
-                <number>5</number>
+              <widget class="QgsCollapsibleGroupBox" name="general_options_group">
+               <property name="title">
+                <string>Advanced Parameters</string>
                </property>
-               <property name="topMargin">
-                <number>5</number>
+               <property name="collapsed">
+                <bool>true</bool>
                </property>
-               <property name="rightMargin">
-                <number>5</number>
-               </property>
-               <property name="bottomMargin">
-                <number>5</number>
-               </property>
-               <item>
-                <widget class="QPushButton" name="provider_refresh">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>Refresh the provider list. Needed after a provider was added or deleted.</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="resources.qrc">
-                   <normaloff>:/plugins/ohsomeTools/img/icon_refresh.png</normaloff>:/plugins/ohsomeTools/img/icon_refresh.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>Provider</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="provider_combo">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>25</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="provider_config">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>Shortcut to Web ► ohsomeTools ► Provider Settings</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="resources.qrc">
-                   <normaloff>:/plugins/ohsomeTools/img/icon_settings.png</normaloff>:/plugins/ohsomeTools/img/icon_settings.png</iconset>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <property name="leftMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>5</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="provider_refresh">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Refresh the provider list. Needed after a provider was added or deleted.</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="resources.qrc">
+                      <normaloff>:/plugins/ohsomeTools/img/icon_refresh.png</normaloff>:/plugins/ohsomeTools/img/icon_refresh.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Provider</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="provider_combo">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="provider_config">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Shortcut to Web ► ohsomeTools ► Provider Settings</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="resources.qrc">
+                      <normaloff>:/plugins/ohsomeTools/img/icon_settings.png</normaloff>:/plugins/ohsomeTools/img/icon_settings.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <property name="leftMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>5</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label">
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output format geojson (for /groupBy/boundary resources only), or json.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Format</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="data_aggregation_format">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output format geojson (for /groupBy/boundary resources only), or json.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_6">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_12">
+                   <item>
+                    <widget class="QCheckBox" name="check_activate_temporal_2">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically enable the temporal feature for new layers where applicable.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Qgis temporal feature</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="check_show_metadata_2">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Show metadata</string>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_8">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <item>
+                    <widget class="QCheckBox" name="check_merge_geometries_2">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this to &lt;span style=&quot; text-decoration: underline;&quot;&gt;automatically merge compatible geometry types&lt;/span&gt;. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;It is recommended to keep this checked.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The benefit is that the amount of written layers will be massively reduced.&lt;/p&gt;&lt;p&gt;The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Harmonize geometries</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_5">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <item>
+                    <widget class="QLabel" name="timeout_label_2">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request.&lt;/p&gt;&lt;p&gt;For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Timeout</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="timeout_input_2">
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Apply a request &lt;span style=&quot; text-decoration: underline;&quot;&gt;timeout in seconds&lt;/span&gt; after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.&lt;/p&gt;&lt;p&gt;Depending on the size of the query, too low entries will yield API errors.&lt;/p&gt;&lt;p&gt;This setting is only used for the public ohsome API and not for private ones.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="accessibleDescription">
+                      <string/>
+                     </property>
+                     <property name="minimum">
+                      <number>0</number>
+                     </property>
+                     <property name="maximum">
+                      <number>9999999</number>
+                     </property>
+                     <property name="value">
+                      <number>0</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
               <widget class="QTabWidget" name="request_types_widget">
@@ -1521,6 +1564,12 @@
    <class>QgsCheckableComboBox</class>
    <extends>QComboBox</extends>
    <header>qgscheckablecombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QgsCollapsibleGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>qgscollapsiblegroupbox.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>QgsMapLayerComboBox</class>
