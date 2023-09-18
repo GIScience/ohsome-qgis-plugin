@@ -49,7 +49,7 @@ class OhsomeSpec:
 
     @property
     def _api_spec(self):
-        return 'data-aggregation'
+        return "data-aggregation"
 
     @property
     def activate_temporal_feature(self):
@@ -126,16 +126,17 @@ class OhsomeSpec:
             value = self.dlg.lineEdit_value.text()
             type = self.dlg.mcomboBox_osm_type.currentText().lower()
 
-            filter = f'{key}={value}'
+            filter = f"{key}={value}"
 
-            for i, x in enumerate(type.split(', ')):
+            for i, x in enumerate(type.split(", ")):
                 if i == 0:
-                    text =  f' and type:{x} '
+                    text = f" and type:{x} "
                 else:
-                    text = f'or type:{x} '
+                    text = f"or type:{x} "
                 filter += text
 
             return filter
+
     @property
     def _request_filter2(self) -> str:
         return self.dlg.filter2_input.text()
@@ -144,16 +145,14 @@ class OhsomeSpec:
     def _request_url(self):
         # Construct request url
         text = self.dlg.buttonGroup_groupby.checkedButton().text()
-        if text != 'None':
-            if text == 'OSM Type':
-                group_by = f'/groupby/type'
+        if text != "None":
+            if text == "OSM Type":
+                group_by = f"/groupby/type"
             else:
-                group_by = f'/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}'
+                group_by = f"/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}"
         else:
-            group_by = ''
-        return (
-                f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}"
-            )
+            group_by = ""
+        return f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}"
 
     @property
     def _request_date_string(self) -> str:
