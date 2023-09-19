@@ -72,7 +72,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-313</y>
+            <y>0</y>
             <width>645</width>
             <height>961</height>
            </rect>
@@ -481,22 +481,6 @@
                  <property name="bottomMargin">
                   <number>5</number>
                  </property>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="group_by_values_label">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="text">
-                    <string>groupByValues</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="group_by_keys_label">
                    <property name="enabled">
@@ -516,31 +500,31 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="group_by_key_line_edit">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` and `groupBy/key` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="echoMode">
-                    <enum>QLineEdit::Normal</enum>
-                   </property>
-                   <property name="placeholderText">
-                    <string>building</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="group_by_values_line_edit">
                    <property name="toolTip">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="group_by_values_label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Only for `groupBy/tag` endpoints.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>groupByValues</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="group_by_key_line_edit"/>
                  </item>
                 </layout>
                </item>
@@ -1617,112 +1601,80 @@
   <connection>
    <sender>radioButton_None</sender>
    <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
+   <receiver>group_by_keys_label</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>61</x>
-     <y>157</y>
+     <x>65</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>126</x>
-     <y>309</y>
+     <x>94</x>
+     <y>298</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>radioButton_None</sender>
    <signal>toggled(bool)</signal>
+   <receiver>group_by_values_label</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>65</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>76</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_None</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_values_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_osm_type</sender>
+   <signal>toggled(bool)</signal>
    <receiver>group_by_keys_label</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>51</x>
-     <y>155</y>
+     <x>77</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
+     <x>62</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_osm_type</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_values_label</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
      <x>85</x>
-     <y>307</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_None</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_values_label</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>51</x>
-     <y>151</y>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>58</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_None</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_values_line_edit</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>114</x>
-     <y>156</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>132</x>
-     <y>331</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_osm_type</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_keys_label</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>63</x>
-     <y>174</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>44</x>
-     <y>306</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_osm_type</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_values_label</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>71</x>
-     <y>180</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>60</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_osm_type</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>114</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>165</x>
-     <y>307</y>
+     <x>78</x>
+     <y>323</y>
     </hint>
    </hints>
   </connection>
@@ -1733,28 +1685,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>136</x>
-     <y>181</y>
+     <x>150</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>127</x>
-     <y>330</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_boundary</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>231</x>
-     <y>186</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>294</x>
-     <y>304</y>
+     <x>223</x>
+     <y>326</y>
     </hint>
    </hints>
   </connection>
@@ -1765,12 +1701,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>260</x>
-     <y>176</y>
+     <x>340</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>256</x>
-     <y>328</y>
+     <x>352</x>
+     <y>326</y>
     </hint>
    </hints>
   </connection>
@@ -1781,12 +1717,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>222</x>
-     <y>185</y>
+     <x>340</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>84</x>
-     <y>303</y>
+     <x>94</x>
+     <y>298</y>
     </hint>
    </hints>
   </connection>
@@ -1797,28 +1733,12 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>234</x>
-     <y>178</y>
+     <x>340</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>99</x>
-     <y>330</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_tag</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_key_line_edit</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>378</x>
-     <y>178</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>314</x>
-     <y>308</y>
+     <x>108</x>
+     <y>323</y>
     </hint>
    </hints>
   </connection>
@@ -1829,8 +1749,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>383</x>
-     <y>180</y>
+     <x>496</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
      <x>350</x>
@@ -1845,12 +1765,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>387</x>
-     <y>182</y>
+     <x>496</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>78</x>
-     <y>306</y>
+     <x>94</x>
+     <y>298</y>
     </hint>
    </hints>
   </connection>
@@ -1861,44 +1781,76 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>390</x>
-     <y>180</y>
+     <x>496</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>95</x>
-     <y>328</y>
+     <x>108</x>
+     <y>323</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>radioButton_key</sender>
+   <sender>radioButton_None</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>138</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_osm_type</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_boundary</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>258</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_tag</sender>
    <signal>toggled(bool)</signal>
    <receiver>group_by_key_line_edit</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>503</x>
-     <y>186</y>
+     <x>377</x>
+     <y>267</y>
     </hint>
     <hint type="destinationlabel">
-     <x>503</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_key</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>group_by_keys_label</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>526</x>
-     <y>178</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>82</x>
-     <y>310</y>
+     <x>391</x>
+     <y>283</y>
     </hint>
    </hints>
   </connection>
@@ -1906,15 +1858,15 @@
    <sender>radioButton_key</sender>
    <signal>toggled(bool)</signal>
    <receiver>group_by_values_line_edit</receiver>
-   <slot>setHidden(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>561</x>
-     <y>176</y>
+     <x>620</x>
+     <y>263</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>325</y>
+     <x>630</x>
+     <y>309</y>
     </hint>
    </hints>
   </connection>
@@ -1922,21 +1874,85 @@
    <sender>radioButton_key</sender>
    <signal>toggled(bool)</signal>
    <receiver>group_by_values_label</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>540</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_key</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_keys_label</receiver>
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>570</x>
-     <y>180</y>
+     <x>548</x>
+     <y>265</y>
     </hint>
     <hint type="destinationlabel">
-     <x>96</x>
-     <y>330</y>
+     <x>80</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_key</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>538</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>564</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_None</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_key</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>group_by_key_line_edit</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>516</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>523</x>
+     <y>292</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup_measure"/>
   <buttongroup name="buttonGroup_groupby"/>
+  <buttongroup name="buttonGroup_measure"/>
  </buttongroups>
 </ui>
