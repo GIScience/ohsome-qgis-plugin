@@ -29,7 +29,7 @@ import configparser
 from datetime import datetime
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Namingcis
 def classFactory(iface):  # pylint: disable=invalid-name
     """Load OSMtools class from file OS;tools.
 
