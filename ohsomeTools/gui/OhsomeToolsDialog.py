@@ -300,6 +300,7 @@ class OhsomeToolsDialogMain:
 
         # get preferences from dialog
         preferences = ohsome_spec.OhsomeSpec(self.dlg)
+
         try:
             letters = string.ascii_lowercase
             task_name = "".join(random.choice(letters) for i in range(10))
@@ -362,6 +363,7 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
+                logger.log(preferences.cURL(provider))
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 2:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
@@ -395,6 +397,7 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
+                logger.log(preferences.cURL(provider))
                 QgsApplication.taskManager().addTask(globals()[task_name])
 
             else:

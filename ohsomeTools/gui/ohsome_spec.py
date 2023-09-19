@@ -72,12 +72,6 @@ class OhsomeSpec:
         return value
 
     @property
-    def _data_extraction_clip_geometry(self) -> bool:
-        if self.dlg.check_clip_geometry.isChecked():
-            return True
-        return False
-
-    @property
     def _property_groups(self) -> str:
         properties = ""
         if self.dlg.property_groups_check_tags.isChecked():
@@ -147,9 +141,9 @@ class OhsomeSpec:
         text = self.dlg.buttonGroup_groupby.checkedButton().text()
         if text != "None":
             if text == "OSM Type":
-                group_by = f"/groupby/type"
+                group_by = f"/groupBy/type"
             else:
-                group_by = f"/groupby/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}"
+                group_by = f"/groupBy/{self.dlg.buttonGroup_groupby.checkedButton().text().lower()}"
         else:
             group_by = ""
         return f"elements/{self.dlg.buttonGroup_measure.checkedButton().text().lower()}{group_by}"
@@ -188,7 +182,7 @@ class OhsomeSpec:
             )
         if any(
             groupby in self._request_url.lower()
-            for groupby in ["groupby/key", "groupby/tag"]
+            for groupby in ["groupBy/key", "groupBy/tag"]
         ) and not len(self._group_by_key):
             msg = f"{msg}> For `groupBy/tag` and `groupBy/key` endpoints provide at least one `groupByKey` tag in the data aggregation settings.\n"
         if "ratio" in self._request_url.lower() and not len(
@@ -315,22 +309,14 @@ class OhsomeSpec:
         @rtype: dict
         """
         properties = {}
-        if self._api_spec.lower() == "metadata":
-            return properties
-        elif self._api_spec.lower() == "data-extraction":
-            properties[
-                "clipGeometry"
-            ] = self._data_extraction_clip_geometry.__str__().lower()
-            if len(self._property_groups) > 0:
-                properties["properties"] = self._property_groups
-        elif self._api_spec.lower() == "data-aggregation":
+        if self._api_spec.lower() == "data-aggregation":
             properties["format"] = self._data_aggregation_format
             if any(
                 groupby in self._request_url.lower()
-                for groupby in ["groupby/key", "groupby/tag"]
+                for groupby in ["groupBy/key", "groupBy/tag"]
             ):
                 properties["groupByKey"] = self._group_by_key
-            if "groupby/tag" in self._request_url.lower() and len(
+            if "groupBy/tag" in self._request_url.lower() and len(
                 self._group_by_values
             ):
                 properties["groupByValues"] = self._group_by_values
@@ -386,15 +372,43 @@ class OhsomeSpec:
             "activate_temporal_feature": self.activate_temporal_feature,
             "show_metadata": self._show_metadata,
             "request_timeout": self._request_timeout,
-            "data_extraction_clip_geometry": self._data_extraction_clip_geometry,
-            "property_groups": self._property_groups,
             "data_aggregation_format": self._data_aggregation_format,
             "request_bcircles_coordinates": self._request_bcircles_coordinates,
             "request_filter": self._request_filter,
             "request_url": self._request_url,
             "request_date_string": self._request_date_string,
-            "et_request_url": self.get_request_url,
+            "get_request_url": self._request_url
         }
+
+    def cURL(self, provider):
+        url = f'{self._request_url}?'
+        format = f'format={self._data_aggregation_format}'
+        time = f'&time={self._request_date_string}'
+        filter = f'&filter={self._request_filter}'
+        metadata = f'&showMetadata={self._show_metadata}'
+
+        if self._request_timeout != 0:
+            timeout = f'&timeout={self._request_timeout}'
+        else:
+            timeout = ''
+
+        if 'tag' in self._request_url or 'key' in self._request_url:
+            groupby_keys = f'&groupByKeys={self._group_by_key}'
+        else:
+            groupby_keys = ''
+        if 'tag' in self._request_url:
+            groupby_values = f'&groupByValues={self._group_by_values}'
+        else:
+            groupby_values = ''
+
+        print(self._get_selected_polygon_layers_geometries())
+
+        if self._get_selected_point_layers_geometries():
+            geoms = f'&bcircles={"".join(self._get_selected_point_layers_geometries())}'
+        elif self._get_selected_polygon_layers_geometries():
+            geoms=f'&bpolys={"".join(self._get_selected_polygon_layers_geometries())}'
+
+        return f'{provider["base_url"]}/{url}{format}{geoms}{time}{filter}{groupby_keys}{groupby_values}{timeout}{metadata}'
 
 
 class ProcessingOhsomeSpec(OhsomeSpec):
@@ -473,7 +487,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
             )
         if any(
             groupby in self._request_url.lower()
-            for groupby in ["groupby/key", "groupby/tag"]
+            for groupby in ["groupBy/key", "groupBy/tag"]
         ) and not len(self._group_by_key):
             msg = f"{msg}> For `groupBy/tag` and `groupBy/key` endpoints provide at least one `groupByKey` tag in the data aggregation settings.\n"
         if "ratio" in self._request_url.lower() and not len(
@@ -525,17 +539,6 @@ class ProcessingOhsomeSpec(OhsomeSpec):
     @property
     def _request_filter(self) -> str:
         return self.params["filter"]
-
-    @property
-    def _property_groups(self) -> str:
-        properties = ""
-        if self.params["property_groups_check_tags"]:
-            properties = "tags"
-        if self.params["property_groups_check_metadata"]:
-            properties = (
-                f"{properties},metadata" if properties == "tags" else "metadata"
-            )
-        return properties
 
     @property
     def _request_date_string(self) -> str:
@@ -609,3 +612,19 @@ class ProcessingOhsomeSpec(OhsomeSpec):
                 f"{self.params['preference']}/"
                 f"{self.params['preference_specification']}"
             )
+
+    def __dict__(self) -> dict:
+        return {
+            "api_spec": self._api_spec,
+            "activate_temporal_feature": self.activate_temporal_feature,
+            "show_metadata": self._show_metadata,
+            "request_timeout": self._request_timeout,
+            "data_extraction_clip_geometry": self._data_extraction_clip_geometry,
+            "property_groups": self._property_groups,
+            "data_aggregation_format": self._data_aggregation_format,
+            "request_bcircles_coordinates": self._request_bcircles_coordinates,
+            "request_filter": self._request_filter,
+            "request_url": self._request_url,
+            "request_date_string": self._request_date_string,
+            "get_request_url": self.request_url
+        }
