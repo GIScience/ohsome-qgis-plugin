@@ -224,8 +224,16 @@
                          <bold>true</bold>
                         </font>
                        </property>
+                       <property name="currentText">
+                        <string>Node</string>
+                       </property>
                        <property name="defaultText">
-                        <string/>
+                        <string>Node</string>
+                       </property>
+                       <property name="checkedItems">
+                        <stringlist>
+                         <string>Node</string>
+                        </stringlist>
                        </property>
                        <item>
                         <property name="text">
