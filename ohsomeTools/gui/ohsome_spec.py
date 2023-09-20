@@ -377,36 +377,36 @@ class OhsomeSpec:
             "request_filter": self._request_filter,
             "request_url": self._request_url,
             "request_date_string": self._request_date_string,
-            "get_request_url": self._request_url
+            "get_request_url": self._request_url,
         }
 
     def cURL(self, provider):
-        url = f'{self._request_url}?'
-        format = f'format={self._data_aggregation_format}'
-        time = f'&time={self._request_date_string}'
-        filter = f'&filter={self._request_filter}'
-        metadata = f'&showMetadata={self._show_metadata}'
+        url = f"{self._request_url}?"
+        format = f"format={self._data_aggregation_format}"
+        time = f"&time={self._request_date_string}"
+        filter = f"&filter={self._request_filter}"
+        metadata = f"&showMetadata={self._show_metadata}"
 
         if self._request_timeout != 0:
-            timeout = f'&timeout={self._request_timeout}'
+            timeout = f"&timeout={self._request_timeout}"
         else:
-            timeout = ''
+            timeout = ""
 
-        if 'tag' in self._request_url or 'key' in self._request_url:
-            groupby_keys = f'&groupByKeys={self._group_by_key}'
+        if "tag" in self._request_url or "key" in self._request_url:
+            groupby_keys = f"&groupByKeys={self._group_by_key}"
         else:
-            groupby_keys = ''
-        if 'tag' in self._request_url:
-            groupby_values = f'&groupByValues={self._group_by_values}'
+            groupby_keys = ""
+        if "tag" in self._request_url:
+            groupby_values = f"&groupByValues={self._group_by_values}"
         else:
-            groupby_values = ''
+            groupby_values = ""
 
         print(self._get_selected_polygon_layers_geometries())
 
         if self._get_selected_point_layers_geometries():
             geoms = f'&bcircles={"".join(self._get_selected_point_layers_geometries())}'
         elif self._get_selected_polygon_layers_geometries():
-            geoms=f'&bpolys={"".join(self._get_selected_polygon_layers_geometries())}'
+            geoms = f'&bpolys={"".join(self._get_selected_polygon_layers_geometries())}'
 
         return f'{provider["base_url"]}/{url}{format}{geoms}{time}{filter}{groupby_keys}{groupby_values}{timeout}{metadata}'
 
@@ -626,5 +626,5 @@ class ProcessingOhsomeSpec(OhsomeSpec):
             "request_filter": self._request_filter,
             "request_url": self._request_url,
             "request_date_string": self._request_date_string,
-            "get_request_url": self.request_url
+            "get_request_url": self.request_url,
         }
