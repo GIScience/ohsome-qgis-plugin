@@ -72,17 +72,6 @@ class OhsomeSpec:
         return value
 
     @property
-    def _property_groups(self) -> str:
-        properties = ""
-        if self.dlg.property_groups_check_tags.isChecked():
-            properties = "tags"
-        if self.dlg.property_groups_check_metadata.isChecked():
-            properties = (
-                f"{properties},metadata" if properties == "tags" else "metadata"
-            )
-        return properties
-
-    @property
     def _data_aggregation_format(self) -> str:
         return self.dlg.data_aggregation_format.currentText()
 
@@ -400,8 +389,6 @@ class OhsomeSpec:
             groupby_values = f"&groupByValues={self._group_by_values}"
         else:
             groupby_values = ""
-
-        print(self._get_selected_polygon_layers_geometries())
 
         if self._get_selected_point_layers_geometries():
             geoms = f'&bcircles={"".join(self._get_selected_point_layers_geometries())}'
