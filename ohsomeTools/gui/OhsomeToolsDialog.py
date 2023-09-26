@@ -44,6 +44,8 @@ from qgis._core import (
     Qgis,
     QgsTask,
     QgsApplication,
+    QgsWkbTypes,
+    QgsVectorLayer
 )
 from qgis.core import (
     QgsProject,
@@ -213,6 +215,7 @@ class OhsomeToolsDialogMain:
         QApplication.restoreOverrideCursor()
         del self.dlg
 
+
     def _init_gui_control(self):
         """Slot for main plugin button. Initializes the GUI and shows it."""
 
@@ -226,10 +229,10 @@ class OhsomeToolsDialogMain:
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
-            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
-            self.dlg.point_layer_input.setFilters(
-                QgsMapLayerProxyModel.PointLayer
-            )
+            # self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+            # self.dlg.point_layer_input.setFilters(
+            #     QgsMapLayerProxyModel.PointLayer
+            # )
             # TODO RAD
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
@@ -240,6 +243,20 @@ class OhsomeToolsDialogMain:
             self.dlg.filter_input.setPlainText(
                 "building=* or (type:way and highway=residential)"
             )
+
+        # Clear the combo box
+        self.dlg.comboBox_inputLayer.clear()
+
+        # Get the list of all layers in the current project
+        layers = QgsProject.instance().mapLayers().values()
+
+        # Filter layers to include only polygon and point layers
+        geomTypes = (QgsWkbTypes.Point, QgsWkbTypes.MultiPoint, QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon)
+        polygon_and_point_layers = [layer for layer in layers if isinstance(layer, QgsVectorLayer) and layer.wkbType() in geomTypes]
+
+        # Add the names of polygon and point layers to the combo box
+        for layer in polygon_and_point_layers:
+            self.dlg.comboBox_inputLayer.addItem(layer.name())
 
         # Populate provider box on window startup, since can be changed from multiple menus/buttons
         providers = configmanager.read_config()["providers"]
@@ -504,16 +521,16 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
             self.set_temporal_extent
         )
         # Point Layer tab
-        self.point_layer_list_add.clicked.connect(self._add_point_layer)
-        self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
+        # self.point_layer_list_add.clicked.connect(self._add_point_layer)
+        # self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
         # Polygon Layer tab
-        self.layer_list_add.clicked.connect(self._add_polygon_layer)
-        self.layer_list_remove.clicked.connect(self._remove_polygon_layer)
+        # self.layer_list_add.clicked.connect(self._add_polygon_layer)
+        # self.layer_list_remove.clicked.connect(self._remove_polygon_layer)
         # Centroid tab
-        self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
-        self.centroid_list_point_clear.clicked.connect(
-            self._on_clear_listwidget_click
-        )
+        # self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
+        # self.centroid_list_point_clear.clicked.connect(
+        #     self._on_clear_listwidget_click
+        # )
 
     # On Spec selection
     def _set_preferences(self):

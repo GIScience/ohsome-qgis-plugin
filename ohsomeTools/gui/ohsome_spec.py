@@ -149,26 +149,7 @@ class OhsomeSpec:
         return date_string
 
     def is_valid(self, warn: bool = False) -> bool:
-        tab_index = self.dlg.request_types_widget.currentIndex()
         msg = ""
-        if (
-            tab_index == 0
-            and not self.dlg.ohsome_centroid_location_list.count()
-        ):
-            msg = (
-                f"{msg}> Missing Centroid locations, did you forget to set centroids?\n"
-                "Use the green plus button to add centroids.\n"
-            )
-        if tab_index == 1 and not self.dlg.point_layer_list.count():
-            msg = (
-                f"{msg}> Missing point layers, did you forget to set one?\n"
-                "Use the green plus button to add multiple layers.\n"
-            )
-        if tab_index == 2 and not self.dlg.layer_list.count():
-            msg = (
-                f"{msg}> Missing polygon layers, did you forget to set one?\n"
-                "Use the green plus button to add multiple layers.\n"
-            )
         if any(
             groupby in self._request_url.lower()
             for groupby in ["groupBy/key", "groupBy/tag"]
