@@ -363,7 +363,7 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                logger.log(preferences.cURL(provider))
+                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 2:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
@@ -397,7 +397,7 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                logger.log(preferences.cURL(provider))
+                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
                 QgsApplication.taskManager().addTask(globals()[task_name])
 
             else:
