@@ -45,7 +45,7 @@ from qgis._core import (
     QgsTask,
     QgsApplication,
     QgsWkbTypes,
-    QgsVectorLayer
+    QgsVectorLayer,
 )
 from qgis.core import (
     QgsProject,
@@ -215,7 +215,6 @@ class OhsomeToolsDialogMain:
         QApplication.restoreOverrideCursor()
         del self.dlg
 
-
     def _init_gui_control(self):
         """Slot for main plugin button. Initializes the GUI and shows it."""
 
@@ -251,8 +250,18 @@ class OhsomeToolsDialogMain:
         layers = QgsProject.instance().mapLayers().values()
 
         # Filter layers to include only polygon and point layers
-        geomTypes = (QgsWkbTypes.Point, QgsWkbTypes.MultiPoint, QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon)
-        polygon_and_point_layers = [layer for layer in layers if isinstance(layer, QgsVectorLayer) and layer.wkbType() in geomTypes]
+        geomTypes = (
+            QgsWkbTypes.Point,
+            QgsWkbTypes.MultiPoint,
+            QgsWkbTypes.Polygon,
+            QgsWkbTypes.MultiPolygon,
+        )
+        polygon_and_point_layers = [
+            layer
+            for layer in layers
+            if isinstance(layer, QgsVectorLayer)
+            and layer.wkbType() in geomTypes
+        ]
 
         # Add the names of polygon and point layers to the combo box
         for layer in polygon_and_point_layers:
@@ -368,7 +377,9 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif wkbType in (QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
@@ -402,7 +413,9 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
 
             else:
@@ -421,7 +434,7 @@ class OhsomeToolsDialogMain:
             )
             self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         except Exception as e:
-            msg = f'{e.__class__.__name__} {str(e)}'
+            msg = f"{e.__class__.__name__} {str(e)}"
             logger.log("{}: {}".format(*msg), 2)
             self.dlg.debug_text.append(msg)
             self.iface.messageBar().pushMessage(
