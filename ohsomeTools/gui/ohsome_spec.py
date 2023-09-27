@@ -241,33 +241,14 @@ class OhsomeSpec:
         return geojsons
 
     def _get_selected_point_layers_geometries(self) -> {}:
-        ordered_layer_radii = []
+        radius = self.dlg.lineEdit_radius.text()
         ordered_list_of_features = []
-        point_layers_list = self.dlg.point_layer_list
-        for idx in range(point_layers_list.count()):
-            item: str = point_layers_list.item(idx).text()
-            file_name, radius = item.rsplit(" | Radius: ")
-            ordered_layer_radii.append(int(radius))
-            layers = QgsProject.instance().mapLayersByName(file_name)
-            layers = [
-                layer
-                for layer in layers
-                if layer.geometryType() == QgsWkbTypes.PointGeometry
-            ]
-            if len(layers) > 1:
-                raise exceptions.TooManyInputsFound(
-                    str("error"),
-                    # error,
-                    "Found too many input layers with the same name. Use unique names for your layers.",
-                )
-            features = [
-                layer.getFeatures()
-                for layer in layers
-                if layer.geometryType() == QgsWkbTypes.PointGeometry
-            ]
-            ordered_list_of_features.extend(features)
+        layer_name = self.dlg.comboBox_inputLayer.currentText()
+        layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+        features = [layer.getFeatures()]
+        ordered_list_of_features.extend(features)
         list_of_coordinates = convert_point_features_to_ohsome_bcircles(
-            ordered_list_of_features, ordered_layer_radii
+            ordered_list_of_features, radius
         )
         return list_of_coordinates
 

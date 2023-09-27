@@ -44,7 +44,7 @@ def _get_layer_polygons(layer):
 
 
 def convert_point_features_to_ohsome_bcircles(
-    features: [QgsFeature], radii: [int]
+    features: [QgsFeature], radius: int
 ):
     coordinates_list = []
     for i in range(len(features)):
@@ -55,9 +55,9 @@ def convert_point_features_to_ohsome_bcircles(
             if geometry.type() == QgsWkbTypes.PointGeometry:
                 point: QgsPointXY = feature.geometry().asPoint()
                 coordinates = (
-                    f"{coordinates}|id{counter}:{point.x()},{point.y()},{radii[i]}"
+                    f"{coordinates}|id{counter}:{point.x()},{point.y()},{radius}"
                     if coordinates
-                    else f"id{counter}:{point.x()},{point.y()},{radii[i]}"
+                    else f"id{counter}:{point.x()},{point.y()},{radius}"
                 )
                 counter += 1
         if coordinates:

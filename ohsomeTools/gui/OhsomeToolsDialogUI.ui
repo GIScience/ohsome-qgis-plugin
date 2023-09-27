@@ -41,7 +41,58 @@
    <property name="sizeConstraint">
     <enum>QLayout::SetMinAndMaxSize</enum>
    </property>
-   <item row="0" column="0" colspan="2">
+   <item row="2" column="1">
+    <widget class="QDialogButtonBox" name="global_buttons">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QWidget" name="control_widget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_8">
+      <item>
+       <widget class="QPushButton" name="help_button">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Help</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="about_button">
+        <property name="text">
+         <string>About</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget_main">
      <property name="minimumSize">
       <size>
@@ -74,12 +125,61 @@
             <x>0</x>
             <y>0</y>
             <width>511</width>
-            <height>708</height>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <layout class="QGridLayout" name="gridLayout">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_7">
+                 <property name="maximumSize">
+                  <size>
+                   <width>60</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Input Layer:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="comboBox_inputLayer"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_radius">
+                 <property name="placeholderText">
+                  <string>1000</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Radius:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item>
               <widget class="QTabWidget" name="tabWidget_simple_advanced">
                <property name="tabPosition">
@@ -264,38 +364,6 @@
                       </spacer>
                      </item>
                     </layout>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_2">
-                   <property name="leftMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>5</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>5</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_7">
-                     <property name="maximumSize">
-                      <size>
-                       <width>60</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Input Layer:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QComboBox" name="comboBox_inputLayer"/>
                    </item>
                   </layout>
                  </item>
@@ -1070,57 +1138,6 @@
      </widget>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QDialogButtonBox" name="global_buttons">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QWidget" name="control_widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_8">
-      <item>
-       <widget class="QPushButton" name="help_button">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Help</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="about_button">
-        <property name="text">
-         <string>About</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -1511,7 +1528,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup_measure"/>
   <buttongroup name="buttonGroup_groupby"/>
+  <buttongroup name="buttonGroup_measure"/>
  </buttongroups>
 </ui>

@@ -328,22 +328,10 @@ class OhsomeToolsDialogMain:
                 return
 
             # if there are no centroids or layers, throw an error message
-            tab_index = self.dlg.request_types_widget.currentIndex()
-            if tab_index == 0:
-                self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
-                    True
-                )
-                globals()[task_name] = ExtractionTaskFunction(
-                    iface=self.iface,
-                    dlg=self.dlg,
-                    description=f"OHSOME task",
-                    provider=provider,
-                    request_url=preferences.get_request_url(),
-                    preferences=preferences.get_bcircles_request_preferences(),
-                    activate_temporal=preferences.activate_temporal_feature,
-                )
-                QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1:
+            layer_name = self.dlg.comboBox_inputLayer.currentText()
+            layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+            wkbType = layer.wkbType()
+            if wkbType in (QgsWkbTypes.Point, QgsWkbTypes.MultiPoint):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -382,7 +370,7 @@ class OhsomeToolsDialogMain:
                     last_task = task
                 self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 2:
+            elif wkbType in (QgsWkbTypes.Polygon, QgsWkbTypes.MultiPolygon):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -433,7 +421,7 @@ class OhsomeToolsDialogMain:
             )
             self.dlg.global_buttons.button(QDialogButtonBox.Ok).setEnabled(True)
         except Exception as e:
-            msg = [e.__class__.__name__, str(e)]
+            msg = f'{e.__class__.__name__} {str(e)}'
             logger.log("{}: {}".format(*msg), 2)
             self.dlg.debug_text.append(msg)
             self.iface.messageBar().pushMessage(
@@ -749,44 +737,3 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         QApplication.restoreOverrideCursor()
         self._iface.mapCanvas().setMapTool(self.last_maptool)
         self.show()
-
-    def _add_point_layer(self) -> bool:
-        layer = self.point_layer_input.currentLayer()
-        list_name = (
-            f"{layer.name()} | Radius: {self.point_layer_radius_input.value()}"
-        )
-        if layer and not check_list_duplicates(
-            self.point_layer_list, list_name
-        ):
-            self.point_layer_list.addItem(list_name)
-            self.point_layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_point_layer(self):
-        layers: QListWidget = self.point_layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.point_layer_list.takeItem(self.point_layer_list.row(element))
-
-    def _add_polygon_layer(self) -> bool:
-        layer = self.layer_input.currentLayer()
-        if layer and not check_list_duplicates(self.layer_list, layer.name()):
-            self.layer_list.addItem(layer.name())
-            self.layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_polygon_layer(self):
-        layers: QListWidget = self.layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.layer_list.takeItem(self.layer_list.row(element))
