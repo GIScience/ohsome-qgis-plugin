@@ -39,6 +39,7 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QListWidget,
     QListWidgetItem,
+    QFileDialog,
 )
 from qgis._core import (
     Qgis,
@@ -213,6 +214,11 @@ class OhsomeToolsDialogMain:
         QApplication.restoreOverrideCursor()
         del self.dlg
 
+    def select_output_file(self):
+        filename, _filter = QFileDialog.getSaveFileName(
+            self.dlg, "Select   output file ", "", "*.csv")
+        self.dlg.lineEdit_output.setText(filename)
+
     def _init_gui_control(self):
         """Slot for main plugin button. Initializes the GUI and shows it."""
 
@@ -224,12 +230,14 @@ class OhsomeToolsDialogMain:
                 self.iface, self.iface.mainWindow()
             )  # setting parent enables modal view
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
+            self.dlg.lineEdit_output.clear()
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
             self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
             self.dlg.point_layer_input.setFilters(
                 QgsMapLayerProxyModel.PointLayer
             )
+            self.dlg.pushButton_output.clicked.connect(self.select_output_file)
             # TODO RAD
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
@@ -323,7 +331,7 @@ class OhsomeToolsDialogMain:
                     provider=provider,
                     request_url=preferences.get_request_url(),
                     preferences=preferences.get_bcircles_request_preferences(),
-                    activate_temporal=preferences.activate_temporal_feature,
+                    activate_temporal=preferences.activate_temporal_feature
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 1:
@@ -347,7 +355,7 @@ class OhsomeToolsDialogMain:
                         provider=provider,
                         request_url=preferences.get_request_url(),
                         preferences=point_layer_preference,
-                        activate_temporal=preferences.activate_temporal_feature,
+                        activate_temporal=preferences.activate_temporal_feature
                     )
                     if last_task and last_task != globals()[task_name]:
                         # Never add the main task as a dependency!
