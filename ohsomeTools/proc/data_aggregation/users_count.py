@@ -24,6 +24,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsWkbTypes,
     QgsProcessing,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -77,6 +78,7 @@ class UsersCount(QgsProcessingAlgorithm):
     parameters = [i for i in AGGREGATION_SPECS["contributions/count"]]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -190,6 +192,13 @@ class UsersCount(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
             )
         )
 
@@ -319,7 +328,8 @@ class UsersCount(QgsProcessingAlgorithm):
             "provider": self.parameterAsInt(parameters, self.PROVIDER, context),
             "geom": geom,
             "selection": "data-Aggregation",
-            "preference": f"users/count{density}",
+            "preference": f"users/count",
+            "preference_specification": density,
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "LAYER": self.parameterAsLayer(parameters, self.LAYER, context),
             "RADIUS": self.parameterAsInt(parameters, self.RADIUS, context),
@@ -365,6 +375,7 @@ class UsersCount(QgsProcessingAlgorithm):
                 parameters, self.group_by_key_line_edit, context
             ),
             "period": self.parameterAsString(parameters, self.PERIOD, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
