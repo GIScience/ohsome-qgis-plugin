@@ -50,8 +50,7 @@ def processing_request(
                 iface,
                 geojsons[i],
                 request_time,
-                preferences.get_request_url(),
-                parameters["output"].replace('.file', '.shp'),
+                file
             )
             request_core.postprocess_metadata(geojsons[i], vlayer)
         return True
