@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -78,6 +79,7 @@ class Elements(QgsProcessingAlgorithm):
     endpoints = [i for i in EXTRACTION_SPECS.keys() if i != "contributions"]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -192,6 +194,14 @@ class Elements(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+                fileFilter='GeoPackage (*.gpkg *.GPKG)'
             )
         )
 
@@ -371,6 +381,7 @@ class Elements(QgsProcessingAlgorithm):
             "check_merge_geometries": self.parameterAsBool(
                 parameters, self.check_merge_geometries, context
             ),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
