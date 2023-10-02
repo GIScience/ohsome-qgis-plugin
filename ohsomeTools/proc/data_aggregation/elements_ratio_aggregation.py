@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -81,6 +82,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
     PERIOD = "PERIOD"
     group_by_boundary = "group_by_boundary"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -197,6 +199,13 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
             )
         )
 
@@ -393,6 +402,7 @@ class ElementsRatioAggregation(QgsProcessingAlgorithm):
             ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
             "period": self.parameterAsString(parameters, self.PERIOD, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
