@@ -50,15 +50,14 @@ def processing_request(
                 geojsons[i],
                 request_time,
                 preferences.get_request_url(),
-                parameters["check_activate_temporal"],
+                parameters["output"].replace('.file', '.shp'),
             )
             request_core.postprocess_metadata(geojsons[i], vlayer)
         return True
     elif "result" in result.keys() and len(result.get("result")) > 0:
         # Process flat tables
-        file = QgsProcessingUtils.generateTempFilename(
-            f"{preferences.get_request_url()}.csv"
-        )
+        file = parameters["output"].replace('.file', '.csv')
+        print(file)
         header = result["result"][0].keys()
         vlayer = request_core.create_ohsome_csv_layer(
             iface,

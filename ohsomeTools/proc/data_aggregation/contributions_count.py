@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -76,6 +77,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
     parameters = [i for i in AGGREGATION_SPECS["contributions/count"]]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -189,6 +191,13 @@ class ContributionsCount(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
             )
         )
 
@@ -352,6 +361,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 parameters, self.date_end, context
             ),
             "period": self.parameterAsString(parameters, self.PERIOD, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
@@ -368,4 +378,4 @@ class ContributionsCount(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {}
+        return {'OUTPUT': self.OUTPUT}
