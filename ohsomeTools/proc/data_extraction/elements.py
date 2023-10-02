@@ -201,7 +201,7 @@ class Elements(QgsProcessingAlgorithm):
             QgsProcessingParameterFileDestination(
                 self.OUTPUT,
                 self.tr("Output"),
-                fileFilter='GeoPackage (*.gpkg *.GPKG)'
+                fileFilter="GeoPackage (*.gpkg *.GPKG)",
             )
         )
 
@@ -398,4 +398,4 @@ class Elements(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {'OUTPUT': self.OUTPUT}
+        return {"OUTPUT": self.OUTPUT}

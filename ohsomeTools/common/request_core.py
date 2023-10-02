@@ -77,7 +77,7 @@ def create_ohsome_csv_layer(
         wr.writeheader()
         for row_result in results:
             wr.writerow(row_result)
-    name = output_path.split('/')[-1].split('.')[0]
+    name = output_path.split("/")[-1].split(".")[0]
     layer = QgsVectorLayer(output_path, name, "ogr")
     QgsProject.instance().addMapLayer(layer)
     return layer
@@ -92,7 +92,7 @@ def create_ohsome_vector_layer(
 ):
     with open(output_path, "w") as f:
         f.write(json.dumps(geojson, indent=4))
-    name = output_path.split('/')[-1].split('.')[0]
+    name = output_path.split("/")[-1].split(".")[0]
     vlayer = QgsVectorLayer(
         output_path,
         name,

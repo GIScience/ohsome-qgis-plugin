@@ -438,4 +438,4 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {'OUTPUT': self.OUTPUT}
+        return {"OUTPUT": self.OUTPUT}
