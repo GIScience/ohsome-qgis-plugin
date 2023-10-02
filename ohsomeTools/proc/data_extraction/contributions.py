@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -76,6 +77,7 @@ class Contributions(QgsProcessingAlgorithm):
     parameters = [i for i in EXTRACTION_SPECS["contributions"]]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -189,6 +191,14 @@ class Contributions(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+                fileFilter='GeoPackage (*.gpkg *.GPKG)'
             )
         )
 
@@ -362,6 +372,7 @@ class Contributions(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
