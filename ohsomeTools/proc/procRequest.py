@@ -23,7 +23,7 @@ def processing_request(
 
     if not result or not len(result):
         return False
-    file = parameters["output"].replace('.file', '.csv')
+    file = parameters["output"].replace(".file", ".csv")
     if "extractRegion" in result:
         vlayer: QgsVectorLayer = QgsVectorLayer(
             json.dumps(result.get("extractRegion").get("spatialExtent")),
@@ -34,8 +34,8 @@ def processing_request(
         if vlayer:
             return True
     elif (
-            all(i in result.keys() for i in ["type", "features"])
-            and result.get("type").lower() == "featurecollection"
+        all(i in result.keys() for i in ["type", "features"])
+        and result.get("type").lower() == "featurecollection"
     ):
         # Process GeoJSON
         geojsons: [] = request_core.split_geojson_by_geometry(
@@ -47,10 +47,7 @@ def processing_request(
         )
         for i in range(len(geojsons)):
             vlayer = request_core.create_ohsome_vector_layer(
-                iface,
-                geojsons[i],
-                request_time,
-                file
+                iface, geojsons[i], request_time, file
             )
             request_core.postprocess_metadata(geojsons[i], vlayer)
         return True
@@ -68,8 +65,8 @@ def processing_request(
         request_core.postprocess_metadata(result, vlayer)
         return True
     elif (
-            "groupByResult" in result.keys()
-            and len(result.get("groupByResult")) > 0
+        "groupByResult" in result.keys()
+        and len(result.get("groupByResult")) > 0
     ):
         # Process non-flat tables
         results = result["groupByResult"]

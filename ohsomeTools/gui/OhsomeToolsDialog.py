@@ -216,7 +216,8 @@ class OhsomeToolsDialogMain:
 
     def select_output_file(self):
         filename, _filter = QFileDialog.getSaveFileName(
-            self.dlg, "Select   output file ", "", "*.csv")
+            self.dlg, "Select   output file ", "", "*.csv"
+        )
         self.dlg.lineEdit_output.setText(filename)
 
     def _init_gui_control(self):
@@ -331,7 +332,7 @@ class OhsomeToolsDialogMain:
                     provider=provider,
                     request_url=preferences.get_request_url(),
                     preferences=preferences.get_bcircles_request_preferences(),
-                    activate_temporal=preferences.activate_temporal_feature
+                    activate_temporal=preferences.activate_temporal_feature,
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 1:
@@ -355,7 +356,7 @@ class OhsomeToolsDialogMain:
                         provider=provider,
                         request_url=preferences.get_request_url(),
                         preferences=point_layer_preference,
-                        activate_temporal=preferences.activate_temporal_feature
+                        activate_temporal=preferences.activate_temporal_feature,
                     )
                     if last_task and last_task != globals()[task_name]:
                         # Never add the main task as a dependency!
@@ -371,7 +372,9 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
             elif tab_index == 2:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
@@ -405,7 +408,9 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                self.dlg.debug_text.append(f'> cURL: {preferences.cURL(provider)}')
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
 
             else:
