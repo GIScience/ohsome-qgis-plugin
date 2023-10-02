@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -96,6 +97,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     DENSITY = "DENSITY"
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -212,6 +214,13 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                     QgsProcessing.TypeVectorPolygon,
                     QgsProcessing.TypeVectorPoint,
                 ],
+            )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
             )
         )
 
@@ -412,6 +421,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 parameters, self.group_by_key_line_edit, context
             ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
