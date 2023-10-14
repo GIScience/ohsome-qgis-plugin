@@ -110,9 +110,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-145</y>
             <width>629</width>
-            <height>1028</height>
+            <height>1048</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -367,6 +367,7 @@
                 <font>
                  <weight>75</weight>
                  <bold>true</bold>
+                 <strikeout>false</strikeout>
                 </font>
                </property>
                <property name="text">
@@ -568,91 +569,6 @@
                  </item>
                 </layout>
                </item>
-               <item>
-                <layout class="QGridLayout" name="gridLayout_25">
-                 <property name="leftMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>5</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>5</number>
-                 </property>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_years">
-                   <property name="toolTip">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Years</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QLabel" name="label_days">
-                   <property name="toolTip">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Days</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QLabel" name="label_months">
-                   <property name="toolTip">
-                    <string/>
-                   </property>
-                   <property name="text">
-                    <string>Months</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QSpinBox" name="interval_months">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x months. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="maximum">
-                    <number>12</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QSpinBox" name="interval_days">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x days. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="maximum">
-                    <number>31</number>
-                   </property>
-                   <property name="value">
-                    <number>1</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QSpinBox" name="interval_years">
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="accessibleDescription">
-                    <string/>
-                   </property>
-                   <property name="maximum">
-                    <number>99</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
               </layout>
              </item>
              <item>
@@ -669,17 +585,7 @@
                <property name="bottomMargin">
                 <number>5</number>
                </property>
-               <item row="4" column="2">
-                <widget class="QLabel" name="date_end_label">
-                 <property name="text">
-                  <string>Date End</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring></cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="2">
+               <item row="6" column="2">
                 <widget class="QDateEdit" name="date_end">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your end date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;9th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -716,7 +622,37 @@
                  </property>
                 </widget>
                </item>
+               <item row="5" column="2">
+                <widget class="QLabel" name="date_end_label">
+                 <property name="text">
+                  <string>Date End</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring></cstring>
+                 </property>
+                </widget>
+               </item>
                <item row="5" column="0">
+                <widget class="QLabel" name="date_start_label">
+                 <property name="text">
+                  <string>Date Start</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Time Interval</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
                 <widget class="QDateEdit" name="date_start">
                  <property name="toolTip">
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your start date. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;All &lt;span style=&quot; text-decoration: underline;&quot;&gt;dates from the &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;8th&lt;/span&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt; of Oktober 2007&lt;/span&gt; are valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -763,15 +699,93 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="date_start_label">
+              </layout>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="gridLayout_25">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_years">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
                  <property name="text">
-                  <string>Date Start</string>
+                  <string>Years</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_5">
+               <item row="1" column="2">
+                <widget class="QLabel" name="label_days">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string>Days</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLabel" name="label_months">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string>Months</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="interval_months">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x months. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="maximum">
+                  <number>12</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QSpinBox" name="interval_days">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every x days. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="maximum">
+                  <number>31</number>
+                 </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QSpinBox" name="interval_years">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run the query every &lt;span style=&quot; text-decoration: underline;&quot;&gt;x&lt;/span&gt; years. Adjust the time frame accordingly.&lt;/p&gt;&lt;p&gt;Only available for the data aggregation endpoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="accessibleDescription">
+                  <string/>
+                 </property>
+                 <property name="maximum">
+                  <number>99</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_8">
                  <property name="font">
                   <font>
                    <weight>75</weight>
@@ -779,7 +793,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Time Interval</string>
+                  <string>Time Period</string>
                  </property>
                 </widget>
                </item>
