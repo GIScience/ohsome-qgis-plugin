@@ -112,7 +112,7 @@
             <x>0</x>
             <y>0</y>
             <width>629</width>
-            <height>1000</height>
+            <height>1028</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -167,53 +167,6 @@
                      </item>
                      <item row="0" column="3">
                       <widget class="QLineEdit" name="lineEdit_value"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_16">
-                     <item>
-                      <widget class="QRadioButton" name="radioButton_count">
-                       <property name="text">
-                        <string>Count</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                       <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup_measure</string>
-                       </attribute>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QRadioButton" name="radioButton_length">
-                       <property name="text">
-                        <string>Length</string>
-                       </property>
-                       <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup_measure</string>
-                       </attribute>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QRadioButton" name="radioButton_area">
-                       <property name="text">
-                        <string>Area</string>
-                       </property>
-                       <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup_measure</string>
-                       </attribute>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QRadioButton" name="radioButton_perimeter">
-                       <property name="text">
-                        <string>Perimeter</string>
-                       </property>
-                       <attribute name="buttonGroup">
-                        <string notr="true">buttonGroup_measure</string>
-                       </attribute>
-                      </widget>
                      </item>
                     </layout>
                    </item>
@@ -407,6 +360,66 @@
              </item>
              <item>
               <layout class="QGridLayout" name="gridLayout_14"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Measure</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <item>
+                <widget class="QRadioButton" name="radioButton_count">
+                 <property name="text">
+                  <string>Count</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">buttonGroup_measure</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_length">
+                 <property name="text">
+                  <string>Length</string>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">buttonGroup_measure</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_area">
+                 <property name="text">
+                  <string>Area</string>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">buttonGroup_measure</string>
+                 </attribute>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_perimeter">
+                 <property name="text">
+                  <string>Perimeter</string>
+                 </property>
+                 <attribute name="buttonGroup">
+                  <string notr="true">buttonGroup_measure</string>
+                 </attribute>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_10">
