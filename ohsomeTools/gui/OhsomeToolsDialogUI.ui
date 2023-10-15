@@ -1174,7 +1174,7 @@
                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check this to &lt;span style=&quot; text-decoration: underline;&quot;&gt;automatically merge compatible geometry types&lt;/span&gt;. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;It is recommended to keep this checked.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The benefit is that the amount of written layers will be massively reduced.&lt;/p&gt;&lt;p&gt;The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="text">
-                          <string>Harmonize geometries</string>
+                          <string>Harmonize geometries in Outpüut</string>
                          </property>
                          <property name="checked">
                           <bool>true</bool>
