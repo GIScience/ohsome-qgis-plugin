@@ -70,7 +70,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     DAYS = "DAYS"
     RADIUS = "RADIUS"
     GROUPBY = "GROUPBY"
-    check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
@@ -325,11 +324,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 self.check_show_metadata,
                 self.tr("Show metadata"),
                 defaultValue=False,
-            ),
-            QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Also save only data"),
-                defaultValue=True,
             ),
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
