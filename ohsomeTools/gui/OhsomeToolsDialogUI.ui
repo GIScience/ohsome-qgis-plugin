@@ -110,7 +110,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-697</y>
+            <y>-691</y>
             <width>623</width>
             <height>1055</height>
            </rect>
@@ -1433,7 +1433,7 @@
                    <item>
                     <widget class="QCheckBox" name="check_keep_geometryless">
                      <property name="text">
-                      <string>Keep geometry less</string>
+                      <string>Also save only data</string>
                      </property>
                     </widget>
                    </item>
@@ -2082,7 +2082,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup_groupby"/>
   <buttongroup name="buttonGroup_measure"/>
+  <buttongroup name="buttonGroup_groupby"/>
  </buttongroups>
 </ui>
