@@ -69,7 +69,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
@@ -268,11 +267,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.tr("Show metadata"),
                 defaultValue=False,
             ),
-            QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Also save only data"),
-                defaultValue=True,
-            ),
+
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),

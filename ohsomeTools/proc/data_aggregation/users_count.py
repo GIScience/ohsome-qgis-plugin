@@ -70,7 +70,6 @@ class UsersCount(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
@@ -271,11 +270,6 @@ class UsersCount(QgsProcessingAlgorithm):
                 defaultValue=False,
             ),
             QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Also save only data"),
-                defaultValue=True,
-            ),
-            QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
                 defaultValue=True,
@@ -361,9 +355,6 @@ class UsersCount(QgsProcessingAlgorithm):
             ),
             "date_end": self.parameterAsDateTime(
                 parameters, self.date_end, context
-            ),
-            "check_keep_geometryless": self.parameterAsBool(
-                parameters, self.check_keep_geometryless, context
             ),
             "check_merge_geometries": self.parameterAsBool(
                 parameters, self.check_merge_geometries, context
