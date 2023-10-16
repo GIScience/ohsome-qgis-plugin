@@ -272,7 +272,7 @@ class UsersCount(QgsProcessingAlgorithm):
             ),
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
+                self.tr("Also save only data"),
                 defaultValue=True,
             ),
             QgsProcessingParameterBoolean(
