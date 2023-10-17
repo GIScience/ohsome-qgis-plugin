@@ -267,7 +267,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.tr("Show metadata"),
                 defaultValue=False,
             ),
-
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
