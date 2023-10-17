@@ -288,7 +288,9 @@ class ExtractionTaskFunction(QgsTask):
     def postprocess_results(self) -> bool:
         file = self.dlg.lineEdit_output.text()
         if not file:
-            file = QgsProcessingUtils.generateTempFilename(f'Ohsome_{datetime.now()}.csv')
+            file = QgsProcessingUtils.generateTempFilename(
+                f"Ohsome_{datetime.now()}.csv"
+            )
         if not self.result or not len(self.result):
             return False
         if "extractRegion" in self.result:
