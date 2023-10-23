@@ -137,7 +137,7 @@ class Client(QObject):
             body = post_json
             requests_method = "POST"
 
-        if body and len(body["bcircles"]) > 5:
+        if body and "bcircles" in body.keys() and len(body["bcircles"]) > 5:
             split = body["bcircles"].split("|")[0:2]
             b = body.copy()
             b["bcircles"] = f'{"|".join(split[0:2])}|[...]'
