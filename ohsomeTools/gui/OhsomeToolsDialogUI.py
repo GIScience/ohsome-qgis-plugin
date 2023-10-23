@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeToolsDialogBase(object):
     def setupUi(self, OhsomeToolsDialogBase):
         OhsomeToolsDialogBase.setObjectName("OhsomeToolsDialogBase")
-        OhsomeToolsDialogBase.resize(684, 897)
+        OhsomeToolsDialogBase.resize(686, 904)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -61,7 +61,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, -236, 623, 1091))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 625, 1016))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
@@ -664,7 +664,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.retranslateUi(OhsomeToolsDialogBase)
         self.tabWidget_main.setCurrentIndex(0)
         self.tabWidget_simple_advanced.setCurrentIndex(0)
-        self.request_types_widget.setCurrentIndex(1)
+        self.request_types_widget.setCurrentIndex(0)
         self.global_buttons.accepted.connect(OhsomeToolsDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeToolsDialogBase.reject)
         self.radioButton_None.toggled['bool'].connect(self.group_by_keys_label.setHidden)
