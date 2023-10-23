@@ -235,9 +235,7 @@ class OhsomeToolsDialogMain:
             self.dlg.lineEdit_output.clear()
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
-            self.dlg.layer_input.setFilters(
-                QgsMapLayerProxyModel.VectorLayer
-            )
+            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.VectorLayer)
             self.dlg.pushButton_output.clicked.connect(self.select_output_file)
             # TODO RAD
             runtime_config = configmanager.read_config()["runtime"]
@@ -335,7 +333,11 @@ class OhsomeToolsDialogMain:
                     activate_temporal=preferences.activate_temporal_feature,
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.PointGeometry:
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.PointGeometry
+            ):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -376,7 +378,11 @@ class OhsomeToolsDialogMain:
                     f"> cURL: {preferences.cURL(provider)}"
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.PolygonGeometry:
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.PolygonGeometry
+            ):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -413,7 +419,11 @@ class OhsomeToolsDialogMain:
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
 
-            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.LineGeometry:
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.LineGeometry
+            ):
                 self.iface.messageBar().pushMessage(
                     "Wrong layer selected.",
                     "Please select point or polygon layer.",
