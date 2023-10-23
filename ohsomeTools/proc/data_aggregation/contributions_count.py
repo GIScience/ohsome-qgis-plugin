@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -68,7 +69,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
     MONTHS = "MONTHS"
     DAYS = "DAYS"
     RADIUS = "RADIUS"
-    check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
@@ -76,6 +76,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
     parameters = [i for i in AGGREGATION_SPECS["contributions/count"]]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -193,6 +194,13 @@ class ContributionsCount(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterNumber(
                 self.RADIUS,
                 "Radius [m]",
@@ -258,11 +266,6 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 self.check_show_metadata,
                 self.tr("Show metadata"),
                 defaultValue=False,
-            ),
-            QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
-                defaultValue=True,
             ),
             QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
@@ -352,6 +355,7 @@ class ContributionsCount(QgsProcessingAlgorithm):
                 parameters, self.date_end, context
             ),
             "period": self.parameterAsString(parameters, self.PERIOD, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
@@ -368,4 +372,4 @@ class ContributionsCount(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {}
+        return {"OUTPUT": self.OUTPUT}

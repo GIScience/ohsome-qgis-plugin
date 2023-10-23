@@ -67,9 +67,9 @@ def postprocess_metadata(original_json: dict, vlayer: QgsVectorLayer):
 
 
 def create_ohsome_csv_layer(
-    iface, results, header, output_file, request_time: str
+    iface, results, header, output_path, request_time: str
 ):
-    with open(output_file, "w", newline="") as f:
+    with open(output_path, "w", newline="") as f:
         wr = csv.DictWriter(
             f,
             fieldnames=header,
@@ -77,7 +77,8 @@ def create_ohsome_csv_layer(
         wr.writeheader()
         for row_result in results:
             wr.writerow(row_result)
-    layer = QgsVectorLayer(output_file, f"ohsome_" f"{request_time}", "ogr")
+    name = output_path.split("/")[-1].split(".")[0]
+    layer = QgsVectorLayer(output_path, name, "ogr")
     QgsProject.instance().addMapLayer(layer)
     return layer
 
@@ -86,15 +87,15 @@ def create_ohsome_vector_layer(
     iface,
     geojson: dict,
     request_time: str,
-    request_url: str,
+    output_path: str,
     activate_temporal: bool = False,
 ):
-    file = QgsProcessingUtils.generateTempFilename(f"{request_url}.geojson")
-    with open(file, "w") as f:
+    with open(output_path, "w") as f:
         f.write(json.dumps(geojson, indent=4))
+    name = output_path.split("/")[-1].split(".")[0]
     vlayer = QgsVectorLayer(
-        file,
-        f"ohsome_{request_time}",
+        output_path,
+        name,
         "ogr",
     )
     QgsProject.instance().addMapLayer(vlayer)
@@ -285,6 +286,11 @@ class ExtractionTaskFunction(QgsTask):
         self.client = client.Client(provider)
 
     def postprocess_results(self) -> bool:
+        file = self.dlg.lineEdit_output.text()
+        if not file:
+            file = QgsProcessingUtils.generateTempFilename(
+                f"Ohsome_{datetime.now()}.csv"
+            )
         if not self.result or not len(self.result):
             return False
         if "extractRegion" in self.result:
@@ -292,7 +298,7 @@ class ExtractionTaskFunction(QgsTask):
                 json.dumps(
                     self.result.get("extractRegion").get("spatialExtent")
                 ),
-                f"OHSOME_API_spatial_extent",
+                file,
                 "ogr",
             )
             QgsProject.instance().addMapLayer(vlayer)
@@ -313,7 +319,7 @@ class ExtractionTaskFunction(QgsTask):
                     self.iface,
                     geojsons[i],
                     self.request_time,
-                    self.request_url,
+                    self.dlg.lineEdit_output.text(),
                     self.activate_temporal,
                 )
                 postprocess_metadata(geojsons[i], vlayer)
@@ -323,9 +329,6 @@ class ExtractionTaskFunction(QgsTask):
             and len(self.result.get("result")) > 0
         ):
             # Process flat tables
-            file = QgsProcessingUtils.generateTempFilename(
-                f"{self.request_url}.csv"
-            )
             header = self.result["result"][0].keys()
             vlayer = create_ohsome_csv_layer(
                 self.iface,
@@ -343,9 +346,6 @@ class ExtractionTaskFunction(QgsTask):
             # Process non-flat tables
             results = self.result["groupByResult"]
             for result_group in results:
-                file = QgsProcessingUtils.generateTempFilename(
-                    f'{result_group["groupByObject"]}_{self.request_url}.csv'
-                )
                 header = results[0]["result"][0].keys()
                 vlayer = create_ohsome_csv_layer(
                     self.iface,
@@ -361,9 +361,6 @@ class ExtractionTaskFunction(QgsTask):
             and len(self.result.get("ratioResult")) > 0
         ):
             # Process flat tables
-            file = QgsProcessingUtils.generateTempFilename(
-                f"{self.request_url}.csv"
-            )
             header = self.result.get("ratioResult")[0].keys()
             vlayer = create_ohsome_csv_layer(
                 self.iface,

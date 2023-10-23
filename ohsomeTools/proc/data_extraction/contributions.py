@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -76,6 +77,7 @@ class Contributions(QgsProcessingAlgorithm):
     parameters = [i for i in EXTRACTION_SPECS["contributions"]]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -193,6 +195,14 @@ class Contributions(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+                fileFilter="GeoPackage (*.gpkg *.GPKG)",
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterNumber(
                 self.RADIUS,
                 "Radius [m]",
@@ -262,7 +272,7 @@ class Contributions(QgsProcessingAlgorithm):
             ),
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
+                self.tr("Also save only data"),
                 defaultValue=True,
             ),
             QgsProcessingParameterBoolean(
@@ -362,6 +372,7 @@ class Contributions(QgsProcessingAlgorithm):
             "group_by_key_line_edit": self.parameterAsString(
                 parameters, self.group_by_key_line_edit, context
             ),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
@@ -378,4 +389,4 @@ class Contributions(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {}
+        return {"OUTPUT": self.OUTPUT}

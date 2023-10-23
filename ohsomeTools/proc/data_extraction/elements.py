@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -78,6 +79,7 @@ class Elements(QgsProcessingAlgorithm):
     endpoints = [i for i in EXTRACTION_SPECS.keys() if i != "contributions"]
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -196,6 +198,14 @@ class Elements(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+                fileFilter="GeoPackage (*.gpkg *.GPKG)",
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterNumber(
                 self.RADIUS,
                 "Radius [m]",
@@ -275,7 +285,7 @@ class Elements(QgsProcessingAlgorithm):
             ),
             QgsProcessingParameterBoolean(
                 self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
+                self.tr("Also save only data"),
                 defaultValue=True,
             ),
             QgsProcessingParameterBoolean(
@@ -371,6 +381,7 @@ class Elements(QgsProcessingAlgorithm):
             "check_merge_geometries": self.parameterAsBool(
                 parameters, self.check_merge_geometries, context
             ),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
@@ -387,4 +398,4 @@ class Elements(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {}
+        return {"OUTPUT": self.OUTPUT}

@@ -39,6 +39,7 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QListWidget,
     QListWidgetItem,
+    QFileDialog,
 )
 from qgis._core import (
     Qgis,
@@ -49,6 +50,7 @@ from qgis.core import (
     QgsProject,
     QgsTextAnnotation,
     QgsMapLayerProxyModel,
+    QgsWkbTypes,
 )
 from qgis.gui import QgsMapCanvasAnnotationItem
 
@@ -213,6 +215,12 @@ class OhsomeToolsDialogMain:
         QApplication.restoreOverrideCursor()
         del self.dlg
 
+    def select_output_file(self):
+        filename, _filter = QFileDialog.getSaveFileName(
+            self.dlg, "Select   output file ", "", "*.csv"
+        )
+        self.dlg.lineEdit_output.setText(filename)
+
     def _init_gui_control(self):
         """Slot for main plugin button. Initializes the GUI and shows it."""
 
@@ -224,12 +232,11 @@ class OhsomeToolsDialogMain:
                 self.iface, self.iface.mainWindow()
             )  # setting parent enables modal view
             # Make sure plugin window stays open when OK is clicked by reconnecting the accepted() signal
+            self.dlg.lineEdit_output.clear()
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
-            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
-            self.dlg.point_layer_input.setFilters(
-                QgsMapLayerProxyModel.PointLayer
-            )
+            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.VectorLayer)
+            self.dlg.pushButton_output.clicked.connect(self.select_output_file)
             # TODO RAD
             runtime_config = configmanager.read_config()["runtime"]
             if runtime_config["debug"]:
@@ -326,7 +333,11 @@ class OhsomeToolsDialogMain:
                     activate_temporal=preferences.activate_temporal_feature,
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1:
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.PointGeometry
+            ):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -363,9 +374,15 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                logger.log(preferences.cURL(provider))
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 2:
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.PolygonGeometry
+            ):
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -373,14 +390,14 @@ class OhsomeToolsDialogMain:
                     preferences.get_polygon_layer_request_preferences()
                 )
                 last_task = None
-                for point_layer_preference in layer_preferences:
+                for polygon_layer_preference in layer_preferences:
                     task = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
                         description=f"OHSOME task",
                         provider=provider,
                         request_url=preferences.get_request_url(),
-                        preferences=point_layer_preference,
+                        preferences=polygon_layer_preference,
                         activate_temporal=preferences.activate_temporal_feature,
                     )
                     if last_task and last_task != globals()[task_name]:
@@ -397,8 +414,22 @@ class OhsomeToolsDialogMain:
                     else:
                         globals()[task_name] = task
                     last_task = task
-                logger.log(preferences.cURL(provider))
+                self.dlg.debug_text.append(
+                    f"> cURL: {preferences.cURL(provider)}"
+                )
                 QgsApplication.taskManager().addTask(globals()[task_name])
+
+            elif (
+                tab_index == 1
+                and self.dlg.layer_input.currentLayer().geometryType()
+                == QgsWkbTypes.LineGeometry
+            ):
+                self.iface.messageBar().pushMessage(
+                    "Wrong layer selected.",
+                    "Please select point or polygon layer.",
+                    level=Qgis.Warning,
+                    duration=5,
+                )
 
             else:
                 return
@@ -503,12 +534,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self.provider_combo.currentIndexChanged.connect(
             self.set_temporal_extent
         )
-        # Point Layer tab
-        self.point_layer_list_add.clicked.connect(self._add_point_layer)
-        self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
-        # Polygon Layer tab
-        self.layer_list_add.clicked.connect(self._add_polygon_layer)
-        self.layer_list_remove.clicked.connect(self._remove_polygon_layer)
         # Centroid tab
         self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
         self.centroid_list_point_clear.clicked.connect(
@@ -537,9 +562,9 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
                 DATA_AGGREGATION_FORMAT.get("default")
             )
         # Set the available data aggregation settings. They differ a lot for each endpoint.
-        self.group_by_key_line_edit.setEnabled(False)
+        # self.group_by_key_line_edit.setEnabled(False)
         self.group_by_key_line_edit.setStyleSheet("border: 1px solid grey")
-        self.group_by_values_line_edit.setEnabled(False)
+        # self.group_by_values_line_edit.setEnabled(False)
         self.group_by_values_line_edit.setStyleSheet("border: 1px solid grey")
         if "groupBy/tag" in current_text:
             self.group_by_key_line_edit.setEnabled(True)
@@ -693,9 +718,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
 
     def _on_linetool_init(self):
         """Inits line maptool and add items to point list box."""
-        self.ohsome_centroid_location_list.clear()
-        # Remove all annotations which were added (if any)
-        self._clear_annotations()
 
         self.point_tool = maptools.PointTool(self._iface.mapCanvas())
         self._iface.mapCanvas().setMapTool(self.point_tool)
@@ -732,44 +754,3 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         QApplication.restoreOverrideCursor()
         self._iface.mapCanvas().setMapTool(self.last_maptool)
         self.show()
-
-    def _add_point_layer(self) -> bool:
-        layer = self.point_layer_input.currentLayer()
-        list_name = (
-            f"{layer.name()} | Radius: {self.point_layer_radius_input.value()}"
-        )
-        if layer and not check_list_duplicates(
-            self.point_layer_list, list_name
-        ):
-            self.point_layer_list.addItem(list_name)
-            self.point_layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_point_layer(self):
-        layers: QListWidget = self.point_layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.point_layer_list.takeItem(self.point_layer_list.row(element))
-
-    def _add_polygon_layer(self) -> bool:
-        layer = self.layer_input.currentLayer()
-        if layer and not check_list_duplicates(self.layer_list, layer.name()):
-            self.layer_list.addItem(layer.name())
-            self.layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_polygon_layer(self):
-        layers: QListWidget = self.layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.layer_list.takeItem(self.layer_list.row(element))

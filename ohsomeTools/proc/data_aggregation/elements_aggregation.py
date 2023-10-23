@@ -23,6 +23,7 @@ from qgis.core import (
     QgsWkbTypes,
     QgsProcessing,
     QgsProcessingParameterDefinition,
+    QgsProcessingParameterFileDestination,
 )
 
 from qgis.utils import iface
@@ -69,7 +70,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     DAYS = "DAYS"
     RADIUS = "RADIUS"
     GROUPBY = "GROUPBY"
-    check_keep_geometryless = "check_keep_geometryless"
     check_merge_geometries = "check_merge_geometries"
     group_by_values_line_edit = "group_by_values_line_edit"
     group_by_key_line_edit = "group_by_key_line_edit"
@@ -96,6 +96,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
     DENSITY = "DENSITY"
     PERIOD = "PERIOD"
     PROVIDER = "PROVIDER"
+    OUTPUT = "OUTPUT"
 
     def tr(self, string):
         """
@@ -216,6 +217,13 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         )
 
         self.addParameter(
+            QgsProcessingParameterFileDestination(
+                self.OUTPUT,
+                self.tr("Output"),
+            )
+        )
+
+        self.addParameter(
             QgsProcessingParameterNumber(
                 self.RADIUS,
                 "Radius [m]",
@@ -318,11 +326,6 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 defaultValue=False,
             ),
             QgsProcessingParameterBoolean(
-                self.check_keep_geometryless,
-                self.tr("Keep without geometry"),
-                defaultValue=True,
-            ),
-            QgsProcessingParameterBoolean(
                 self.check_merge_geometries,
                 self.tr("Harmonize geometries"),
                 defaultValue=True,
@@ -412,6 +415,7 @@ class ElementsAggregation(QgsProcessingAlgorithm):
                 parameters, self.group_by_key_line_edit, context
             ),
             "filter": self.parameterAsString(parameters, self.FILTER, context),
+            "output": self.parameterAsString(parameters, self.OUTPUT, context),
         }
 
         run_processing_alg(processingParams, feedback)
@@ -428,4 +432,4 @@ class ElementsAggregation(QgsProcessingAlgorithm):
         # statistics, etc. These should all be included in the returned
         # dictionary, with keys matching the feature corresponding parameter
         # or output names.
-        return {}
+        return {"OUTPUT": self.OUTPUT}
