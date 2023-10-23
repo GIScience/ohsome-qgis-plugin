@@ -225,7 +225,11 @@ class OhsomeSpec:
 
     def _get_selected_polygon_layers_geometries(self) -> []:
         layer = self.dlg.layer_input.currentLayer()
-        geojsons = QgsJsonExporter(layer).exportFeatures(layer.getFeatures()).replace('"properties":null', '"properties":{"":""}')
+        geojsons = (
+            QgsJsonExporter(layer)
+            .exportFeatures(layer.getFeatures())
+            .replace('"properties":null', '"properties":{"":""}')
+        )
 
         return geojsons
 
@@ -295,11 +299,11 @@ class OhsomeSpec:
         endpoint_specific_request_properties = []
         request_properties = self.__prepare_request_properties()
 
-        request_properties["bpolys"] = self._get_selected_polygon_layers_geometries()
+        request_properties[
+            "bpolys"
+        ] = self._get_selected_polygon_layers_geometries()
 
-        endpoint_specific_request_properties.append(
-                request_properties.copy()
-            )
+        endpoint_specific_request_properties.append(request_properties.copy())
         return endpoint_specific_request_properties
 
     def get_request_url(self) -> str:
