@@ -50,6 +50,7 @@ from qgis.core import (
     QgsProject,
     QgsTextAnnotation,
     QgsMapLayerProxyModel,
+    QgsWkbTypes,
 )
 from qgis.gui import QgsMapCanvasAnnotationItem
 
@@ -234,9 +235,8 @@ class OhsomeToolsDialogMain:
             self.dlg.lineEdit_output.clear()
             self.dlg.global_buttons.accepted.disconnect(self.dlg.accept)
             self.dlg.global_buttons.accepted.connect(self.run_gui_control)
-            self.dlg.layer_input.setFilters(QgsMapLayerProxyModel.PolygonLayer)
-            self.dlg.point_layer_input.setFilters(
-                QgsMapLayerProxyModel.PointLayer
+            self.dlg.layer_input.setFilters(
+                QgsMapLayerProxyModel.VectorLayer
             )
             self.dlg.pushButton_output.clicked.connect(self.select_output_file)
             # TODO RAD
@@ -335,7 +335,7 @@ class OhsomeToolsDialogMain:
                     activate_temporal=preferences.activate_temporal_feature,
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 1:
+            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.PointGeometry:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -376,7 +376,7 @@ class OhsomeToolsDialogMain:
                     f"> cURL: {preferences.cURL(provider)}"
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
-            elif tab_index == 2:
+            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.PolygonGeometry:
                 self.dlg.global_buttons.button(QDialogButtonBox.Ok).setDisabled(
                     True
                 )
@@ -384,14 +384,14 @@ class OhsomeToolsDialogMain:
                     preferences.get_polygon_layer_request_preferences()
                 )
                 last_task = None
-                for point_layer_preference in layer_preferences:
+                for polygon_layer_preference in layer_preferences:
                     task = ExtractionTaskFunction(
                         iface=self.iface,
                         dlg=self.dlg,
                         description=f"OHSOME task",
                         provider=provider,
                         request_url=preferences.get_request_url(),
-                        preferences=point_layer_preference,
+                        preferences=polygon_layer_preference,
                         activate_temporal=preferences.activate_temporal_feature,
                     )
                     if last_task and last_task != globals()[task_name]:
@@ -412,6 +412,14 @@ class OhsomeToolsDialogMain:
                     f"> cURL: {preferences.cURL(provider)}"
                 )
                 QgsApplication.taskManager().addTask(globals()[task_name])
+
+            elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.LineGeometry:
+                self.iface.messageBar().pushMessage(
+                    "Line layer selected.",
+                    "Please select point or polygon layer.",
+                    level=Qgis.Warning,
+                    duration=5,
+                )
 
             else:
                 return
@@ -516,12 +524,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         self.provider_combo.currentIndexChanged.connect(
             self.set_temporal_extent
         )
-        # Point Layer tab
-        self.point_layer_list_add.clicked.connect(self._add_point_layer)
-        self.point_layer_list_remove.clicked.connect(self._remove_point_layer)
-        # Polygon Layer tab
-        self.layer_list_add.clicked.connect(self._add_polygon_layer)
-        self.layer_list_remove.clicked.connect(self._remove_polygon_layer)
         # Centroid tab
         self.centroid_list_point_add.clicked.connect(self._on_linetool_init)
         self.centroid_list_point_clear.clicked.connect(
@@ -745,44 +747,3 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
         QApplication.restoreOverrideCursor()
         self._iface.mapCanvas().setMapTool(self.last_maptool)
         self.show()
-
-    def _add_point_layer(self) -> bool:
-        layer = self.point_layer_input.currentLayer()
-        list_name = (
-            f"{layer.name()} | Radius: {self.point_layer_radius_input.value()}"
-        )
-        if layer and not check_list_duplicates(
-            self.point_layer_list, list_name
-        ):
-            self.point_layer_list.addItem(list_name)
-            self.point_layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_point_layer(self):
-        layers: QListWidget = self.point_layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.point_layer_list.takeItem(self.point_layer_list.row(element))
-
-    def _add_polygon_layer(self) -> bool:
-        layer = self.layer_input.currentLayer()
-        if layer and not check_list_duplicates(self.layer_list, layer.name()):
-            self.layer_list.addItem(layer.name())
-            self.layer_input.setCurrentIndex(0)
-        else:
-            return False
-        return True
-
-    def _remove_polygon_layer(self):
-        layers: QListWidget = self.layer_list
-        selected_layers: [QListWidgetItem] = layers.selectedItems()
-        if not selected_layers:
-            return
-        element: QListWidgetItem
-        for element in selected_layers:
-            self.layer_list.takeItem(self.layer_list.row(element))

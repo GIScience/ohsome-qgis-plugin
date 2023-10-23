@@ -14,15 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_OhsomeToolsDialogBase(object):
     def setupUi(self, OhsomeToolsDialogBase):
         OhsomeToolsDialogBase.setObjectName("OhsomeToolsDialogBase")
-        OhsomeToolsDialogBase.resize(684, 531)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
+        OhsomeToolsDialogBase.resize(684, 897)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            OhsomeToolsDialogBase.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(OhsomeToolsDialogBase.sizePolicy().hasHeightForWidth())
         OhsomeToolsDialogBase.setSizePolicy(sizePolicy)
         OhsomeToolsDialogBase.setMinimumSize(QtCore.QSize(0, 0))
         OhsomeToolsDialogBase.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -32,28 +28,20 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_17.setSizeConstraint(QtWidgets.QLayout.SetMinAndMaxSize)
         self.gridLayout_17.setObjectName("gridLayout_17")
         self.control_widget = QtWidgets.QWidget(OhsomeToolsDialogBase)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.control_widget.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.control_widget.sizePolicy().hasHeightForWidth())
         self.control_widget.setSizePolicy(sizePolicy)
         self.control_widget.setMaximumSize(QtCore.QSize(150, 16777215))
         self.control_widget.setObjectName("control_widget")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.control_widget)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.help_button = QtWidgets.QPushButton(self.control_widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.help_button.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.help_button.sizePolicy().hasHeightForWidth())
         self.help_button.setSizePolicy(sizePolicy)
         self.help_button.setObjectName("help_button")
         self.horizontalLayout_8.addWidget(self.help_button)
@@ -73,27 +61,15 @@ class Ui_OhsomeToolsDialogBase(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(
-            QtCore.QRect(0, -691, 623, 1055)
-        )
-        self.scrollAreaWidgetContents_4.setObjectName(
-            "scrollAreaWidgetContents_4"
-        )
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout(
-            self.scrollAreaWidgetContents_4
-        )
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, -236, 623, 1091))
+        self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.tabWidget_simple_advanced = QtWidgets.QTabWidget(
-            self.scrollAreaWidgetContents_4
-        )
-        self.tabWidget_simple_advanced.setTabPosition(
-            QtWidgets.QTabWidget.North
-        )
-        self.tabWidget_simple_advanced.setObjectName(
-            "tabWidget_simple_advanced"
-        )
+        self.tabWidget_simple_advanced = QtWidgets.QTabWidget(self.scrollAreaWidgetContents_4)
+        self.tabWidget_simple_advanced.setTabPosition(QtWidgets.QTabWidget.North)
+        self.tabWidget_simple_advanced.setObjectName("tabWidget_simple_advanced")
         self.tab_simple = QtWidgets.QWidget()
         self.tab_simple.setObjectName("tab_simple")
         self.gridLayout_16 = QtWidgets.QGridLayout(self.tab_simple)
@@ -144,12 +120,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.mcomboBox_osm_type.addItem("")
         self.mcomboBox_osm_type.addItem("")
         self.horizontalLayout_17.addWidget(self.mcomboBox_osm_type)
-        spacerItem = QtWidgets.QSpacerItem(
-            40,
-            20,
-            QtWidgets.QSizePolicy.Expanding,
-            QtWidgets.QSizePolicy.Minimum,
-        )
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_17.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_17)
         self.gridLayout_16.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
@@ -159,14 +130,10 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_18 = QtWidgets.QGridLayout(self.tab_advanced)
         self.gridLayout_18.setObjectName("gridLayout_18")
         self.filter_frame = QtWidgets.QFrame(self.tab_advanced)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.filter_frame.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.filter_frame.sizePolicy().hasHeightForWidth())
         self.filter_frame.setSizePolicy(sizePolicy)
         self.filter_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.filter_frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -182,40 +149,27 @@ class Ui_OhsomeToolsDialogBase(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_9)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.filter_label = QtWidgets.QLabel(self.frame_9)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.filter_label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.filter_label.sizePolicy().hasHeightForWidth())
         self.filter_label.setSizePolicy(sizePolicy)
         self.filter_label.setObjectName("filter_label")
         self.horizontalLayout_4.addWidget(self.filter_label)
         self.filter_help = QtWidgets.QPushButton(self.frame_9)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.filter_help.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.filter_help.sizePolicy().hasHeightForWidth())
         self.filter_help.setSizePolicy(sizePolicy)
         self.filter_help.setObjectName("filter_help")
         self.horizontalLayout_4.addWidget(self.filter_help)
         self.horizontalLayout_6.addWidget(self.frame_9)
         self.filter_input = QtWidgets.QPlainTextEdit(self.filter_frame)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.Maximum,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.filter_input.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.filter_input.sizePolicy().hasHeightForWidth())
         self.filter_input.setSizePolicy(sizePolicy)
         self.filter_input.setMaximumSize(QtCore.QSize(360, 101))
         self.filter_input.setToolTipDuration(-1)
@@ -238,30 +192,22 @@ class Ui_OhsomeToolsDialogBase(object):
         self.verticalLayout_5.addWidget(self.label_7)
         self.horizontalLayout_16 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_16.setObjectName("horizontalLayout_16")
-        self.radioButton_count = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_count = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_count.setChecked(True)
         self.radioButton_count.setObjectName("radioButton_count")
         self.buttonGroup_measure = QtWidgets.QButtonGroup(OhsomeToolsDialogBase)
         self.buttonGroup_measure.setObjectName("buttonGroup_measure")
         self.buttonGroup_measure.addButton(self.radioButton_count)
         self.horizontalLayout_16.addWidget(self.radioButton_count)
-        self.radioButton_length = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_length = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_length.setObjectName("radioButton_length")
         self.buttonGroup_measure.addButton(self.radioButton_length)
         self.horizontalLayout_16.addWidget(self.radioButton_length)
-        self.radioButton_area = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_area = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_area.setObjectName("radioButton_area")
         self.buttonGroup_measure.addButton(self.radioButton_area)
         self.horizontalLayout_16.addWidget(self.radioButton_area)
-        self.radioButton_perimeter = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_perimeter = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_perimeter.setObjectName("radioButton_perimeter")
         self.buttonGroup_measure.addButton(self.radioButton_perimeter)
         self.horizontalLayout_16.addWidget(self.radioButton_perimeter)
@@ -271,9 +217,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.gridLayout_19 = QtWidgets.QGridLayout()
         self.gridLayout_19.setObjectName("gridLayout_19")
-        self.radioButton_tag = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_tag = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_tag.setObjectName("radioButton_tag")
         self.buttonGroup_groupby = QtWidgets.QButtonGroup(OhsomeToolsDialogBase)
         self.buttonGroup_groupby.setObjectName("buttonGroup_groupby")
@@ -287,28 +231,20 @@ class Ui_OhsomeToolsDialogBase(object):
         self.group_results.setFont(font)
         self.group_results.setObjectName("group_results")
         self.gridLayout_19.addWidget(self.group_results, 0, 0, 1, 1)
-        self.radioButton_boundary = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_boundary = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_boundary.setObjectName("radioButton_boundary")
         self.buttonGroup_groupby.addButton(self.radioButton_boundary)
         self.gridLayout_19.addWidget(self.radioButton_boundary, 2, 1, 1, 1)
-        self.radioButton_key = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_key = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_key.setObjectName("radioButton_key")
         self.buttonGroup_groupby.addButton(self.radioButton_key)
         self.gridLayout_19.addWidget(self.radioButton_key, 2, 3, 1, 1)
-        self.radioButton_None = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_None = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_None.setChecked(True)
         self.radioButton_None.setObjectName("radioButton_None")
         self.buttonGroup_groupby.addButton(self.radioButton_None)
         self.gridLayout_19.addWidget(self.radioButton_None, 1, 0, 1, 1)
-        self.radioButton_osm_type = QtWidgets.QRadioButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.radioButton_osm_type = QtWidgets.QRadioButton(self.scrollAreaWidgetContents_4)
         self.radioButton_osm_type.setObjectName("radioButton_osm_type")
         self.buttonGroup_groupby.addButton(self.radioButton_osm_type)
         self.gridLayout_19.addWidget(self.radioButton_osm_type, 2, 0, 1, 1)
@@ -316,45 +252,27 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setContentsMargins(5, 5, 5, 5)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.group_by_keys_label = QtWidgets.QLabel(
-            self.scrollAreaWidgetContents_4
-        )
+        self.group_by_keys_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
         self.group_by_keys_label.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.group_by_keys_label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.group_by_keys_label.sizePolicy().hasHeightForWidth())
         self.group_by_keys_label.setSizePolicy(sizePolicy)
         self.group_by_keys_label.setObjectName("group_by_keys_label")
         self.gridLayout_2.addWidget(self.group_by_keys_label, 0, 0, 1, 1)
-        self.group_by_values_label = QtWidgets.QLabel(
-            self.scrollAreaWidgetContents_4
-        )
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
+        self.group_by_values_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.group_by_values_label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.group_by_values_label.sizePolicy().hasHeightForWidth())
         self.group_by_values_label.setSizePolicy(sizePolicy)
         self.group_by_values_label.setObjectName("group_by_values_label")
         self.gridLayout_2.addWidget(self.group_by_values_label, 1, 0, 1, 1)
-        self.group_by_values_line_edit = QtWidgets.QLineEdit(
-            self.scrollAreaWidgetContents_4
-        )
-        self.group_by_values_line_edit.setObjectName(
-            "group_by_values_line_edit"
-        )
+        self.group_by_values_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_4)
+        self.group_by_values_line_edit.setObjectName("group_by_values_line_edit")
         self.gridLayout_2.addWidget(self.group_by_values_line_edit, 1, 1, 1, 1)
-        self.group_by_key_line_edit = QtWidgets.QLineEdit(
-            self.scrollAreaWidgetContents_4
-        )
+        self.group_by_key_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_4)
         self.group_by_key_line_edit.setObjectName("group_by_key_line_edit")
         self.gridLayout_2.addWidget(self.group_by_key_line_edit, 0, 1, 1, 1)
         self.verticalLayout_10.addLayout(self.gridLayout_2)
@@ -363,21 +281,15 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_26.setContentsMargins(5, 5, 5, 5)
         self.gridLayout_26.setObjectName("gridLayout_26")
         self.date_end = QtWidgets.QDateEdit(self.scrollAreaWidgetContents_4)
-        self.date_end.setDateTime(
-            QtCore.QDateTime(QtCore.QDate(2017, 1, 1), QtCore.QTime(0, 0, 0))
-        )
-        self.date_end.setMinimumDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0))
-        )
+        self.date_end.setDateTime(QtCore.QDateTime(QtCore.QDate(2017, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.date_end.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2007, 10, 9), QtCore.QTime(0, 0, 0)))
         self.date_end.setMinimumDate(QtCore.QDate(2007, 10, 9))
         self.date_end.setObjectName("date_end")
         self.gridLayout_26.addWidget(self.date_end, 6, 2, 1, 1)
         self.date_end_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
         self.date_end_label.setObjectName("date_end_label")
         self.gridLayout_26.addWidget(self.date_end_label, 5, 2, 1, 1)
-        self.date_start_label = QtWidgets.QLabel(
-            self.scrollAreaWidgetContents_4
-        )
+        self.date_start_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
         self.date_start_label.setObjectName("date_start_label")
         self.gridLayout_26.addWidget(self.date_start_label, 5, 0, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
@@ -388,12 +300,8 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label_5.setObjectName("label_5")
         self.gridLayout_26.addWidget(self.label_5, 1, 0, 1, 1)
         self.date_start = QtWidgets.QDateEdit(self.scrollAreaWidgetContents_4)
-        self.date_start.setDateTime(
-            QtCore.QDateTime(QtCore.QDate(2016, 1, 1), QtCore.QTime(0, 0, 0))
-        )
-        self.date_start.setMinimumDateTime(
-            QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0))
-        )
+        self.date_start.setDateTime(QtCore.QDateTime(QtCore.QDate(2016, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.date_start.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2007, 10, 8), QtCore.QTime(0, 0, 0)))
         self.date_start.setMaximumDate(QtCore.QDate(2050, 12, 31))
         self.date_start.setMinimumDate(QtCore.QDate(2007, 10, 8))
         self.date_start.setTimeSpec(QtCore.Qt.LocalTime)
@@ -415,9 +323,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label_months.setToolTip("")
         self.label_months.setObjectName("label_months")
         self.gridLayout_25.addWidget(self.label_months, 1, 1, 1, 1)
-        self.interval_months = QtWidgets.QSpinBox(
-            self.scrollAreaWidgetContents_4
-        )
+        self.interval_months = QtWidgets.QSpinBox(self.scrollAreaWidgetContents_4)
         self.interval_months.setMaximum(12)
         self.interval_months.setObjectName("interval_months")
         self.gridLayout_25.addWidget(self.interval_months, 2, 1, 1, 1)
@@ -426,9 +332,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.interval_days.setProperty("value", 1)
         self.interval_days.setObjectName("interval_days")
         self.gridLayout_25.addWidget(self.interval_days, 2, 2, 1, 1)
-        self.interval_years = QtWidgets.QSpinBox(
-            self.scrollAreaWidgetContents_4
-        )
+        self.interval_years = QtWidgets.QSpinBox(self.scrollAreaWidgetContents_4)
         self.interval_years.setAccessibleDescription("")
         self.interval_years.setMaximum(99)
         self.interval_years.setProperty("value", 0)
@@ -442,47 +346,31 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label_8.setObjectName("label_8")
         self.gridLayout_25.addWidget(self.label_8, 0, 0, 1, 1)
         self.verticalLayout_5.addLayout(self.gridLayout_25)
-        self.request_types_widget = QtWidgets.QTabWidget(
-            self.scrollAreaWidgetContents_4
-        )
+        self.request_types_widget = QtWidgets.QTabWidget(self.scrollAreaWidgetContents_4)
         self.request_types_widget.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.request_types_widget.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.request_types_widget.sizePolicy().hasHeightForWidth())
         self.request_types_widget.setSizePolicy(sizePolicy)
         self.request_types_widget.setMinimumSize(QtCore.QSize(250, 0))
-        self.request_types_widget.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
+        self.request_types_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.request_types_widget.setUsesScrollButtons(True)
         self.request_types_widget.setObjectName("request_types_widget")
         self.centroid_tab = QtWidgets.QWidget()
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.centroid_tab.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.centroid_tab.sizePolicy().hasHeightForWidth())
         self.centroid_tab.setSizePolicy(sizePolicy)
         self.centroid_tab.setObjectName("centroid_tab")
         self.gridLayout_8 = QtWidgets.QGridLayout(self.centroid_tab)
         self.gridLayout_8.setObjectName("gridLayout_8")
         self.widget = QtWidgets.QWidget(self.centroid_tab)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
         self.widget.setSizePolicy(sizePolicy)
         self.widget.setMinimumSize(QtCore.QSize(0, 0))
         self.widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -490,90 +378,52 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout = QtWidgets.QGridLayout(self.widget)
         self.gridLayout.setObjectName("gridLayout")
         self.widget_7 = QtWidgets.QWidget(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_7.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
         self.widget_7.setSizePolicy(sizePolicy)
         self.widget_7.setObjectName("widget_7")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.widget_7)
         self.gridLayout_7.setObjectName("gridLayout_7")
         self.centroid_list_point_add = QtWidgets.QPushButton(self.widget_7)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.centroid_list_point_add.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.centroid_list_point_add.sizePolicy().hasHeightForWidth())
         self.centroid_list_point_add.setSizePolicy(sizePolicy)
         self.centroid_list_point_add.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_add.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon.addPixmap(QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.centroid_list_point_add.setIcon(icon)
         self.centroid_list_point_add.setObjectName("centroid_list_point_add")
         self.gridLayout_7.addWidget(self.centroid_list_point_add, 0, 0, 1, 1)
         self.centroid_list_point_clear = QtWidgets.QPushButton(self.widget_7)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.centroid_list_point_clear.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.centroid_list_point_clear.sizePolicy().hasHeightForWidth())
         self.centroid_list_point_clear.setSizePolicy(sizePolicy)
         self.centroid_list_point_clear.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(
-            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_clear.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon1.addPixmap(QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_clear.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.centroid_list_point_clear.setIcon(icon1)
-        self.centroid_list_point_clear.setObjectName(
-            "centroid_list_point_clear"
-        )
+        self.centroid_list_point_clear.setObjectName("centroid_list_point_clear")
         self.gridLayout_7.addWidget(self.centroid_list_point_clear, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.widget_7, 1, 0, 1, 1)
         self.ohsome_centroid_location_list = QtWidgets.QListWidget(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.ohsome_centroid_location_list.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.ohsome_centroid_location_list.sizePolicy().hasHeightForWidth())
         self.ohsome_centroid_location_list.setSizePolicy(sizePolicy)
         self.ohsome_centroid_location_list.setMinimumSize(QtCore.QSize(0, 0))
-        self.ohsome_centroid_location_list.setMaximumSize(
-            QtCore.QSize(16777215, 16777215)
-        )
-        self.ohsome_centroid_location_list.setFrameShadow(
-            QtWidgets.QFrame.Sunken
-        )
-        self.ohsome_centroid_location_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.MultiSelection
-        )
-        self.ohsome_centroid_location_list.setResizeMode(
-            QtWidgets.QListView.Fixed
-        )
-        self.ohsome_centroid_location_list.setObjectName(
-            "ohsome_centroid_location_list"
-        )
-        self.gridLayout.addWidget(
-            self.ohsome_centroid_location_list, 1, 1, 1, 1
-        )
+        self.ohsome_centroid_location_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.ohsome_centroid_location_list.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.ohsome_centroid_location_list.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.ohsome_centroid_location_list.setResizeMode(QtWidgets.QListView.Fixed)
+        self.ohsome_centroid_location_list.setObjectName("ohsome_centroid_location_list")
+        self.gridLayout.addWidget(self.ohsome_centroid_location_list, 1, 1, 1, 1)
         self.centroid_radius_input = QtWidgets.QSpinBox(self.widget)
         self.centroid_radius_input.setAccessibleDescription("")
         self.centroid_radius_input.setMinimum(1)
@@ -582,240 +432,60 @@ class Ui_OhsomeToolsDialogBase(object):
         self.centroid_radius_input.setObjectName("centroid_radius_input")
         self.gridLayout.addWidget(self.centroid_radius_input, 0, 1, 1, 1)
         self.centroid_radius_label = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.centroid_radius_label.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.centroid_radius_label.sizePolicy().hasHeightForWidth())
         self.centroid_radius_label.setSizePolicy(sizePolicy)
         self.centroid_radius_label.setObjectName("centroid_radius_label")
         self.gridLayout.addWidget(self.centroid_radius_label, 0, 0, 1, 1)
         self.gridLayout_8.addWidget(self.widget, 0, 0, 1, 1)
         self.request_types_widget.addTab(self.centroid_tab, "")
-        self.point_layer_tab = QtWidgets.QWidget()
-        self.point_layer_tab.setEnabled(True)
-        self.point_layer_tab.setObjectName("point_layer_tab")
-        self.gridLayout_12 = QtWidgets.QGridLayout(self.point_layer_tab)
-        self.gridLayout_12.setObjectName("gridLayout_12")
-        self.point_layer_radius_input = QtWidgets.QSpinBox(self.point_layer_tab)
+        self.layer_tab = QtWidgets.QWidget()
+        self.layer_tab.setEnabled(True)
+        self.layer_tab.setObjectName("layer_tab")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.layer_tab)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.layer_input = QgsMapLayerComboBox(self.layer_tab)
+        self.layer_input.setObjectName("layer_input")
+        self.gridLayout_3.addWidget(self.layer_input, 0, 1, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.layer_tab)
+        self.label_9.setObjectName("label_9")
+        self.gridLayout_3.addWidget(self.label_9, 0, 0, 1, 1)
+        self.request_types_widget.addTab(self.layer_tab, "")
+        self.verticalLayout_5.addWidget(self.request_types_widget)
+        self.point_layer_radius_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.point_layer_radius_label.sizePolicy().hasHeightForWidth())
+        self.point_layer_radius_label.setSizePolicy(sizePolicy)
+        self.point_layer_radius_label.setObjectName("point_layer_radius_label")
+        self.verticalLayout_5.addWidget(self.point_layer_radius_label)
+        self.point_layer_radius_input = QtWidgets.QSpinBox(self.scrollAreaWidgetContents_4)
         self.point_layer_radius_input.setAccessibleDescription("")
         self.point_layer_radius_input.setMinimum(1)
         self.point_layer_radius_input.setMaximum(999999999)
         self.point_layer_radius_input.setProperty("value", 1000)
         self.point_layer_radius_input.setObjectName("point_layer_radius_input")
-        self.gridLayout_12.addWidget(self.point_layer_radius_input, 0, 1, 2, 1)
-        self.point_layer_input = QgsMapLayerComboBox(self.point_layer_tab)
-        self.point_layer_input.setObjectName("point_layer_input")
-        self.gridLayout_12.addWidget(self.point_layer_input, 0, 2, 2, 2)
-        self.point_layer_radius_label = QtWidgets.QLabel(self.point_layer_tab)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Maximum
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.point_layer_radius_label.sizePolicy().hasHeightForWidth()
-        )
-        self.point_layer_radius_label.setSizePolicy(sizePolicy)
-        self.point_layer_radius_label.setObjectName("point_layer_radius_label")
-        self.gridLayout_12.addWidget(self.point_layer_radius_label, 0, 0, 2, 1)
-        self.widget_6 = QtWidgets.QWidget(self.point_layer_tab)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_6.sizePolicy().hasHeightForWidth()
-        )
-        self.widget_6.setSizePolicy(sizePolicy)
-        self.widget_6.setAutoFillBackground(False)
-        self.widget_6.setObjectName("widget_6")
-        self.gridLayout_5 = QtWidgets.QGridLayout(self.widget_6)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.point_layer_list = QtWidgets.QListWidget(self.widget_6)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.point_layer_list.sizePolicy().hasHeightForWidth()
-        )
-        self.point_layer_list.setSizePolicy(sizePolicy)
-        self.point_layer_list.setMinimumSize(QtCore.QSize(0, 0))
-        self.point_layer_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.point_layer_list.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.point_layer_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.MultiSelection
-        )
-        self.point_layer_list.setResizeMode(QtWidgets.QListView.Fixed)
-        self.point_layer_list.setObjectName("point_layer_list")
-        self.gridLayout_5.addWidget(self.point_layer_list, 0, 1, 1, 1)
-        self.widget_9 = QtWidgets.QWidget(self.widget_6)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_9.sizePolicy().hasHeightForWidth()
-        )
-        self.widget_9.setSizePolicy(sizePolicy)
-        self.widget_9.setObjectName("widget_9")
-        self.gridLayout_11 = QtWidgets.QGridLayout(self.widget_9)
-        self.gridLayout_11.setObjectName("gridLayout_11")
-        self.point_layer_list_remove = QtWidgets.QPushButton(self.widget_9)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.point_layer_list_remove.sizePolicy().hasHeightForWidth()
-        )
-        self.point_layer_list_remove.setSizePolicy(sizePolicy)
-        self.point_layer_list_remove.setText("")
-        self.point_layer_list_remove.setIcon(icon1)
-        self.point_layer_list_remove.setObjectName("point_layer_list_remove")
-        self.gridLayout_11.addWidget(self.point_layer_list_remove, 1, 0, 1, 1)
-        self.point_layer_list_add = QtWidgets.QPushButton(self.widget_9)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.point_layer_list_add.sizePolicy().hasHeightForWidth()
-        )
-        self.point_layer_list_add.setSizePolicy(sizePolicy)
-        self.point_layer_list_add.setText("")
-        self.point_layer_list_add.setIcon(icon)
-        self.point_layer_list_add.setObjectName("point_layer_list_add")
-        self.gridLayout_11.addWidget(self.point_layer_list_add, 0, 0, 1, 1)
-        self.gridLayout_5.addWidget(self.widget_9, 0, 0, 1, 1)
-        self.gridLayout_12.addWidget(self.widget_6, 2, 0, 1, 4)
-        self.request_types_widget.addTab(self.point_layer_tab, "")
-        self.polygon_layer_tab = QtWidgets.QWidget()
-        self.polygon_layer_tab.setEnabled(True)
-        self.polygon_layer_tab.setObjectName("polygon_layer_tab")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.polygon_layer_tab)
-        self.gridLayout_6.setObjectName("gridLayout_6")
-        self.layer_input = QgsMapLayerComboBox(self.polygon_layer_tab)
-        self.layer_input.setObjectName("layer_input")
-        self.gridLayout_6.addWidget(self.layer_input, 0, 0, 1, 1)
-        self.widget_5 = QtWidgets.QWidget(self.polygon_layer_tab)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_5.sizePolicy().hasHeightForWidth()
-        )
-        self.widget_5.setSizePolicy(sizePolicy)
-        self.widget_5.setAutoFillBackground(False)
-        self.widget_5.setObjectName("widget_5")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_5)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        self.layer_list = QtWidgets.QListWidget(self.widget_5)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.layer_list.sizePolicy().hasHeightForWidth()
-        )
-        self.layer_list.setSizePolicy(sizePolicy)
-        self.layer_list.setMinimumSize(QtCore.QSize(0, 0))
-        self.layer_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.layer_list.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.layer_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.MultiSelection
-        )
-        self.layer_list.setResizeMode(QtWidgets.QListView.Fixed)
-        self.layer_list.setObjectName("layer_list")
-        self.gridLayout_3.addWidget(self.layer_list, 0, 1, 1, 1)
-        self.widget_8 = QtWidgets.QWidget(self.widget_5)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.widget_8.sizePolicy().hasHeightForWidth()
-        )
-        self.widget_8.setSizePolicy(sizePolicy)
-        self.widget_8.setObjectName("widget_8")
-        self.gridLayout_9 = QtWidgets.QGridLayout(self.widget_8)
-        self.gridLayout_9.setObjectName("gridLayout_9")
-        self.layer_list_remove = QtWidgets.QPushButton(self.widget_8)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.layer_list_remove.sizePolicy().hasHeightForWidth()
-        )
-        self.layer_list_remove.setSizePolicy(sizePolicy)
-        self.layer_list_remove.setText("")
-        self.layer_list_remove.setIcon(icon1)
-        self.layer_list_remove.setObjectName("layer_list_remove")
-        self.gridLayout_9.addWidget(self.layer_list_remove, 1, 0, 1, 1)
-        self.layer_list_add = QtWidgets.QPushButton(self.widget_8)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.layer_list_add.sizePolicy().hasHeightForWidth()
-        )
-        self.layer_list_add.setSizePolicy(sizePolicy)
-        self.layer_list_add.setText("")
-        self.layer_list_add.setIcon(icon)
-        self.layer_list_add.setObjectName("layer_list_add")
-        self.gridLayout_9.addWidget(self.layer_list_add, 0, 0, 1, 1)
-        self.gridLayout_3.addWidget(self.widget_8, 0, 0, 1, 1)
-        self.gridLayout_6.addWidget(self.widget_5, 1, 0, 1, 1)
-        self.request_types_widget.addTab(self.polygon_layer_tab, "")
-        self.verticalLayout_5.addWidget(self.request_types_widget)
-        self.general_options_group = QgsCollapsibleGroupBox(
-            self.scrollAreaWidgetContents_4
-        )
+        self.verticalLayout_5.addWidget(self.point_layer_radius_input)
+        self.general_options_group = QgsCollapsibleGroupBox(self.scrollAreaWidgetContents_4)
         self.general_options_group.setCollapsed(False)
         self.general_options_group.setObjectName("general_options_group")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(
-            self.general_options_group
-        )
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.general_options_group)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.provider_refresh = QtWidgets.QPushButton(
-            self.general_options_group
-        )
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        self.provider_refresh = QtWidgets.QPushButton(self.general_options_group)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.provider_refresh.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.provider_refresh.sizePolicy().hasHeightForWidth())
         self.provider_refresh.setSizePolicy(sizePolicy)
         self.provider_refresh.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(
-            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_refresh.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon2.addPixmap(QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_refresh.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.provider_refresh.setIcon(icon2)
         self.provider_refresh.setObjectName("provider_refresh")
         self.horizontalLayout.addWidget(self.provider_refresh)
@@ -823,35 +493,23 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label_15.setObjectName("label_15")
         self.horizontalLayout.addWidget(self.label_15)
         self.provider_combo = QtWidgets.QComboBox(self.general_options_group)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.provider_combo.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.provider_combo.sizePolicy().hasHeightForWidth())
         self.provider_combo.setSizePolicy(sizePolicy)
         self.provider_combo.setMinimumSize(QtCore.QSize(150, 25))
         self.provider_combo.setObjectName("provider_combo")
         self.horizontalLayout.addWidget(self.provider_combo)
         self.provider_config = QtWidgets.QPushButton(self.general_options_group)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.provider_config.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.provider_config.sizePolicy().hasHeightForWidth())
         self.provider_config.setSizePolicy(sizePolicy)
         self.provider_config.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(
-            QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_settings.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon3.addPixmap(QtGui.QPixmap(":/plugins/ohsomeTools/img/icon_settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.provider_config.setIcon(icon3)
         self.provider_config.setObjectName("provider_config")
         self.horizontalLayout.addWidget(self.provider_config)
@@ -863,9 +521,7 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label.setMaximumSize(QtCore.QSize(50, 16777215))
         self.label.setObjectName("label")
         self.horizontalLayout_3.addWidget(self.label)
-        self.data_aggregation_format = QtWidgets.QComboBox(
-            self.general_options_group
-        )
+        self.data_aggregation_format = QtWidgets.QComboBox(self.general_options_group)
         self.data_aggregation_format.setObjectName("data_aggregation_format")
         self.horizontalLayout_3.addWidget(self.data_aggregation_format)
         self.verticalLayout_7.addLayout(self.horizontalLayout_3)
@@ -924,14 +580,10 @@ class Ui_OhsomeToolsDialogBase(object):
         self.label_output = QtWidgets.QLabel(self.scrollAreaWidgetContents_4)
         self.label_output.setObjectName("label_output")
         self.horizontalLayout_2.addWidget(self.label_output)
-        self.lineEdit_output = QtWidgets.QLineEdit(
-            self.scrollAreaWidgetContents_4
-        )
+        self.lineEdit_output = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_4)
         self.lineEdit_output.setObjectName("lineEdit_output")
         self.horizontalLayout_2.addWidget(self.lineEdit_output)
-        self.pushButton_output = QtWidgets.QPushButton(
-            self.scrollAreaWidgetContents_4
-        )
+        self.pushButton_output = QtWidgets.QPushButton(self.scrollAreaWidgetContents_4)
         self.pushButton_output.setMaximumSize(QtCore.QSize(30, 16777215))
         self.pushButton_output.setObjectName("pushButton_output")
         self.horizontalLayout_2.addWidget(self.pushButton_output)
@@ -945,14 +597,10 @@ class Ui_OhsomeToolsDialogBase(object):
         self.gridLayout_15 = QtWidgets.QGridLayout(self.tab_2)
         self.gridLayout_15.setObjectName("gridLayout_15")
         self.debug_text = QtWidgets.QTextBrowser(self.tab_2)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.debug_text.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.debug_text.sizePolicy().hasHeightForWidth())
         self.debug_text.setSizePolicy(sizePolicy)
         self.debug_text.setMinimumSize(QtCore.QSize(0, 0))
         self.debug_text.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -966,20 +614,14 @@ class Ui_OhsomeToolsDialogBase(object):
         self.global_buttons = QtWidgets.QDialogButtonBox(OhsomeToolsDialogBase)
         self.global_buttons.setEnabled(True)
         self.global_buttons.setOrientation(QtCore.Qt.Horizontal)
-        self.global_buttons.setStandardButtons(
-            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
-        )
+        self.global_buttons.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.global_buttons.setObjectName("global_buttons")
         self.gridLayout_17.addWidget(self.global_buttons, 3, 1, 1, 1)
         self.resources_group = QtWidgets.QGroupBox(OhsomeToolsDialogBase)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.resources_group.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.resources_group.sizePolicy().hasHeightForWidth())
         self.resources_group.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setBold(True)
@@ -1022,445 +664,121 @@ class Ui_OhsomeToolsDialogBase(object):
         self.retranslateUi(OhsomeToolsDialogBase)
         self.tabWidget_main.setCurrentIndex(0)
         self.tabWidget_simple_advanced.setCurrentIndex(0)
-        self.request_types_widget.setCurrentIndex(0)
+        self.request_types_widget.setCurrentIndex(1)
         self.global_buttons.accepted.connect(OhsomeToolsDialogBase.accept)
         self.global_buttons.rejected.connect(OhsomeToolsDialogBase.reject)
-        self.radioButton_None.toggled["bool"].connect(
-            self.group_by_keys_label.setHidden
-        )
-        self.radioButton_None.toggled["bool"].connect(
-            self.group_by_values_label.setHidden
-        )
-        self.radioButton_osm_type.toggled["bool"].connect(
-            self.group_by_keys_label.setHidden
-        )
-        self.radioButton_osm_type.toggled["bool"].connect(
-            self.group_by_values_label.setHidden
-        )
-        self.radioButton_boundary.toggled["bool"].connect(
-            self.group_by_keys_label.setHidden
-        )
-        self.radioButton_boundary.toggled["bool"].connect(
-            self.group_by_values_label.setHidden
-        )
-        self.radioButton_tag.toggled["bool"].connect(
-            self.group_by_keys_label.setVisible
-        )
-        self.radioButton_tag.toggled["bool"].connect(
-            self.group_by_values_label.setVisible
-        )
-        self.radioButton_key.toggled["bool"].connect(
-            self.group_by_values_label.setVisible
-        )
-        self.radioButton_key.toggled["bool"].connect(
-            self.group_by_keys_label.setHidden
-        )
-        self.radioButton_None.toggled["bool"].connect(
-            self.group_by_key_line_edit.setHidden
-        )
-        self.radioButton_osm_type.toggled["bool"].connect(
-            self.group_by_key_line_edit.setHidden
-        )
-        self.radioButton_None.toggled["bool"].connect(
-            self.group_by_values_line_edit.setHidden
-        )
-        self.radioButton_osm_type.toggled["bool"].connect(
-            self.group_by_key_line_edit.setHidden
-        )
-        self.radioButton_osm_type.toggled["bool"].connect(
-            self.group_by_values_line_edit.setHidden
-        )
-        self.radioButton_boundary.toggled["bool"].connect(
-            self.group_by_key_line_edit.setHidden
-        )
-        self.radioButton_boundary.toggled["bool"].connect(
-            self.group_by_values_line_edit.setHidden
-        )
-        self.radioButton_tag.toggled["bool"].connect(
-            self.group_by_key_line_edit.setVisible
-        )
-        self.radioButton_tag.toggled["bool"].connect(
-            self.group_by_values_line_edit.setVisible
-        )
-        self.radioButton_key.toggled["bool"].connect(
-            self.group_by_key_line_edit.setHidden
-        )
-        self.radioButton_key.toggled["bool"].connect(
-            self.group_by_values_line_edit.setVisible
-        )
+        self.radioButton_None.toggled['bool'].connect(self.group_by_keys_label.setHidden)
+        self.radioButton_None.toggled['bool'].connect(self.group_by_values_label.setHidden)
+        self.radioButton_osm_type.toggled['bool'].connect(self.group_by_keys_label.setHidden)
+        self.radioButton_osm_type.toggled['bool'].connect(self.group_by_values_label.setHidden)
+        self.radioButton_boundary.toggled['bool'].connect(self.group_by_keys_label.setHidden)
+        self.radioButton_boundary.toggled['bool'].connect(self.group_by_values_label.setHidden)
+        self.radioButton_tag.toggled['bool'].connect(self.group_by_keys_label.setVisible)
+        self.radioButton_tag.toggled['bool'].connect(self.group_by_values_label.setVisible)
+        self.radioButton_key.toggled['bool'].connect(self.group_by_values_label.setVisible)
+        self.radioButton_key.toggled['bool'].connect(self.group_by_keys_label.setHidden)
+        self.radioButton_None.toggled['bool'].connect(self.group_by_key_line_edit.setHidden)
+        self.radioButton_osm_type.toggled['bool'].connect(self.group_by_key_line_edit.setHidden)
+        self.radioButton_None.toggled['bool'].connect(self.group_by_values_line_edit.setHidden)
+        self.radioButton_osm_type.toggled['bool'].connect(self.group_by_key_line_edit.setHidden)
+        self.radioButton_osm_type.toggled['bool'].connect(self.group_by_values_line_edit.setHidden)
+        self.radioButton_boundary.toggled['bool'].connect(self.group_by_key_line_edit.setHidden)
+        self.radioButton_boundary.toggled['bool'].connect(self.group_by_values_line_edit.setHidden)
+        self.radioButton_tag.toggled['bool'].connect(self.group_by_key_line_edit.setVisible)
+        self.radioButton_tag.toggled['bool'].connect(self.group_by_values_line_edit.setVisible)
+        self.radioButton_key.toggled['bool'].connect(self.group_by_key_line_edit.setHidden)
+        self.radioButton_key.toggled['bool'].connect(self.group_by_values_line_edit.setVisible)
         QtCore.QMetaObject.connectSlotsByName(OhsomeToolsDialogBase)
 
     def retranslateUi(self, OhsomeToolsDialogBase):
         _translate = QtCore.QCoreApplication.translate
-        OhsomeToolsDialogBase.setWindowTitle(
-            _translate("OhsomeToolsDialogBase", "ohsomeTools")
-        )
+        OhsomeToolsDialogBase.setWindowTitle(_translate("OhsomeToolsDialogBase", "ohsomeTools"))
         self.help_button.setText(_translate("OhsomeToolsDialogBase", "Help"))
         self.about_button.setText(_translate("OhsomeToolsDialogBase", "About"))
         self.label_6.setText(_translate("OhsomeToolsDialogBase", "OSM tag"))
         self.label_2.setText(_translate("OhsomeToolsDialogBase", "Key"))
         self.label_3.setText(_translate("OhsomeToolsDialogBase", "Value"))
         self.label_4.setText(_translate("OhsomeToolsDialogBase", "OSM type"))
-        self.mcomboBox_osm_type.setCurrentText(
-            _translate("OhsomeToolsDialogBase", "Node")
-        )
-        self.mcomboBox_osm_type.setDefaultText(
-            _translate("OhsomeToolsDialogBase", "Node")
-        )
-        self.mcomboBox_osm_type.setItemText(
-            0, _translate("OhsomeToolsDialogBase", "Node")
-        )
-        self.mcomboBox_osm_type.setItemText(
-            1, _translate("OhsomeToolsDialogBase", "Way")
-        )
-        self.mcomboBox_osm_type.setItemText(
-            2, _translate("OhsomeToolsDialogBase", "Relation")
-        )
-        self.tabWidget_simple_advanced.setTabText(
-            self.tabWidget_simple_advanced.indexOf(self.tab_simple),
-            _translate("OhsomeToolsDialogBase", "Simple"),
-        )
-        self.filter_label.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
-            )
-        )
-        self.filter_label.setText(
-            _translate("OhsomeToolsDialogBase", "Filter  ")
-        )
-        self.filter_help.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "Filter specific help page. Scroll to bottom to see examples.",
-            )
-        )
+        self.mcomboBox_osm_type.setCurrentText(_translate("OhsomeToolsDialogBase", "Node"))
+        self.mcomboBox_osm_type.setDefaultText(_translate("OhsomeToolsDialogBase", "Node"))
+        self.mcomboBox_osm_type.setItemText(0, _translate("OhsomeToolsDialogBase", "Node"))
+        self.mcomboBox_osm_type.setItemText(1, _translate("OhsomeToolsDialogBase", "Way"))
+        self.mcomboBox_osm_type.setItemText(2, _translate("OhsomeToolsDialogBase", "Relation"))
+        self.tabWidget_simple_advanced.setTabText(self.tabWidget_simple_advanced.indexOf(self.tab_simple), _translate("OhsomeToolsDialogBase", "Simple"))
+        self.filter_label.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href=\"https://docs.ohsome.org/ohsome-api/v1/filter.html\"><span style=\" text-decoration: underline; color:#2eb8e6;\">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>"))
+        self.filter_label.setText(_translate("OhsomeToolsDialogBase", "Filter  "))
+        self.filter_help.setToolTip(_translate("OhsomeToolsDialogBase", "Filter specific help page. Scroll to bottom to see examples."))
         self.filter_help.setText(_translate("OhsomeToolsDialogBase", "?"))
-        self.filter_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href="https://docs.ohsome.org/ohsome-api/v1/filter.html"><span style=" text-decoration: underline; color:#2eb8e6;">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>',
-            )
-        )
-        self.filter_input.setPlaceholderText(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "building=* or (type:way and highway=residential)",
-            )
-        )
-        self.tabWidget_simple_advanced.setTabText(
-            self.tabWidget_simple_advanced.indexOf(self.tab_advanced),
-            _translate("OhsomeToolsDialogBase", "Advanced"),
-        )
+        self.filter_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Combines several attributive filters, e.g. OSM type, the geometry (simple feature) type, as well as the OSM tag. </p><p>For more information see: <a href=\"https://docs.ohsome.org/ohsome-api/v1/filter.html\"><span style=\" text-decoration: underline; color:#2eb8e6;\">https://docs.ohsome.org/ohsome-api/v1/filter.html</span></a></p></body></html>"))
+        self.filter_input.setPlaceholderText(_translate("OhsomeToolsDialogBase", "building=* or (type:way and highway=residential)"))
+        self.tabWidget_simple_advanced.setTabText(self.tabWidget_simple_advanced.indexOf(self.tab_advanced), _translate("OhsomeToolsDialogBase", "Advanced"))
         self.label_7.setText(_translate("OhsomeToolsDialogBase", "Measure"))
-        self.radioButton_count.setText(
-            _translate("OhsomeToolsDialogBase", "Count")
-        )
-        self.radioButton_length.setText(
-            _translate("OhsomeToolsDialogBase", "Length")
-        )
-        self.radioButton_area.setText(
-            _translate("OhsomeToolsDialogBase", "Area")
-        )
-        self.radioButton_perimeter.setText(
-            _translate("OhsomeToolsDialogBase", "Perimeter")
-        )
+        self.radioButton_count.setText(_translate("OhsomeToolsDialogBase", "Count"))
+        self.radioButton_length.setText(_translate("OhsomeToolsDialogBase", "Length"))
+        self.radioButton_area.setText(_translate("OhsomeToolsDialogBase", "Area"))
+        self.radioButton_perimeter.setText(_translate("OhsomeToolsDialogBase", "Perimeter"))
         self.radioButton_tag.setText(_translate("OhsomeToolsDialogBase", "tag"))
-        self.group_results.setText(
-            _translate("OhsomeToolsDialogBase", "Group Results By ...")
-        )
-        self.radioButton_boundary.setText(
-            _translate("OhsomeToolsDialogBase", "boundary")
-        )
+        self.group_results.setText(_translate("OhsomeToolsDialogBase", "Group Results By ..."))
+        self.radioButton_boundary.setText(_translate("OhsomeToolsDialogBase", "boundary"))
         self.radioButton_key.setText(_translate("OhsomeToolsDialogBase", "key"))
-        self.radioButton_None.setText(
-            _translate("OhsomeToolsDialogBase", "None")
-        )
-        self.radioButton_osm_type.setText(
-            _translate("OhsomeToolsDialogBase", "OSM Type")
-        )
-        self.group_by_keys_label.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>OSM key e.g.: 'highway’, 'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
-            )
-        )
-        self.group_by_keys_label.setText(
-            _translate("OhsomeToolsDialogBase", "groupByKey")
-        )
-        self.group_by_values_label.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>OSM value(s) e.g.: 'primary’, 'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>",
-            )
-        )
-        self.group_by_values_label.setText(
-            _translate("OhsomeToolsDialogBase", "groupByValues")
-        )
-        self.date_end.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Enter your end date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">9th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
-            )
-        )
-        self.date_end.setDisplayFormat(
-            _translate("OhsomeToolsDialogBase", "dd-MM-yyyy")
-        )
-        self.date_end_label.setText(
-            _translate("OhsomeToolsDialogBase", "Date End")
-        )
-        self.date_start_label.setText(
-            _translate("OhsomeToolsDialogBase", "Date Start")
-        )
-        self.label_5.setText(
-            _translate("OhsomeToolsDialogBase", "Time Interval")
-        )
-        self.date_start.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=" text-decoration: underline;">dates from the </span><span style=" font-weight:600; text-decoration: underline;">8th</span><span style=" text-decoration: underline;"> of Oktober 2007</span> are valid.</p></body></html>',
-            )
-        )
-        self.date_start.setDisplayFormat(
-            _translate("OhsomeToolsDialogBase", "dd-MM-yyyy")
-        )
+        self.radioButton_None.setText(_translate("OhsomeToolsDialogBase", "None"))
+        self.radioButton_osm_type.setText(_translate("OhsomeToolsDialogBase", "OSM Type"))
+        self.group_by_keys_label.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>OSM key e.g.: \'highway’, \'building’; no default value (one groupByKey parameter must be defined).</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>"))
+        self.group_by_keys_label.setText(_translate("OhsomeToolsDialogBase", "groupByKey"))
+        self.group_by_values_label.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>OSM value(s) e.g.: \'primary’, \'residential’; default: no value. Can be left empty.</p><p><span style=\" text-decoration: underline;\">Only for `groupBy/tag` endpoints.</span></p></body></html>"))
+        self.group_by_values_label.setText(_translate("OhsomeToolsDialogBase", "groupByValues"))
+        self.date_end.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Enter your end date. </p><p><br/></p><p>All <span style=\" text-decoration: underline;\">dates from the </span><span style=\" font-weight:600; text-decoration: underline;\">9th</span><span style=\" text-decoration: underline;\"> of Oktober 2007</span> are valid.</p></body></html>"))
+        self.date_end.setDisplayFormat(_translate("OhsomeToolsDialogBase", "dd-MM-yyyy"))
+        self.date_end_label.setText(_translate("OhsomeToolsDialogBase", "Date End"))
+        self.date_start_label.setText(_translate("OhsomeToolsDialogBase", "Date Start"))
+        self.label_5.setText(_translate("OhsomeToolsDialogBase", "Time Interval"))
+        self.date_start.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Enter your start date. </p><p><br/></p><p>All <span style=\" text-decoration: underline;\">dates from the </span><span style=\" font-weight:600; text-decoration: underline;\">8th</span><span style=\" text-decoration: underline;\"> of Oktober 2007</span> are valid.</p></body></html>"))
+        self.date_start.setDisplayFormat(_translate("OhsomeToolsDialogBase", "dd-MM-yyyy"))
         self.label_years.setText(_translate("OhsomeToolsDialogBase", "Years"))
         self.label_days.setText(_translate("OhsomeToolsDialogBase", "Days"))
         self.label_months.setText(_translate("OhsomeToolsDialogBase", "Months"))
-        self.interval_months.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Run the query every x months. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
-            )
-        )
-        self.interval_days.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Run the query every x days. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>",
-            )
-        )
-        self.interval_years.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Run the query every <span style=" text-decoration: underline;">x</span> years. Adjust the time frame accordingly.</p><p>Only available for the data aggregation endpoints.</p></body></html>',
-            )
-        )
+        self.interval_months.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Run the query every x months. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>"))
+        self.interval_days.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Run the query every x days. Adjust the time frame accordingly.</p><p><br/></p><p>Only available for the data aggregation endpoints.</p></body></html>"))
+        self.interval_years.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Run the query every <span style=\" text-decoration: underline;\">x</span> years. Adjust the time frame accordingly.</p><p>Only available for the data aggregation endpoints.</p></body></html>"))
         self.label_8.setText(_translate("OhsomeToolsDialogBase", "Time Period"))
-        self.centroid_list_point_add.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Add centroids interactively from the map canvas.</p><p>Double-click will terminate centroid selection.</p></body></html>",
-            )
-        )
-        self.centroid_list_point_clear.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>If centroids are selected in the list, only these will be deleted. Else all centroids will be deleted.</p></body></html>",
-            )
-        )
-        self.ohsome_centroid_location_list.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "Select centroids from the map with the given radius!",
-            )
-        )
-        self.centroid_radius_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
-            )
-        )
-        self.centroid_radius_label.setText(
-            _translate("OhsomeToolsDialogBase", "Radius [m]")
-        )
-        self.request_types_widget.setTabText(
-            self.request_types_widget.indexOf(self.centroid_tab),
-            _translate("OhsomeToolsDialogBase", "Centroid"),
-        )
-        self.point_layer_radius_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Add a centroid radius <span style=" text-decoration: underline;">in meters</span> per centroid. Default is <span style=" text-decoration: underline;">10 meters</span>.</p></body></html>',
-            )
-        )
-        self.point_layer_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
-            )
-        )
-        self.point_layer_radius_label.setText(
-            _translate("OhsomeToolsDialogBase", "Radius [m]")
-        )
-        self.point_layer_list.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase", "Select layers from your layer list!"
-            )
-        )
-        self.point_layer_list_remove.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>",
-            )
-        )
-        self.point_layer_list_add.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
-            )
-        )
-        self.request_types_widget.setTabText(
-            self.request_types_widget.indexOf(self.point_layer_tab),
-            _translate("OhsomeToolsDialogBase", "Point Layer"),
-        )
-        self.layer_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>",
-            )
-        )
-        self.layer_list.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase", "Select layers from your layer list!"
-            )
-        )
-        self.layer_list_remove.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>If layers are selected in the list, only these will be deleted.</p></body></html>",
-            )
-        )
-        self.layer_list_add.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Add layers interactively from your layer list.</p></body></html>",
-            )
-        )
-        self.request_types_widget.setTabText(
-            self.request_types_widget.indexOf(self.polygon_layer_tab),
-            _translate("OhsomeToolsDialogBase", "Polygon layer"),
-        )
-        self.general_options_group.setTitle(
-            _translate("OhsomeToolsDialogBase", "Advanced Parameters")
-        )
-        self.provider_refresh.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "Refresh the provider list. Needed after a provider was added or deleted.",
-            )
-        )
+        self.centroid_list_point_add.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Add centroids interactively from the map canvas.</p><p>Double-click will terminate centroid selection.</p></body></html>"))
+        self.centroid_list_point_clear.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>If centroids are selected in the list, only these will be deleted. Else all centroids will be deleted.</p></body></html>"))
+        self.ohsome_centroid_location_list.setToolTip(_translate("OhsomeToolsDialogBase", "Select centroids from the map with the given radius!"))
+        self.centroid_radius_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Add a centroid radius <span style=\" text-decoration: underline;\">in meters</span> per centroid. Default is <span style=\" text-decoration: underline;\">10 meters</span>.</p></body></html>"))
+        self.centroid_radius_label.setText(_translate("OhsomeToolsDialogBase", "Radius [m]"))
+        self.request_types_widget.setTabText(self.request_types_widget.indexOf(self.centroid_tab), _translate("OhsomeToolsDialogBase", "Centroid"))
+        self.layer_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Select Polygon / MultiPolygon layers to query with.</p></body></html>"))
+        self.label_9.setText(_translate("OhsomeToolsDialogBase", "Layer:"))
+        self.request_types_widget.setTabText(self.request_types_widget.indexOf(self.layer_tab), _translate("OhsomeToolsDialogBase", "Layer"))
+        self.point_layer_radius_label.setText(_translate("OhsomeToolsDialogBase", "Radius [m]"))
+        self.point_layer_radius_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Add a centroid radius <span style=\" text-decoration: underline;\">in meters</span> per centroid. Default is <span style=\" text-decoration: underline;\">10 meters</span>.</p></body></html>"))
+        self.general_options_group.setTitle(_translate("OhsomeToolsDialogBase", "Advanced Parameters"))
+        self.provider_refresh.setToolTip(_translate("OhsomeToolsDialogBase", "Refresh the provider list. Needed after a provider was added or deleted."))
         self.label_15.setText(_translate("OhsomeToolsDialogBase", "Provider"))
-        self.provider_config.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "Shortcut to Web ► ohsomeTools ► Provider Settings",
-            )
-        )
-        self.label.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
-            )
-        )
+        self.provider_config.setToolTip(_translate("OhsomeToolsDialogBase", "Shortcut to Web ► ohsomeTools ► Provider Settings"))
+        self.label.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>"))
         self.label.setText(_translate("OhsomeToolsDialogBase", "Format"))
-        self.data_aggregation_format.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>",
-            )
-        )
-        self.check_activate_temporal.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Automatically enable the temporal feature for new layers where applicable.</p><p><br/></p><p>This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</p></body></html>",
-            )
-        )
-        self.check_activate_temporal.setText(
-            _translate("OhsomeToolsDialogBase", "Qgis temporal feature")
-        )
-        self.check_show_metadata.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "<html><head/><body><p>Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</p></body></html>",
-            )
-        )
-        self.check_show_metadata.setText(
-            _translate("OhsomeToolsDialogBase", "Show metadata")
-        )
-        self.check_keep_geometryless.setText(
-            _translate("OhsomeToolsDialogBase", "Also save only data")
-        )
-        self.check_merge_geometries.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Check this to <span style=" text-decoration: underline;">automatically merge compatible geometry types</span>. </p><p><span style=" text-decoration: underline;">It is recommended to keep this checked.</span></p><p>The benefit is that the amount of written layers will be massively reduced.</p><p>The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. </p><p><br/></p></body></html>',
-            )
-        )
-        self.check_merge_geometries.setText(
-            _translate(
-                "OhsomeToolsDialogBase", "Harmonize geometries in output"
-            )
-        )
-        self.timeout_label.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.</p></body></html>',
-            )
-        )
-        self.timeout_label.setText(
-            _translate("OhsomeToolsDialogBase", "Timeout")
-        )
-        self.timeout_input.setToolTip(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p>Apply a request <span style=" text-decoration: underline;">timeout in seconds</span> after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public ohsome API and not for private ones.</p></body></html>',
-            )
-        )
-        self.label_output.setText(
-            _translate("OhsomeToolsDialogBase", "Output:")
-        )
-        self.pushButton_output.setText(
-            _translate("OhsomeToolsDialogBase", "...")
-        )
-        self.tabWidget_main.setTabText(
-            self.tabWidget_main.indexOf(self.tab),
-            _translate("OhsomeToolsDialogBase", "Parameter"),
-        )
-        self.debug_text.setPlaceholderText(
-            _translate(
-                "OhsomeToolsDialogBase",
-                "Queries and errors will be printed here.",
-            )
-        )
-        self.tabWidget_main.setTabText(
-            self.tabWidget_main.indexOf(self.tab_2),
-            _translate("OhsomeToolsDialogBase", "Log"),
-        )
-        self.resources_group.setTitle(
-            _translate("OhsomeToolsDialogBase", "Resources")
-        )
-        self.api_label.setText(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p><a href="https://docs.ohsome.org/ohsome-api/stable/"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">API DOCS</span></a></p></body></html>',
-            )
-        )
-        self.ohsome_label.setText(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p><a href="https://heigit.org/big-spatial-data-analytics-en/ohsome/"><span style=" font-size:14pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">OHSOME</span></a></p></body></html>',
-            )
-        )
-        self.oqt_label.setText(
-            _translate(
-                "OhsomeToolsDialogBase",
-                '<html><head/><body><p><a href="https://oqt.ohsome.org"><span style=" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;">OQT</span></a></p></body></html>',
-            )
-        )
-
-
+        self.data_aggregation_format.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Output format geojson (for /groupBy/boundary resources only), or json.</p></body></html>"))
+        self.check_activate_temporal.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Automatically enable the temporal feature for new layers where applicable.</p><p><br/></p><p>This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</p></body></html>"))
+        self.check_activate_temporal.setText(_translate("OhsomeToolsDialogBase", "Qgis temporal feature"))
+        self.check_show_metadata.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Include metadata into the query response. Depending on the request of the request this can increase the response data size significantly.</p></body></html>"))
+        self.check_show_metadata.setText(_translate("OhsomeToolsDialogBase", "Show metadata"))
+        self.check_keep_geometryless.setText(_translate("OhsomeToolsDialogBase", "Also save only data"))
+        self.check_merge_geometries.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Check this to <span style=\" text-decoration: underline;\">automatically merge compatible geometry types</span>. </p><p><span style=\" text-decoration: underline;\">It is recommended to keep this checked.</span></p><p>The benefit is that the amount of written layers will be massively reduced.</p><p>The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers. </p><p><br/></p></body></html>"))
+        self.check_merge_geometries.setText(_translate("OhsomeToolsDialogBase", "Harmonize geometries in output"))
+        self.timeout_label.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Apply a request <span style=\" text-decoration: underline;\">timeout in seconds</span> after that the ohsome API should terminate the request.</p><p>For the public ohsome API instance the maximum value is 100. For private instances there is no maximum.</p></body></html>"))
+        self.timeout_label.setText(_translate("OhsomeToolsDialogBase", "Timeout"))
+        self.timeout_input.setToolTip(_translate("OhsomeToolsDialogBase", "<html><head/><body><p>Apply a request <span style=\" text-decoration: underline;\">timeout in seconds</span> after that the ohsome API should terminate the request. If the value 0 is set (default), the server side timeout is used automatically, which can be up to 600 seconds.</p><p>Depending on the size of the query, too low entries will yield API errors.</p><p>This setting is only used for the public ohsome API and not for private ones.</p></body></html>"))
+        self.label_output.setText(_translate("OhsomeToolsDialogBase", "Output:"))
+        self.pushButton_output.setText(_translate("OhsomeToolsDialogBase", "..."))
+        self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab), _translate("OhsomeToolsDialogBase", "Parameter"))
+        self.debug_text.setPlaceholderText(_translate("OhsomeToolsDialogBase", "Queries and errors will be printed here."))
+        self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_2), _translate("OhsomeToolsDialogBase", "Log"))
+        self.resources_group.setTitle(_translate("OhsomeToolsDialogBase", "Resources"))
+        self.api_label.setText(_translate("OhsomeToolsDialogBase", "<html><head/><body><p><a href=\"https://docs.ohsome.org/ohsome-api/stable/\"><span style=\" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;\">API DOCS</span></a></p></body></html>"))
+        self.ohsome_label.setText(_translate("OhsomeToolsDialogBase", "<html><head/><body><p><a href=\"https://heigit.org/big-spatial-data-analytics-en/ohsome/\"><span style=\" font-size:14pt; font-weight:600; text-decoration: underline; color:#2eb8e6;\">OHSOME</span></a></p></body></html>"))
+        self.oqt_label.setText(_translate("OhsomeToolsDialogBase", "<html><head/><body><p><a href=\"https://oqt.ohsome.org\"><span style=\" font-size:12pt; font-weight:600; text-decoration: underline; color:#2eb8e6;\">OQT</span></a></p></body></html>"))
 from qgscheckablecombobox import QgsCheckableComboBox
 from qgscollapsiblegroupbox import QgsCollapsibleGroupBox
 from qgsmaplayercombobox import QgsMapLayerComboBox
-
 # import resources_rc

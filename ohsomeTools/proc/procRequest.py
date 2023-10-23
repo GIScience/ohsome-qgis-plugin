@@ -53,7 +53,6 @@ def processing_request(
         return True
     elif "result" in result.keys() and len(result.get("result")) > 0:
         # Process flat tables
-        print(file)
         header = result["result"][0].keys()
         vlayer = request_core.create_ohsome_csv_layer(
             iface,
