@@ -708,9 +708,6 @@ class OhsomeToolsDialog(QDialog, Ui_OhsomeToolsDialogBase):
 
     def _on_linetool_init(self):
         """Inits line maptool and add items to point list box."""
-        self.ohsome_centroid_location_list.clear()
-        # Remove all annotations which were added (if any)
-        self._clear_annotations()
 
         self.point_tool = maptools.PointTool(self._iface.mapCanvas())
         self._iface.mapCanvas().setMapTool(self.point_tool)
