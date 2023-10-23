@@ -415,7 +415,7 @@ class OhsomeToolsDialogMain:
 
             elif tab_index == 1 and self.dlg.layer_input.currentLayer().geometryType() == QgsWkbTypes.LineGeometry:
                 self.iface.messageBar().pushMessage(
-                    "Line layer selected.",
+                    "Wrong layer selected.",
                     "Please select point or polygon layer.",
                     level=Qgis.Warning,
                     duration=5,
