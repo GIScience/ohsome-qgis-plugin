@@ -128,7 +128,7 @@ class OhsomeSpec:
     def _request_url(self):
         # Construct request url
         text = self.dlg.buttonGroup_groupby.checkedButton().text()
-        if text != "None":
+        if text != 'None':
             if text == "OSM Type":
                 group_by = f"/groupBy/type"
             else:
@@ -254,19 +254,15 @@ class OhsomeSpec:
         properties = {}
         if self._api_spec.lower() == "data-aggregation":
             properties["format"] = self._data_aggregation_format
-            if any(
-                groupby in self._request_url.lower()
-                for groupby in ["groupBy/key", "groupBy/tag"]
+            if "groupby/tag" in self._request_url.lower() and len(
+                    self._group_by_values
             ):
                 properties["groupByKey"] = self._group_by_key
-            if "groupBy/tag" in self._request_url.lower() and len(
+                properties["groupByValues"] = self._group_by_values
+            elif "groupby/key" in self._request_url.lower() and len(
                 self._group_by_values
             ):
-                properties["groupByValues"] = self._group_by_values
-            if "ratio" in self._request_url.lower() and len(
-                self._request_filter2
-            ):
-                properties["filter2"] = self._request_filter2
+                properties["groupByKeys"] = self._group_by_values
         properties["showMetadata"] = self._show_metadata.__str__().lower()
         properties["filter"] = self._request_filter
         properties["time"] = self._request_date_string
