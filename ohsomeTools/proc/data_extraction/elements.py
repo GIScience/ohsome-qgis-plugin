@@ -143,7 +143,7 @@ class Elements(QgsProcessingAlgorithm):
         <li><em>Keep without geometry</em>: Some results don&#39;t contain geometries but metadata. Decide if you wan&#39;t to keep them or only return ones with geometries. If checked, the geometry less features will be stored separately.</li>
         <li><em>Harmonize geometries</em>: Check this to <ins>automatically merge compatible geometry types</ins> It is recommended to keep this checked. The benefit is that the amount of written layers will be massively reduced. The reason is that results may contain single and multi-geometries at once (Polygon, MultiPolygon etc.) and without combining them one layer per geometry type will be written, resulting in an increased number of layers.</li>
         <li><em>Qgis temporal feature</em>: Automatically enable the temporal feature for new layers where applicable. This is only applied to responses that contain geometries and in that manner only on those geometry layers it makes sense for.</li>
-        <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Ony available for the data extraction endpoints</ins></li>
+        <li><em>Clip geometries</em>: Specify whether the returned geometries of the features should be clipped to the query’s spatial boundary. <ins>Only available for the data extraction endpoints</ins></li>
         </ul>"""
         )
 
