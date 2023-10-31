@@ -405,7 +405,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
             .replace('"properties":null', '"properties":{"":""}')
             for lyr in layer_list
         ]
-        return geojsons
+        return geojsons[0]
 
     def is_valid(self, warn: bool = False) -> bool:
         if self.params["selection"] == "metadata":
