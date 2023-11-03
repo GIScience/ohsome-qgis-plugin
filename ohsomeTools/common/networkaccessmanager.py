@@ -203,6 +203,22 @@ class NetworkAccessManager(object):
         """
         self.msg_log("http_call request: {0}".format(url))
 
+        if body and "bcircles" in body.keys() and len(body["bcircles"]) > 5:
+            split = body["bcircles"].split("|")[0:2]
+            b = body.copy()
+            b["bcircles"] = f'{"|".join(split[0:2])}|[...]'
+        else:
+            b = body
+
+        logger.log(
+            "url: {}\nParameters: {}".format(
+                url,
+                # final_requests_kwargs
+                json.dumps(b, indent=2),
+            ),
+            0,
+        )
+
         self.blocking_mode = blocking
         req = QNetworkRequest()
         # Avoid double quoting form QUrl

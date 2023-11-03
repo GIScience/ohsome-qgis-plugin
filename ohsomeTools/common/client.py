@@ -137,22 +137,6 @@ class Client(QObject):
             body = post_json
             requests_method = "POST"
 
-        if body and "bcircles" in body.keys() and len(body["bcircles"]) > 5:
-            split = body["bcircles"].split("|")[0:2]
-            b = body.copy()
-            b["bcircles"] = f'{"|".join(split[0:2])}|[...]'
-        else:
-            b = body
-
-        logger.log(
-            "url: {}\nParameters: {}".format(
-                self.url,
-                # final_requests_kwargs
-                json.dumps(b, indent=2),
-            ),
-            0,
-        )
-
         try:
             # response = requests_method(
             #     self.base_url + authed_url,
