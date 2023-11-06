@@ -20,7 +20,6 @@ The Temporal Controller can be accessed via `View` -> `Panels` -> `Temporal Cont
 
 ![Screenshot](static/ohsome_tab1.png)
 ![Screenshot](static/ohsome_tab2.png)
-![Screenshot](static/ohsome_tab3.png)
 
 **Note, only QGIS >= v3.14 is supported.**
 
@@ -79,12 +78,15 @@ QGIS version: min. **v3.14**
 
 ### Installation
 
-At the moment only a private QGIS repository installation is available. It will be published in the public repository, once it reaches a decent version.
+#### Install via QGIS repository
+
+Install from the QGis-plugin-manager. Just search for ohsomeTools and click install.   
+- `Plugins -> Manage and Install Plugins -> Not Installed -> Search for "OhsomeTools" -> Click "Install Plugin"`
 
 #### Install via private QGIS repository
 
 Open the repository manager:
-- `Plugins -> Manage and Install PluginsPlugins -> Manage and Install Plugins -> Settings -> Scroll down to "Plugin Repositories" -> Press Add`
+- `Plugins -> Manage and Install Plugins -> Settings -> Scroll down to "Plugin Repositories" -> Press Add`
 
 Insert and apply the following details for a new private qgis repository:
 ```text
