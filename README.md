@@ -80,7 +80,7 @@ QGIS version: min. **v3.14**
 
 #### Install via QGIS repository
 
-Install from the QGis-plugin-manager. Just search for ohsomeTools and click install.   
+Install from the QGis-plugin-manager. Just search for ohsomeTools and click install.
 - `Plugins -> Manage and Install Plugins -> Not Installed -> Search for "OhsomeTools" -> Click "Install Plugin"`
 
 #### Install via private QGIS repository
