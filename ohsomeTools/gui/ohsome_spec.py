@@ -442,14 +442,11 @@ class ProcessingOhsomeSpec(OhsomeSpec):
         return True
 
     def _get_selected_point_layers_geometries(self) -> {}:
-        ordered_layer_radii = []
         ordered_list_of_features = []
         point_layers_list = [self.params["LAYER"]]
-        # for idx in range(point_layers_list.count()):
         for item in point_layers_list:
             file_name = item.name()
             radius = self.params["RADIUS"]
-            ordered_layer_radii.append(int(radius))
             layers = QgsProject.instance().mapLayersByName(file_name)
             layers = [
                 layer
@@ -469,7 +466,7 @@ class ProcessingOhsomeSpec(OhsomeSpec):
             ]
             ordered_list_of_features.extend(features)
         list_of_coordinates = convert_point_features_to_ohsome_bcircles(
-            ordered_list_of_features, ordered_layer_radii
+            ordered_list_of_features, radius
         )
         return list_of_coordinates
 
