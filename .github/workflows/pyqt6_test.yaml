@@ -15,4 +15,4 @@ jobs:
   pyqt6-check:
     uses: qgis/qgis-plugin-ci/.github/workflows/pyqt6_test.yml@master
     with:
-      plugin_path: minimal
+      plugin_path: ohsome_osm_downloader

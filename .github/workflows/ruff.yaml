@@ -18,7 +18,7 @@ jobs:
       - run: pip install ruff
       
       - name: Lint with ruff
-        run: ruff check minimal/ tests/
+        run: ruff check ohsome_osm_downloader/ tests/
       
       - name: Format check
-        run: ruff format --check minimal/ tests/
+        run: ruff format --check ohsome_osm_downloader/ tests/

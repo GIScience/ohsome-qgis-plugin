@@ -6,7 +6,7 @@ class TestSmoke:
 
     def test_plugin_imports(self, mock_qgis_modules):
         """Test plugin can be imported."""
-        from minimal import MinimalPlugin, classFactory
+        from ohsome_osm_downloader import MinimalPlugin, classFactory
         assert MinimalPlugin is not None
         assert classFactory is not None
 

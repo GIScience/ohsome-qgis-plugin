@@ -1,7 +1,7 @@
 [general]
 name=Minimal
 description=Minimal plugin
-about=About this minimal plugin
+about=About this ohsome_osm_downloader plugin
 version=1.0
 qgisMinimumVersion=3.0
 author=Martin Dobias

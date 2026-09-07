@@ -80,7 +80,7 @@ def mock_iface(mock_qgis_modules):
 @pytest.fixture
 def plugin_class(mock_qgis_modules):
     """Import and return the plugin class."""
-    from minimal import MinimalPlugin
+    from ohsome_osm_downloader import MinimalPlugin
     return MinimalPlugin
 
 
