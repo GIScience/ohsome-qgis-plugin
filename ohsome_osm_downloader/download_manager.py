@@ -1,22 +1,24 @@
-import requests
-from qgis.core import QgsVectorLayer, QgsProject, QgsFeature, QgsWkbTypes
-from qgis.PyQt.QtCore import QDateTime
+import json
+
+from qgis.PyQt.QtCore import QUrl
+from qgis.PyQt.QtNetwork import QNetworkRequest
+from qgis.core import (
+    QgsVectorLayer,
+    QgsProject,
+    QgsFeature,
+    QgsWkbTypes,
+    QgsBlockingNetworkRequest,
+)
 
 OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
 
-GEOMETRY_TYPES = ("geometry", "bbox", "centroid")
-
-ENDPOINT_BY_GEOMETRY_TYPE = {
-    "geometry": "extraction/features.parquet",
-    "bbox": "extraction/bbox.parquet",
-    "centroid": "extraction/centroid.parquet",
-}
+EXTRACTION_ENDPOINT = "extraction/features.parquet"
 
 
 class OhsomeDownloadManager:
     """Handles building requests to the ohsome API extraction endpoint
     and converting GeoParquet responses into QGIS vector layers using
-    GDAL's OGR Parquet driver (no geopandas/pyarrow dependency).
+    GDAL's OGR Parquet driver.
     """
 
     def __init__(self, base_url: str = OHSOME_BASE_URL):
@@ -52,40 +54,44 @@ class OhsomeDownloadManager:
         return body
 
     def fetch_parquet_bytes(
-        self, geometry_type: str, body: dict, api_key: str | None = None
+        self, body: dict, api_key: str | None = None
     ) -> bytes:
         """Call the ohsome extraction endpoint and return the raw
-        GeoParquet response bytes.
+        GeoParquet response bytes, using QgsBlockingNetworkRequest.
 
-        :param geometry_type: one of GEOMETRY_TYPES to select the endpoint
         :param api_key: optional ohsome API key, sent raw in the
             "authorization" header
         """
-        if geometry_type not in ENDPOINT_BY_GEOMETRY_TYPE:
-            raise ValueError(f"Invalid geometry_type: {geometry_type}")
+        url = f"{self.base_url}/{EXTRACTION_ENDPOINT}"
 
-        endpoint = ENDPOINT_BY_GEOMETRY_TYPE[geometry_type]
-        url = f"{self.base_url}/{endpoint}"
-
-        headers = {
-            "accept": "application/octet-stream",
-            "Content-Type": "application/json",
-        }
-        if api_key:
-            headers["authorization"] = api_key
-
-        response = requests.post(
-            url, json=body, headers=headers, timeout=120
+        request = QNetworkRequest(QUrl(url))
+        request.setHeader(
+            QNetworkRequest.KnownHeaders.ContentTypeHeader,
+            "application/json",
         )
-        if not response.ok:
+        request.setRawHeader(b"accept", b"application/octet-stream")
+        if api_key:
+            request.setRawHeader(b"authorization", api_key.encode("utf-8"))
+
+        payload = json.dumps(body).encode("utf-8")
+
+        blocking_request = QgsBlockingNetworkRequest()
+        error_code = blocking_request.post(request, payload)
+
+        reply = blocking_request.reply()
+
+        if error_code != QgsBlockingNetworkRequest.ErrorCode.NoError:
+            content = bytes(reply.content())
             try:
-                detail = response.json()
-            except ValueError:
-                detail = response.text
+                detail = json.loads(content.decode("utf-8"))
+            except (ValueError, UnicodeDecodeError):
+                detail = content.decode("utf-8", errors="replace")
             raise RuntimeError(
-                f"{response.status_code} {response.reason}: {detail}"
+                f"Request failed ({blocking_request.errorMessage()}): "
+                f"{detail}"
             )
-        return response.content
+
+        return bytes(reply.content())
 
     def parquet_bytes_to_layer(
         self, data: bytes, layer_name: str

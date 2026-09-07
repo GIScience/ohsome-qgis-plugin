@@ -5,7 +5,6 @@ from qgis.PyQt.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
-    QComboBox,
     QCheckBox,
     QRadioButton,
     QButtonGroup,
@@ -24,7 +23,7 @@ from qgis.core import (
 )
 from qgis.utils import iface
 
-from .download_manager import OhsomeDownloadManager, GEOMETRY_TYPES
+from .download_manager import OhsomeDownloadManager
 
 SETTINGS_GROUP = "ohsome_osm_downloader"
 SETTINGS_API_KEY = "api_key"
@@ -80,13 +79,6 @@ class OhsomeExtractionWidget(QDialog):
         )
         filter_layout.addWidget(self.filter_edit)
         layout.addWidget(filter_group)
-
-        # --- Geometry type ---
-        geom_form = QFormLayout()
-        self.geometry_type_combo = QComboBox()
-        self.geometry_type_combo.addItems(GEOMETRY_TYPES)
-        geom_form.addRow("Geometry type:", self.geometry_type_combo)
-        layout.addLayout(geom_form)
 
         # --- Time ---
         time_group = QGroupBox("Time")
@@ -203,7 +195,6 @@ class OhsomeExtractionWidget(QDialog):
 
         self._save_settings()
 
-        geometry_type = self.geometry_type_combo.currentText()
         aoi = self._get_aoi()
         time = self._get_time_value()
         properties = self._get_properties()
@@ -220,7 +211,7 @@ class OhsomeExtractionWidget(QDialog):
 
         try:
             data = self.manager.fetch_parquet_bytes(
-                geometry_type, body, api_key=api_key or None
+                body, api_key=api_key or None
             )
             layer = self.manager.parquet_bytes_to_layer(data, output_name)
         except Exception as exc:  # noqa: BLE001
@@ -232,7 +223,6 @@ class OhsomeExtractionWidget(QDialog):
         layers = self.manager.split_layer_by_geometry_type(layer, output_name)
 
         if split_by_timestamp:
-            # Further split each geometry-type layer by timestamp
             final_layers = []
             for geom_layer in layers:
                 final_layers.extend(
