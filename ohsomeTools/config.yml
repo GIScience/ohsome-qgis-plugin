@@ -1,9 +1,0 @@
-providers:
-- base_url: https://api.ohsome.org/v1
-  key: null
-  name: ohsome Public API
-- base_url: http://localhost:8080
-  key: null
-  name: Local ohsome API example
-runtime:
-  debug: false
