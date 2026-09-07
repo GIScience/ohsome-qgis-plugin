@@ -1,12 +1,16 @@
 import requests
-from qgis.core import QgsVectorLayer, QgsProject
+from qgis.core import QgsVectorLayer, QgsProject, QgsFeature, QgsWkbTypes
 from qgis.PyQt.QtCore import QDateTime
 
 OHSOME_BASE_URL = "https://api.heigit.org/ohsome-api/v2-rc"
 
 GEOMETRY_TYPES = ("geometry", "bbox", "centroid")
 
-EXTRACTION_ENDPOINT = "extraction/features.parquet"
+ENDPOINT_BY_GEOMETRY_TYPE = {
+    "geometry": "extraction/features.parquet",
+    "bbox": "extraction/bbox.parquet",
+    "centroid": "extraction/centroid.parquet",
+}
 
 
 class OhsomeDownloadManager:
@@ -32,7 +36,7 @@ class OhsomeDownloadManager:
         :param aoi: bounding box as [west, south, east, north]
         :param ohsome_filter: raw ohsome filter string
         :param time: either a single ISO8601 string, "latest", or a dict
-            with "start"/"end"/"interval" keys for a time range
+            with "start"/"end" keys for a time range
         :param clip: whether to clip geometries to the AOI
         :param properties: list of extra properties to request,
             e.g. ["tags", "metadata"]
@@ -48,15 +52,20 @@ class OhsomeDownloadManager:
         return body
 
     def fetch_parquet_bytes(
-        self, body: dict, api_key: str | None = None
+        self, geometry_type: str, body: dict, api_key: str | None = None
     ) -> bytes:
         """Call the ohsome extraction endpoint and return the raw
         GeoParquet response bytes.
 
+        :param geometry_type: one of GEOMETRY_TYPES to select the endpoint
         :param api_key: optional ohsome API key, sent raw in the
             "authorization" header
         """
-        url = f"{self.base_url}/{EXTRACTION_ENDPOINT}"
+        if geometry_type not in ENDPOINT_BY_GEOMETRY_TYPE:
+            raise ValueError(f"Invalid geometry_type: {geometry_type}")
+
+        endpoint = ENDPOINT_BY_GEOMETRY_TYPE[geometry_type]
+        url = f"{self.base_url}/{endpoint}"
 
         headers = {
             "accept": "application/octet-stream",
@@ -109,6 +118,45 @@ class OhsomeDownloadManager:
             )
         return layer
 
+    def split_layer_by_geometry_type(
+        self, layer: QgsVectorLayer, layer_name: str
+    ) -> list[QgsVectorLayer]:
+        """Split a loaded layer into multiple memory layers grouped by
+        geometry type (Point, LineString, Polygon, etc.).
+        """
+        geom_types: dict[int, list] = {}
+
+        for feature in layer.getFeatures():
+            geom = feature.geometry()
+            if geom.isNull():
+                continue
+            wkb_type = geom.wkbType()
+            geom_types.setdefault(wkb_type, []).append(feature)
+
+        layers = []
+        for wkb_type, features in geom_types.items():
+            geom_name = QgsWkbTypes.displayString(wkb_type)
+            sub_layer = QgsVectorLayer(
+                f"{geom_name}?crs={layer.crs().authid()}",
+                f"{layer_name}_{geom_name}",
+                "memory",
+            )
+            provider = sub_layer.dataProvider()
+            provider.addAttributes(layer.fields())
+            sub_layer.updateFields()
+
+            new_features = []
+            for feature in features:
+                new_feature = QgsFeature(sub_layer.fields())
+                new_feature.setGeometry(feature.geometry())
+                new_feature.setAttributes(feature.attributes())
+                new_features.append(new_feature)
+
+            provider.addFeatures(new_features)
+            sub_layer.updateExtents()
+            layers.append(sub_layer)
+        return layers
+
     def split_layer_by_timestamp(
         self, layer: QgsVectorLayer, layer_name: str
     ) -> list[QgsVectorLayer]:
@@ -120,7 +168,8 @@ class OhsomeDownloadManager:
         if timestamp_field is None:
             return [layer]
 
-        values = layer.uniqueValues(layer.fields().indexOf(timestamp_field))
+        field_index = layer.fields().indexOf(timestamp_field)
+        values = layer.uniqueValues(field_index)
 
         layers = []
         for value in sorted(values, key=str):
@@ -133,10 +182,15 @@ class OhsomeDownloadManager:
             provider.addAttributes(layer.fields())
             sub_layer.updateFields()
 
-            expression = f'"{timestamp_field}" = \'{value}\''
-            matching_features = [
-                f for f in layer.getFeatures() if f[timestamp_field] == value
-            ]
+            matching_features = []
+            for feature in layer.getFeatures():
+                if feature[timestamp_field] != value:
+                    continue
+                new_feature = QgsFeature(sub_layer.fields())
+                new_feature.setGeometry(feature.geometry())
+                new_feature.setAttributes(feature.attributes())
+                matching_features.append(new_feature)
+
             provider.addFeatures(matching_features)
             sub_layer.updateExtents()
             layers.append(sub_layer)

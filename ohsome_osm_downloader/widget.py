@@ -112,8 +112,6 @@ class OhsomeExtractionWidget(QDialog):
         self.start_date_edit.setCalendarPopup(True)
         self.end_date_edit = QDateEdit(QDate.currentDate())
         self.end_date_edit.setCalendarPopup(True)
-        self.interval_edit = QLineEdit("P1M")
-        self.interval_edit.setPlaceholderText("ISO8601 interval, e.g. P1M")
         range_row.addWidget(QLabel("Start:"))
         range_row.addWidget(self.start_date_edit)
         range_row.addWidget(QLabel("End:"))
@@ -174,23 +172,6 @@ class OhsomeExtractionWidget(QDialog):
             extent.xMaximum(),
             extent.yMaximum(),
         ]
-    
-    def _get_bbox_string(self) -> str:
-        extent: QgsRectangle = self.extent_widget.outputExtent()
-        return (
-            f"{extent.xMinimum()},{extent.yMinimum()},"
-            f"{extent.xMaximum()},{extent.yMaximum()}"
-        )
-
-    def _get_time_string(self) -> str:
-        if self.single_time_radio.isChecked():
-            return self.single_date_edit.date().toString(
-                "yyyy-MM-dd'T00:00:00Z'"
-            )
-        start = self.start_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
-        end = self.end_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
-        interval = self.interval_edit.text().strip()
-        return f"{start}/{end}/{interval}"
 
     def _get_properties(self) -> list[str]:
         props = []
@@ -222,6 +203,7 @@ class OhsomeExtractionWidget(QDialog):
 
         self._save_settings()
 
+        geometry_type = self.geometry_type_combo.currentText()
         aoi = self._get_aoi()
         time = self._get_time_value()
         properties = self._get_properties()
@@ -238,7 +220,7 @@ class OhsomeExtractionWidget(QDialog):
 
         try:
             data = self.manager.fetch_parquet_bytes(
-                body, api_key=api_key or None
+                geometry_type, body, api_key=api_key or None
             )
             layer = self.manager.parquet_bytes_to_layer(data, output_name)
         except Exception as exc:  # noqa: BLE001
@@ -247,10 +229,18 @@ class OhsomeExtractionWidget(QDialog):
             )
             return
 
+        layers = self.manager.split_layer_by_geometry_type(layer, output_name)
+
         if split_by_timestamp:
-            layers = self.manager.split_layer_by_timestamp(layer, output_name)
-        else:
-            layers = [layer]
+            # Further split each geometry-type layer by timestamp
+            final_layers = []
+            for geom_layer in layers:
+                final_layers.extend(
+                    self.manager.split_layer_by_timestamp(
+                        geom_layer, geom_layer.name()
+                    )
+                )
+            layers = final_layers
 
         self.manager.add_layers_to_project(layers)
 
