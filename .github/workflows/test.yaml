@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    container:
+      image: qgis/qgis:latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: qgis/qgis:latest
+            name: "QGIS Latest"
+          - image: qgis/qgis:ltr
+            name: "QGIS LTR"
+    
+    container:
+      image: ${{ matrix.image }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install test dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-pip
+          pip install pytest
+      
+      - run: pytest tests/test_0_smoke.py -v
+      - run: pytest tests/ -v
