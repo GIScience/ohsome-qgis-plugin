@@ -1,4 +1,5 @@
 import os
+import json
 
 from qgis.PyQt.QtWidgets import (
     QDialog,
@@ -14,16 +15,20 @@ from qgis.PyQt.QtWidgets import (
     QDateEdit,
     QMessageBox,
     QGroupBox,
+    QComboBox,
+    QCompleter,
 )
-from qgis.PyQt.QtCore import QDate
+from qgis.PyQt.QtCore import QDate, Qt, QUrl
 from qgis.PyQt.QtSvgWidgets import QSvgWidget
-from qgis.gui import QgsExtentWidget, QgsCollapsibleGroupBox
+from qgis.PyQt.QtNetwork import QNetworkRequest
 from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsProject,
     QgsRectangle,
     QgsSettings,
+    QgsBlockingNetworkRequest,
 )
+from qgis.gui import QgsExtentWidget, QgsCollapsibleGroupBox
 from qgis.utils import iface
 
 from .download_manager import OhsomeDownloadManager
@@ -34,6 +39,11 @@ SETTINGS_API_KEY = "api_key"
 PLUGIN_DIR = os.path.dirname(__file__)
 OHSOME_LOGO_PATH = os.path.join(PLUGIN_DIR, "img", "ohsome-logo.svg")
 
+OHSOME_QUALITY_API = "https://api.heigit.org/ohsome-quality-api/v2/metadata/topics"
+
+# Featured topics to show as buttons
+FEATURED_TOPICS = ["buildings", "roads", "hospitals", "schools", "parks"]
+
 
 class OhsomeExtractionWidget(QDialog):
     """Dialog for extracting OSM data via the ohsome API."""
@@ -43,9 +53,25 @@ class OhsomeExtractionWidget(QDialog):
         self.setWindowTitle("ohsome Data Extraction")
         self.resize(575, 200)
         self.manager = OhsomeDownloadManager()
+        self.topics = {}
 
+        self._load_topics()
         self._build_ui()
         self._load_settings()
+
+    def _load_topics(self):
+        """Fetch topics from ohsome quality API."""
+        try:
+            request = QNetworkRequest(QUrl(OHSOME_QUALITY_API))
+            request.setRawHeader(b"accept", b"application/json")
+            blocking_request = QgsBlockingNetworkRequest()
+            error_code = blocking_request.get(request)
+            if error_code == QgsBlockingNetworkRequest.ErrorCode.NoError:
+                reply = blocking_request.reply()
+                data = json.loads(bytes(reply.content()))
+                self.topics = data.get("result", {})
+        except Exception as e:
+            print(f"Failed to load topics: {e}")
 
     def _build_ui(self):
         layout = QVBoxLayout(self)
@@ -69,7 +95,7 @@ class OhsomeExtractionWidget(QDialog):
             logo_row.addStretch()
             layout.addLayout(logo_row)
 
-        # --- API key, Extent, Filter in one column ---
+        # --- API key, Extent ---
         main_col = QVBoxLayout()
         main_col.setSpacing(8)
         
@@ -91,11 +117,68 @@ class OhsomeExtractionWidget(QDialog):
         self.extent_widget.setOutputCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
         main_col.addWidget(self.extent_widget)
         
-        self.filter_edit = QLineEdit()
-        self.filter_edit.setPlaceholderText("Filter")
-        main_col.addWidget(self.filter_edit)
-        
         layout.addLayout(main_col)
+
+        # --- Topics section ---
+        topics_group = QGroupBox("Topic")
+        topics_layout = QVBoxLayout(topics_group)
+        topics_layout.setSpacing(8)
+
+        # Featured topic buttons
+        buttons_row = QHBoxLayout()
+        buttons_row.setSpacing(6)
+        self.topic_buttons = {}
+        
+        for topic_id in FEATURED_TOPICS:
+            if topic_id in self.topics:
+                topic_name = self.topics[topic_id].get("name", topic_id)
+                btn = QPushButton(topic_name)
+                btn.setCheckable(True)
+                btn.clicked.connect(
+                    lambda checked, tid=topic_id: self._on_topic_button_clicked(tid)
+                )
+                self.topic_buttons[topic_id] = btn
+                buttons_row.addWidget(btn)
+        
+        buttons_row.addStretch()
+        topics_layout.addLayout(buttons_row)
+
+        # Extra topics combobox
+        extra_row = QHBoxLayout()
+        extra_row.setSpacing(6)
+        extra_row.addWidget(QLabel("Extra topics:"))
+        self.extra_topics_combo = QComboBox()
+        self.extra_topics_combo.setEditable(True)
+        self.extra_topics_combo.completer().setCompletionMode(
+            QCompleter.CompletionMode.PopupCompletion
+        )
+        self.extra_topics_combo.addItem("Select a topic...", "")
+        
+        other_topics = [
+            tid for tid in sorted(self.topics.keys())
+            if tid not in FEATURED_TOPICS
+        ]
+        for topic_id in other_topics:
+            topic_name = self.topics[topic_id].get("name", topic_id)
+            self.extra_topics_combo.addItem(topic_name, topic_id)
+        
+        self.extra_topics_combo.currentIndexChanged.connect(
+            self._on_extra_topic_changed
+        )
+        extra_row.addWidget(self.extra_topics_combo)
+        extra_row.addStretch()
+        topics_layout.addLayout(extra_row)
+
+        # Selected filter display
+        filter_row = QHBoxLayout()
+        filter_row.addWidget(QLabel("Filter:"))
+        self.filter_display = QLineEdit()
+        self.filter_display.setReadOnly(True)
+        self.filter_display.setPlaceholderText("Select a topic")
+        filter_row.addWidget(self.filter_display)
+        topics_layout.addLayout(filter_row)
+
+        layout.addWidget(topics_group)
 
         # --- Options (Time + Properties) ---
         options_group = QgsCollapsibleGroupBox("Options")
@@ -163,10 +246,34 @@ class OhsomeExtractionWidget(QDialog):
         self.run_button.clicked.connect(self._on_run)
         self.cancel_button.clicked.connect(self.reject)
 
-    def _generate_layer_name(self, ohsome_filter: str, timestamp: str) -> str:
-        """Generate a layer name from filter and timestamp."""
-        timestamp_short = timestamp.replace("T00:00:00Z", "").replace("T", "_")
-        return f"{ohsome_filter}_{timestamp_short}"
+    def _on_topic_button_clicked(self, topic_id: str):
+        """Handle featured topic button click."""
+        # Deselect other buttons
+        for tid, btn in self.topic_buttons.items():
+            if tid != topic_id:
+                btn.setChecked(False)
+        
+        self.extra_topics_combo.setCurrentIndex(0)
+        self._set_filter_from_topic(topic_id)
+
+    def _on_extra_topic_changed(self):
+        """Handle extra topics combobox change."""
+        topic_id = self.extra_topics_combo.currentData()
+        if topic_id:
+            # Deselect all featured buttons
+            for btn in self.topic_buttons.values():
+                btn.setChecked(False)
+            self._set_filter_from_topic(topic_id)
+
+    def _set_filter_from_topic(self, topic_id: str):
+        """Set filter from topic ID."""
+        if topic_id in self.topics:
+            filter_str = self.topics[topic_id].get("filter", "")
+            self.filter_display.setText(filter_str)
+
+    def _generate_layer_name(self, timestamp: str) -> str:
+        """Generate a layer name from timestamp."""
+        return f"ohsome_osm_{timestamp}"
 
     def _load_settings(self):
         settings = QgsSettings()
@@ -199,9 +306,7 @@ class OhsomeExtractionWidget(QDialog):
         return props
 
     def _get_time_value(self):
-        """Return the time value for the request body: either a single
-        ISO8601 string, or a dict with start/end for ranges.
-        """
+        """Return the time value for the request body."""
         if self.single_time_radio.isChecked():
             return self.single_date_edit.date().toString(
                 "yyyy-MM-dd'T00:00:00Z'"
@@ -210,15 +315,11 @@ class OhsomeExtractionWidget(QDialog):
         end = self.end_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
         return {"start": start, "end": end}
     
-    def _generate_layer_name(self, timestamp: str) -> str:
-        """Generate a layer name from timestamp."""
-        return f"ohsome_osm_{timestamp}"
-    
     def _on_run(self):
-        ohsome_filter = self.filter_edit.text().strip()
+        ohsome_filter = self.filter_display.text().strip()
         if not ohsome_filter:
             QMessageBox.warning(
-                self, "Missing filter", "Please enter an ohsome filter."
+                self, "Missing filter", "Please select a topic."
             )
             return
     
@@ -252,7 +353,7 @@ class OhsomeExtractionWidget(QDialog):
                 body, api_key=api_key or None
             )
             layer = self.manager.parquet_bytes_to_layer(data, output_name)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             QMessageBox.critical(
                 self, "Request failed", f"Could not fetch data:\n{exc}"
             )
