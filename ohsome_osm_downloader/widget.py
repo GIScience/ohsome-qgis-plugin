@@ -99,11 +99,15 @@ class OhsomeExtractionWidget(QDialog):
         main_col = QVBoxLayout()
         main_col.setSpacing(8)
         
+        api_key_label = QLabel("<b>API key</b>")
+        main_col.addWidget(api_key_label)
         self.api_key_edit = QLineEdit()
         self.api_key_edit.setEchoMode(QLineEdit.EchoMode.Password)
         self.api_key_edit.setPlaceholderText("API key")
         main_col.addWidget(self.api_key_edit)
         
+        extent_label = QLabel("<b>Extent</b>")
+        main_col.addWidget(extent_label)
         self.extent_widget = QgsExtentWidget(self)
         self.extent_widget.setMaximumHeight(25)
         canvas = iface.mapCanvas() if iface else None
@@ -129,6 +133,7 @@ class OhsomeExtractionWidget(QDialog):
         buttons_row.setSpacing(6)
         self.topic_buttons = {}
         
+        buttons_row.addStretch()
         for topic_id in FEATURED_TOPICS:
             if topic_id in self.topics:
                 topic_name = self.topics[topic_id].get("name", topic_id)
@@ -139,13 +144,13 @@ class OhsomeExtractionWidget(QDialog):
                 )
                 self.topic_buttons[topic_id] = btn
                 buttons_row.addWidget(btn)
-        
         buttons_row.addStretch()
         topics_layout.addLayout(buttons_row)
 
         # Extra topics combobox
         extra_row = QHBoxLayout()
         extra_row.setSpacing(6)
+        extra_row.addStretch()
         extra_row.addWidget(QLabel("Extra topics:"))
         self.extra_topics_combo = QComboBox()
         self.extra_topics_combo.setEditable(True)
@@ -165,18 +170,21 @@ class OhsomeExtractionWidget(QDialog):
         self.extra_topics_combo.currentIndexChanged.connect(
             self._on_extra_topic_changed
         )
+        self.extra_topics_combo.setMaximumWidth(250)
         extra_row.addWidget(self.extra_topics_combo)
         extra_row.addStretch()
         topics_layout.addLayout(extra_row)
 
-        # Selected filter display
-        filter_row = QHBoxLayout()
-        filter_row.addWidget(QLabel("Filter:"))
+        # Selected filter display (collapsible)
+        self.filter_group = QgsCollapsibleGroupBox("Filter")
+        self.filter_group.setCollapsed(True)
+        filter_layout = QVBoxLayout(self.filter_group)
         self.filter_display = QLineEdit()
         self.filter_display.setReadOnly(True)
         self.filter_display.setPlaceholderText("Select a topic")
-        filter_row.addWidget(self.filter_display)
-        topics_layout.addLayout(filter_row)
+        filter_layout.addWidget(self.filter_display)
+
+        topics_layout.addWidget(self.filter_group)
 
         layout.addWidget(topics_group)
 
@@ -242,17 +250,14 @@ class OhsomeExtractionWidget(QDialog):
         button_row.addWidget(self.run_button)
         button_row.addWidget(self.cancel_button)
         layout.addLayout(button_row)
-
         self.run_button.clicked.connect(self._on_run)
         self.cancel_button.clicked.connect(self.reject)
 
     def _on_topic_button_clicked(self, topic_id: str):
         """Handle featured topic button click."""
-        # Deselect other buttons
         for tid, btn in self.topic_buttons.items():
             if tid != topic_id:
                 btn.setChecked(False)
-        
         self.extra_topics_combo.setCurrentIndex(0)
         self._set_filter_from_topic(topic_id)
 
@@ -260,13 +265,12 @@ class OhsomeExtractionWidget(QDialog):
         """Handle extra topics combobox change."""
         topic_id = self.extra_topics_combo.currentData()
         if topic_id:
-            # Deselect all featured buttons
             for btn in self.topic_buttons.values():
                 btn.setChecked(False)
             self._set_filter_from_topic(topic_id)
 
     def _set_filter_from_topic(self, topic_id: str):
-        """Set filter from topic ID."""
+        """Set filter display from topic ID."""
         if topic_id in self.topics:
             filter_str = self.topics[topic_id].get("filter", "")
             self.filter_display.setText(filter_str)
@@ -314,7 +318,7 @@ class OhsomeExtractionWidget(QDialog):
         start = self.start_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
         end = self.end_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
         return {"start": start, "end": end}
-    
+
     def _on_run(self):
         ohsome_filter = self.filter_display.text().strip()
         if not ohsome_filter:
@@ -322,32 +326,31 @@ class OhsomeExtractionWidget(QDialog):
                 self, "Missing filter", "Please select a topic."
             )
             return
-    
+
         self._save_settings()
-    
+
         aoi = self._get_aoi()
         time = self._get_time_value()
         properties = self._get_properties()
         split_by_timestamp = self.split_by_timestamp_checkbox.isChecked()
         api_key = self.api_key_edit.text().strip()
-    
-        # Generate timestamp string for naming
+
         if self.single_time_radio.isChecked():
             timestamp_str = self.single_date_edit.date().toString("yyyy-MM-dd")
         else:
             start = self.start_date_edit.date().toString("yyyy-MM-dd")
             end = self.end_date_edit.date().toString("yyyy-MM-dd")
             timestamp_str = f"{start}_to_{end}"
-    
+
         output_name = self._generate_layer_name(timestamp_str)
-    
+
         body = self.manager.build_request_body(
             aoi=aoi,
             ohsome_filter=ohsome_filter,
             time=time,
             properties=properties,
         )
-    
+
         try:
             data = self.manager.fetch_parquet_bytes(
                 body, api_key=api_key or None
@@ -358,9 +361,9 @@ class OhsomeExtractionWidget(QDialog):
                 self, "Request failed", f"Could not fetch data:\n{exc}"
             )
             return
-    
+
         layers = self.manager.split_layer_by_geometry_type(layer, output_name)
-    
+
         if split_by_timestamp:
             final_layers = []
             for geom_layer in layers:
@@ -370,9 +373,9 @@ class OhsomeExtractionWidget(QDialog):
                     )
                 )
             layers = final_layers
-    
+
         self.manager.add_layers_to_project(layers)
-    
+
         QMessageBox.information(
             self,
             "Done",
