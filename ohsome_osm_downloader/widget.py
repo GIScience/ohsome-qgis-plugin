@@ -252,6 +252,80 @@ class OhsomeExtractionWidget(QDialog):
         self.run_button.clicked.connect(self._on_run)
         self.cancel_button.clicked.connect(self.reject)
 
+        # Add input constraints & tooltips
+        self.api_key_edit.setToolTip(
+            "Optional API key for higher rate limits (get one at ohsome.org)"
+        )
+        self.extent_widget.setToolTip(
+            "AOI in WGS84 (EPSG:4326). Longitude: -180 to 180, Latitude: -90 to 90"
+        )
+        self.single_date_edit.setToolTip(
+            "ISO 8601 format: YYYY-MM-DD. Available data: 2007-01-01 to today"
+        )
+        self.start_date_edit.setToolTip(
+            "ISO 8601 format: YYYY-MM-DD. Start of time range (inclusive)"
+        )
+        self.end_date_edit.setToolTip(
+            "ISO 8601 format: YYYY-MM-DD. End of time range (inclusive)"
+        )
+        self.tags_checkbox.setToolTip(
+            "Include OSM tags (key-value pairs) in results"
+        )
+        self.metadata_checkbox.setToolTip(
+            "Include changeset metadata (user, timestamp, etc.)"
+        )
+        self.split_by_timestamp_checkbox.setToolTip(
+            "Create separate layer for each timestamp in time range"
+        )
+
+        # Disable date edits when not in use
+        self.single_time_radio.toggled.connect(
+            lambda checked: self._update_date_edit_states()
+        )
+        self.range_time_radio.toggled.connect(
+            lambda checked: self._update_date_edit_states()
+        )
+
+    def _update_date_edit_states(self):
+        """Enable/disable date editors based on selected time mode."""
+        if self.single_time_radio.isChecked():
+            self.single_date_edit.setEnabled(True)
+            self.start_date_edit.setEnabled(False)
+            self.end_date_edit.setEnabled(False)
+        else:
+            self.single_date_edit.setEnabled(False)
+            self.start_date_edit.setEnabled(True)
+            self.end_date_edit.setEnabled(True)
+
+    def _set_filter_from_topic(self, topic_id: str):
+        """Set filter display from topic ID with syntax hint."""
+        if topic_id in self.topics:
+            filter_str = self.topics[topic_id].get("filter", "")
+            self.filter_display.setText(filter_str)
+            self.filter_display.setToolTip(
+                f"Filter syntax: {filter_str}\n\nSee docs: https://docs.ohsome.org/ohsome-api/v2-rc/reference/filter.html"
+            )
+
+    def _on_extra_topic_changed(self):
+        """Select a combobox topic and synchronize featured buttons."""
+        topic_id = self.extra_topics_combo.currentData()
+
+        if not topic_id:
+            self.filter_display.clear()
+            self.filter_display.setReadOnly(True)
+            return
+
+        if topic_id.lower() == "custom":
+            self.filter_display.setReadOnly(False)
+            self.filter_display.setToolTip(
+                "Enter custom ohsome filter.\nSyntax: https://docs.ohsome.org/ohsome-api/v2-rc/reference/filter.html\n\nExample: building=* or highway=residential"
+            )
+        else:
+            self.filter_display.setReadOnly(True)
+            for tid, btn in self.topic_buttons.items():
+                btn.setChecked(tid == topic_id)
+            self._set_filter_from_topic(topic_id)
+
     def _on_topic_button_clicked(self, topic_id: str):
         """Select a featured topic and synchronize the combobox."""
         for tid, btn in self.topic_buttons.items():
@@ -335,32 +409,63 @@ class OhsomeExtractionWidget(QDialog):
 
     def _validate_inputs(self) -> bool:
         """Validate request inputs and show failures in the message bar."""
+        if not self.message_bar:
+            return False
+
         self.message_bar.clearWidgets()
 
-        if not self.filter_display.text().strip():
+        # 1. Filter validation (required, must be valid ohsome filter syntax)
+        filter_str = self.filter_display.text().strip()
+        if not filter_str:
             self.message_bar.pushWarning(
-                "Missing topic",
-                "Please select a topic before running the extraction.",
+                "Missing filter",
+                "Please select a topic or enter a custom ohsome filter.",
             )
             return False
 
+        # 2. AOI validation (must be valid bbox, non-zero area)
         extent = self.extent_widget.outputExtent()
         if extent.width() <= 0 or extent.height() <= 0:
             self.message_bar.pushWarning(
                 "Invalid extent",
-                "Please provide an extent with a non-zero width and height.",
+                "AOI must have non-zero width and height (WGS84: -180 to 180 lon, -90 to 90 lat).",
             )
             return False
 
-        if (
-            self.range_time_radio.isChecked()
-            and self.start_date_edit.date() > self.end_date_edit.date()
-        ):
-            self.message_bar.pushWarning(
-                "Invalid time range",
-                "The start date must be before or equal to the end date.",
+        # Warn if extent is unusually large (entire world)
+        if extent.width() > 359 and extent.height() > 178:
+            self.message_bar.pushCritical(
+                "Extent too large",
+                "Querying the entire world may timeout. Please select a smaller AOI.",
             )
             return False
+
+        # 3. Time validation (ISO 8601 format: YYYY-MM-DD)
+        if self.range_time_radio.isChecked():
+            start = self.start_date_edit.date()
+            end = self.end_date_edit.date()
+
+            if start > end:
+                self.message_bar.pushWarning(
+                    "Invalid time range",
+                    "Start date must be before or equal to end date.",
+                )
+                return False
+
+            # Warn if range is too large (>10 years)
+            days_diff = start.daysTo(end)
+            if days_diff > 3650:
+                self.message_bar.pushWarning(
+                    "Large time range",
+                    f"Querying {days_diff} days of data may be slow. Consider a shorter range.",
+                )
+
+        # 4. Warn if no properties selected (valid but often unintended)
+        if not self.tags_checkbox.isChecked() and not self.metadata_checkbox.isChecked():
+            self.message_bar.pushInfo(
+                "No properties selected",
+                "Query will return geometry only. Check 'tags' or 'metadata' to include attribute data.",
+            )
 
         return True
 
