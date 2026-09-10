@@ -164,6 +164,11 @@ class OhsomeExtractionWidget(QDialog):
         for topic_id in sorted(self.topics):
             topic_name = self.topics[topic_id].get("name", topic_id)
             self.extra_topics_combo.addItem(topic_name, topic_id)
+
+        self.extra_topics_combo.addItem("Custom (Specify in filter box)", "custom")
+        self.extra_topics_combo.currentIndexChanged.connect(
+            self._on_extra_topic_changed
+        )
         
         self.extra_topics_combo.setCurrentIndex(-1)
         self.extra_topics_combo.currentIndexChanged.connect(
@@ -263,6 +268,14 @@ class OhsomeExtractionWidget(QDialog):
     def _on_extra_topic_changed(self):
         """Select a combobox topic and synchronize featured buttons."""
         topic_id = self.extra_topics_combo.currentData()
+
+        if not topic_id:
+            return
+
+        if topic_id.lower() == "custom":
+            self.filter_display.setReadOnly(False)
+        else:
+            self.filter_display.setReadOnly(True)
 
         for tid, btn in self.topic_buttons.items():
             btn.setChecked(tid == topic_id)
