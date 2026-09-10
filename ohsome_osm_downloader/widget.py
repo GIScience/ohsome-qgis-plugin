@@ -157,16 +157,12 @@ class OhsomeExtractionWidget(QDialog):
         self.extra_topics_combo.completer().setCompletionMode(
             QCompleter.CompletionMode.PopupCompletion
         )
-        self.extra_topics_combo.addItem("Select a topic...", "")
-        
-        other_topics = [
-            tid for tid in sorted(self.topics.keys())
-            if tid not in FEATURED_TOPICS
-        ]
-        for topic_id in other_topics:
+
+        for topic_id in sorted(self.topics):
             topic_name = self.topics[topic_id].get("name", topic_id)
             self.extra_topics_combo.addItem(topic_name, topic_id)
         
+        self.extra_topics_combo.setCurrentIndex(-1)
         self.extra_topics_combo.currentIndexChanged.connect(
             self._on_extra_topic_changed
         )
@@ -254,19 +250,26 @@ class OhsomeExtractionWidget(QDialog):
         self.cancel_button.clicked.connect(self.reject)
 
     def _on_topic_button_clicked(self, topic_id: str):
-        """Handle featured topic button click."""
+        """Select a featured topic and synchronize the combobox."""
         for tid, btn in self.topic_buttons.items():
-            if tid != topic_id:
-                btn.setChecked(False)
-        self.extra_topics_combo.setCurrentIndex(0)
+            btn.setChecked(tid == topic_id)
+
+        combo_index = self.extra_topics_combo.findData(topic_id)
+        if combo_index >= 0:
+            was_blocked = self.extra_topics_combo.blockSignals(True)
+            self.extra_topics_combo.setCurrentIndex(combo_index)
+            self.extra_topics_combo.blockSignals(was_blocked)
+
         self._set_filter_from_topic(topic_id)
 
     def _on_extra_topic_changed(self):
-        """Handle extra topics combobox change."""
+        """Select a combobox topic and synchronize featured buttons."""
         topic_id = self.extra_topics_combo.currentData()
+
+        for tid, btn in self.topic_buttons.items():
+            btn.setChecked(tid == topic_id)
+
         if topic_id:
-            for btn in self.topic_buttons.values():
-                btn.setChecked(False)
             self._set_filter_from_topic(topic_id)
 
     def _set_filter_from_topic(self, topic_id: str):
