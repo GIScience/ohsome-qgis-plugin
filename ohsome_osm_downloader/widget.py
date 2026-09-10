@@ -174,17 +174,6 @@ class OhsomeExtractionWidget(QDialog):
         extra_row.addStretch()
         topics_layout.addLayout(extra_row)
 
-        # Selected filter display (collapsible)
-        self.filter_group = QgsCollapsibleGroupBox("Filter")
-        self.filter_group.setCollapsed(True)
-        filter_layout = QVBoxLayout(self.filter_group)
-        self.filter_display = QLineEdit()
-        self.filter_display.setReadOnly(True)
-        self.filter_display.setPlaceholderText("Select a topic")
-        filter_layout.addWidget(self.filter_display)
-
-        topics_layout.addWidget(self.filter_group)
-
         layout.addWidget(topics_group)
 
         # --- Options (Time + Properties) ---
@@ -192,6 +181,12 @@ class OhsomeExtractionWidget(QDialog):
         options_group.setCollapsed(True)
         options_layout = QVBoxLayout(options_group)
         options_layout.setSpacing(8)
+
+        # Selected filter display (collapsible)
+        self.filter_display = QLineEdit()
+        self.filter_display.setReadOnly(True)
+        self.filter_display.setPlaceholderText("Select a topic")
+        options_layout.addWidget(self.filter_display)
 
         # Time section
         self.time_button_group = QButtonGroup(self)
