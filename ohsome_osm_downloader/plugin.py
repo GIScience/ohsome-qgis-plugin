@@ -32,5 +32,5 @@ class MinimalPlugin:
         del self.action
 
     def run(self):
-        self.dialog = OhsomeExtractionWidget(parent=self.iface.mainWindow())
+        self.dialog = OhsomeExtractionWidget(iface=self.iface)
         self.dialog.show()

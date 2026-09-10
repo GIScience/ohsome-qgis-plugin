@@ -28,7 +28,7 @@ from qgis.core import (
     QgsSettings,
     QgsBlockingNetworkRequest,
 )
-from qgis.gui import QgsExtentWidget, QgsCollapsibleGroupBox
+from qgis.gui import QgsExtentWidget, QgsCollapsibleGroupBox, QgsMessageBar
 from qgis.utils import iface
 
 from .download_manager import OhsomeDownloadManager
@@ -48,8 +48,9 @@ FEATURED_TOPICS = ["buildings", "roads", "hospitals", "schools", "parks"]
 class OhsomeExtractionWidget(QDialog):
     """Dialog for extracting OSM data via the ohsome API."""
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self, iface=None):
+        super().__init__(iface.mainWindow() if iface else None)
+        self.iface = iface
         self.setWindowTitle("ohsome Data Extraction")
         self.resize(575, 200)
         self.manager = OhsomeDownloadManager()
@@ -78,6 +79,8 @@ class OhsomeExtractionWidget(QDialog):
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(10)
 
+        self.message_bar = self.iface.messageBar() if self.iface else None
+        
         # --- Logo header ---
         if os.path.exists(OHSOME_LOGO_PATH):
             logo_row = QHBoxLayout()
@@ -110,7 +113,7 @@ class OhsomeExtractionWidget(QDialog):
         main_col.addWidget(extent_label)
         self.extent_widget = QgsExtentWidget(self)
         self.extent_widget.setMaximumHeight(25)
-        canvas = iface.mapCanvas() if iface else None
+        canvas = self.iface.mapCanvas()
         project_crs = QgsProject.instance().crs()
         if canvas is not None:
             self.extent_widget.setOriginalExtent(
@@ -322,13 +325,44 @@ class OhsomeExtractionWidget(QDialog):
         end = self.end_date_edit.date().toString("yyyy-MM-dd'T00:00:00Z'")
         return {"start": start, "end": end}
 
-    def _on_run(self):
-        ohsome_filter = self.filter_display.text().strip()
-        if not ohsome_filter:
-            QMessageBox.warning(
-                self, "Missing filter", "Please select a topic."
+    def _validate_inputs(self) -> bool:
+        """Validate request inputs and show failures in the message bar."""
+        self.message_bar.clearWidgets()
+
+        if not self.filter_display.text().strip():
+            self.message_bar.pushWarning(
+                "Missing topic",
+                "Please select a topic before running the extraction.",
             )
+            return False
+
+        extent = self.extent_widget.outputExtent()
+        if extent.width() <= 0 or extent.height() <= 0:
+            self.message_bar.pushWarning(
+                "Invalid extent",
+                "Please provide an extent with a non-zero width and height.",
+            )
+            return False
+
+        if (
+            self.range_time_radio.isChecked()
+            and self.start_date_edit.date() > self.end_date_edit.date()
+        ):
+            self.message_bar.pushWarning(
+                "Invalid time range",
+                "The start date must be before or equal to the end date.",
+            )
+            return False
+
+        return True
+
+    def _on_run(self):
+        if not self._validate_inputs():
             return
+
+        self._save_settings()
+
+        ohsome_filter = self.filter_display.text().strip()
 
         self._save_settings()
 
