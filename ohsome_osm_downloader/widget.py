@@ -18,6 +18,8 @@ from qgis.PyQt.QtWidgets import (
     QComboBox,
     QCompleter,
 )
+from qgis.PyQt.QtGui import QDesktopServices
+from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtCore import QDate, Qt, QUrl
 from qgis.PyQt.QtSvgWidgets import QSvgWidget
 from qgis.PyQt.QtNetwork import QNetworkRequest
@@ -241,10 +243,14 @@ class OhsomeExtractionWidget(QDialog):
         # --- Buttons ---
         button_row = QHBoxLayout()
         button_row.setSpacing(8)
+        self.help_button = QPushButton("ohsome Help")
+        self.help_button.setToolTip("Open documentation")
+        self.help_button.clicked.connect(self._on_help)
         self.run_button = QPushButton("Run")
         self.cancel_button = QPushButton("Cancel")
         self.run_button.setMinimumWidth(80)
         self.cancel_button.setMinimumWidth(80)
+        button_row.addWidget(self.help_button)
         button_row.addStretch()
         button_row.addWidget(self.run_button)
         button_row.addWidget(self.cancel_button)
@@ -285,6 +291,10 @@ class OhsomeExtractionWidget(QDialog):
         self.range_time_radio.toggled.connect(
             lambda checked: self._update_date_edit_states()
         )
+
+    def _on_help(self):
+        """Open ohsome documentation."""
+        QDesktopServices.openUrl(QUrl("https://docs.ohsome.org/ohsome-api/v2-rc/"))
 
     def _update_date_edit_states(self):
         """Enable/disable date editors based on selected time mode."""
