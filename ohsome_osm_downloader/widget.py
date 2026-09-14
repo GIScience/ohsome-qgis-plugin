@@ -54,7 +54,6 @@ class OhsomeExtractionWidget(QDialog):
         super().__init__(iface.mainWindow() if iface else None)
         self.iface = iface
         self.setWindowTitle("ohsome Data Extraction")
-        self.resize(575, 200)
         self.manager = OhsomeDownloadManager()
         self.topics = {}
 
@@ -191,6 +190,8 @@ class OhsomeExtractionWidget(QDialog):
 
         # Selected filter display (collapsible)
         self.filter_display = QLineEdit()
+        self.filter_heading = QLabel("Selected filter:")
+        options_layout.addWidget(self.filter_heading)
         self.filter_display.setReadOnly(True)
         self.filter_display.setPlaceholderText("Select a topic")
         options_layout.addWidget(self.filter_display)
@@ -260,6 +261,13 @@ class OhsomeExtractionWidget(QDialog):
         layout.addLayout(button_row)
         self.run_button.clicked.connect(self._on_run)
         self.cancel_button.clicked.connect(self.reject)
+
+        self.split_by_timestamp_checkbox.setToolTip(
+            "Create separate layer for each timestamp in time range"
+        )
+        self.clip_checkbox.setToolTip(
+            "Clip geometries to the specified AOI boundary"
+        )
 
         # Add input constraints & tooltips
         self.api_key_edit.setToolTip(
