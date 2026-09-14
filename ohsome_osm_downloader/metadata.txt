@@ -15,4 +15,5 @@ tags=osm,openstreetmap,ohsome,heigit,data extraction
 experimental=True
 deprecated=False
 server=False
+icon=img/icon.png
 hasProcessingProvider=False

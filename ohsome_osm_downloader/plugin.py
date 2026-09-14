@@ -9,8 +9,10 @@
 # (at your option) any later version.
 #---------------------------------------------------------------------
 
-from qgis.PyQt.QtWidgets import QAction
+import os
 
+from qgis.PyQt.QtWidgets import QAction 
+from qgis.PyQt.QtGui import QIcon
 from .widget import OhsomeExtractionWidget
 
 
@@ -21,7 +23,9 @@ class MinimalPlugin:
         self.dialog = None
 
     def initGui(self):
-        self.action = QAction('ohsome Data Extraction', self.iface.mainWindow())
+        icon_path = os.path.join(os.path.dirname(__file__), 'img', 'icon.png')
+        icon = QIcon(icon_path)
+        self.action = QAction(icon, '&ohsome', self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu('&ohsome', self.action)
