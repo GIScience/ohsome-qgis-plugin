@@ -232,9 +232,12 @@ class OhsomeExtractionWidget(QDialog):
         self.tags_checkbox = QCheckBox("tags")
         self.metadata_checkbox = QCheckBox("metadata")
         self.split_by_timestamp_checkbox = QCheckBox("one layer per timestamp")
+        self.clip_checkbox = QCheckBox("clip to AOI")
+        self.clip_checkbox.setChecked(True)
         props_row.addWidget(self.tags_checkbox)
         props_row.addWidget(self.metadata_checkbox)
         props_row.addWidget(self.split_by_timestamp_checkbox)
+        props_row.addWidget(self.clip_checkbox)
         props_row.addStretch()
         options_layout.addLayout(props_row)
 
@@ -486,13 +489,11 @@ class OhsomeExtractionWidget(QDialog):
         self._save_settings()
 
         ohsome_filter = self.filter_display.text().strip()
-
-        self._save_settings()
-
         aoi = self._get_aoi()
         time = self._get_time_value()
         properties = self._get_properties()
         split_by_timestamp = self.split_by_timestamp_checkbox.isChecked()
+        clip = self.clip_checkbox.isChecked()
         api_key = self.api_key_edit.text().strip()
 
         if self.single_time_radio.isChecked():
@@ -508,6 +509,7 @@ class OhsomeExtractionWidget(QDialog):
             aoi=aoi,
             ohsome_filter=ohsome_filter,
             time=time,
+            clip=clip,
             properties=properties,
         )
 
